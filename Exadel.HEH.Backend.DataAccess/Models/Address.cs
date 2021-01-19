@@ -11,5 +11,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public string City { get; set; }
 
         public string Street { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

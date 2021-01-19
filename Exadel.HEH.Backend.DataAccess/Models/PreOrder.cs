@@ -4,7 +4,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 {
     public class PreOrder
     {
-        public int PreOrderId { get; set; }
+        public Guid Id { get; set; }
 
         public int UserId { get; set; }
 
