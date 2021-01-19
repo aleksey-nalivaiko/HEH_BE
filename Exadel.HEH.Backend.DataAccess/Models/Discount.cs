@@ -13,7 +13,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public string Conditions { get; set; }
 
         [BsonElement("tagsIds")]
-        public List<Tag> Tags { get; set; }
+        public IList<Guid> Tags { get; set; }
 
         [BsonElement("vendorId")]
         public Guid VendorId { get; set; }
@@ -22,7 +22,10 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public string PromoCode { get; set; }
 
         [BsonElement("addresses")]
-        public IList<Address> Addresses { get; set; }
+        public IList<Guid> Addresses { get; set; }
+
+        [BsonElement("phones")]
+        public IList<Guid> Phones { get; set; }
 
         [BsonElement("startDate")]
         public DateTime StartDate { get; set; }
