@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
-    class LinkTypeEnum
+    public enum LinkTypeEnum
     {
+        Facebook,
+        Instagram,
+        Website
     }
 }

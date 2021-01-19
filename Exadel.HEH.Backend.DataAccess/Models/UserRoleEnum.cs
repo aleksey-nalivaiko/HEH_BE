@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
-    class EnumUserRole
+    public enum UserRoleEnum
     {
+        Employee,
+        Moderator,
+        Administrator
     }
 }

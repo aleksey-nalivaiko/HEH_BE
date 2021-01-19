@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
     public class User : IDataModel
     {
-        public enum UserRole
-        {
-            Employee,
-            Moderator,
-            Administrator
-        }
-
         [BsonId]
         public Guid Id { get; set; }
 
         [BsonElement("role")]
-        public UserRole Role { get; set; }
+        [BsonRepresentation(BsonType.String)]
+        public UserRoleEnum Role { get; set; }
 
         [BsonElement("name")]
         public string Name { get; set; }
