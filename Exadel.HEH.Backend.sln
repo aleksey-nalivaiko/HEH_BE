@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exadel.HEH.Backend.Host", "Exadel.HEH.Backend.Host\Exadel.HEH.Backend.Host.csproj", "{65829119-737F-4B11-97B7-05B181BBC577}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exadel.HEH.Backend.Host", "Exadel.HEH.Backend.Host\Exadel.HEH.Backend.Host.csproj", "{65829119-737F-4B11-97B7-05B181BBC577}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exadel.HEH.Backend.DataAccess", "Exadel.HEH.Backend.DataAccess\Exadel.HEH.Backend.DataAccess.csproj", "{19EFBD6A-6569-4362-93A8-166F5ACFCBA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exadel.HEH.Backend.DataAccess", "Exadel.HEH.Backend.DataAccess\Exadel.HEH.Backend.DataAccess.csproj", "{19EFBD6A-6569-4362-93A8-166F5ACFCBA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exadel.HEH.Backend.BusinessLogic", "Exadel.HEH.Backend.BusinessLogic\Exadel.HEH.Backend.BusinessLogic.csproj", "{A76136E3-0826-462D-BA50-C5A9360BFE8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exadel.HEH.Backend.BusinessLogic", "Exadel.HEH.Backend.BusinessLogic\Exadel.HEH.Backend.BusinessLogic.csproj", "{A76136E3-0826-462D-BA50-C5A9360BFE8B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EF36E817-3E16-404F-8E3C-A35EDC4EE522}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exadel.HEH.Backend.DataAccess.Tests", "Exadel.HEH.Backend.DataAccess.Tests\Exadel.HEH.Backend.DataAccess.Tests.csproj", "{1A551CF4-9A2C-416B-A892-14EAEFD151E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exadel.HEH.Backend.DataAccess.Tests", "Exadel.HEH.Backend.DataAccess.Tests\Exadel.HEH.Backend.DataAccess.Tests.csproj", "{1A551CF4-9A2C-416B-A892-14EAEFD151E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exadel.HEH.Backend.Host.Tests", "Exadel.HEH.Backend.Host.Tests\Exadel.HEH.Backend.Host.Tests.csproj", "{525E28F1-CE44-465A-8465-0959C515BFB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exadel.HEH.Backend.Host.Tests", "Exadel.HEH.Backend.Host.Tests\Exadel.HEH.Backend.Host.Tests.csproj", "{525E28F1-CE44-465A-8465-0959C515BFB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exadel.HEH.Backend.BusinessLogic.Tests", "Exadel.HEH.Backend.BusinessLogic.Tests\Exadel.HEH.Backend.BusinessLogic.Tests.csproj", "{F5178CE3-C105-41B2-98AF-91198795FA95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exadel.HEH.Backend.BusinessLogic.Tests", "Exadel.HEH.Backend.BusinessLogic.Tests\Exadel.HEH.Backend.BusinessLogic.Tests.csproj", "{F5178CE3-C105-41B2-98AF-91198795FA95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
