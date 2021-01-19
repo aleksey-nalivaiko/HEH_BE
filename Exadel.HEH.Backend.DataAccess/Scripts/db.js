@@ -9,33 +9,31 @@
             "address": {
                 "country": "Belarus",
                 "city": "Minsk",
-                "street": "street 1",
-                "building": "building 1",
-                "address_id": "address id 1"
+                "street": "street 1"
             },
             "isActive": true,
             "categoryNotifications": [
                 {
-                    "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
+                    "categoryId": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
                 },
                 {
-                    "category_id": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
+                    "categoryId": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
                 },
                 {
-                    "category_id": UUID("c86bec9f-2ef9-4be2-bd21-af14aa0d187f")
+                    "categoryId": UUID("c86bec9f-2ef9-4be2-bd21-af14aa0d187f")
                 }
             ],
             "tagNotifications": [
                 {
-                    "tag_id": UUID("ab4b5672-e2f6-4935-ba03-58851d9c5991")
+                    "tagId": UUID("ab4b5672-e2f6-4935-ba03-58851d9c5991")
                 },
                 {
-                    "tag_id": UUID("22427389-7127-41b4-9aa4-af2078980cf8")
+                    "tagId": UUID("22427389-7127-41b4-9aa4-af2078980cf8")
                 }
             ],
             "vendorNotifications": [
                 {
-                    "vendor_id": UUID("662c27f1-8f63-44ac-a873-aac6f09ab173")
+                    "vendorId": UUID("662c27f1-8f63-44ac-a873-aac6f09ab173")
                 }
             ],
             "newVendorNotificationIsOn": true,
@@ -44,13 +42,13 @@
             "cityChangeNotificationIsOn": true,
             "favorites": [
                 {
-                    "discount_id": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
+                    "discountId": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
                     "note": "note for discount 1"
                 },
                 {
-                    "discount_id": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
+                    "discountId": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
                     "note": "note for discount 2"
-                },
+                }
             ]
         },
         {
@@ -63,30 +61,28 @@
                 "country": "Belarus",
                 "city": "Minsk",
                 "street": "street 2",
-                "building": "building 2",
-                "addressID": "address id 2"
+                "building": "building 2"
             },
             "isActive": true,
             "categoryNotifications": [
                 {
-                    "category_id": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
+                    "categoryId": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
                 },
                 {
-                    "category_id": UUID("c86bec9f-2ef9-4be2-bd21-af14aa0d187f")
+                    "categoryId": UUID("c86bec9f-2ef9-4be2-bd21-af14aa0d187f")
                 }
             ],
             "tagNotifications": [
                 {
-                    "tag_id": UUID("81cf086a-84a8-4291-9a55-791f1005f09e")
+                    "tagId": UUID("81cf086a-84a8-4291-9a55-791f1005f09e")
                 },
                 {
-                    "tag_id": UUID("ab4b5672-e2f6-4935-ba03-58851d9c5991")
+                    "tagId": UUID("ab4b5672-e2f6-4935-ba03-58851d9c5991")
                 }
             ],
             "vendorNotifications": [
                 {
-                    "vendor_id": UUID("ef809bbf-1ff7-4f1c-ac2b-ab5040294cf1")
-
+                    "vendorId": UUID("ef809bbf-1ff7-4f1c-ac2b-ab5040294cf1")
                 }
             ],
             "newVendorNotificationIsOn": true,
@@ -94,14 +90,14 @@
             "hotDiscountsNotificationIsOn": false,
             "cityChangeNotificationIsOn": true,
             "favorites": [
-				{
-					"discount_id": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
-					"note": "note for discount 1"
-				},
-				{
-					"discount_id": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
-					"note": "note for discount 2"
-				},
+                {
+                    "discountId": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
+                    "note": "note for discount 1"
+                },
+                {
+                    "discountId": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
+                    "note": "note for discount 2"
+                }
             ]
         },
         {
@@ -113,46 +109,43 @@
             "address": {
                 "country": "Belarus",
                 "city": "Minsk",
-                "street": "street 3",
-                "building": "building 3",
-                "addressID": "address id 3"
+                "street": "street 3"
             },
             "isActive": true,
-			"categoryNotifications": [
-				{
-					"category_id": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
-				},
-				{
-					"category_id": UUID("c86bec9f-2ef9-4be2-bd21-af14aa0d187f")
-				}
-			],
-			"tagNotifications": [
-				{
-					"tag_id": UUID("81cf086a-84a8-4291-9a55-791f1005f09e")
-				},
-				{
-					"tag_id": UUID("ab4b5672-e2f6-4935-ba03-58851d9c5991")
-				}
-			],
-			"vendorNotifications": [
-				{
-					"vendor_id": UUID("ef809bbf-1ff7-4f1c-ac2b-ab5040294cf1")
-
-				}
-			],
+            "categoryNotifications": [
+                {
+                    "categoryId": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
+                },
+                {
+                    "categoryId": UUID("c86bec9f-2ef9-4be2-bd21-af14aa0d187f")
+                }
+            ],
+            "tagNotifications": [
+                {
+                    "tagId": UUID("81cf086a-84a8-4291-9a55-791f1005f09e")
+                },
+                {
+                    "tagId": UUID("ab4b5672-e2f6-4935-ba03-58851d9c5991")
+                }
+            ],
+            "vendorNotifications": [
+                {
+                    "vendorId": UUID("ef809bbf-1ff7-4f1c-ac2b-ab5040294cf1")
+                }
+            ],
             "newVendorNotificationIsOn": true,
             "newDiscountNotificationIsOn": true,
             "hotDiscountsNotificationIsOn": false,
             "cityChangeNotificationIsOn": true,
             "favorites": [
-				{
-					"discount_id": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
-					"note": "note for discount 1"
-				},
-				{
-					"discount_id": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
-					"note": "note for discount 2"
-				},
+                {
+                    "discountId": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
+                    "note": "note for discount 1"
+                },
+                {
+                    "discountId": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
+                    "note": "note for discount 2"
+                }
             ]
         },
         {
@@ -164,46 +157,44 @@
             "address": {
                 "country": "Belarus",
                 "city": "Minsk",
-                "street": "street 4",
-                "building": "building 4",
-                "addressID": "address id 4"
+                "street": "street 4"
             },
             "isActive": false,
-			"categoryNotifications": [
-				{
-					"category_id": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
-				},
-				{
-					"category_id": UUID("c86bec9f-2ef9-4be2-bd21-af14aa0d187f")
-				}
-			],
-			"tagNotifications": [
-				{
-					"tag_id": UUID("81cf086a-84a8-4291-9a55-791f1005f09e")
-				},
-				{
-					"tag_id": UUID("ab4b5672-e2f6-4935-ba03-58851d9c5991")
-				}
-			],
-			"vendorNotifications": [
-				{
-					"vendor_id": UUID("ef809bbf-1ff7-4f1c-ac2b-ab5040294cf1")
+            "categoryNotifications": [
+                {
+                    "categoryId": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
+                },
+                {
+                    "categoryId": UUID("c86bec9f-2ef9-4be2-bd21-af14aa0d187f")
+                }
+            ],
+            "tagNotifications": [
+                {
+                    "tagId": UUID("81cf086a-84a8-4291-9a55-791f1005f09e")
+                },
+                {
+                    "tagId": UUID("ab4b5672-e2f6-4935-ba03-58851d9c5991")
+                }
+            ],
+            "vendorNotifications": [
+                {
+                    "vendorId": UUID("ef809bbf-1ff7-4f1c-ac2b-ab5040294cf1")
 
-				}
-			],
+                }
+            ],
             "newVendorNotificationIsOn": true,
             "newDiscountNotificationIsOn": true,
             "hotDiscountsNotificationIsOn": false,
             "cityChangeNotificationIsOn": true,
             "favorites": [
-				{
-					"discount_id": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
-					"note": "note for discount 1"
-				},
-				{
-					"discount_id": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
-					"note": "note for discount 2"
-				},
+                {
+                    "discountId": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
+                    "note": "note for discount 1"
+                },
+                {
+                    "discountId": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
+                    "note": "note for discount 2"
+                }
             ]
         }
     ];
@@ -211,7 +202,7 @@
     let historyData = [
         {
             "_id": UUID("209271f8-59b5-11eb-ae93-0242ac130002"),
-            "user_id": UUID("6dead3f8-599e-11eb-ae93-0242ac130002"),
+            "userId": UUID("6dead3f8-599e-11eb-ae93-0242ac130002"),
             "role": "moderator",
             "name": "Mary Jones",
             "email": "maryj@exadel.com",
@@ -220,7 +211,7 @@
         },
         {
             "_id": UUID("1c2ec8c8-59b5-11eb-ae93-0242ac130002"),
-            "user_id": UUID("6dead3f8-599e-11eb-ae93-0242ac130002"),
+            "userId": UUID("6dead3f8-599e-11eb-ae93-0242ac130002"),
             "role": "moderator",
             "name": "Mary Jones",
             "email": "maryj@exadel.com",
@@ -229,7 +220,7 @@
         },
         {
             "_id": UUID("178a3744-59b5-11eb-ae93-0242ac130002"),
-            "user_id": UUID("c8fd9ed0-59a1-11eb-ae93-0242ac130002"),
+            "userId": UUID("c8fd9ed0-59a1-11eb-ae93-0242ac130002"),
             "role": "administrator",
             "name": "Jack Smith",
             "email": "jacks@exadel.com",
@@ -238,43 +229,44 @@
         }
     ];
 
-    let discountData = [{
-        "_id": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
-        "Conditions": "Conditions string",
-        "tags_ids": [
-            {
-                "tag_id": UUID("8134e0e7-bd6f-4aa2-82de-b6301fd2979f"),
-                "name": "tag name 1",
-                "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
-            },
-            {
-                "tag_id": UUID("81cf086a-84a8-4291-9a55-791f1005f09e"),
-                "name": "tag name 2",
-                "category_id": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
-            }
-        ],
-        "vendor_id": UUID("662c27f1-8f63-44ac-a873-aac6f09ab173"),
-        "promoCode": "promo code 1",
-        "address": [
-            {
-                "country": "Belarus",
-                "city": "Minsk",
-                "street": "street 1",
-                "building": "building 1",
-                "addressID": "address id 1"
-            },
-            {
-                "country": "Belarus",
-                "city": "Minsk",
-                "street": "street 2",
-                "building": "building 2",
-                "addressID": "address id 2"
-            }
-        ],
-        "startDate": "18.01.2021",
-        "endDate": "22.01.2021",
-        "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
-    },
+    let discountData = [
+        {
+            "_id": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
+            "conditions": "Conditions string",
+            "tagsIds": [
+                {
+                    "tag_id": UUID("8134e0e7-bd6f-4aa2-82de-b6301fd2979f"),
+                    "name": "tag name 1",
+                    "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
+                },
+                {
+                    "tag_id": UUID("81cf086a-84a8-4291-9a55-791f1005f09e"),
+                    "name": "tag name 2",
+                    "category_id": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
+                }
+            ],
+            "vendorId": UUID("662c27f1-8f63-44ac-a873-aac6f09ab173"),
+            "promoCode": "promo code 1",
+            "address": [
+                {
+                    "country": "Belarus",
+                    "city": "Minsk",
+                    "street": "street 1",
+                    "building": "building 1",
+                    "addressID": "address id 1"
+                },
+                {
+                    "country": "Belarus",
+                    "city": "Minsk",
+                    "street": "street 2",
+                    "building": "building 2",
+                    "addressID": "address id 2"
+                }
+            ],
+            "startDate": "18.01.2021",
+            "endDate": "22.01.2021",
+            "categoryId": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
+        },
         {
             "_id": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
             "Conditions": "Conditions string",
@@ -425,18 +417,7 @@
 
     let dbName = `HEHDB`;
 
-    checkDBIsPresent();
     fillCollections();
-
-    function checkDBIsPresent() {
-        var dbInd = db.getMongo().getDBNames().indexOf(dbName);
-
-        if (dbInd === -1) {
-            print(`Db will be created`);
-        } else {
-            print(`Database ${dbName} already exists`);
-        }
-    }
 
     function fillCollections() {
 
@@ -455,9 +436,9 @@
         var collection = db.getCollection(collectionName);
         if (collection.count({}) === 0) {
             collection.insertMany(data);
-            print(`Collection ${collectionName} created and filled with initial data`);
+            print("Collection ${collectionName} created and filled with initial data");
         } else {
-            print(`Collection ${collectionName} already exists`);
+            print("Collection ${collectionName} already exists");
         }
     }
 }
