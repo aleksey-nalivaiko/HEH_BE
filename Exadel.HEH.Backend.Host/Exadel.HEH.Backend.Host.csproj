@@ -10,10 +10,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Exadel.HEH.Backend.DataAccess\Exadel.HEH.Backend.DataAccess.csproj" />
+    <ProjectReference Include="..\Exadel.HEH.Backend.BusinessLogic\Exadel.HEH.Backend.BusinessLogic.csproj" />
   </ItemGroup>
 
 </Project>
