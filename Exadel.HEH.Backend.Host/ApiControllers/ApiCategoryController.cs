@@ -8,7 +8,7 @@ namespace Exadel.HEH.Backend.Host
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class ApiCategoryController : ControllerBase
     {
         // GET: api/<ValuesController>
         [HttpGet]
