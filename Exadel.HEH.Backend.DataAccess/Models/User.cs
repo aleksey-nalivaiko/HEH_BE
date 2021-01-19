@@ -36,13 +36,13 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public bool IsActive { get; set; }
 
         [BsonElement("categoryNotifications")]
-        public List<Guid> CategoryNotificationsId { get; set; }
+        public IList<Guid> CategoryNotificationsId { get; set; }
 
         [BsonElement("tagNotifications")]
-        public List<Guid> TagNotificationsId { get; set; }
+        public IList<Guid> TagNotificationsId { get; set; }
 
         [BsonElement("vendorNotifications")]
-        public List<Guid> VendorNotificationsId { get; set; }
+        public IList<Guid> VendorNotificationsId { get; set; }
 
         [BsonElement("newVendorNotificationIsOn")]
         public bool NewVendorNotificationIsOn { get; set; }
@@ -57,6 +57,6 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public bool CityChangeNotificationIsOn { get; set; }
 
         [BsonElement("favorites")]
-        public List<Favorites> Favorites { get; set; }
+        public IList<Favorites> Favorites { get; set; }
     }
 }

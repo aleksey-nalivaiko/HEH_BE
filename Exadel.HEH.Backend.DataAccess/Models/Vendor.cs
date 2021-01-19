@@ -13,16 +13,16 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public string Name { get; set; }
 
         [BsonElement("links")]
-        public List<Link> Links { get; set; }
+        public IList<Link> Links { get; set; }
 
         [BsonElement("mailing")]
         public bool Mailing { get; set; }
 
         [BsonElement("phones")]
-        public List<Phone> Phone { get; set; }
+        public IList<Phone> Phone { get; set; }
 
         [BsonElement("addresses")]
-        public List<Address> Addresses { get; set; }
+        public IList<Address> Addresses { get; set; }
 
         [BsonElement("viewsAmount")]
         public int ViewsAmount { get; set; }

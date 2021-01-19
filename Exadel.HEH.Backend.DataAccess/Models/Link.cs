@@ -5,10 +5,17 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 {
     public class Link
     {
+        public enum LinkType
+        {
+            Facebook,
+            Instagram,
+            Website
+        }
+
         [BsonElement("url")]
         public string Url { get; set; }
 
         [BsonElement("type")]
-        public Enum Type { get; set; }
+        public LinkType Type { get; set; }
     }
 }

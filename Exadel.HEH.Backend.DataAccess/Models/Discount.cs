@@ -22,7 +22,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public string PromoCode { get; set; }
 
         [BsonElement("addresses")]
-        public List<Address> Addresses { get; set; }
+        public IList<Address> Addresses { get; set; }
 
         [BsonElement("startDate")]
         public DateTime StartDate { get; set; }
