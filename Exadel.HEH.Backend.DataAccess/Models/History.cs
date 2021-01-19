@@ -2,7 +2,7 @@
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
-    public class History
+    public class History : IDataModel
     {
         public Guid Id { get; set; }
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
-    public class User
+    public class User : IDataModel
     {
         public enum UserRole
         {
