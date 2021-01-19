@@ -14,7 +14,7 @@
                 "address_id": "address id 1"
             },
             "isActive": true,
-            "categoryNotifications": [
+            "categoryNotifications": [ //hhh
                 {
                     "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
                 },
@@ -208,7 +208,7 @@
         }
     ];
 
-    let historyData = [
+    let historyData = [ //+2
         {
             "_id": UUID("209271f8-59b5-11eb-ae93-0242ac130002"),
             "user_id": UUID("6dead3f8-599e-11eb-ae93-0242ac130002"),
@@ -292,7 +292,7 @@
             ],
             "vendor_id": UUID("ef809bbf-1ff7-4f1c-ac2b-ab5040294cf1"),
             "promoCode": "promo code 1",
-            "address": [
+            "address": [ //id
                 {
                     "country": "Belarus",
                     "city": "Minsk",
@@ -331,7 +331,7 @@
                 }
             ],
             "mailing": true,
-            "phone": "+375291111111",
+            "phone": "+375291111111", //+ address (obj)
             "viewsAmount": "111",
             "email": "vendor@gmail.com"
         },
