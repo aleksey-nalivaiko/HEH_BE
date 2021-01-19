@@ -2,7 +2,7 @@
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
-    public class Category
+    public class Category : IDataModel
     {
         public Guid Id { get; set; }
 
