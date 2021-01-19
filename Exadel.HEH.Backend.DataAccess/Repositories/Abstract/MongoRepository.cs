@@ -4,45 +4,44 @@ using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using MongoDB.Driver;
 
-namespace Exadel.HEH.Backend.DataAccess.Repositories
+namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 {
-    public abstract class MongoRepository<TDocument> : IMongoRepository<TDocument>
+    public abstract class MongoRepository<TDocument> : IRepository<TDocument>
         where TDocument : class, IDataModel, new()
     {
         protected readonly IMongoDatabase Database;
 
-        public MongoRepository(string connectionString)
+        protected MongoRepository(IMongoDatabase database)
         {
-            var client = new MongoClient(connectionString);
-            Database = client.GetDatabase(new MongoUrlBuilder(connectionString).DatabaseName);
+            Database = database;
         }
 
-        public async Task<IEnumerable<TDocument>> GetAllBaseAsync()
+        public virtual async Task<IEnumerable<TDocument>> GetAllAsync()
         {
             return await GetCollection()
                 .Find(Builders<TDocument>.Filter.Empty)
                 .ToListAsync();
         }
 
-        public Task<TDocument> GetByIdBaseAsync(Guid id)
+        public virtual Task<TDocument> GetByIdAsync(Guid id)
         {
             return GetCollection()
                 .Find(Builders<TDocument>.Filter.Eq(x => x.Id, id))
                 .FirstOrDefaultAsync();
         }
 
-        public Task RemoveBaseAsync(Guid id)
+        public virtual Task RemoveAsync(Guid id)
         {
             return GetCollection()
                 .DeleteOneAsync(Builders<TDocument>.Filter.Eq(x => x.Id, id));
         }
 
-        public Task CreateBaseAsync(TDocument item)
+        public virtual Task CreateAsync(TDocument item)
         {
             return GetCollection().InsertOneAsync(item);
         }
 
-        public Task UpdateBaseAsync(Guid id, TDocument item)
+        public virtual Task UpdateAsync(Guid id, TDocument item)
         {
             return GetCollection()
                 .ReplaceOneAsync(Builders<TDocument>.Filter.Eq(x => x.Id, id), item);

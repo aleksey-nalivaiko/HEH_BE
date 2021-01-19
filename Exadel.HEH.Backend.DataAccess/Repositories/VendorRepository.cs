@@ -4,9 +4,9 @@ using MongoDB.Driver;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class HistoryRepository : MongoRepository<History>
+    public class VendorRepository : MongoRepository<Vendor>
     {
-        public HistoryRepository(IMongoDatabase database)
+        public VendorRepository(IMongoDatabase database)
             : base(database)
         {
         }

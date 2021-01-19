@@ -1,26 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using MongoDB.Driver;
 using Tag = Exadel.HEH.Backend.DataAccess.Models.Tag;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class TagRepository : MongoRepository<Tag>
+    public class TagRepository : MongoRepository<Tag>, ITagRepository
     {
-        public TagRepository(string connectionString)
-            : base(connectionString)
+        public TagRepository(IMongoDatabase database)
+            : base(database)
         {
-        }
-
-        public Task CreateAsync(Tag tagItem)
-        {
-            return CreateBaseAsync(tagItem);
-        }
-
-        public Task<IEnumerable<Tag>> GetAllAsync()
-        {
-            return GetAllBaseAsync();
         }
 
         public async Task<IEnumerable<Tag>> GetByCategoryAsync(Guid categoryId)
@@ -29,21 +20,6 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
             return await tagCollection
                 .Find(Builders<Tag>.Filter.Eq(x => x.CategoryId, categoryId))
                 .ToListAsync();
-        }
-
-        public Task<Tag> GetByIdAsync(Guid id)
-        {
-            return GetByIdBaseAsync(id);
-        }
-
-        public Task RemoveAsync(Guid id)
-        {
-            return RemoveBaseAsync(id);
-        }
-
-        public Task UpdateAsync(Guid id, Tag tagItem)
-        {
-            return UpdateBaseAsync(id, tagItem);
         }
     }
 }

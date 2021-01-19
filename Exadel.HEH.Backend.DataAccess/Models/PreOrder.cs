@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
-    public class PreOrder
+    public class PreOrder : IDataModel
     {
         [BsonId]
         public Guid Id { get; set; }

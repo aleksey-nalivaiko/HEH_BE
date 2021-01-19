@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Exadel.HEH.Backend.BusinessLogic\Exadel.HEH.Backend.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Exadel.HEH.Backend.DataAccess\Exadel.HEH.Backend.DataAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
