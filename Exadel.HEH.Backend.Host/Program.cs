@@ -17,7 +17,6 @@ namespace Exadel.HEH.Backend.Host
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            //less
             Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
