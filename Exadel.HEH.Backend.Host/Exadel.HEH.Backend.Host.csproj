@@ -12,4 +12,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Exadel.HEH.Backend.DataAccess\Exadel.HEH.Backend.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>
