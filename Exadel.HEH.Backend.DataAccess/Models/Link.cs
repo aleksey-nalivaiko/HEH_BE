@@ -1,4 +1,6 @@
 ﻿using System;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
@@ -8,6 +10,8 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public Enum Type { get; set; }
 
-        public Guid Id { get; set; }
+        [BsonRepresentation(BsonType.String)]
+        [BsonElement("type")]
+        public LinkType Type { get; set; }
     }
 }

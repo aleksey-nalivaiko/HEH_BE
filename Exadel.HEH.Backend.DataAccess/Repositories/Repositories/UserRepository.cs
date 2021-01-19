@@ -5,7 +5,7 @@ using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class UserRepository : MongoRepository<User>, IUserRepository
+    public class UserRepository : MongoRepository<User>
     {
         public UserRepository(string connectionString)
             : base(connectionString)

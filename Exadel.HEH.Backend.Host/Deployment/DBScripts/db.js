@@ -15,13 +15,13 @@
 
         db = db.getSiblingDB(dbName);
 
-        fillCollection("user", userData);
-        fillCollection("history", historyData);
-        fillCollection("vendor", vendorData);
-        fillCollection("discount", discountData);
-        fillCollection("category", categoryData);
-        fillCollection("tag", tagData);
-        fillCollection("preOrder", preOrderData);
+        fillCollection("User", userData);
+        fillCollection("History", historyData);
+        fillCollection("Vendor", vendorData);
+        fillCollection("Discount", discountData);
+        fillCollection("Category", categoryData);
+        fillCollection("Tag", tagData);
+        fillCollection("PreOrder", preOrderData);
     }
 
     function fillCollection(collectionName, data) {
