@@ -1,11 +1,13 @@
-﻿namespace Exadel.HEH.Backend.DataAccess.Models
+﻿using System;
+
+namespace Exadel.HEH.Backend.DataAccess.Models
 {
-    public class Tag
+    public class Tag : IDataModel
     {
-        public int TagId { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
     }
 }
