@@ -11,7 +11,7 @@
                 "city": "Minsk",
                 "street": "street 1",
                 "building": "building 1",
-                "address_id": "address id 1" //uuid?
+                "address_id": "address id 1"
             },
             "isActive": true,
             "categoryNotifications": [
@@ -64,7 +64,7 @@
                 "city": "Minsk",
                 "street": "street 2",
                 "building": "building 2",
-                "addressID": "address id 2" //uuid?
+                "addressID": "address id 2"
             },
             "isActive": true,
             "categoryNotifications": [
@@ -115,7 +115,7 @@
                 "city": "Minsk",
                 "street": "street 3",
                 "building": "building 3",
-                "addressID": "address id 3" //uuid?
+                "addressID": "address id 3"
             },
             "isActive": true,
 			"categoryNotifications": [
@@ -166,7 +166,7 @@
                 "city": "Minsk",
                 "street": "street 4",
                 "building": "building 4",
-                "addressID": "address id 4" //uuid?
+                "addressID": "address id 4"
             },
             "isActive": false,
 			"categoryNotifications": [
