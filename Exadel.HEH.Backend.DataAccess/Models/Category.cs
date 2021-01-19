@@ -1,4 +1,4 @@
-﻿namespace Exadel.Example.Models
+﻿namespace Exadel.HEH.Backend.DataAccess.Models
 {
     public class Category
     {
