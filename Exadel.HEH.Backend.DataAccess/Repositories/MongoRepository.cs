@@ -48,7 +48,7 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
                 .ReplaceOneAsync(Builders<TDocument>.Filter.Eq(x => x.Id, id), item);
         }
 
-        private IMongoCollection<TDocument> GetCollection()
+        protected IMongoCollection<TDocument> GetCollection()
         {
             return Database.GetCollection<TDocument>(typeof(TDocument).Name);
         }
