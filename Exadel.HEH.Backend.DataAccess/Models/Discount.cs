@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
@@ -12,7 +13,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public string Conditions { get; set; }
 
         [BsonElement("tagsIds")]
-        public Tag[] Tags { get; set; }
+        public List<Tag> Tags { get; set; }
 
         [BsonElement("vendorId")]
         public Guid VendorId { get; set; }
@@ -20,10 +21,10 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         [BsonElement("promoCode")]
         public string PromoCode { get; set; }
 
-        [BsonElement("adresses")]
-        public Address[] Addresses { get; set; }
+        [BsonElement("addresses")]
+        public List<Address> Addresses { get; set; }
 
-        [BsonElement("stratDate")]
+        [BsonElement("startDate")]
         public DateTime StartDate { get; set; }
 
         [BsonElement("endDate")]
