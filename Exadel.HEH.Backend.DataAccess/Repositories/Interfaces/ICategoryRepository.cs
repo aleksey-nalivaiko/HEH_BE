@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.DataAccess.Models;
+using Exadel.Example.Models;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
