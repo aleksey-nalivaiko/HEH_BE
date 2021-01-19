@@ -60,8 +60,7 @@
             "address": {
                 "country": "Belarus",
                 "city": "Minsk",
-                "street": "street 2",
-                "building": "building 2"
+                "street": "street 2"
             },
             "isActive": true,
             "categoryNotifications": [
@@ -237,12 +236,12 @@
                 {
                     "tag_id": UUID("8134e0e7-bd6f-4aa2-82de-b6301fd2979f"),
                     "name": "tag name 1",
-                    "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
+                    "categoryId": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
                 },
                 {
                     "tag_id": UUID("81cf086a-84a8-4291-9a55-791f1005f09e"),
                     "name": "tag name 2",
-                    "category_id": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
+                    "categoryId": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
                 }
             ],
             "vendorId": UUID("662c27f1-8f63-44ac-a873-aac6f09ab173"),
@@ -251,58 +250,42 @@
                 {
                     "country": "Belarus",
                     "city": "Minsk",
-                    "street": "street 1",
-                    "building": "building 1",
-                    "addressID": "address id 1"
+                    "street": "street 1"
                 },
                 {
                     "country": "Belarus",
                     "city": "Minsk",
-                    "street": "street 2",
-                    "building": "building 2",
-                    "addressID": "address id 2"
+                    "street": "street 2"
                 }
             ],
-            "startDate": "18.01.2021",
-            "endDate": "22.01.2021",
+            "startDate": new Date("2021-01-18"),
+            "endDate": new Date("2021-01-22"),
             "categoryId": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
         },
         {
             "_id": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
-            "Conditions": "Conditions string",
-            "tags_ids": [
-                {
-                    "tag_id": UUID("8134e0e7-bd6f-4aa2-82de-b6301fd2979f"),
-                    "name": "tag name 1",
-                    "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
-                },
-                {
-                    "tag_id": UUID("81cf086a-84a8-4291-9a55-791f1005f09e"),
-                    "name": "tag name 2",
-                    "category_id": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c")
-                }
+            "conditions": "Conditions string",
+            "tagsIds": [
+                UUID("8134e0e7-bd6f-4aa2-82de-b6301fd2979f"),
+                UUID("81cf086a-84a8-4291-9a55-791f1005f09e")
             ],
-            "vendor_id": UUID("ef809bbf-1ff7-4f1c-ac2b-ab5040294cf1"),
+            "vendorId": UUID("ef809bbf-1ff7-4f1c-ac2b-ab5040294cf1"),
             "promoCode": "promo code 1",
             "address": [
                 {
                     "country": "Belarus",
                     "city": "Minsk",
-                    "street": "street 1",
-                    "building": "building 1",
-                    "addressID": "address id 1"
+                    "street": "street 1"
                 },
                 {
                     "country": "Belarus",
                     "city": "Minsk",
-                    "street": "street 2",
-                    "building": "building 2",
-                    "addressID": "address id 2"
+                    "street": "street 2"
                 }
             ],
-            "startDate": "18.01.2021",
-            "endDate": "22.01.2021",
-            "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
+            "startDate": new Date("2021-01-18"),
+            "endDate": new Date("2021-01-22"),
+            "categoryId": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
         }
     ];
 
@@ -313,13 +296,11 @@
             "links": [
                 {
                     "url": "url1",
-                    "type": "new",
-                    "link_id": UUID("e08b69c6-9a5c-4c18-baf1-901a07ccfa38")
+                    "type": "site"
                 },
                 {
                     "url": "url2",
-                    "type": "new 2",
-                    "link_id": UUID("f6b46383-ec2c-46b8-9d89-100f1eaf1d2f")
+                    "type": "facebook"
                 }
             ],
             "mailing": true,
@@ -333,13 +314,11 @@
             "links": [
                 {
                     "url": "url1",
-                    "type": "new",
-                    "link_id": UUID("e08b69c6-9a5c-4c18-baf1-901a07ccfa38")
+                    "type": "site"
                 },
                 {
                     "url": "url2",
-                    "type": "new 2",
-                    "link_id": UUID("f6b46383-ec2c-46b8-9d89-100f1eaf1d2f")
+                    "type": "instagram"
                 }
             ],
             "mailing": true,
@@ -347,75 +326,75 @@
             "viewsAmount": "111",
             "email": "vendor@gmail.com"
         }
-    ]
+    ];
 
     let tagData = [
         {
             "_id": UUID("8134e0e7-bd6f-4aa2-82de-b6301fd2979f"),
-            "Name": "pizza",
-            "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
+            "name": "pizza",
+            "categoryId": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
         },
         {
             "_id": UUID("81cf086a-84a8-4291-9a55-791f1005f09e"),
-            "Name": "sushi",
-            "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
+            "name": "sushi",
+            "categoryId": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
         },
         {
             "_id": UUID("ab4b5672-e2f6-4935-ba03-58851d9c5991"),
-            "Name": "burger",
-            "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
+            "name": "burger",
+            "categoryId": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
         },
         {
             "_id": UUID("22427389-7127-41b4-9aa4-af2078980cf8"),
-            "Name": "coffee",
-            "category_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
+            "name": "coffee",
+            "categoryId": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225")
         }
     ];
 
     let categoryData = [
         {
             "_id": UUID("fb42cd13-1c15-4388-bb3d-216376b5a225"),
-            "Name": "Food"
+            "name": "food"
         },
         {
             "_id": UUID("a3ab67b9-1a72-48e1-a928-e0dbe0b17a5c"),
-            "Name": "Sport"
+            "name": "sport"
         },
         {
             "_id": UUID("adbab91e-942b-4bc2-992f-19b6877b1e7d"),
-            "Name": "Beauty"
+            "name": "beauty"
         },
         {
             "_id": UUID("c86bec9f-2ef9-4be2-bd21-af14aa0d187f"),
-            "Name": "Health"
+            "name": "health"
         }
     ];
 
     let preOrderData = [
         {
             "_id": UUID("00a09510-2e0f-4044-90a9-7f880da67066"),
-            "user_id": UUID("6dead3f8-599e-11eb-ae93-0242ac130002"),
-            "DiscountId": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
-            "OrderTime": "24.11.2021",
-            "Info": "some comment"
+            "userId": UUID("6dead3f8-599e-11eb-ae93-0242ac130002"),
+            "discountId": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
+            "orderDateTime": new Date("2021-01-17T13:56:45Z"),
+            "info": "some comment"
         },
         {
             "_id": UUID("4c137f6d-bfc7-4e95-b5f1-94eb7c7c0000"),
-            "user_id": UUID("6dead3f8-599e-11eb-ae93-0242ac130002"),
-            "DiscountId": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
-            "OrderTime": "24.11.2021",
-            "Info": "some comment"
+            "userId": UUID("6dead3f8-599e-11eb-ae93-0242ac130002"),
+            "discountId": UUID("5ff9732f-8187-4b14-92d7-89bd72cd91ba"),
+            "orderDateTime": new Date("2021-01-17T13:56:45Z"),
+            "info": "some comment"
         },
         {
             "_id": UUID("a24e4271-ccbc-4955-a667-028ad37db84e"),
-            "user_id": UUID("6dead3f8-599e-11eb-ae93-0242ac130002"),
-            "DiscountId": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
-            "OrderTime": "24.11.2021",
-            "Info": "some comment"
+            "userId": UUID("6dead3f8-599e-11eb-ae93-0242ac130002"),
+            "discountId": UUID("06734050-5268-4540-91d0-8a4e9a7af6a0"),
+            "orderDateTime": new Date("2021-01-17T13:56:45Z"),
+            "info": "some comment"
         }
     ];
 
-    let dbName = `HEHDB`;
+    let dbName = 'ExadelHEH';
 
     fillCollections();
 
@@ -436,9 +415,9 @@
         var collection = db.getCollection(collectionName);
         if (collection.count({}) === 0) {
             collection.insertMany(data);
-            print("Collection ${collectionName} created and filled with initial data");
+            print("Collection "+ collectionName + " created and filled with initial data");
         } else {
-            print("Collection ${collectionName} already exists");
+            print("Collection " + collectionName + " already exists");
         }
     }
 }
