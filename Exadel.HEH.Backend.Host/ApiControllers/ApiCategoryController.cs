@@ -2,44 +2,49 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host
 {
-    [Route("api/[controller]")]
+    [Route("api/Category/[controller]")]
     [ApiController]
     public class ApiCategoryController : ControllerBase
     {
-        // GET: api/<ValuesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public Task CreateAsynk([FromBody] Category categoryItem)
         {
+            return null;
         }
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpGet]
+        public Task<IEnumerable<Category>> GetAllAsync()
         {
+            return null;
         }
 
-        // DELETE api/<ValuesController>/5
+        [HttpGet("{id}")]
+        public Task<Category> GetByIdAsync(Guid id)
+        {
+            return null;
+        }
+
+        [HttpGet("{id}")]
+        public Task<Category> GetByTagAsync(Guid tagId)
+        {
+            return null;
+        }
+
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public Task RemoveAsync(Guid id)
         {
+            return null;
+        }
+
+        [HttpPut("{id}")]
+        public Task UpdateAsync(Guid id, [FromBody] Category categoryItem)
+        {
+            return null;
         }
     }
 }

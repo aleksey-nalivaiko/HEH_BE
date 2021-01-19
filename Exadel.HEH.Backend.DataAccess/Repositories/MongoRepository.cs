@@ -6,15 +6,15 @@ using MongoDB.Driver;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public abstract class MongoRepository<TDocument>
+    public abstract class MongoRepository<TDocument> : IMongoRepository<TDocument>
         where TDocument : class, IDataModel, new()
     {
-        private readonly IMongoDatabase _database;
+        protected readonly IMongoDatabase Database;
 
         public MongoRepository(string connectionString)
         {
             var client = new MongoClient(connectionString);
-            _database = client.GetDatabase(new MongoUrlBuilder(connectionString).DatabaseName);
+            Database = client.GetDatabase(new MongoUrlBuilder(connectionString).DatabaseName);
         }
 
         public async Task<IEnumerable<TDocument>> GetAllBaseAsync()
@@ -24,14 +24,17 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
                 .ToListAsync();
         }
 
-        public async Task<TDocument> GetByIdBaseAsync(Guid id)
+        public Task<TDocument> GetByIdBaseAsync(Guid id)
         {
-            return await GetCollection().Find(Builders<TDocument>.Filter.Eq(x => x.Id, id)).FirstOrDefaultAsync();
+            return GetCollection()
+                .Find(Builders<TDocument>.Filter.Eq(x => x.Id, id))
+                .FirstOrDefaultAsync();
         }
 
         public Task RemoveBaseAsync(Guid id)
         {
-            return GetCollection().DeleteOneAsync(Builders<TDocument>.Filter.Eq(x => x.Id, id));
+            return GetCollection()
+                .DeleteOneAsync(Builders<TDocument>.Filter.Eq(x => x.Id, id));
         }
 
         public Task CreateBaseAsync(TDocument item)
@@ -41,12 +44,13 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
 
         public Task UpdateBaseAsync(Guid id, TDocument item)
         {
-            return GetCollection().ReplaceOneAsync(Builders<TDocument>.Filter.Eq(x => x.Id, id), item);
+            return GetCollection()
+                .ReplaceOneAsync(Builders<TDocument>.Filter.Eq(x => x.Id, id), item);
         }
 
-        private IMongoCollection<TDocument> GetCollection()
+        protected IMongoCollection<TDocument> GetCollection()
         {
-            return _database.GetCollection<TDocument>(typeof(TDocument).Name);
+            return Database.GetCollection<TDocument>(typeof(TDocument).Name);
         }
     }
 }

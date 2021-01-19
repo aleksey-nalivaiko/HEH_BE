@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using MongoDB.Driver;
+using Tag = Exadel.HEH.Backend.DataAccess.Models.Tag;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class CategoryRepository : MongoRepository<Category>, ICategoryRepository
+    public class CategoryRepository : MongoRepository<Category>
     {
-        private readonly IMongoDatabase _database;
-
         public CategoryRepository(string connectionString)
             : base(connectionString)
         {
-            var client = new MongoClient(connectionString);
-            _database = client.GetDatabase(new MongoUrlBuilder(connectionString).DatabaseName);
         }
 
         public Task CreateAsync(Category categoryItem)
@@ -33,12 +29,16 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
             return GetByIdBaseAsync(id);
         }
 
-        public async Task<Category> GetByTagAsync(Guid tagId)
+        public Task<Category> GetByTagAsync(Guid tagId)
         {
-            var categoryCollection = _database.GetCollection<Category>(typeof(Category).Name);
-            var tagCollection = _database.GetCollection<Models.Tag>(typeof(Models.Tag).Name);
-            var tag = tagCollection.Find(Builders<Models.Tag>.Filter.Eq(x => x.Id, tagId)).FirstOrDefaultAsync();
-            return await categoryCollection.Find(Builders<Category>.Filter.Eq(x => x.Id, tag.Result.Id)).FirstOrDefaultAsync();
+            var categoryCollection = Database.GetCollection<Category>(nameof(Category));
+            var tagCollection = Database.GetCollection<Tag>(nameof(Tag));
+            var tag = tagCollection
+                .Find(Builders<Tag>.Filter.Eq(x => x.Id, tagId))
+                .FirstOrDefaultAsync();
+            return categoryCollection
+                .Find(Builders<Category>.Filter.Eq(x => x.Id, tag.Result.Id))
+                .FirstOrDefaultAsync();
         }
 
         public Task RemoveAsync(Guid id)

@@ -21,11 +21,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         [BsonElement("promoCode")]
         public string PromoCode { get; set; }
 
-        [BsonElement("addresses")]
-        public IList<Guid> Addresses { get; set; }
-
-        [BsonElement("phones")]
-        public IList<Guid> Phones { get; set; }
+        public Address[] Addresses { get; set; }
 
         [BsonElement("startDate")]
         public DateTime StartDate { get; set; }

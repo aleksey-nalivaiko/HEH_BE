@@ -15,7 +15,8 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         [BsonElement("url")]
         public string Url { get; set; }
 
-        [BsonElement("type")]
-        public LinkType Type { get; set; }
+        public Enum Type { get; set; }
+
+        public Guid Id { get; set; }
     }
 }
