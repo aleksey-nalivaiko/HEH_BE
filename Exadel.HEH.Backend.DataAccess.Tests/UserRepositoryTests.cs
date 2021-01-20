@@ -33,7 +33,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                 NewVendorNotificationIsOn = true,
                 TagNotificationsId = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
                 VendorNotificationsId = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-                Role = User.UserRole.Employee,
+                Role = UserRole.Employee,
                 Office = new Address
                 {
                     City = "m",
@@ -58,7 +58,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         [Fact]
         public async Task CanGetById()
         {
-            Collection.Setup(c => c.Find(Builders<User>.Filter.Eq(x => x.Id, It.IsAny<User>().Id), null)
+            Collection.Setup(c => c.Find(Builders<User>.Filter.Eq(x => x.Id, _user.Id), null)
                     .FirstOrDefaultAsync(CancellationToken.None))
                 .Returns<Task<User>>(user => user)
                 .Verifiable();
@@ -69,8 +69,8 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         [Fact]
         public async Task CanUpdate()
         {
-            var filter = Builders<User>.Filter.Eq(x => x.Id, It.IsAny<User>().Id);
-            Collection.Setup(c => c.ReplaceOneAsync(filter, It.IsAny<User>(),
+            var filter = Builders<User>.Filter.Eq(x => x.Id, _user.Id);
+            Collection.Setup(c => c.ReplaceOneAsync(filter, _user,
                     (ReplaceOptions)null, CancellationToken.None))
                 .Returns(Task.CompletedTask as Task<ReplaceOneResult>)
                 .Verifiable();
