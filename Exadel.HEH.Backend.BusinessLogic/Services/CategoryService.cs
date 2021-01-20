@@ -8,43 +8,19 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class CategoryService : ICategoryService
+    public class CategoryService : Service<Category>, ICategoryService
     {
         private readonly ICategoryRepository categoryRepository;
 
         public CategoryService(ICategoryRepository categoryRepository)
+            : base(categoryRepository)
         {
             this.categoryRepository = categoryRepository;
         }
 
-        public Task CreateAsync(Category item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Category>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Category> GetByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<Category> GetByTagAsync(Guid tagId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task RemoveAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(Guid id, Category item)
-        {
-            throw new NotImplementedException();
+            return categoryRepository.GetByTagAsync(tagId);
         }
     }
 }

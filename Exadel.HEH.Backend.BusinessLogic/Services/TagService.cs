@@ -12,14 +12,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
         private readonly ITagRepository tagRepository;
 
         public TagService(ITagRepository tagRepository)
+            : base(tagRepository)
         {
             this.tagRepository = tagRepository;
         }
 
         public Task<IEnumerable<Tag>> GetByCategoryAsync(Guid categoryId)
         {
-            tagRepository.GetByCategoryAsync(categoryId);
-            throw new NotImplementedException();
+            return tagRepository.GetByCategoryAsync(categoryId);
         }
     }
 }
