@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -18,7 +19,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
 
         public UserRepositoryTests()
         {
-            _repository = new UserRepository(Database.Object);
+            _repository = new UserRepository(Context.Object);
             _user = new User
             {
                 Id = Guid.NewGuid(),
@@ -33,7 +34,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                 NewVendorNotificationIsOn = true,
                 TagNotificationsId = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
                 VendorNotificationsId = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-                Role = User.UserRole.Employee,
+                Role = UserRole.Employee,
                 Office = new Address
                 {
                     City = "m",
@@ -47,35 +48,29 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         [Fact]
         public async Task CanGetAll()
         {
-            Collection.Setup(c => Task.FromResult(c.Find(Builders<User>.Filter.Empty, null)
-                    .ToEnumerable(CancellationToken.None)))
-                .Returns<Task<IEnumerable<User>>>(users => users)
-                .Verifiable();
+            Collection.Add(_user);
 
-            await _repository.GetAllAsync();
+            var result = await _repository.GetAllAsync();
+            Assert.Single(result);
         }
 
         [Fact]
         public async Task CanGetById()
         {
-            Collection.Setup(c => c.Find(Builders<User>.Filter.Eq(x => x.Id, It.IsAny<User>().Id), null)
-                    .FirstOrDefaultAsync(CancellationToken.None))
-                .Returns<Task<User>>(user => user)
-                .Verifiable();
+            Collection.Add(_user);
 
-            await _repository.GetByIdAsync(_user.Id);
+            var result = await _repository.GetByIdAsync(_user.Id);
+            Assert.Equal(_user, result);
         }
 
         [Fact]
         public async Task CanUpdate()
         {
-            var filter = Builders<User>.Filter.Eq(x => x.Id, It.IsAny<User>().Id);
-            Collection.Setup(c => c.ReplaceOneAsync(filter, It.IsAny<User>(),
-                    (ReplaceOptions)null, CancellationToken.None))
-                .Returns(Task.CompletedTask as Task<ReplaceOneResult>)
-                .Verifiable();
+            Collection.Add(_user.DeepClone());
+            _user.IsActive = false;
 
             await _repository.UpdateAsync(_user.Id, _user);
+            Assert.False(Collection.Single(x => x.Id == _user.Id).IsActive);
         }
     }
 }

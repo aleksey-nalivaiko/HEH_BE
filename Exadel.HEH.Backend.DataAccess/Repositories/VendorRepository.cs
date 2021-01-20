@@ -6,8 +6,8 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
     public class VendorRepository : MongoRepository<Vendor>
     {
-        public VendorRepository(IMongoDatabase database)
-            : base(database)
+        public VendorRepository(IDbContext context)
+            : base(context)
         {
         }
     }

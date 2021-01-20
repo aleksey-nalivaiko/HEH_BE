@@ -6,8 +6,8 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
     public class PreOrderRepository : MongoRepository<PreOrder>
     {
-        public PreOrderRepository(IMongoDatabase database)
-            : base(database)
+        public PreOrderRepository(IDbContext context)
+            : base(context)
         {
         }
     }

@@ -6,13 +6,6 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 {
     public class User : IDataModel
     {
-        public enum UserRole
-        {
-            Employee,
-            Moderator,
-            Administrator
-        }
-
         [BsonId]
         public Guid Id { get; set; }
 
