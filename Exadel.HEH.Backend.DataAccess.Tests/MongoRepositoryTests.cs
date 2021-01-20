@@ -1,27 +1,48 @@
-﻿using MongoDB.Driver;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Exadel.HEH.Backend.DataAccess.Models;
 using Moq;
 
 namespace Exadel.HEH.Backend.DataAccess.Tests
 {
     public class MongoRepositoryTests<TDocument>
+        where TDocument : class, IDataModel, new()
     {
-        protected readonly Mock<IMongoDatabase> Database;
-        protected readonly Mock<IMongoCollection<TDocument>> Collection;
+        protected readonly Mock<IDbContext> Context;
+        protected readonly List<TDocument> Collection;
 
         public MongoRepositoryTests()
         {
-            var connectionString = "mongodb://test";
-            var client = new Mock<MongoClient>(connectionString);
-            var urlBuilder = new Mock<MongoUrlBuilder>(connectionString);
-            Database = new Mock<IMongoDatabase>();
+            Context = new Mock<IDbContext>();
 
-            client.Setup(c => c.GetDatabase(urlBuilder.Object.DatabaseName, null))
-                .Returns(Database.Object);
+            Collection = new List<TDocument>();
 
-            Collection = new Mock<IMongoCollection<TDocument>>();
+            Context.Setup(f => f.GetAll<TDocument>())
+                .Returns(Collection.AsQueryable());
 
-            Database.Setup(f => f.GetCollection<TDocument>(typeof(TDocument).Name, null))
-                .Returns(Collection.Object);
+            Context.Setup(f => f.GetByIdAsync<TDocument>(It.IsAny<Guid>()))
+                .Returns((Guid id) => Task.FromResult(Collection.FirstOrDefault(x => x.Id == id)));
+
+            Context.Setup(f => f.CreateAsync(It.IsAny<TDocument>()))
+                .Callback((TDocument doc) =>
+                {
+                    Collection.Add(doc);
+                })
+                .Returns(Task.CompletedTask);
+
+            Context.Setup(f => f.UpdateAsync(It.IsAny<Guid>(), It.IsAny<TDocument>()))
+                .Callback((Guid id, TDocument doc) =>
+                {
+                    var oldDoc = Collection.FirstOrDefault(x => x.Id == doc.Id);
+                    if (oldDoc != null)
+                    {
+                        Collection.Remove(oldDoc);
+                        Collection.Add(doc);
+                    }
+                })
+                .Returns(Task.CompletedTask);
         }
     }
 }

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories;
-using MongoDB.Driver;
-using Moq;
 using Xunit;
 
 namespace Exadel.HEH.Backend.DataAccess.Tests
@@ -17,7 +14,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
 
         public HistoryRepositoryTests()
         {
-            _repository = new HistoryRepository(Database.Object);
+            _repository = new HistoryRepository(Context.Object);
             _history = new History
             {
                 Id = Guid.NewGuid(),
@@ -34,22 +31,20 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         [Fact]
         public async Task CanGetAll()
         {
-            Collection.Setup(c => Task.FromResult(c.Find(Builders<History>.Filter.Empty, null)
-                    .ToEnumerable(CancellationToken.None)))
-                .Returns<Task<IEnumerable<History>>>(history => history)
-                .Verifiable();
+            Collection.Add(_history);
 
-            await _repository.GetAllAsync();
+            var result = await _repository.GetAllAsync();
+            Assert.Single(result);
         }
 
         [Fact]
         public async Task CanCreate()
         {
-            Collection.Setup(c => c.InsertOneAsync(_history, null, CancellationToken.None))
-                .Returns(Task.CompletedTask)
-                .Verifiable();
-
             await _repository.CreateAsync(_history);
+
+            var history = Collection.FirstOrDefault(x => x.Id == _history.Id);
+
+            Assert.NotNull(history);
         }
     }
 }

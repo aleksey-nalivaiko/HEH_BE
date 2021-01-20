@@ -6,8 +6,8 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
     public class HistoryRepository : MongoRepository<History>
     {
-        public HistoryRepository(IMongoDatabase database)
-            : base(database)
+        public HistoryRepository(IDbContext context)
+            : base(context)
         {
         }
     }
