@@ -10,17 +10,17 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class CategoryService : Service<Category>, ICategoryService
     {
-        private readonly ICategoryRepository categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
         public CategoryService(ICategoryRepository categoryRepository)
             : base(categoryRepository)
         {
-            this.categoryRepository = categoryRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public Task<Category> GetByTagAsync(Guid tagId)
         {
-            return categoryRepository.GetByTagAsync(tagId);
+            return _categoryRepository.GetByTagAsync(tagId);
         }
     }
 }
