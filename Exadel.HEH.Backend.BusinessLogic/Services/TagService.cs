@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.DataAccess.Models;
+using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
-namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
+namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class TagService
+    public class TagService : Service<Tag>
     {
+        public TagService(IRepository<Tag> repository)
+            : base(repository)
+        {
+        }
     }
 }
