@@ -6,11 +6,11 @@ using MongoDB.Driver;
 
 namespace Exadel.HEH.Backend.DataAccess
 {
-    public class IdbContext : IDbContext
+    public class MongoDbContext : IDbContext
     {
         private readonly IMongoDatabase _database;
 
-        public IdbContext(string connectionString)
+        public MongoDbContext(string connectionString)
         {
             var client = new MongoClient(connectionString);
             _database = client.GetDatabase(new MongoUrlBuilder(connectionString).DatabaseName);
