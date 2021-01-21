@@ -43,11 +43,11 @@ namespace Exadel.HEH.Backend.DataAccess
             return GetCollection<T>().InsertOneAsync(item);
         }
 
-        public virtual Task UpdateAsync<T>(Guid id, T item)
+        public virtual Task UpdateAsync<T>(T item)
             where T : class, IDataModel, new()
 {
             return GetCollection<T>()
-                .ReplaceOneAsync(Builders<T>.Filter.Eq(x => x.Id, id), item);
+                .ReplaceOneAsync(Builders<T>.Filter.Eq(x => x.Id, item.Id), item);
         }
 
         protected IMongoCollection<T> GetCollection<T>()

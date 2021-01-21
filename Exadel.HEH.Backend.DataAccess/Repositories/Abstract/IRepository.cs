@@ -16,6 +16,6 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 
         Task CreateAsync(TDocument item);
 
-        Task UpdateAsync(Guid id, TDocument item);
+        Task UpdateAsync(TDocument item);
     }
 }

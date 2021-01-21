@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
-using Exadel.HEH.Backend.DataAccess.Repositories;
+using Exadel.HEH.Backend.Host.Controllers;
+using Exadel.HEH.Backend.Host.DTOs.Update;
 using Xunit;
 
-namespace Exadel.HEH.Backend.DataAccess.Tests
+namespace Exadel.HEH.Backend.Host.Tests
 {
-    public class UserRepositoryTests : MongoRepositoryTests<User>
+    public class UserControllerTests
+        : BaseControllerTests<User>
     {
-        private readonly UserRepository _repository;
+        private readonly UserController _controller;
 
         private readonly User _user;
+        private readonly UserUpdateDto _userDto;
 
-        public UserRepositoryTests()
+        public UserControllerTests()
         {
-            _repository = new UserRepository(Context.Object);
+            _controller = new UserController(Service.Object, Mapper);
             _user = new User
             {
                 Id = Guid.NewGuid(),
@@ -40,34 +43,39 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                 },
                 Password = "abc"
             };
+
+            _userDto = new UserUpdateDto
+            {
+                Id = _user.Id,
+                IsActive = true,
+                Role = UserRole.Employee
+            };
         }
 
         [Fact]
-        public async Task CanGetAll()
+        public async Task CanGetAllAsync()
         {
-            Collection.Add(_user);
-
-            var result = await _repository.GetAllAsync();
+            Data.Add(_user);
+            var result = await _controller.GetAllAsync();
             Assert.Single(result);
         }
 
         [Fact]
         public async Task CanGetById()
         {
-            Collection.Add(_user);
-
-            var result = await _repository.GetByIdAsync(_user.Id);
-            Assert.Equal(_user, result);
+            Data.Add(_user);
+            var result = await _controller.GetByIdAsync(_user.Id);
+            Assert.NotNull(result);
         }
 
         [Fact]
         public async Task CanUpdate()
         {
-            Collection.Add(_user.DeepClone());
-            _user.IsActive = false;
+            Data.Add(_user);
+            _userDto.IsActive = false;
 
-            await _repository.UpdateAsync(_user);
-            Assert.False(Collection.Single(x => x.Id == _user.Id).IsActive);
+            await _controller.UpdateAsync(_userDto);
+            Assert.False(Data.Single(x => x.Id == _user.Id).IsActive);
         }
     }
 }

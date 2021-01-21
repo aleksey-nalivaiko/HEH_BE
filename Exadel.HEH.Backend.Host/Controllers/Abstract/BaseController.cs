@@ -49,10 +49,10 @@ namespace Exadel.HEH.Backend.Host.Controllers.Abstract
             await Service.CreateAsync(Mapper.Map<T>(item));
         }
 
-        [HttpPut("{id:guid}")]
-        public async Task UpdateAsync(Guid id, TUpdateDto item)
+        [HttpPut]
+        public async Task UpdateAsync(TUpdateDto item)
         {
-            await Service.UpdateAsync(id, Mapper.Map<T>(item));
+            await Service.UpdateAsync(Mapper.Map<T>(item));
         }
     }
 }

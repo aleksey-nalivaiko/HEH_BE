@@ -16,6 +16,6 @@ namespace Exadel.HEH.Backend.Host.Controllers.Abstract
 
         Task CreateAsync(TCreateDto item);
 
-        Task UpdateAsync(Guid id, TUpdateDto item);
+        Task UpdateAsync(TUpdateDto item);
     }
 }

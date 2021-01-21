@@ -11,6 +11,8 @@ namespace Exadel.HEH.Backend.Host.DTOs.Get
 
         public UserRole UserRole { get; set; }
 
+        public string UserName { get; set; }
+
         public string UserEmail { get; set; }
 
         public UserAction Action { get; set; }

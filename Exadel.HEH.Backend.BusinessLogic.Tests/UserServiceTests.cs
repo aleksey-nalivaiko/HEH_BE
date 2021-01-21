@@ -65,7 +65,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             Data.Add(_user.DeepClone());
             _user.IsActive = false;
 
-            await _service.UpdateAsync(_user.Id, _user);
+            await _service.UpdateAsync(_user);
             Assert.False(Data.Single(x => x.Id == _user.Id).IsActive);
         }
     }

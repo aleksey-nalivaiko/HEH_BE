@@ -19,7 +19,7 @@ namespace Exadel.HEH.Backend.DataAccess
         Task CreateAsync<T>(T item)
             where T : class, IDataModel, new();
 
-        Task UpdateAsync<T>(Guid id, T item)
+        Task UpdateAsync<T>(T item)
             where T : class, IDataModel, new();
     }
 }

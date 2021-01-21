@@ -36,9 +36,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
             return Repository.CreateAsync(item);
         }
 
-        public Task UpdateAsync(Guid id, T item)
+        public Task UpdateAsync(T item)
         {
-            return Repository.UpdateAsync(id, item);
+            return Repository.UpdateAsync(item);
         }
     }
 }
