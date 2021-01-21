@@ -31,7 +31,7 @@ namespace Exadel.HEH.Backend.Host.Controllers.Abstract
             return await Service.GetByIdAsync(id);
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpDelete("{id:guid}")]
         public async Task RemoveAsync(Guid id)
         {
             await Service.RemoveAsync(id);
