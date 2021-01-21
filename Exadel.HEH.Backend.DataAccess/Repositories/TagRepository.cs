@@ -9,20 +9,17 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
     public class TagRepository : MongoRepository<Tag>, ITagRepository
     {
-        public TagRepository(IDbContext context)
-            : base(context)
+        public TagRepository(IMongoDatabase database)
+            : base(database)
         {
-            return GetAllBaseAsync();
         }
 
         public async Task<IEnumerable<Tag>> GetByCategoryAsync(Guid categoryId)
         {
-            throw new NotImplementedException();
-
-            //var tagCollection = Context.GetAll<Tag>(nameof(Tag));
-            //return await tagCollection
-            //    .Find(Builders<Tag>.Filter.Eq(x => x.CategoryId, categoryId))
-            //    .ToListAsync();
+            var tagCollection = Database.GetCollection<Tag>(nameof(Tag));
+            return await tagCollection
+                .Find(Builders<Tag>.Filter.Eq(x => x.CategoryId, categoryId))
+                .ToListAsync();
         }
     }
 }

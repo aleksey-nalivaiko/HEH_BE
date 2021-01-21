@@ -7,7 +7,7 @@ namespace Exadel.HEH.Backend.Host
 {
     public static class ServicesExtensions
     {
-        public static IServiceCollection AddHEHServices(this IServiceCollection services)
+        public static IServiceCollection AddCRUDServices(this IServiceCollection services)
         {
             services.AddTransient<IService<User>, UserService>();
 
