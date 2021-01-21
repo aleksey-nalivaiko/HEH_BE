@@ -60,14 +60,5 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             await _repository.UpdateAsync(_category.Id, _category);
             Assert.Equal("NewCategoryName", Collection.Single(x => x.Id == _category.Id).Name);
         }
-
-        [Fact]
-        public async Task CanGetByTagAsync()
-        {
-            Collection.Add(_category);
-
-            var result = await _repository.GetByTagAsync(_tag.Id);
-            Assert.NotEmpty(result);
-        }
     }
 }

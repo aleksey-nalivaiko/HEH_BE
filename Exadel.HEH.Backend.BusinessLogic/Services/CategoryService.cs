@@ -8,19 +8,11 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class CategoryService : Service<Category>, ICategoryService
+    public class CategoryService : Service<Category>
     {
-        private readonly ICategoryRepository _categoryRepository;
-
-        public CategoryService(ICategoryRepository categoryRepository)
-            : base(categoryRepository)
+        public CategoryService(IRepository<Category> repository)
+            : base(repository)
         {
-            _categoryRepository = categoryRepository;
-        }
-
-        public Task<IEnumerable<Category>> GetByTagAsync(Guid tagId)
-        {
-            return _categoryRepository.GetByTagAsync(tagId);
         }
     }
 }
