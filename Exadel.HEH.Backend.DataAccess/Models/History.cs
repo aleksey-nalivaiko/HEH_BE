@@ -12,7 +12,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public Guid UserId { get; set; }
 
         [BsonElement("role")]
-        public User.UserRole UserRole { get; set; }
+        public UserRole UserRole { get; set; }
 
         [BsonElement("name")]
         public string UserName { get; set; }
@@ -21,7 +21,10 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public string UserEmail { get; set; }
 
         [BsonElement("action")]
-        public string Action { get; set; }
+        public UserAction Action { get; set; }
+
+        [BsonElement("description")]
+        public string Description { get; set; }
 
         [BsonElement("dateTime")]
         public DateTime ActionDateTime { get; set; }

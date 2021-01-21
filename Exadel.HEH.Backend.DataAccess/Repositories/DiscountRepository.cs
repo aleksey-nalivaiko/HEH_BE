@@ -4,52 +4,46 @@ using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
-using MongoDB.Driver;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
     public class DiscountRepository : MongoRepository<Discount>, IDiscountRepository
     {
-        public DiscountRepository(IMongoDatabase database)
-            : base(database)
+        public DiscountRepository(IDbContext context)
+            : base(context)
         {
         }
 
         public async Task<IEnumerable<Discount>> GetByTagAsync(Guid tagId)
         {
-            var filter = Builders<Discount>.Filter
-                .AnyEq(discount => discount.Tags, tagId);
+            var result = await Context.GetAll<Discount>()
+                .Where(x => x.Tags.Any(a => a == tagId)).ToListAsync();
 
-            return await GetCollection()
-                .Find(filter).ToListAsync();
+            return result;
         }
 
         public async Task<IEnumerable<Discount>> GetByCategoryAsync(Guid categoryId)
         {
-            var filter = Builders<Discount>.Filter
-                .Eq(discount => discount.CategoryId, categoryId);
+            var result = await Context.GetAll<Discount>()
+                .Where(x => x.CategoryId == categoryId).ToListAsync();
 
-            return await GetCollection()
-                .Find(filter).ToListAsync();
+            return result;
         }
 
-        public async Task<IEnumerable<Discount>> GetByLocationAsync(Address location)
+        public async Task<IEnumerable<Discount>> GetByLocationAsync(Address address)
         {
-            var filter = Builders<Discount>.Filter
-                .Where(discount => discount.Addresses.Any(address =>
-                    address.Country == location.Country && address.City == location.City));
+            var result = await Context.GetAll<Discount>()
+                .Where(x => x.Addresses.Any(a => a.Country == address.Country && a.City == address.City)).ToListAsync();
 
-            return await GetCollection()
-                .Find(filter).ToListAsync();
+            return result;
         }
 
         public async Task<IEnumerable<Discount>> GetByVendorAsync(Guid vendorId)
         {
-            var filter = Builders<Discount>.Filter
-                .Eq(discount => discount.VendorId, vendorId);
+            var result = await Context.GetAll<Discount>()
+                .Where(x => x.VendorId == vendorId).ToListAsync();
 
-            return await GetCollection()
-                .Find(filter).ToListAsync();
+            return result;
         }
     }
 }

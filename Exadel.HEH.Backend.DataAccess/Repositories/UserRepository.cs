@@ -6,8 +6,8 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
     public class UserRepository : MongoRepository<User>
     {
-        public UserRepository(IMongoDatabase database)
-            : base(database)
+        public UserRepository(IDbContext context)
+            : base(context)
         {
         }
     }
