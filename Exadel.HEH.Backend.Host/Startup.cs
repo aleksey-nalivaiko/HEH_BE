@@ -1,3 +1,5 @@
+using AutoMapper;
+using Exadel.HEH.Backend.Host.Mappings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,9 +21,17 @@ namespace Exadel.HEH.Backend.Host
         {
             services.AddControllers();
             services.AddRepositories(Configuration);
-            services.AddCRUDServices();
+            services.AddCrudServices();
 
             services.AddSwaggerGen();
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new UserProfile());
+                mc.AddProfile(new HistoryProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

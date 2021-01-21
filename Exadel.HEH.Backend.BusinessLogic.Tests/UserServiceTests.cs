@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
-    public class UserServiceTests : ServiceTests<User>
+    public class UserServiceTests : BaseServiceTests<User>
     {
         private readonly UserService _service;
 

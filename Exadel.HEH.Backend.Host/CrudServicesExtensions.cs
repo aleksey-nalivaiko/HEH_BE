@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Exadel.HEH.Backend.Host
 {
-    public static class ServicesExtensions
+    public static class CrudServicesExtensions
     {
-        public static IServiceCollection AddCRUDServices(this IServiceCollection services)
+        public static IServiceCollection AddCrudServices(this IServiceCollection services)
         {
             services.AddTransient<IService<User>, UserService>();
 

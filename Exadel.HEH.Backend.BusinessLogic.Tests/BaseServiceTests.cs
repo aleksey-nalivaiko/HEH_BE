@@ -8,13 +8,13 @@ using Moq;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
-    public abstract class ServiceTests<T>
+    public abstract class BaseServiceTests<T>
         where T : class, IDataModel, new()
     {
         protected readonly Mock<IRepository<T>> Repository;
         protected readonly List<T> Data;
 
-        public ServiceTests()
+        public BaseServiceTests()
         {
             Repository = new Mock<IRepository<T>>();
             Data = new List<T>();
