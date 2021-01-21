@@ -23,22 +23,22 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 
         public Task<T> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return Repository.GetByIdAsync(id);
         }
 
         public Task RemoveAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return Repository.RemoveAsync(id);
         }
 
         public Task CreateAsync(T item)
         {
-            throw new NotImplementedException();
+            return Repository.CreateAsync(item);
         }
 
         public Task UpdateAsync(Guid id, T item)
         {
-            throw new NotImplementedException();
+            return Repository.UpdateAsync(id, item);
         }
     }
 }

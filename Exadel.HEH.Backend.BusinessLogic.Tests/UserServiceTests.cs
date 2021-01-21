@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.Services;
+using Exadel.HEH.Backend.DataAccess;
 using Exadel.HEH.Backend.DataAccess.Models;
-using Exadel.HEH.Backend.DataAccess.Repositories;
 using Xunit;
 
-namespace Exadel.HEH.Backend.DataAccess.Tests
+namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
-    public class UserRepositoryTests : MongoRepositoryTests<User>
+    public class UserServiceTests : ServiceTests<User>
     {
-        private readonly UserRepository _repository;
+        private readonly UserService _service;
 
         private readonly User _user;
 
-        public UserRepositoryTests()
+        public UserServiceTests()
         {
-            _repository = new UserRepository(Context.Object);
+            _service = new UserService(Repository.Object);
             _user = new User
             {
                 Id = Guid.NewGuid(),
@@ -43,31 +44,29 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanGetAll()
+        public async Task CanGetAllAsync()
         {
-            Collection.Add(_user);
-
-            var result = await _repository.GetAllAsync();
+            Data.Add(_user);
+            var result = await _service.GetAllAsync();
             Assert.Single(result);
         }
 
         [Fact]
         public async Task CanGetById()
         {
-            Collection.Add(_user);
-
-            var result = await _repository.GetByIdAsync(_user.Id);
+            Data.Add(_user);
+            var result = await _service.GetByIdAsync(_user.Id);
             Assert.Equal(_user, result);
         }
 
         [Fact]
         public async Task CanUpdate()
         {
-            Collection.Add(_user.DeepClone());
+            Data.Add(_user.DeepClone());
             _user.IsActive = false;
 
-            await _repository.UpdateAsync(_user.Id, _user);
-            Assert.False(Collection.Single(x => x.Id == _user.Id).IsActive);
+            await _service.UpdateAsync(_user.Id, _user);
+            Assert.False(Data.Single(x => x.Id == _user.Id).IsActive);
         }
     }
 }
