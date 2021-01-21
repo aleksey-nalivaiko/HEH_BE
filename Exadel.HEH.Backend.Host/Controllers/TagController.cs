@@ -5,15 +5,15 @@ using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Exadel.HEH.Backend.Host
+namespace Exadel.HEH.Backend.Host.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ApiTagController
+    public class TagController
     {
         private readonly TagRepository _tagRepository;
 
-        public ApiTagController(TagRepository tagRepository)
+        public TagController(TagRepository tagRepository)
         {
             _tagRepository = tagRepository;
         }

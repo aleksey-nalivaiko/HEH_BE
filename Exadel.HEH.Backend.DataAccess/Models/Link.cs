@@ -10,7 +10,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public string Url { get; set; }
 
         [BsonRepresentation(BsonType.String)]
-        public LinkTypeEnum Type { get; set; }
+        public LinkType Type { get; set; }
 
         public Guid Id { get; set; }
     }

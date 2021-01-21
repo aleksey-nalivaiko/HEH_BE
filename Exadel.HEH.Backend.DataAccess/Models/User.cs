@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
@@ -12,7 +13,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         [BsonElement("role")]
         [BsonRepresentation(BsonType.String)]
-        public UserRoleEnum Role { get; set; }
+        public UserRole Role { get; set; }
 
         [BsonElement("name")]
         public string Name { get; set; }

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Exadel.HEH.Backend.Host.ApiControllers
+namespace Exadel.HEH.Backend.Host.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ApiHistoryController : ControllerBase
+    public class HistoryController : ControllerBase
     {
         [HttpPost]
         public Task CreateAsync([FromBody] History historyItem)

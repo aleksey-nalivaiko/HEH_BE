@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Exadel.HEH.Backend.Host
+namespace Exadel.HEH.Backend.Host.Controllers
 {
     [Route("api/Category/[controller]")]
     [ApiController]
-    public class ApiCategoryController : ControllerBase
+    public class CategoryController : ControllerBase
     {
         [HttpPost]
         public Task CreateAsynk([FromBody] Category categoryItem)
