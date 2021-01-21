@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
-    public class Vendor
+    public class Vendor : IDataModel
     {
         [BsonId]
         public Guid Id { get; set; }

@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
-    public class Discount
+    public class Discount : IDataModel
     {
         [BsonId]
         public Guid Id { get; set; }
@@ -21,7 +21,11 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         [BsonElement("promoCode")]
         public string PromoCode { get; set; }
 
-        public Address[] Addresses { get; set; }
+        [BsonElement("addresses")]
+        public IList<Address> Addresses { get; set; }
+
+        [BsonElement("phones")]
+        public IList<Phone> Phones { get; set; }
 
         [BsonElement("startDate")]
         public DateTime StartDate { get; set; }
