@@ -12,7 +12,6 @@ namespace Exadel.HEH.Backend.Host
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
