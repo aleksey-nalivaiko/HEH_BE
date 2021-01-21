@@ -15,7 +15,6 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         private readonly CategoryRepository _repository;
 
         private readonly Category _category;
-        private readonly Tag _tag;
 
         public CategoryRepositoryTests()
         {
@@ -24,12 +23,6 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             {
                 Id = Guid.NewGuid(),
                 Name = "CategoryName"
-            };
-            _tag = new Tag
-            {
-                Id = Guid.NewGuid(),
-                CategoryId = _category.Id,
-                Name = "TagName"
             };
         }
 
