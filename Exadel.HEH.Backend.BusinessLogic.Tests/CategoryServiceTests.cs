@@ -12,20 +12,19 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
     public class CategoryServiceTests
     {
-        [Fact]
-        public void ServiseHaveLinkWithRepository()
-        {
-            // Arrange
-            var mock = new Mock<ICategoryRepository>();
-            mock.Setup(x => x.GetByTagAsync(Guid.NewGuid())).Returns(GetCategory);
+        //[Fact]
+        //public void ServiseHaveLinkWithRepository()
+        //{
+        //    // Arrange
+        //    var mock = new Mock<ICategoryRepository>();
+        //    mock.Setup(x => x.GetByTagAsync(Guid.NewGuid())).Returns(GetCategory);
 
-            // Act
-            var result = new CategoryService(mock.Object);
+        //    // Act
+        //    var result = new CategoryService(mock.Object);
 
-            // Assert
-            Assert.NotNull(result.GetByTagAsync(Guid.NewGuid()));
-        }
-
+        //    // Assert
+        //    Assert.NotNull(result.GetByTagAsync(Guid.NewGuid()));
+        //}
         private Task<Category> GetCategory()
         {
             Category category = new Category() { };
