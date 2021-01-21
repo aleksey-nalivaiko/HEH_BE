@@ -4,7 +4,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class HistoryService : Service<History>
+    public class HistoryService : BaseService<History>
     {
         public HistoryService(IRepository<History> repository)
             : base(repository)

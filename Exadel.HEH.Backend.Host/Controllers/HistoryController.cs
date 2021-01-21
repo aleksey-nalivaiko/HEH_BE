@@ -1,37 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
-using Microsoft.AspNetCore.Mvc;
+using Exadel.HEH.Backend.Host.Controllers.Abstract;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class HistoryController : ControllerBase
+    public class HistoryController : BaseController<History>
     {
-        [HttpPost]
-        public Task CreateAsync([FromBody] History historyItem)
+        public HistoryController(IService<History> service)
+            : base(service)
         {
-            return null;
-        }
-
-        [HttpGet]
-        public Task<IEnumerable<History>> GetAllAsync()
-        {
-            return null;
-        }
-
-        [HttpDelete("{id}")]
-        public Task RemoveAsync(Guid id)
-        {
-            return null;
-        }
-
-        [HttpPut("{id}")]
-        public Task UpdateAsync(Guid id, [FromBody] History historyItem)
-        {
-            return null;
         }
     }
 }

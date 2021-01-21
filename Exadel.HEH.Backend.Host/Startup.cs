@@ -27,6 +27,7 @@ namespace Exadel.HEH.Backend.Host
         {
             services.AddControllers();
             services.AddRepositories(Configuration);
+            services.AddHEHServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

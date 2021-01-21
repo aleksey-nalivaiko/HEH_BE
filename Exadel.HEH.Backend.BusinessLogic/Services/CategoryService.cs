@@ -8,7 +8,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class CategoryService : Service<Category>, ICategoryService
+    public class CategoryService : BaseService<Category>, ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
 
