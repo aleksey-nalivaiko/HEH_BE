@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
-using MongoDB.Driver;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
@@ -17,47 +16,34 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
 
         public async Task<IEnumerable<Discount>> GetByTagAsync(Guid tagId)
         {
-            throw new NotImplementedException();
+            var result = await Context.GetAll<Discount>()
+                .Where(x => x.Tags.Any(a => a == tagId)).ToListAsync();
 
-            // var filter = Builders<Discount>.Filter
-            //    .AnyEq(discount => discount.Tags, tagId);
-
-            //return await GetCollection()
-            //    .Find(filter).ToListAsync();
+            return result;
         }
 
         public async Task<IEnumerable<Discount>> GetByCategoryAsync(Guid categoryId)
         {
-            throw new NotImplementedException();
+            var result = await Context.GetAll<Discount>()
+                .Where(x => x.CategoryId == categoryId).ToListAsync();
 
-            //var filter = Builders<Discount>.Filter
-            //    .Eq(discount => discount.CategoryId, categoryId);
-
-            //return await GetCollection()
-            //    .Find(filter).ToListAsync();
+            return result;
         }
 
-        public async Task<IEnumerable<Discount>> GetByLocationAsync(Address location)
+        public async Task<IEnumerable<Discount>> GetByLocationAsync(Address address)
         {
-            throw new NotImplementedException();
+            var result = await Context.GetAll<Discount>()
+                .Where(x => x.Addresses.Any(a => a.Country == address.Country && a.City == address.City)).ToListAsync();
 
-            //var filter = Builders<Discount>.Filter
-            //    .Where(discount => discount.Addresses.Any(address =>
-            //        address.Country == location.Country && address.City == location.City));
-
-            //return await GetCollection()
-            //    .Find(filter).ToListAsync();
+            return result;
         }
 
         public async Task<IEnumerable<Discount>> GetByVendorAsync(Guid vendorId)
         {
-            throw new NotImplementedException();
+            var result = await Context.GetAll<Discount>()
+                .Where(x => x.VendorId == vendorId).ToListAsync();
 
-            //var filter = Builders<Discount>.Filter
-            //    .Eq(discount => discount.VendorId, vendorId);
-
-            //return await GetCollection()
-            //    .Find(filter).ToListAsync();
+            return result;
         }
     }
 }
