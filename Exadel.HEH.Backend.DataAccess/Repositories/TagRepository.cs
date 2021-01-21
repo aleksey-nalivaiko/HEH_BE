@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using MongoDB.Driver;
@@ -16,12 +17,9 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
 
         public async Task<IEnumerable<Tag>> GetByCategoryAsync(Guid categoryId)
         {
-            throw new NotImplementedException();
-
-            //var tagCollection = Context.GetAll<Tag>(nameof(Tag));
-            //return await tagCollection
-            //    .Find(Builders<Tag>.Filter.Eq(x => x.CategoryId, categoryId))
-            //    .ToListAsync();
+            var tagCollection = Context.GetAll<Tag>()
+                .Where(x => x.CategoryId.Equals(categoryId)).ToListAsync();
+            return await tagCollection;
         }
     }
 }

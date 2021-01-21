@@ -8,6 +8,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
     public interface ICategoryService : IService<Category>
     {
-        Task<Category> GetByTagAsync(Guid tagId);
+        Task<IEnumerable<Category>> GetByTagAsync(Guid tagId);
     }
 }

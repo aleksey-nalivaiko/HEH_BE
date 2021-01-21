@@ -13,12 +13,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     public class CategoryServiceTests
     {
         [Fact]
-        public void IndexReturnsAViewResultWithAListOfUsers()
+        public void ServiseHaveLinkWithRepository()
         {
             // Arrange
             var mock = new Mock<ICategoryRepository>();
             mock.Setup(x => x.GetByTagAsync(Guid.NewGuid())).Returns(GetCategory);
-            var category = new CategoryService(mock.Object);
 
             // Act
             var result = new CategoryService(mock.Object);

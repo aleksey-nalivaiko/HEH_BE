@@ -18,7 +18,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _categoryRepository = categoryRepository;
         }
 
-        public Task<Category> GetByTagAsync(Guid tagId)
+        public Task<IEnumerable<Category>> GetByTagAsync(Guid tagId)
         {
             return _categoryRepository.GetByTagAsync(tagId);
         }
