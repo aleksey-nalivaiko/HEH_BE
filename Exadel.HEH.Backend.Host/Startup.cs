@@ -1,5 +1,4 @@
-using AutoMapper;
-using Exadel.HEH.Backend.Host.Mappings;
+using Exadel.HEH.Backend.BusinessLogic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

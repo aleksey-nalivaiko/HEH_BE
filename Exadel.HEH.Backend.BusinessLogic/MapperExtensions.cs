@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Exadel.HEH.Backend.Host.Mappings;
+using Exadel.HEH.Backend.BusinessLogic.Mappings;
 
-namespace Exadel.HEH.Backend.Host
+namespace Exadel.HEH.Backend.BusinessLogic
 {
     public static class MapperExtensions
     {
@@ -11,6 +11,7 @@ namespace Exadel.HEH.Backend.Host
             {
                 mc.AddProfile(new UserProfile());
                 mc.AddProfile(new HistoryProfile());
+                mc.AddProfile(new TagProfile());
             });
 
             return mapperConfig.CreateMapper();

@@ -1,7 +1,7 @@
 ﻿using System;
 using Exadel.HEH.Backend.DataAccess.Models;
 
-namespace Exadel.HEH.Backend.Host.DTOs.Update
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Update
 {
     public class UserUpdateDto
     {

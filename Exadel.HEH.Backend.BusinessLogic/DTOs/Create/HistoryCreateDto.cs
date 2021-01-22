@@ -1,12 +1,10 @@
 ﻿using System;
 using Exadel.HEH.Backend.DataAccess.Models;
 
-namespace Exadel.HEH.Backend.Host.DTOs.Get
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Create
 {
-    public class HistoryDto
+    public class HistoryCreateDto
     {
-        public Guid Id { get; set; }
-
         public Guid UserId { get; set; }
 
         public UserRole UserRole { get; set; }

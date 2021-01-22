@@ -52,7 +52,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             Collection.Add(_preOrder.DeepClone());
             _preOrder.Info = "NewPreOrderInfo";
 
-            await _repository.UpdateAsync(_preOrder.Id, _preOrder);
+            await _repository.UpdateAsync(_preOrder);
             Assert.Equal("NewPreOrderInfo", Collection.Single(x => x.Id == _preOrder.Id).Info);
         }
     }

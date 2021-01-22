@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Exadel.HEH.Backend.DataAccess.Models;
 
-namespace Exadel.HEH.Backend.Host.DTOs.Get
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
     public class UserDto
     {

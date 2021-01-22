@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Moq;
@@ -13,14 +12,12 @@ namespace Exadel.HEH.Backend.Host.Tests
         where T : class, IDataModel, new()
     {
         protected readonly Mock<IService<T>> Service;
-        protected readonly IMapper Mapper;
         protected readonly List<T> Data;
 
         public BaseControllerTests()
         {
             Service = new Mock<IService<T>>();
             Data = new List<T>();
-            Mapper = MapperExtensions.GetMapper();
 
             Service.Setup(s => s.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<T>)Data));
