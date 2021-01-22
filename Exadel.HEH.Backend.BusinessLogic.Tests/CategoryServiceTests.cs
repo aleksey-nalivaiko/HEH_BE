@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
-    public class CategoryServiceTests : ServiceTests<Category>
+    public class CategoryServiceTests : BaseServiceTests<Category>
     {
         private readonly Category _category;
         private readonly CategoryService _service;
@@ -47,7 +47,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             Data.Add(_category.DeepClone());
             _category.Name = "NewCategoryName";
 
-            await _service.UpdateAsync(_category.Id, _category);
+            await _service.UpdateAsync(_category);
             Assert.Equal("NewCategoryName", Data.Single(x => x.Id == _category.Id).Name);
         }
     }

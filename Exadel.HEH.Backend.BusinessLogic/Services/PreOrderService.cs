@@ -4,7 +4,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class PreOrderService : Service<PreOrder>
+    public class PreOrderService : BaseService<PreOrder>
     {
         public PreOrderService(IRepository<PreOrder> repository)
             : base(repository)

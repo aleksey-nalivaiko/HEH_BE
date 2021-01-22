@@ -7,7 +7,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class DiscountService : Service<Discount>, IDiscountService
+    public class DiscountService : BaseService<Discount>, IDiscountService
     {
         private readonly IDiscountRepository _discountRepository;
 

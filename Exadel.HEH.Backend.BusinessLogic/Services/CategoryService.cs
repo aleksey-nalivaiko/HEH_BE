@@ -1,18 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Exadel.HEH.Backend.Host.DTOs.Get;
+using Tag = Exadel.HEH.Backend.DataAccess.Models.Tag;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class CategoryService : BaseService<Category>, ICategoryService
+    public class CategoryService : ICategoryService
     {
-        public CategoryService(IRepository<Category> repository)
-            : base(repository)
+        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<Tag> _tagRepository;
+        private readonly IMapper _mapper;
+
+        public CategoryService(IRepository<Category> categoryRepository,
+            IRepository<Tag> tagRepository, IMapper mapper)
         {
+            _categoryRepository = categoryRepository;
+            _tagRepository = tagRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<CategoryWithTagsDto>> GetCategoryWithTagsAsync()
+        {
+            var categoriesTask = _categoryRepository.GetAllAsync();
+            var tagsTask = _tagRepository.GetAllAsync();
+
+            var categories = await categoriesTask;
+            var tags = await tagsTask;
+
+            var categoriesWithTags = new List<CategoryWithTagsDto>();
+
+            var c = new Dictionary<Guid, List<TagDto>>();
+            foreach (var tag in tags)
+            {
+                //c[tag]
+            }
+
+            return await Task.FromResult(categoriesWithTags);
         }
     }
 }
