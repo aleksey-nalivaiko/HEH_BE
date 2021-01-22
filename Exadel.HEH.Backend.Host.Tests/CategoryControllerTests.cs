@@ -13,18 +13,18 @@ namespace Exadel.HEH.Backend.Host.Tests
     public class CategoryControllerTests
     {
         private readonly CategoryController _controller;
-        private readonly List<CategoryWithTagsDto> _categoryWithTagsData;
-        private CategoryWithTagsDto _testCategoryWithTags;
+        private readonly List<CategoryDto> _categoryWithTagsData;
+        private CategoryDto _testCategory;
 
         public CategoryControllerTests()
         {
             var service = new Mock<ICategoryService>();
             _controller = new CategoryController(service.Object);
 
-            _categoryWithTagsData = new List<CategoryWithTagsDto>();
+            _categoryWithTagsData = new List<CategoryDto>();
 
             service.Setup(s => s.GetCategoriesWithTagsAsync())
-                .Returns(() => Task.FromResult((IEnumerable<CategoryWithTagsDto>)_categoryWithTagsData));
+                .Returns(() => Task.FromResult((IEnumerable<CategoryDto>)_categoryWithTagsData));
 
             InitTestData();
         }
@@ -32,14 +32,14 @@ namespace Exadel.HEH.Backend.Host.Tests
         [Fact]
         public async Task CanGetCategoriesWithTagsAsync()
         {
-            _categoryWithTagsData.Add(_testCategoryWithTags);
+            _categoryWithTagsData.Add(_testCategory);
             var result = await _controller.GetCategoriesWithTagsAsync();
             Assert.Single(result);
         }
 
         private void InitTestData()
         {
-            _testCategoryWithTags = new CategoryWithTagsDto
+            _testCategory = new CategoryDto
             {
                 Id = Guid.NewGuid(),
                 Name = "Category",

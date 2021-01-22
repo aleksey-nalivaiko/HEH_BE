@@ -18,7 +18,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpGet]
-        public Task<IEnumerable<CategoryWithTagsDto>> GetCategoriesWithTagsAsync()
+        public Task<IEnumerable<CategoryDto>> GetCategoriesWithTagsAsync()
         {
             return _categoryService.GetCategoriesWithTagsAsync();
         }

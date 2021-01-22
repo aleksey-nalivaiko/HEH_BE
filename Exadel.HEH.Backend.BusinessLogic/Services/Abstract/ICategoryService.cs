@@ -6,6 +6,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<CategoryWithTagsDto>> GetCategoriesWithTagsAsync();
+        Task<IEnumerable<CategoryDto>> GetCategoriesWithTagsAsync();
     }
 }

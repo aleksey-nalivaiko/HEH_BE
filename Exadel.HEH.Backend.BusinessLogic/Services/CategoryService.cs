@@ -25,11 +25,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CategoryWithTagsDto>> GetCategoriesWithTagsAsync()
+        public async Task<IEnumerable<CategoryDto>> GetCategoriesWithTagsAsync()
         {
             var tags = await _tagRepository.GetAllAsync();
 
-            var categoriesWithTags = new List<CategoryWithTagsDto>();
+            var categoriesWithTags = new List<CategoryDto>();
             var categoryDictionary = new Dictionary<Guid, List<TagDto>>();
 
             foreach (var tag in tags)
@@ -45,7 +45,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             foreach (var categoryTags in categoryDictionary)
             {
                 var category = await _categoryRepository.GetByIdAsync(categoryTags.Key);
-                categoriesWithTags.Add(new CategoryWithTagsDto
+                categoriesWithTags.Add(new CategoryDto
                 {
                     Id = category.Id,
                     Name = category.Name,
