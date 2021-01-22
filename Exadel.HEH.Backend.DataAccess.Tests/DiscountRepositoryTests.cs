@@ -83,7 +83,7 @@
 //        {
 //            Collection.Add(_discount);
 
-//            var result = await _repository.GetAll(_discount.Tags[0]);
+//            var result = await _repository.Get(_discount.Tags[0]);
 
 //            Assert.NotEmpty(result);
 //        }
@@ -113,7 +113,7 @@
 //        {
 //            Collection.Add(_discount);
 
-//            var result = await _repository.GetAll();
+//            var result = await _repository.Get();
 
 //            Assert.NotEmpty(result);
 //        }

@@ -33,7 +33,7 @@
 //        {
 //            Collection.Add(_preOrder);
 
-//            var result = await _repository.GetAll();
+//            var result = await _repository.Get();
 //            Assert.Single(result);
 //        }
 

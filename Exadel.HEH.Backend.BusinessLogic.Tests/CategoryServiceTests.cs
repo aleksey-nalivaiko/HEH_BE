@@ -28,7 +28,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     //    {
     //        Data.Add(_category);
 
-    //        var result = await _service.GetAll();
+    //        var result = await _service.Get();
     //        Assert.Single(result);
     //    }
 

@@ -24,12 +24,9 @@ namespace Exadel.HEH.Backend.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddControllers();
+            services.AddControllers();
             services.AddRepositories(Configuration);
             services.AddCrudServices();
-
-            services.AddControllers(mvcOptions =>
-                mvcOptions.EnableEndpointRouting = false);
 
             services.AddOData();
             services.AddSwaggerGen();
@@ -56,16 +53,12 @@ namespace Exadel.HEH.Backend.Host
 
             app.UseRouting();
 
-            app.UseMvc(p =>
+            app.UseEndpoints(endpoints =>
             {
-                p.Filter();
-                p.MapODataServiceRoute("odata", "odata", GetEdmModel());
+                endpoints.MapControllers();
+                endpoints.Filter();
+                endpoints.MapODataRoute("odata", "odata", GetEdmModel());
             });
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //    endpoints.MapODataRoute("odata", "odata", GetEdmModel());
-            //});
         }
 
         private IEdmModel GetEdmModel()

@@ -5,6 +5,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
     public interface IDiscountService
     {
-        IQueryable<DiscountDto> GetAll();
+        IQueryable<DiscountDto> Get();
     }
 }

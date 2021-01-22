@@ -5,6 +5,6 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 {
     public interface IDiscountRepository : IRepository<Discount>
     {
-        IQueryable<Discount> GetAll();
+        IQueryable<Discount> Get();
     }
 }

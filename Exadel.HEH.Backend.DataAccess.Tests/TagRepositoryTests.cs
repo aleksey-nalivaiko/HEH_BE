@@ -38,7 +38,7 @@
 //        {
 //            Collection.Add(_tag);
 
-//            var result = await _repository.GetAll();
+//            var result = await _repository.Get();
 //            Assert.Single(result);
 //        }
 

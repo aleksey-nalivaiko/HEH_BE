@@ -31,7 +31,7 @@
 //        {
 //            Collection.Add(_category);
 
-//            var result = await _repository.GetAll();
+//            var result = await _repository.Get();
 //            Assert.Single(result);
 //        }
 

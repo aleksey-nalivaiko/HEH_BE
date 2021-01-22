@@ -11,7 +11,7 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
         {
         }
 
-        public IQueryable<Discount> GetAll()
+        public IQueryable<Discount> Get()
         {
             return Context.GetAll<Discount>();
         }

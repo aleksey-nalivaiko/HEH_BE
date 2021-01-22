@@ -18,10 +18,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public IQueryable<DiscountDto> GetAll()
+        public IQueryable<DiscountDto> Get()
         {
-            var discounts = _discountRepository.GetAll();
-            var list = discounts.ToList();
+            var discounts = _discountRepository.Get();
             return discounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);
         }
     }
