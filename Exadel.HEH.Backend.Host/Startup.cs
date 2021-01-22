@@ -24,14 +24,7 @@ namespace Exadel.HEH.Backend.Host
             services.AddCrudServices();
 
             services.AddSwaggerGen();
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new UserProfile());
-                mc.AddProfile(new HistoryProfile());
-            });
-
-            IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
+            services.AddSingleton(MapperExtensions.GetMapper());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

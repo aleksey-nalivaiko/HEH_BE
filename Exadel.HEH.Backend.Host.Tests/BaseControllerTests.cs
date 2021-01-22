@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
-using Exadel.HEH.Backend.Host.Mappings;
 using Moq;
 
 namespace Exadel.HEH.Backend.Host.Tests
@@ -22,14 +20,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         {
             Service = new Mock<IService<T>>();
             Data = new List<T>();
-
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new UserProfile());
-                mc.AddProfile(new HistoryProfile());
-            });
-
-            Mapper = mapperConfig.CreateMapper();
+            Mapper = MapperExtensions.GetMapper();
 
             Service.Setup(s => s.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<T>)Data));
