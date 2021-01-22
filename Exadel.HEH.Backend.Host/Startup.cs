@@ -1,4 +1,5 @@
 using Exadel.HEH.Backend.BusinessLogic;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
@@ -23,9 +24,12 @@ namespace Exadel.HEH.Backend.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            //services.AddControllers();
             services.AddRepositories(Configuration);
             services.AddCrudServices();
+
+            services.AddControllers(mvcOptions =>
+                mvcOptions.EnableEndpointRouting = false);
 
             services.AddOData();
             services.AddSwaggerGen();
@@ -52,17 +56,22 @@ namespace Exadel.HEH.Backend.Host
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
+            app.UseMvc(p =>
             {
-                endpoints.MapControllers();
-                endpoints.MapODataRoute("odata", "odata", GetEdmModel());
+                p.Filter();
+                p.MapODataServiceRoute("odata", "odata", GetEdmModel());
             });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //    endpoints.MapODataRoute("odata", "odata", GetEdmModel());
+            //});
         }
 
         private IEdmModel GetEdmModel()
         {
             var odataBuilder = new ODataConventionModelBuilder();
-            odataBuilder.EntitySet<Discount>("Discounts");
+            odataBuilder.EntitySet<DiscountDto>("Discounts");
 
             return odataBuilder.GetEdmModel();
         }

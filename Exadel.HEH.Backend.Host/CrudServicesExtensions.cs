@@ -13,6 +13,8 @@ namespace Exadel.HEH.Backend.Host
 
             services.AddTransient<IService<History>, HistoryService>();
 
+            services.AddTransient<IDiscountService, DiscountService>();
+
             //services.AddTransient<IService<PreOrder>, PreOrderService>();
 
             //services.AddTransient<IRepository<Vendor>, VendorRepository>();
