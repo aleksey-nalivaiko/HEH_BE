@@ -1,4 +1,4 @@
-﻿namespace Exadel.HEH.Backend.Host.DTOs.Get
+﻿namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
     public class AddressDto
     {

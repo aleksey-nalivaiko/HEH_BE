@@ -37,7 +37,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var c = new Dictionary<Guid, List<TagDto>>();
             foreach (var tag in tags)
             {
-                //c[tag]
+                if (c.ContainsKey(tag.CategoryId))
+                {
+                    c[tag.CategoryId].Add(_mapper.Map<TagDto>(tag));
+                }
             }
 
             return await Task.FromResult(categoriesWithTags);

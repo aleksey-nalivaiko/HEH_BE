@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Exadel.HEH.Backend.Host.DTOs.Get
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
     public class FavoritesDto
     {

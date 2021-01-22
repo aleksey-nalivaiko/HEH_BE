@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
-using Exadel.HEH.Backend.Host.DTOs.Create;
 using Xunit;
 
 namespace Exadel.HEH.Backend.Host.Tests

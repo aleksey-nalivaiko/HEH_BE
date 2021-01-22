@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Update;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
-using Exadel.HEH.Backend.Host.DTOs.Update;
 using Xunit;
 
 namespace Exadel.HEH.Backend.Host.Tests

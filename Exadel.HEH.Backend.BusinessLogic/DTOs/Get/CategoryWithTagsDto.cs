@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 
 namespace Exadel.HEH.Backend.Host.DTOs.Get
 {
