@@ -35,9 +35,9 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
             return Context.CreateAsync(item);
         }
 
-        public virtual Task UpdateAsync(Guid id, TDocument item)
+        public virtual Task UpdateAsync(TDocument item)
         {
-            return Context.UpdateAsync(id, item);
+            return Context.UpdateAsync(item);
         }
     }
 }

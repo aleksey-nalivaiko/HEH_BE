@@ -19,21 +19,21 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
 
             Collection = new List<TDocument>();
 
-            Context.Setup(f => f.GetAll<TDocument>())
+            Context.Setup(c => c.GetAll<TDocument>())
                 .Returns(Collection.AsQueryable());
 
-            Context.Setup(f => f.GetByIdAsync<TDocument>(It.IsAny<Guid>()))
+            Context.Setup(c => c.GetByIdAsync<TDocument>(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Collection.FirstOrDefault(x => x.Id == id)));
 
-            Context.Setup(f => f.CreateAsync(It.IsAny<TDocument>()))
+            Context.Setup(c => c.CreateAsync(It.IsAny<TDocument>()))
                 .Callback((TDocument doc) =>
                 {
                     Collection.Add(doc);
                 })
                 .Returns(Task.CompletedTask);
 
-            Context.Setup(f => f.UpdateAsync(It.IsAny<Guid>(), It.IsAny<TDocument>()))
-                .Callback((Guid id, TDocument doc) =>
+            Context.Setup(c => c.UpdateAsync(It.IsAny<TDocument>()))
+                .Callback((TDocument doc) =>
                 {
                     var oldDoc = Collection.FirstOrDefault(x => x.Id == doc.Id);
                     if (oldDoc != null)

@@ -8,13 +8,13 @@ using Moq;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
-    public abstract class ServiceTests<T>
+    public abstract class BaseServiceTests<T>
         where T : class, IDataModel, new()
     {
         protected readonly Mock<IRepository<T>> Repository;
         protected readonly List<T> Data;
 
-        public ServiceTests()
+        public BaseServiceTests()
         {
             Repository = new Mock<IRepository<T>>();
             Data = new List<T>();
@@ -26,23 +26,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
 
             Repository.Setup(r => r.CreateAsync(It.IsAny<T>()))
-                .Callback((T item) =>
-                {
-                    Data.Add(item);
-                })
+                .Callback((T item) => { Data.Add(item); })
                 .Returns(Task.CompletedTask);
 
-            Repository.Setup(f => f.UpdateAsync(It.IsAny<Guid>(), It.IsAny<T>()))
-                .Callback((Guid id, T item) =>
+            Repository.Setup(f => f.UpdateAsync(It.IsAny<T>()))
+                .Callback((T item) =>
+            {
+                var oldItem = Data.FirstOrDefault(x => x.Id == item.Id);
+                if (oldItem != null)
                 {
-                    var oldDoc = Data.FirstOrDefault(x => x.Id == item.Id);
-                    if (oldDoc != null)
-                    {
-                        Data.Remove(oldDoc);
-                        Data.Add(item);
-                    }
-                })
-                .Returns(Task.CompletedTask);
+                    Data.Remove(oldItem);
+                    Data.Add(item);
+                }
+            })
+            .Returns(Task.CompletedTask);
         }
     }
 }

@@ -16,6 +16,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 
         Task CreateAsync(T item);
 
-        Task UpdateAsync(Guid id, T item);
+        Task UpdateAsync(T item);
     }
 }

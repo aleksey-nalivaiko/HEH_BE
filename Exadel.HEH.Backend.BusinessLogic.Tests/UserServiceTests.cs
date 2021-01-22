@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
-    public class UserServiceTests : ServiceTests<User>
+    public class UserServiceTests : BaseServiceTests<User>
     {
         private readonly UserService _service;
 
@@ -65,7 +65,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             Data.Add(_user.DeepClone());
             _user.IsActive = false;
 
-            await _service.UpdateAsync(_user.Id, _user);
+            await _service.UpdateAsync(_user);
             Assert.False(Data.Single(x => x.Id == _user.Id).IsActive);
         }
     }

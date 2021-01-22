@@ -4,7 +4,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class UserService : Service<User>
+    public class UserService : BaseService<User>
     {
         public UserService(IRepository<User> repository)
             : base(repository)

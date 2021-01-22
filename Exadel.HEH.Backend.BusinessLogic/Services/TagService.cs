@@ -8,7 +8,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class TagService : Service<Tag>, ITagService
+    public class TagService : BaseService<Tag>, ITagService
     {
         private readonly ITagRepository _tagRepository;
 

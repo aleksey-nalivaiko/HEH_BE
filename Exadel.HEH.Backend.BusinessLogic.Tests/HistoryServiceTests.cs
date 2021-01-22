@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
-    public class HistoryServiceTests : ServiceTests<History>
+    public class HistoryServiceTests : BaseServiceTests<History>
     {
         private readonly HistoryService _service;
         private readonly History _history;

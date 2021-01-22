@@ -6,12 +6,12 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
-    public abstract class Service<T> : IService<T>
+    public abstract class BaseService<T> : IService<T>
         where T : class, IDataModel, new()
     {
         protected readonly IRepository<T> Repository;
 
-        protected Service(IRepository<T> repository)
+        protected BaseService(IRepository<T> repository)
         {
             Repository = repository;
         }
@@ -36,9 +36,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
             return Repository.CreateAsync(item);
         }
 
-        public Task UpdateAsync(Guid id, T item)
+        public Task UpdateAsync(T item)
         {
-            return Repository.UpdateAsync(id, item);
+            return Repository.UpdateAsync(item);
         }
     }
 }

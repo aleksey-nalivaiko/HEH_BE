@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Exadel.HEH.Backend.DataAccess;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
 
 namespace Exadel.HEH.Backend.Host
 {
@@ -15,13 +11,8 @@ namespace Exadel.HEH.Backend.Host
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-            services.AddSingleton(provider =>
-            {
-                var client = new MongoClient(connectionString);
-                return client.GetDatabase(new MongoUrlBuilder(connectionString).DatabaseName);
-            });
+            services.AddSingleton<IDbContext>(provider =>
+                new MongoDbContext(configuration.GetConnectionString("MongoConnection")));
 
             services.AddTransient<IRepository<User>, UserRepository>();
 
