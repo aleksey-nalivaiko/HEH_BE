@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -24,23 +25,32 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CategoryWithTagsDto>> GetCategoryWithTagsAsync()
+        public async Task<IEnumerable<CategoryDto>> GetCategoriesWithTagsAsync()
         {
-            var categoriesTask = _categoryRepository.GetAllAsync();
-            var tagsTask = _tagRepository.GetAllAsync();
+            var tags = await _tagRepository.GetAllAsync();
 
-            var categories = await categoriesTask;
-            var tags = await tagsTask;
+            var categoriesWithTags = new List<CategoryDto>();
+            var categoryDictionary = new Dictionary<Guid, List<TagDto>>();
 
-            var categoriesWithTags = new List<CategoryWithTagsDto>();
-
-            var c = new Dictionary<Guid, List<TagDto>>();
             foreach (var tag in tags)
             {
-                if (c.ContainsKey(tag.CategoryId))
+                if (!categoryDictionary.ContainsKey(tag.CategoryId))
                 {
-                    c[tag.CategoryId].Add(_mapper.Map<TagDto>(tag));
+                    categoryDictionary.Add(tag.CategoryId, new List<TagDto>());
                 }
+
+                categoryDictionary[tag.CategoryId].Add(_mapper.Map<TagDto>(tag));
+            }
+
+            foreach (var categoryTags in categoryDictionary)
+            {
+                var category = await _categoryRepository.GetByIdAsync(categoryTags.Key);
+                categoriesWithTags.Add(new CategoryDto
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Tags = categoryTags.Value
+                });
             }
 
             return await Task.FromResult(categoriesWithTags);

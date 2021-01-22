@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.Host.DTOs.Get;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +18,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpGet]
-        public Task<IEnumerable<CategoryWithTagsDto>> GetCategoryWithTagsAsync()
+        public Task<IEnumerable<CategoryDto>> GetCategoriesWithTagsAsync()
         {
-            return _categoryService.GetCategoryWithTagsAsync();
+            return _categoryService.GetCategoriesWithTagsAsync();
         }
     }
 }

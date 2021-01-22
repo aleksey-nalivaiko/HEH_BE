@@ -12,6 +12,7 @@ namespace Exadel.HEH.Backend.BusinessLogic
                 mc.AddProfile(new UserProfile());
                 mc.AddProfile(new HistoryProfile());
                 mc.AddProfile(new VendorProfile());
+                mc.AddProfile(new TagProfile());
             });
 
             return mapperConfig.CreateMapper();

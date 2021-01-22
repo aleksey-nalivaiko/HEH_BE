@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 
-namespace Exadel.HEH.Backend.Host.DTOs.Get
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
-    public class CategoryWithTagsDto
+    public class CategoryDto
     {
         public Guid Id { get; set; }
 
