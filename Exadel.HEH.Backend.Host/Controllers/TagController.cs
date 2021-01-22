@@ -21,7 +21,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
     //    [HttpGet]
     //    public Task<IEnumerable<Tag>> Get()
     //    {
-    //        return _tagRepository.GetAllAsync();
+    //        return _tagRepository.GetAll();
     //    }
 
     //    [HttpGet("{id}")]

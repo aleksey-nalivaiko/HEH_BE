@@ -1,10 +1,14 @@
-using AutoMapper;
-using Exadel.HEH.Backend.Host.Mappings;
+using Exadel.HEH.Backend.BusinessLogic;
+using Exadel.HEH.Backend.DataAccess.Models;
+using Microsoft.AspNet.OData.Builder;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OData.Edm;
+using OData.Swagger.Services;
 
 namespace Exadel.HEH.Backend.Host
 {
@@ -23,8 +27,11 @@ namespace Exadel.HEH.Backend.Host
             services.AddRepositories(Configuration);
             services.AddCrudServices();
 
+            services.AddOData();
             services.AddSwaggerGen();
-            services.AddSingleton(MapperExtensions.GetMapper());
+            services.AddOdataSwaggerSupport();
+
+            services.AddSingleton(MapperExtensions.Mapper);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -48,7 +55,16 @@ namespace Exadel.HEH.Backend.Host
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapODataRoute("odata", "odata", GetEdmModel());
             });
+        }
+
+        private IEdmModel GetEdmModel()
+        {
+            var odataBuilder = new ODataConventionModelBuilder();
+            odataBuilder.EntitySet<Discount>("Discounts");
+
+            return odataBuilder.GetEdmModel();
         }
     }
 }

@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Exadel.HEH.Backend.DataAccess.Models;
+﻿using System.Linq;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
-    public interface IDiscountService : IService<Discount>
+    public interface IDiscountService
     {
-        Task<IEnumerable<Discount>> GetByTagAsync(Guid tagId);
-
-        Task<IEnumerable<Discount>> GetByCategoryAsync(Guid categoryId);
-
-        Task<IEnumerable<Discount>> GetByLocationAsync(Address address);
-
-        Task<IEnumerable<Discount>> GetByVendorAsync(Guid vendorId);
+        IQueryable<DiscountDto> GetAll();
     }
 }

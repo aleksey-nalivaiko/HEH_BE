@@ -17,7 +17,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
     //    }
 
     //    [HttpGet]
-    //    public Task<IEnumerable<Category>> GetAllAsync()
+    //    public Task<IEnumerable<Category>> GetAll()
     //    {
     //        return null;
     //    }
@@ -29,7 +29,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
     //    }
 
     //    [HttpGet("{id}")]
-    //    public Task<Category> GetByTagAsync(Guid tagId)
+    //    public Task<Category> GetAll(Guid tagId)
     //    {
     //        return null;
     //    }
