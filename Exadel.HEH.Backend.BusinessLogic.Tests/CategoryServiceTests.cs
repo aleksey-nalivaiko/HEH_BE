@@ -1,54 +1,83 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services;
-using Exadel.HEH.Backend.DataAccess;
 using Exadel.HEH.Backend.DataAccess.Models;
+using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Moq;
 using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
-    //public class CategoryServiceTests : ServiceTests<Category>
-    //{
-    //    private readonly Category _category;
-    //    private readonly CategoryService _service;
+    public class CategoryServiceTests : BaseServiceTests<Category>
+    {
+        private readonly CategoryService _service;
+        private readonly List<Tag> _tagData;
+        private List<Category> _testCategories;
+        private List<Tag> _testTags;
 
-    //    public CategoryServiceTests()
-    //    {
-    //        _service = new CategoryService(Repository.Object);
-    //        _category = new Category
-    //        {
-    //            Id = Guid.NewGuid(),
-    //            Name = "CategoryName"
-    //        };
-    //    }
+        public CategoryServiceTests()
+        {
+            var tagRepository = new Mock<IRepository<Tag>>();
 
-    //    [Fact]
-    //    public async Task CanGetAll()
-    //    {
-    //        Data.Add(_category);
+            tagRepository.Setup(r => r.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<Tag>)_tagData));
 
-    //        var result = await _service.Get();
-    //        Assert.Single(result);
-    //    }
+            _service = new CategoryService(Repository.Object, tagRepository.Object, Mapper);
 
-    //    [Fact]
-    //    public async Task CanGetById()
-    //    {
-    //        Data.Add(_category);
+            _tagData = new List<Tag>();
 
-    //        var result = await _service.GetByIdAsync(_category.Id);
-    //        Assert.Equal(_category, result);
-    //    }
+            InitTestData();
+        }
 
-    //    [Fact]
-    //    public async Task CanUpdate()
-    //    {
-    //        Data.Add(_category.DeepClone());
-    //        _category.Name = "NewCategoryName";
+        [Fact]
+        public async Task CanGetCategoriesWithTagsAsync()
+        {
+            Data.AddRange(_testCategories);
+            _tagData.AddRange(_testTags);
 
-    //        await _service.UpdateAsync(_category.Id, _category);
-    //        Assert.Equal("NewCategoryName", Data.Single(x => x.Id == _category.Id).Name);
-    //    }
-    //}
+            var result = await _service.GetCategoriesWithTagsAsync();
+
+            Assert.Collection(result, category => Assert.Collection(category.Tags, Assert.NotNull, Assert.NotNull),
+                category => Assert.Single(category.Tags));
+        }
+
+        private void InitTestData()
+        {
+            _testCategories = new List<Category>
+            {
+                new Category
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Category1"
+                },
+                new Category
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Category2"
+                }
+            };
+            _testTags = new List<Tag>
+            {
+                new Tag
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Tag1",
+                    CategoryId = _testCategories[0].Id
+                },
+                new Tag
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Tag2",
+                    CategoryId = _testCategories[0].Id
+                },
+                new Tag
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Tag3",
+                    CategoryId = _testCategories[1].Id
+                }
+            };
+        }
+    }
 }

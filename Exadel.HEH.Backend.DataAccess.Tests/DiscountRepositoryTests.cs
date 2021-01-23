@@ -145,7 +145,7 @@
 
 //            _discount.PromoCode = "new promo code";
 
-//            await _repository.UpdateAsync(_discount.Id, _discount);
+            await _repository.UpdateAsync(_discount);
 
 //            Assert.True(Collection.Single(x => x.Id == _discount.Id).PromoCode.Equals("new promo code"));
 //        }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
 using Xunit;
@@ -9,13 +10,13 @@ namespace Exadel.HEH.Backend.Host.Tests
 {
     public class HistoryControllerTests : BaseControllerTests<History>
     {
-        //private readonly HistoryController _controller;
-        //private readonly History _history;
-        //private readonly HistoryCreateDto _historyDto;
+        private readonly HistoryController _controller;
+        private readonly History _history;
+        private readonly HistoryCreateDto _historyDto;
 
         //public HistoryControllerTests()
         //{
-        //    _controller = new HistoryController(Service.Object, Mapper);
+        //    _controller = new HistoryController(Service.Object);
         //    _history = new History
         //    {
         //        Id = Guid.NewGuid(),

@@ -5,17 +5,17 @@ namespace Exadel.HEH.Backend.BusinessLogic
 {
     public static class MapperExtensions
     {
-        static MapperExtensions()
+        public static IMapper GetMapper()
         {
-            Configuration = new MapperConfiguration(mc =>
+            var mapperConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new DiscountProfile());
+                mc.AddProfile(new UserProfile());
+                mc.AddProfile(new HistoryProfile());
+                mc.AddProfile(new VendorProfile());
+                mc.AddProfile(new TagProfile());
             });
-            Mapper = Configuration.CreateMapper();
+
+            return mapperConfig.CreateMapper();
         }
-
-        public static MapperConfiguration Configuration { get; }
-
-        public static IMapper Mapper { get; }
     }
 }
