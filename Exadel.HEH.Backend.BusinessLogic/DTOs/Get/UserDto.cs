@@ -16,7 +16,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 
         public string Password { get; set; }
 
-        public AddressDto Address { get; set; }
+        public Address Address { get; set; }
 
         public bool IsActive { get; set; }
 
@@ -34,6 +34,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 
         public bool CityChangeNotificationIsOn { get; set; }
 
-        public IList<FavoritesDto> Favorites { get; set; }
+        public IList<Favorites> Favorites { get; set; }
     }
 }

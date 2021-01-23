@@ -17,6 +17,8 @@ namespace Exadel.HEH.Backend.BusinessLogic
                 mc.AddProfile(new AddressProfile());
                 mc.AddProfile(new PhoneProfile());
             });
+            mapperConfig.AssertConfigurationIsValid();
+
             Mapper = mapperConfig.CreateMapper();
         }
 

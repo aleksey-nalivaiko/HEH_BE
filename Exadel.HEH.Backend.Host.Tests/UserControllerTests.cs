@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Update;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
 using Xunit;
@@ -15,7 +14,6 @@ namespace Exadel.HEH.Backend.Host.Tests
         private readonly UserController _controller;
 
         private readonly User _user;
-        private readonly UserUpdateDto _userDto;
 
     //    public UserControllerTests()
     //    {

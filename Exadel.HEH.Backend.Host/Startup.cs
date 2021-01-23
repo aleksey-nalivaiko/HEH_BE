@@ -70,6 +70,8 @@ namespace Exadel.HEH.Backend.Host
         {
             var odataBuilder = new ODataConventionModelBuilder();
             odataBuilder.EntitySet<DiscountDto>("Discounts");
+            odataBuilder.ComplexType<AddressDto>();
+            odataBuilder.ComplexType<PhoneDto>();
 
             return odataBuilder.GetEdmModel();
         }

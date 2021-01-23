@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Update;
 using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Mappings
@@ -11,7 +10,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
         {
             CreateMap<User, UserDto>();
             CreateMap<Favorites, FavoritesDto>();
-            CreateMap<UserUpdateDto, User>();
         }
     }
 }

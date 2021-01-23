@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
     public class Discount : IDataModel
     {
-        [BsonId]
         public Guid Id { get; set; }
 
         public string Conditions { get; set; }

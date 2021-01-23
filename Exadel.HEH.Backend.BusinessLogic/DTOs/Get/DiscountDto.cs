@@ -9,15 +9,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 
         public string Conditions { get; set; }
 
-        public IList<Guid> Tags { get; set; }
+        public IList<Guid> TagsIds { get; set; }
 
         public Guid VendorId { get; set; }
 
         public string PromoCode { get; set; }
 
-        public IList<AddressDto> Addresses { get; set; }
+        public IEnumerable<AddressDto> Addresses { get; set; }
 
-        public IList<PhoneDto> Phones { get; set; }
+        public IEnumerable<PhoneDto> Phones { get; set; }
 
         public DateTime StartDate { get; set; }
 

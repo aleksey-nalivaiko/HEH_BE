@@ -10,7 +10,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
         public HistoryProfile()
         {
             CreateMap<History, HistoryDto>();
-            CreateMap<HistoryCreateDto, History>();
+            CreateMap<HistoryCreateDto, History>()
+                .ForMember(dest => dest.DateTime, opts => opts.Ignore())
+                .ForMember(dest => dest.Id, opts => opts.Ignore());
         }
     }
 }
