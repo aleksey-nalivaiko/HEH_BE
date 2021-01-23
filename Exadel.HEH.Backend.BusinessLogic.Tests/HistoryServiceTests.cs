@@ -21,7 +21,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 UserId = Guid.NewGuid(),
                 Action = UserAction.Add,
                 Description = "Added",
-                ActionDateTime = DateTime.Now,
+                DateTime = DateTime.Now,
                 UserEmail = "email@mail.com",
                 UserName = "Mary",
                 UserRole = UserRole.Moderator

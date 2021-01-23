@@ -17,15 +17,12 @@ namespace Exadel.HEH.Backend.Host
 
             services.AddTransient<IDiscountService, DiscountService>();
 
-            //services.AddTransient<IService<PreOrder>, PreOrderService>();
+            services.AddTransient<ICategoryService, CategoryService>();
 
-            //services.AddTransient<IRepository<Vendor>, VendorRepository>();
+            services.AddTransient<IService<PreOrder>, PreOrderService>();
 
-            //services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<ITagService, TagService>();
 
-            //services.AddTransient<ITagRepository, TagRepository>();
-
-            //services.AddTransient<IDiscountRepository, DiscountRepository>();
             return services;
         }
     }

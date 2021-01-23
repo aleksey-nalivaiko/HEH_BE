@@ -16,7 +16,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IMapper _mapper;
 
         public CategoryService(IRepository<Category> categoryRepository,
-            IRepository<Tag> tagRepository, IMapper mapper)
+            ITagRepository tagRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;

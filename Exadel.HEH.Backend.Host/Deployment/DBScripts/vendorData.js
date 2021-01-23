@@ -5,11 +5,11 @@
         "links": [
             {
                 "url": "url1",
-                "type": "site"
+                "type": "Website"
             },
             {
                 "url": "url2",
-                "type": "facebook"
+                "type": "Facebook"
             }
         ],
         "mailing": true,
@@ -42,11 +42,11 @@
         "links": [
             {
                 "url": "url1",
-                "type": "site"
+                "type": "Website"
             },
             {
                 "url": "url2",
-                "type": "instagram"
+                "type": "Instagram"
             }
         ],
         "mailing": true,

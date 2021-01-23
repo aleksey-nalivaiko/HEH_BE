@@ -4,12 +4,11 @@ using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Mappings
 {
-    public class VendorProfile : Profile
+    public class AddressProfile : Profile
     {
-        public VendorProfile()
+        public AddressProfile()
         {
-            CreateMap<Vendor, VendorDto>();
-            CreateMap<Link, LinkDto>();
+            CreateMap<Address, AddressDto>();
         }
     }
 }

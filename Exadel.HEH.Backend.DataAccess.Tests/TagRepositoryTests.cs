@@ -19,31 +19,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
     {
         private readonly TagRepository _repository;
         private readonly Tag _tag;
-//namespace Exadel.HEH.Backend.DataAccess.Tests
-//{
-//    public class TagRepositoryTests : MongoRepositoryTests<Tag>
-//    {
-//        private readonly TagRepository _repository;
 
-//        private readonly Category _category;
-//        private readonly Tag _tag;
-
-//        public TagRepositoryTests()
-//        {
-//            _repository = new TagRepository(Context.Object);
-//            _category = new Category
-//            {
-//                Id = Guid.NewGuid(),
-//                Name = "CategoryName"
-//            };
-
-//            _tag = new Tag
-//            {
-//                Id = Guid.NewGuid(),
-//                Name = "TagName",
-//                CategoryId = _category.Id
-//            };
-//        }
         public TagRepositoryTests()
         {
             _repository = new TagRepository(Context.Object);
@@ -79,7 +55,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             Collection.Add(_tag.DeepClone());
             _tag.Name = "NewCategoryName";
 
-            await _repository.UpdateAsync(_tag.Id, _tag);
+            await _repository.UpdateAsync(_tag);
             Assert.Equal("NewCategoryName", Collection.Single(x => x.Id == _tag.Id).Name);
         }
 

@@ -24,7 +24,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                 DiscountId = Guid.NewGuid(),
                 UserId = Guid.NewGuid(),
                 Info = "SomeInfo",
-                OrderTime = new DateTime(2015, 7, 20, 18, 30, 25)
+                DateTime = new DateTime(2015, 7, 20, 18, 30, 25)
             };
         }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
-using MongoDB.Driver;
 using Tag = Exadel.HEH.Backend.DataAccess.Models.Tag;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories

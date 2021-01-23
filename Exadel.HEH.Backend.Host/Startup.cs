@@ -1,6 +1,6 @@
+using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
-using Exadel.HEH.Backend.DataAccess.Models;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OData.Edm;
+using Newtonsoft.Json.Converters;
 using OData.Swagger.Services;
 
 namespace Exadel.HEH.Backend.Host
@@ -24,7 +25,11 @@ namespace Exadel.HEH.Backend.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(opts =>
+            {
+                opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+
             services.AddRepositories(Configuration);
             services.AddCrudServices();
 
@@ -47,7 +52,7 @@ namespace Exadel.HEH.Backend.Host
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Happy Exadel Hours API V1");
                 options.RoutePrefix = string.Empty;
             });
 
