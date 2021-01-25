@@ -10,49 +10,45 @@ namespace Exadel.HEH.Backend.Host.Controllers.Abstract
 {
     [ApiController]
     [Route("api/[controller]")]
-    public abstract class BaseController<T, TDto, TCreateDto, TUpdateDto> : ControllerBase,
-        IController<T, TDto, TCreateDto, TUpdateDto>
-        where T : class, IDataModel, new()
+    public abstract class BaseController<TDto> : ControllerBase,
+        IController<TDto>
+        where TDto : class, new()
     {
-        protected readonly IService<T> Service;
-        protected readonly IMapper Mapper;
+        protected readonly IService<TDto> Service;
 
-        protected BaseController(IService<T> service, IMapper mapper)
+        protected BaseController(IService<TDto> service)
         {
             Service = service;
-            Mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<TDto>> GetAllAsync()
+        public Task<IEnumerable<TDto>> GetAllAsync()
         {
-            var result = await Service.GetAllAsync();
-            return Mapper.Map<IEnumerable<TDto>>(result);
+            return Service.GetAllAsync();
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<TDto> GetByIdAsync(Guid id)
+        public Task<TDto> GetByIdAsync(Guid id)
         {
-            var result = await Service.GetByIdAsync(id);
-            return Mapper.Map<TDto>(result);
+            return Service.GetByIdAsync(id);
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task RemoveAsync(Guid id)
+        public Task RemoveAsync(Guid id)
         {
-            await Service.RemoveAsync(id);
+            return Service.RemoveAsync(id);
         }
 
-        [HttpPost]
-        public async Task CreateAsync(TCreateDto item)
-        {
-            await Service.CreateAsync(Mapper.Map<T>(item));
-        }
+        //[HttpPost]
+        //public async Task CreateAsync(TCreateDto item)
+        //{
+        //    await Service.CreateAsync(Mapper.Map<T>(item));
+        //}
 
-        [HttpPut]
-        public async Task UpdateAsync(TUpdateDto item)
-        {
-            await Service.UpdateAsync(Mapper.Map<T>(item));
-        }
+        //[HttpPut]
+        //public async Task UpdateAsync(TUpdateDto item)
+        //{
+        //    await Service.UpdateAsync(Mapper.Map<T>(item));
+        //}
     }
 }

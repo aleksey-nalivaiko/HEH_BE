@@ -6,10 +6,10 @@ using Exadel.HEH.Backend.Host.Controllers.Abstract;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
-    public class UserController /*: BaseController<User, UserDto, UserUpdateDto, UserUpdateDto>*/
+    public class UserController : BaseController<UserDto>
     {
-        public UserController(IService<User> service, IMapper mapper)
-            //: base(service, mapper)
+        public UserController(IService<UserDto> service)
+            : base(service)
         {
         }
     }

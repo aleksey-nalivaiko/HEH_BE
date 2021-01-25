@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
@@ -9,9 +10,9 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class VendorService : BaseService<Vendor, VendorDto>
+    public class LocationService : BaseService<Location, LocationDto>
     {
-        public VendorService(IRepository<Vendor> repository, IMapper mapper)
+        public LocationService(IRepository<Location> repository, IMapper mapper)
             : base(repository, mapper)
         {
         }

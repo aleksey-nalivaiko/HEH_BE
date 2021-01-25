@@ -5,8 +5,8 @@ using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.Host.Controllers.Abstract
 {
-    public interface IController<T, TDto, TCreateDto, TUpdateDto>
-        where T : class, IDataModel, new()
+    public interface IController<TDto>
+        where TDto : class, new()
     {
         Task<IEnumerable<TDto>> GetAllAsync();
 
@@ -14,8 +14,8 @@ namespace Exadel.HEH.Backend.Host.Controllers.Abstract
 
         Task RemoveAsync(Guid id);
 
-        Task CreateAsync(TCreateDto item);
+        //Task CreateAsync(TCreateDto item);
 
-        Task UpdateAsync(TUpdateDto item);
+        //Task UpdateAsync(TUpdateDto item);
     }
 }

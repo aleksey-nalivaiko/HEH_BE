@@ -7,10 +7,10 @@ using Exadel.HEH.Backend.Host.Controllers.Abstract;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
-    public class HistoryController : BaseController<History, HistoryDto, HistoryCreateDto, HistoryCreateDto>
+    public class HistoryController : BaseController<HistoryDto>
     {
-        public HistoryController(IService<History> service, IMapper mapper)
-            : base(service, mapper)
+        public HistoryController(IService<HistoryDto> service)
+            : base(service)
         {
         }
     }

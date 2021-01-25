@@ -1,44 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
-    public abstract class BaseService<T> : IService<T>
+    public abstract class BaseService<T, TDto> : IService<TDto>
         where T : class, IDataModel, new()
+        where TDto : class, new()
     {
         protected readonly IRepository<T> Repository;
+        protected readonly IMapper Mapper;
 
-        protected BaseService(IRepository<T> repository)
+        protected BaseService(IRepository<T> repository, IMapper mapper)
         {
             Repository = repository;
+            Mapper = mapper;
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<TDto>> GetAllAsync()
         {
-            return Repository.GetAllAsync();
+            var result = await Repository.GetAllAsync();
+            return Mapper.Map<IEnumerable<TDto>>(result);
         }
 
-        public Task<T> GetByIdAsync(Guid id)
+        public async Task<TDto> GetByIdAsync(Guid id)
         {
-            return Repository.GetByIdAsync(id);
+            var result = await Repository.GetByIdAsync(id);
+            return Mapper.Map<TDto>(result);
         }
 
-        public Task RemoveAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
-            return Repository.RemoveAsync(id);
+            await Repository.RemoveAsync(id);
         }
 
-        public Task CreateAsync(T item)
-        {
-            return Repository.CreateAsync(item);
-        }
+        //public Task CreateAsync(TDto item)
+        //{
+        //    return Repository.CreateAsync(item);
+        //}
 
-        public Task UpdateAsync(T item)
-        {
-            return Repository.UpdateAsync(item);
-        }
+        //public Task UpdateAsync(TDto item)
+        //{
+        //    return Repository.UpdateAsync(item);
+        //}
     }
 }

@@ -22,6 +22,8 @@ namespace Exadel.HEH.Backend.Host
 
             services.AddTransient<IRepository<Vendor>, VendorRepository>();
 
+            services.AddTransient<IRepository<Location>, LocationRepository>();
+
             services.AddTransient<ITagRepository, TagRepository>();
 
             services.AddTransient<IDiscountRepository, DiscountRepository>();
