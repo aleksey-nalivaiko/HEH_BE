@@ -20,7 +20,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             _user = new User
             {
                 Id = Guid.NewGuid(),
-                CategoryNotificationsId = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+                CategoryNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
                 CityChangeNotificationIsOn = true,
                 Email = "abc@mail.com",
                 Favorites = new List<Favorites>(),
@@ -29,10 +29,10 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                 Name = "Mary",
                 NewDiscountNotificationIsOn = true,
                 NewVendorNotificationIsOn = true,
-                TagNotificationsId = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-                VendorNotificationsId = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+                TagNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+                VendorNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
                 Role = UserRole.Employee,
-                Office = new Address
+                Address = new Address
                 {
                     City = "m",
                     Country = "b",

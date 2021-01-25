@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
 namespace Exadel.HEH.Backend.DataAccess
@@ -12,6 +14,7 @@ namespace Exadel.HEH.Backend.DataAccess
 
         public MongoDbContext(string connectionString)
         {
+            SetupConventions();
             var client = new MongoClient(connectionString);
             _database = client.GetDatabase(new MongoUrlBuilder(connectionString).DatabaseName);
         }
@@ -53,6 +56,28 @@ namespace Exadel.HEH.Backend.DataAccess
         protected IMongoCollection<T> GetCollection<T>()
         {
             return _database.GetCollection<T>(typeof(T).Name);
+        }
+
+        private void SetupConventions()
+        {
+            // https://jira.mongodb.org/projects/CSHARP/issues/CSHARP-3179?filter=allopenissues
+            // https://jira.mongodb.org/browse/CSHARP-3195
+            BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
+
+            var elementNamePack = new ConventionPack
+            {
+                new CamelCaseElementNameConvention(),
+            };
+            ConventionRegistry.Register(nameof(CamelCaseElementNameConvention),
+                elementNamePack, t => true);
+
+            var enumPack = new ConventionPack
+            {
+                new EnumRepresentationConvention(BsonType.String)
+            };
+
+            ConventionRegistry.Register(nameof(EnumRepresentationConvention),
+                enumPack, t => true);
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Exadel.HEH.Backend.DataAccess.Models
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
-    public class Discount : IDataModel
+    public class DiscountDto
     {
         public Guid Id { get; set; }
 
@@ -15,9 +15,9 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public string PromoCode { get; set; }
 
-        public IList<Address> Addresses { get; set; }
+        public IEnumerable<AddressDto> Addresses { get; set; }
 
-        public IList<Phone> Phones { get; set; }
+        public IEnumerable<PhoneDto> Phones { get; set; }
 
         public DateTime StartDate { get; set; }
 

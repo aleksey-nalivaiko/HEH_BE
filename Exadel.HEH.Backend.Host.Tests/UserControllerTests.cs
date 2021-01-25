@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Update;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
 using Xunit;
@@ -15,7 +14,6 @@ namespace Exadel.HEH.Backend.Host.Tests
         private readonly UserController _controller;
 
         private readonly User _user;
-        private readonly UserUpdateDto _userDto;
 
     //    public UserControllerTests()
     //    {
@@ -23,7 +21,7 @@ namespace Exadel.HEH.Backend.Host.Tests
     //        _user = new User
     //        {
     //            Id = Guid.NewGuid(),
-    //            CategoryNotificationsId = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+    //            CategoryNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
     //            CityChangeNotificationIsOn = true,
     //            Email = "abc@mail.com",
     //            Favorites = new List<Favorites>(),
@@ -32,10 +30,10 @@ namespace Exadel.HEH.Backend.Host.Tests
     //            Name = "Mary",
     //            NewDiscountNotificationIsOn = true,
     //            NewVendorNotificationIsOn = true,
-    //            TagNotificationsId = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-    //            VendorNotificationsId = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-    //            Role = UserRole.Employee,
-    //            Office = new Address
+    //            TagNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+    //            VendorNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+    //            UserRole = UserRole.Employee,
+    //            Address = new Address
     //            {
     //                City = "m",
     //                Country = "b",
@@ -48,7 +46,7 @@ namespace Exadel.HEH.Backend.Host.Tests
     //        {
     //            Id = _user.Id,
     //            IsActive = true,
-    //            Role = UserRole.Employee
+    //            UserRole = UserRole.Employee
     //        };
     //    }
 

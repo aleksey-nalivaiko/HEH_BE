@@ -4,6 +4,7 @@
     {
         Facebook,
         Instagram,
-        Website
+        Website,
+        Vkontakte
     }
 }

@@ -26,6 +26,8 @@ namespace Exadel.HEH.Backend.Host
 
             services.AddTransient<IDiscountRepository, DiscountRepository>();
 
+            services.AddTransient<IRepository<Category>, CategoryRepository>();
+
             return services;
         }
     }

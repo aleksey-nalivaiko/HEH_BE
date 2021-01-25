@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Exadel.HEH.Backend.DataAccess\Exadel.HEH.Backend.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\Update\" />
+  </ItemGroup>
+
 </Project>

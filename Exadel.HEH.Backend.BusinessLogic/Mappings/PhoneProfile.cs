@@ -4,12 +4,11 @@ using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Mappings
 {
-    public class UserProfile : Profile
+    public class PhoneProfile : Profile
     {
-        public UserProfile()
+        public PhoneProfile()
         {
-            CreateMap<User, UserDto>();
-            CreateMap<Favorites, FavoritesDto>();
+            CreateMap<Phone, PhoneDto>();
         }
     }
 }

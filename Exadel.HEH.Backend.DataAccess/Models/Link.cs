@@ -1,17 +1,9 @@
-﻿using System;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
-namespace Exadel.HEH.Backend.DataAccess.Models
+﻿namespace Exadel.HEH.Backend.DataAccess.Models
 {
     public class Link
     {
-        [BsonElement("url")]
         public string Url { get; set; }
 
-        [BsonRepresentation(BsonType.String)]
         public LinkType Type { get; set; }
-
-        public Guid Id { get; set; }
     }
 }

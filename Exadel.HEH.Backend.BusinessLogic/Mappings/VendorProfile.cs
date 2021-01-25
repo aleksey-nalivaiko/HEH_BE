@@ -9,9 +9,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
         public VendorProfile()
         {
             CreateMap<Vendor, VendorDto>();
-            CreateMap<Link, LinkDto>().ReverseMap();
-            CreateMap<Phone, PhoneDto>().ReverseMap();
-            CreateMap<Address, AddressDto>().ReverseMap();
+            CreateMap<Link, LinkDto>();
         }
     }
 }

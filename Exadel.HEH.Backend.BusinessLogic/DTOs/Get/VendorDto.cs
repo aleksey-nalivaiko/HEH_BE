@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
@@ -14,7 +13,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 
         public bool Mailing { get; set; }
 
-        public IList<PhoneDto> Phone { get; set; }
+        public IList<PhoneDto> Phones { get; set; }
 
         public IList<AddressDto> Addresses { get; set; }
 

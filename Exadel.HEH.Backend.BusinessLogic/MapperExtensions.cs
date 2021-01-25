@@ -5,7 +5,7 @@ namespace Exadel.HEH.Backend.BusinessLogic
 {
     public static class MapperExtensions
     {
-        public static IMapper GetMapper()
+        static MapperExtensions()
         {
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -13,9 +13,15 @@ namespace Exadel.HEH.Backend.BusinessLogic
                 mc.AddProfile(new HistoryProfile());
                 mc.AddProfile(new VendorProfile());
                 mc.AddProfile(new TagProfile());
+                mc.AddProfile(new DiscountProfile());
+                mc.AddProfile(new AddressProfile());
+                mc.AddProfile(new PhoneProfile());
             });
+            mapperConfig.AssertConfigurationIsValid();
 
-            return mapperConfig.CreateMapper();
+            Mapper = mapperConfig.CreateMapper();
         }
+
+        public static IMapper Mapper { get; }
     }
 }

@@ -6,8 +6,6 @@ using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
-using Exadel.HEH.Backend.Host.DTOs.Get;
-using Tag = Exadel.HEH.Backend.DataAccess.Models.Tag;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
@@ -18,7 +16,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IMapper _mapper;
 
         public CategoryService(IRepository<Category> categoryRepository,
-            IRepository<Tag> tagRepository, IMapper mapper)
+            ITagRepository tagRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;

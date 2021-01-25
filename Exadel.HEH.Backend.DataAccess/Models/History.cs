@@ -5,28 +5,20 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 {
     public class History : IDataModel
     {
-        [BsonId]
         public Guid Id { get; set; }
 
-        [BsonElement("userId")]
         public Guid UserId { get; set; }
 
-        [BsonElement("role")]
         public UserRole UserRole { get; set; }
 
-        [BsonElement("name")]
         public string UserName { get; set; }
 
-        [BsonElement("email")]
         public string UserEmail { get; set; }
 
-        [BsonElement("action")]
         public UserAction Action { get; set; }
 
-        [BsonElement("description")]
         public string Description { get; set; }
 
-        [BsonElement("dateTime")]
-        public DateTime ActionDateTime { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }

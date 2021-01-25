@@ -2,7 +2,6 @@
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.DataAccess.Models;
-using Exadel.HEH.Backend.Host.DTOs.Get;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Mappings
 {
@@ -11,8 +10,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
         public HistoryProfile()
         {
             CreateMap<History, HistoryDto>();
-
-            CreateMap<HistoryCreateDto, History>();
+            CreateMap<HistoryCreateDto, History>()
+                .ForMember(dest => dest.DateTime, opts => opts.Ignore())
+                .ForMember(dest => dest.Id, opts => opts.Ignore());
         }
     }
 }

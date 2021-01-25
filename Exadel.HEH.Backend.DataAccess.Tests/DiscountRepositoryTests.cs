@@ -17,13 +17,11 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
 
         private readonly Discount _discount;
 
-        private readonly Address _address;
-
         public DiscountRepositoryTests()
         {
             _repository = new DiscountRepository(Context.Object);
 
-            _address = new Address
+            var address = new Address
             {
                 Id = Guid.NewGuid(),
                 Country = "Country 1",
@@ -35,12 +33,12 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             {
                 Id = Guid.NewGuid(),
                 Conditions = "new condition string",
-                Tags = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+                TagsIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
                 VendorId = Guid.NewGuid(),
                 PromoCode = "new promo code",
                 Addresses = new List<Address>
                 {
-                    _address,
+                    address,
                     new Address
                     {
                         Id = System.Guid.NewGuid(),
@@ -66,46 +64,6 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                 EndDate = new DateTime(2021, 1, 25),
                 CategoryId = Guid.NewGuid()
             };
-        }
-
-        [Fact]
-        public async Task CanGetByLocation()
-        {
-            Collection.Add(_discount);
-
-            var result = await _repository.GetByLocationAsync(_address);
-
-            Assert.NotEmpty(result);
-        }
-
-        [Fact]
-        public async Task CanGetByTagId()
-        {
-            Collection.Add(_discount);
-
-            var result = await _repository.GetByTagAsync(_discount.Tags[0]);
-
-            Assert.NotEmpty(result);
-        }
-
-        [Fact]
-        public async Task CanGetByVendorId()
-        {
-            Collection.Add(_discount);
-
-            var result = await _repository.GetByVendorAsync(_discount.VendorId);
-
-            Assert.NotEmpty(result);
-        }
-
-        [Fact]
-        public async Task CanGetByCategoryId()
-        {
-            Collection.Add(_discount);
-
-            var result = await _repository.GetByCategoryAsync(_discount.CategoryId);
-
-            Assert.NotEmpty(result);
         }
 
         [Fact]
