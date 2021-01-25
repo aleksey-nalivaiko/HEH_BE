@@ -1,7 +1,7 @@
 ﻿let vendorData = [
     {
         "_id": UUID("662c27f1-8f63-44ac-a873-aac6f09ab173"),
-        "name": "vendor name 1",
+        "name": "Vendor1",
         "links": [
             {
                 "url": "url1",
@@ -22,14 +22,14 @@
         "addresses": [
             {
                 "_id": UUID("a009f99e-5a5d-11eb-ae93-0242ac130002"),
-                "country": "Belarus",
-                "city": "Minsk",
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("3075aada-5efc-11eb-ae93-0242ac130002"),
                 "street": "street 1"
             },
             {
-                "_id": UUID("9cc9a572-5a5d-11eb-ae93-0242ac130002"),
-                "country": "Belarus",
-                "city": "Minsk",
+                "_id": UUID("a009f99e-5a5d-11eb-ae93-0242ac130002"),
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("3075aada-5efc-11eb-ae93-0242ac130002"),
                 "street": "street 2"
             }
         ],
@@ -38,7 +38,7 @@
     },
     {
         "_id": UUID("ef809bbf-1ff7-4f1c-ac2b-ab5040294cf1"),
-        "name": "vendor name 1",
+        "name": "Vendor2",
         "links": [
             {
                 "url": "url1",
@@ -59,8 +59,8 @@
         "addresses": [
             {
                 "_id": UUID("fd40230e-5a5d-11eb-ae93-0242ac130002"),
-                "country": "Belarus",
-                "city": "Minsk",
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("3075aada-5efc-11eb-ae93-0242ac130002"),
                 "street": "street 1"
             }
         ],

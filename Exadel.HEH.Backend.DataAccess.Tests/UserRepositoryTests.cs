@@ -34,8 +34,8 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                 Role = UserRole.Employee,
                 Address = new Address
                 {
-                    City = "m",
-                    Country = "b",
+                    CityId = "m",
+                    CountryId = "b",
                     Street = "g"
                 },
                 Password = "abc"

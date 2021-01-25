@@ -35,8 +35,8 @@ namespace Exadel.HEH.Backend.Host.Tests
     //            UserRole = UserRole.Employee,
     //            Address = new Address
     //            {
-    //                City = "m",
-    //                Country = "b",
+    //                CityId = "m",
+    //                CountryId = "b",
     //                Street = "g"
     //            },
     //            Password = "abc"

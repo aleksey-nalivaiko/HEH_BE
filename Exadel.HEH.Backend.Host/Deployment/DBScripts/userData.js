@@ -8,8 +8,8 @@ let userData = [
     "address":
     {
         "_id": UUID("03581ffe-5d6e-11eb-ae93-0242ac130002"),
-        "country": "Belarus",
-        "city": "Minsk",
+        "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+        "cityId": UUID("3075aada-5efc-11eb-ae93-0242ac130002"),
         "street": "street 1"
     },
     "isActive": true,
@@ -49,8 +49,8 @@ let userData = [
     "address":
     {
         "_id": UUID("194449b4-5d6e-11eb-ae93-0242ac130002"),
-        "country": "Belarus",
-        "city": "Minsk",
+        "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+        "cityId": UUID("3075aada-5efc-11eb-ae93-0242ac130002"),
         "street": "street 2"
     },
     "isActive": true,
@@ -89,8 +89,8 @@ let userData = [
     "address":
     {
         "_id": UUID("22d45b7c-5d6e-11eb-ae93-0242ac130002"),
-        "country": "Belarus",
-        "city": "Minsk",
+        "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+        "cityId": UUID("3075aada-5efc-11eb-ae93-0242ac130002"),
         "street": "street 3"
     },
     "isActive": true,
@@ -128,8 +128,8 @@ let userData = [
         "password": "5875soj9O765",
         "address": {
             "_id": UUID("2b80c468-5d6e-11eb-ae93-0242ac130002"),
-            "country": "Belarus",
-            "city": "Minsk",
+            "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+            "cityId": UUID("3075aada-5efc-11eb-ae93-0242ac130002"),
             "street": "street 4"
         },
         "isActive": false,

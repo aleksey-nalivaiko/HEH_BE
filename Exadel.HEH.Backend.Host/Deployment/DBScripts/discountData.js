@@ -7,7 +7,8 @@
             UUID("81cf086a-84a8-4291-9a55-791f1005f09e")
         ],
         "vendorId": UUID("662c27f1-8f63-44ac-a873-aac6f09ab173"),
-        "promoCode": "promo code 1",
+        "vendorName": "Vendor1",
+        "promoCode": "abc",
         "phones": [
             {
                 "_id": UUID("a7feedac-5a5e-11eb-ae93-0242ac130002"),
@@ -17,14 +18,14 @@
         "addresses": [
             {
                 "_id": UUID("a009f99e-5a5d-11eb-ae93-0242ac130002"),
-                "country": "Belarus",
-                "city": "Minsk",
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("3075aada-5efc-11eb-ae93-0242ac130002"),
                 "street": "street 1"
             },
             {
                 "_id": UUID("9cc9a572-5a5d-11eb-ae93-0242ac130002"),
-                "country": "Belarus",
-                "city": "Minsk",
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("3075aada-5efc-11eb-ae93-0242ac130002"),
                 "street": "street 2"
             }
         ],
@@ -40,7 +41,8 @@
             UUID("81cf086a-84a8-4291-9a55-791f1005f09e")
         ],
         "vendorId": UUID("ef809bbf-1ff7-4f1c-ac2b-ab5040294cf1"),
-        "promoCode": "promo code 1",
+        "vendorName": "Vendor2",
+        "promoCode": "promo code",
         "phones": [
             {
                 "_id": UUID("b614783a-5a5e-11eb-ae93-0242ac130002"),
@@ -50,8 +52,8 @@
         "addresses": [
             {
                 "_id": UUID("fd40230e-5a5d-11eb-ae93-0242ac130002"),
-                "country": "Belarus",
-                "city": "Minsk",
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("3075aada-5efc-11eb-ae93-0242ac130002"),
                 "street": "street 1"
             }
         ],

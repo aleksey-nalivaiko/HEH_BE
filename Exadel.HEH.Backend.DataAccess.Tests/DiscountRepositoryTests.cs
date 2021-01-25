@@ -24,8 +24,8 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             var address = new Address
             {
                 Id = Guid.NewGuid(),
-                Country = "Country 1",
-                City = "City 1",
+                CountryId = "CountryId 1",
+                CityId = "CityId 1",
                 Street = "Street 1"
             };
 
@@ -42,8 +42,8 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                     new Address
                     {
                         Id = System.Guid.NewGuid(),
-                        Country = "country 1",
-                        City = "city 1",
+                        CountryId = "country 1",
+                        CityId = "city 1",
                         Street = "street 2"
                     },
                 },
