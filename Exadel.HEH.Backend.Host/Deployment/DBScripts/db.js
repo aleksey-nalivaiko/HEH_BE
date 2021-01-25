@@ -6,6 +6,7 @@
     load("categoryData.js");
     load("tagData.js");
     load("preOrderData.js");
+    load("locationData.js");
 
     let dbName = 'ExadelHEH';
 
@@ -22,6 +23,7 @@
         fillCollection("Category", categoryData);
         fillCollection("Tag", tagData);
         fillCollection("PreOrder", preOrderData);
+        fillCollection("Location", locationData);
     }
 
     function fillCollection(collectionName, data) {

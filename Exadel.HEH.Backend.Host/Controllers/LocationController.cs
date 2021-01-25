@@ -4,9 +4,9 @@ using Exadel.HEH.Backend.Host.Controllers.Abstract;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
-    public class HistoryController : BaseController<HistoryDto>
+    public class LocationController : BaseController<LocationDto>
     {
-        public HistoryController(IService<HistoryDto> service)
+        public LocationController(IService<LocationDto> service)
             : base(service)
         {
         }

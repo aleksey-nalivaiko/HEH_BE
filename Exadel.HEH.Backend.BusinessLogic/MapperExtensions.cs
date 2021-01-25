@@ -16,6 +16,8 @@ namespace Exadel.HEH.Backend.BusinessLogic
                 mc.AddProfile(new DiscountProfile());
                 mc.AddProfile(new AddressProfile());
                 mc.AddProfile(new PhoneProfile());
+                mc.AddProfile(new LocationProfile());
+                mc.AddProfile(new CityProfile());
             });
             mapperConfig.AssertConfigurationIsValid();
 

@@ -5,17 +5,17 @@ using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
-    public interface IService<T>
-        where T : class, IDataModel, new()
+    public interface IService<TDto>
+        where TDto : class, new()
     {
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<TDto>> GetAllAsync();
 
-        Task<T> GetByIdAsync(Guid id);
+        Task<TDto> GetByIdAsync(Guid id);
 
         Task RemoveAsync(Guid id);
 
-        Task CreateAsync(T item);
+        //Task CreateAsync(TDto item);
 
-        Task UpdateAsync(T item);
+        //Task UpdateAsync(TDto item);
     }
 }

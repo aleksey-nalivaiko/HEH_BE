@@ -13,6 +13,8 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public Guid VendorId { get; set; }
 
+        public string VendorName { get; set; }
+
         public string PromoCode { get; set; }
 
         public IList<Address> Addresses { get; set; }

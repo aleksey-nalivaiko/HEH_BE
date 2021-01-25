@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
-    public interface ITagService : IService<Tag>
+    public interface ITagService : IService<TagDto>
     {
-        Task<IEnumerable<Tag>> GetByCategoryAsync(Guid categoryId);
+        Task<IEnumerable<TagDto>> GetByCategoryAsync(Guid categoryId);
     }
 }

@@ -6,9 +6,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
     {
         public Guid Id { get; set; }
 
-        public string Country { get; set; }
+        public Guid CountryId { get; set; }
 
-        public string City { get; set; }
+        public Guid CityId { get; set; }
 
         public string Street { get; set; }
     }

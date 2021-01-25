@@ -13,6 +13,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 
         public Guid VendorId { get; set; }
 
+        public string VendorName { get; set; }
+
         public string PromoCode { get; set; }
 
         public IEnumerable<AddressDto> Addresses { get; set; }
