@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -20,7 +19,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             _location = new Location
             {
                 Id = Guid.NewGuid(),
-                Country = "CountryName"
+                Country = "CountryName",
+                Cities = new List<City>
+                {
+                    new City
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "CityName"
+                    }
+                }
             };
         }
 

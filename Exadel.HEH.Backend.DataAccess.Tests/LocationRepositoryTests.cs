@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories;
@@ -21,7 +20,15 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             _location = new Location
             {
                 Id = Guid.NewGuid(),
-                Country = "CountryName"
+                Country = "CountryName",
+                Cities = new List<City>
+                {
+                    new City
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "CityName"
+                    }
+                }
             };
         }
 

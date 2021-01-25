@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
@@ -20,7 +21,15 @@ namespace Exadel.HEH.Backend.Host.Tests
             _location = new LocationDto
             {
                 Id = Guid.NewGuid(),
-                Country = "CountryName"
+                Country = "CountryName",
+                Cities = new List<CityDto>
+                {
+                    new CityDto()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "CityName"
+                    }
+                }
             };
         }
 

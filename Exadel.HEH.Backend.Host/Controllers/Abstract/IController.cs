@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.Host.Controllers.Abstract
 {
