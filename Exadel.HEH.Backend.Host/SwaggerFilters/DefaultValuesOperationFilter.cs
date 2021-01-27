@@ -4,9 +4,9 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Exadel.HEH.Backend.Host
+namespace Exadel.HEH.Backend.Host.SwaggerFilters
 {
-    public class SwaggerDefaultValues : IOperationFilter
+    public class DefaultValuesOperationFilter : IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {

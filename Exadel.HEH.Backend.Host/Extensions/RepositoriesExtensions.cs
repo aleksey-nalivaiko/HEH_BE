@@ -5,7 +5,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Exadel.HEH.Backend.Host
+namespace Exadel.HEH.Backend.Host.Extensions
 {
     public static class RepositoriesExtensions
     {

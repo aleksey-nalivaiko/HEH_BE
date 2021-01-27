@@ -3,9 +3,9 @@ using System.Linq;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Exadel.HEH.Backend.Host
+namespace Exadel.HEH.Backend.Host.SwaggerFilters
 {
-    public class HideApiVersionDocumentFilter : IOperationFilter
+    public class HideApiVersionOperationFilter : IOperationFilter
     {
         private const string ApiVersionParam = "api-version";
 
