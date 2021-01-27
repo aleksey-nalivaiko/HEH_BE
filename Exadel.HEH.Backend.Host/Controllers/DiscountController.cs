@@ -1,8 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNet.OData.Routing;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
@@ -18,9 +22,16 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [EnableQuery]
         [ODataRoute]
-        public IQueryable<DiscountDto> Get()
+        public IQueryable<DiscountDto> Get([FromQuery] string searchText)
         {
-            return _service.Get();
+            return _service.Get(searchText);
+        }
+
+        [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.None)]
+        [ODataRoute("({id})")]
+        public Task<DiscountDto> Get(Guid id)
+        {
+            return _service.GetByIdAsync(id);
         }
     }
 }

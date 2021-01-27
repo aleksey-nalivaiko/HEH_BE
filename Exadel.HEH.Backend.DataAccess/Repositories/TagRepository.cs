@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Tag = Exadel.HEH.Backend.DataAccess.Models.Tag;
 

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Exadel.HEH.Backend.DataAccess
+namespace Exadel.HEH.Backend.DataAccess.Extensions
 {
     public static class ModelExtensions
     {
