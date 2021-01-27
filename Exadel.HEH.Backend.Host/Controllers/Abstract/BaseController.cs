@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,12 @@ namespace Exadel.HEH.Backend.Host.Controllers.Abstract
         public Task<IEnumerable<TDto>> GetAllAsync()
         {
             return Service.GetAllAsync();
+        }
+
+        [HttpGet]
+        public Task<TDto> GetByIdAsync(Guid id)
+        {
+            return Service.GetByIdAsync(id);
         }
     }
 }

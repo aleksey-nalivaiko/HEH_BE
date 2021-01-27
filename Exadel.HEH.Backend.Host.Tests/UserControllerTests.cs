@@ -59,13 +59,13 @@ namespace Exadel.HEH.Backend.Host.Tests
             Assert.Single(result);
         }
 
-        //[Fact]
-        //public async Task CanGetById()
-        //{
-        //    Data.Add(_user);
-        //    var result = await _controller.GetByIdAsync(_user.Id);
-        //    Assert.NotNull(result);
-        //}
+        [Fact]
+        public async Task CanGetByIdAsync()
+        {
+            Data.Add(_user);
+            var result = await _controller.GetByIdAsync(_user.Id);
+            Assert.NotNull(result);
+        }
 
         //[Fact]
         //public async Task CanUpdate()

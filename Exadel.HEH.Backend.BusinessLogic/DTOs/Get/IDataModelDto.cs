@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
-    public class LocationDto : IDataModelDto
+    public interface IDataModelDto
     {
         public Guid Id { get; set; }
-
-        public string Country { get; set; }
-
-        public IList<CityDto> Cities { get; set; }
     }
 }
