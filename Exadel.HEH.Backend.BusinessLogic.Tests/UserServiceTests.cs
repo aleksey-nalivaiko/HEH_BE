@@ -51,13 +51,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             Assert.Single(result);
         }
 
-        [Fact]
-        public async Task CanGetById()
-        {
-            Data.Add(_user);
-            var result = await _service.GetByIdAsync(_user.Id);
-            Assert.NotNull(result);
-        }
+        //[Fact]
+        //public async Task CanGetById()
+        //{
+        //    Data.Add(_user);
+        //    var result = await _service.GetByIdAsync(_user.Id);
+        //    Assert.NotNull(result);
+        //}
 
         //[Fact]
         //public async Task CanUpdate()

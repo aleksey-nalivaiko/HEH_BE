@@ -6,7 +6,7 @@ using Microsoft.AspNet.OData.Routing;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
-    [ODataRoutePrefix("Discounts")]
+    [ODataRoutePrefix("Discount")]
     public class DiscountController : ODataController
     {
         private readonly IDiscountService _service;

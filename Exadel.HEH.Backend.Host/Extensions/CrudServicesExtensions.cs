@@ -3,7 +3,7 @@ using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Exadel.HEH.Backend.Host
+namespace Exadel.HEH.Backend.Host.Extensions
 {
     public static class CrudServicesExtensions
     {

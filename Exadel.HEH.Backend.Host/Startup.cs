@@ -1,15 +1,16 @@
 using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.Host.Extensions;
+using Exadel.HEH.Backend.Host.SwaggerFilters;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OData.Edm;
-using Newtonsoft.Json.Converters;
+using Microsoft.OpenApi.Models;
 using OData.Swagger.Services;
 
 namespace Exadel.HEH.Backend.Host
@@ -25,22 +26,42 @@ namespace Exadel.HEH.Backend.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddJsonOptions(opts =>
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
+
+            services.AddApiVersioning(options =>
             {
-                opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
             });
+            services.AddOData().EnableApiVersioning();
+            services.AddODataApiExplorer(options => options.GroupNameFormat = "'v'VVV");
+
+            services.AddSwaggerGen(options =>
+            {
+                var groupName = "v1";
+                options.SwaggerDoc(groupName, new OpenApiInfo
+                {
+                    Title = $"Happy Exadel Hours API {groupName}",
+                    Version = groupName
+                });
+
+                options.OperationFilter<DefaultValuesOperationFilter>();
+                options.OperationFilter<HideApiVersionOperationFilter>();
+                options.OperationFilter<CountParameterOperationFilter>();
+            });
+
+            services.AddOdataSwaggerSupport();
 
             services.AddRepositories(Configuration);
             services.AddCrudServices();
-
-            services.AddOData();
-            services.AddSwaggerGen();
-            services.AddOdataSwaggerSupport();
-
             services.AddSingleton(MapperExtensions.Mapper);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, VersionedODataModelBuilder modelBuilder, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -49,31 +70,17 @@ namespace Exadel.HEH.Backend.Host
 
             app.UseHttpsRedirection();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Happy Exadel Hours API V1");
-                options.RoutePrefix = string.Empty;
-            });
-
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.Filter();
-                endpoints.MapODataRoute("odata", "odata", GetEdmModel());
+                endpoints.Filter().Count().OrderBy().Select().Expand();
+                endpoints.MapVersionedODataRoute("odata", "odata", modelBuilder.GetEdmModels());
             });
-        }
 
-        private IEdmModel GetEdmModel()
-        {
-            var odataBuilder = new ODataConventionModelBuilder();
-            odataBuilder.EntitySet<DiscountDto>("Discounts");
-            odataBuilder.ComplexType<AddressDto>();
-            odataBuilder.ComplexType<PhoneDto>();
-
-            return odataBuilder.GetEdmModel();
+            app.UseSwagger();
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Happy Exadel Hours API V1"));
         }
     }
 }
