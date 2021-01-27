@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using Exadel.HEH.Backend.BusinessLogic;
+using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.Host.Extensions;
 using Exadel.HEH.Backend.Host.SwaggerFilters;
 using Microsoft.AspNet.OData.Builder;
@@ -70,6 +70,7 @@ namespace Exadel.HEH.Backend.Host
 
             app.UseHttpsRedirection();
 
+            app.UseODataRouting();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -80,7 +81,8 @@ namespace Exadel.HEH.Backend.Host
             });
 
             app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Happy Exadel Hours API V1"));
+            app.UseSwaggerUI(options =>
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Happy Exadel Hours API V1"));
         }
     }
 }
