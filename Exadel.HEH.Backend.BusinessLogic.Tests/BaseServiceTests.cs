@@ -44,6 +44,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 }
             })
             .Returns(Task.CompletedTask);
+
+            Repository.Setup(r => r.RemoveAsync(It.IsAny<Guid>()))
+                .Callback((Guid id) => { Data.RemoveAll(d => d.Id == id); })
+                .Returns(Task.CompletedTask);
         }
     }
 }

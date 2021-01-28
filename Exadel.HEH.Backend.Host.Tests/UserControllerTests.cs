@@ -62,7 +62,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         //[Fact]
         //public async Task CanGetById()
         //{
-        //    Data.Add(_user);
+        //    _data.Add(_user);
         //    var result = await _controller.GetByIdAsync(_user.Id);
         //    Assert.NotNull(result);
         //}
@@ -70,11 +70,11 @@ namespace Exadel.HEH.Backend.Host.Tests
         //[Fact]
         //public async Task CanUpdate()
         //{
-        //    Data.Add(_user);
+        //    _data.Add(_user);
         //    _userDto.IsActive = false;
 
         //    await _controller.UpdateAsync(_userDto);
-        //    Assert.False(Data.Single(x => x.Id == _user.Id).IsActive);
+        //    Assert.False(_data.Single(x => x.Id == _user.Id).IsActive);
         //}
     }
 }

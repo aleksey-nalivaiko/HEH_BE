@@ -56,6 +56,7 @@ namespace Exadel.HEH.Backend.Host
 
             services.AddOdataSwaggerSupport();
 
+            services.AddUserProvider();
             services.AddRepositories(Configuration);
             services.AddCrudServices();
             services.AddSingleton(MapperExtensions.Mapper);
