@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.DataAccess.Repositories;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
-namespace Exadel.HEH.Backend.DataAccess
+namespace Exadel.HEH.Backend.DataAccess.Extensions
 {
     public static class MongoExtensions
     {

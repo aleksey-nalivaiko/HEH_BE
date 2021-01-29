@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.Mappings;
 
-namespace Exadel.HEH.Backend.BusinessLogic
+namespace Exadel.HEH.Backend.BusinessLogic.Extensions
 {
     public static class MapperExtensions
     {

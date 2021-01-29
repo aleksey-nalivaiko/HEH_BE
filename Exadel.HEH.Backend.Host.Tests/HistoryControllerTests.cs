@@ -54,7 +54,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         //public async Task CanCreate()
         //{
         //    await _controller.CreateAsync(_historyDto);
-        //    var history = Data.FirstOrDefault();
+        //    var history = _data.FirstOrDefault();
         //    Assert.NotNull(history);
         //}
     }
