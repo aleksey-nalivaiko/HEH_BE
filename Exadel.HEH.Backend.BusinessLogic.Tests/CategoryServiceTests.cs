@@ -13,6 +13,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     public class CategoryServiceTests : BaseServiceTests<Category>
     {
         private readonly CategoryService _service;
+        private readonly TagService _tagService;
         private readonly List<Tag> _tagData;
         private List<Category> _testCategories;
         private List<Tag> _testTags;
@@ -24,7 +25,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             tagRepository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<Tag>)_tagData));
 
-            _service = new CategoryService(Repository.Object, tagRepository.Object, MapperExtensions.Mapper);
+            _service = new CategoryService(Repository.Object, tagRepository.Object,  MapperExtensions.Mapper, _tagService);
 
             _tagData = new List<Tag>();
 

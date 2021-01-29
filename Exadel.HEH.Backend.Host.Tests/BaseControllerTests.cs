@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Moq;
 
 namespace Exadel.HEH.Backend.Host.Tests
 {
     public class BaseControllerTests<TDto>
-        where TDto : class, IDataModelDto, new()
+        where TDto : class, new()
     {
         protected readonly Mock<IService<TDto>> Service;
         protected readonly List<TDto> Data;
@@ -23,7 +22,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                 .Returns(() => Task.FromResult((IEnumerable<TDto>)Data));
 
             Service.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-                .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
+                .Returns((Guid id) => Task.FromResult(Data.Single()));
 
             //Service.Setup(s => s.CreateAsync(It.IsAny<T>()))
             //    .Callback((T item) =>

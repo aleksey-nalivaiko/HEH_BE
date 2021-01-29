@@ -13,17 +13,42 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     public class TagService : BaseService<Tag, TagDto>, ITagService
     {
         private readonly ITagRepository _tagRepository;
+        private readonly IDiscountRepository _discountRepository;
 
-        public TagService(ITagRepository tagRepository, IMapper mapper)
+        public TagService(ITagRepository tagRepository, IDiscountRepository discountRepository, IMapper mapper)
             : base(tagRepository, mapper)
         {
             _tagRepository = tagRepository;
+            _discountRepository = discountRepository;
         }
 
         public async Task<IEnumerable<TagDto>> GetByCategoryAsync(Guid categoryId)
         {
             var result = await _tagRepository.GetByCategoryAsync(categoryId);
             return Mapper.Map<IEnumerable<TagDto>>(result);
+        }
+
+        public async Task CreateAsync(TagDto item)
+        {
+            var result = Mapper.Map<Tag>(item);
+            await _tagRepository.CreateAsync(result);
+        }
+
+        public async Task RemoveAsync(Guid id)
+        {
+            await _tagRepository.RemoveAsync(id);
+            var collection = await _discountRepository.GetAllAsync();
+            foreach (var item in collection)
+            {
+                await Task.Run(() => item.TagsIds.Remove(id));
+                await _discountRepository.UpdateAsync(item);
+            }
+        }
+
+        public async Task UpdateAsync(TagDto item)
+        {
+            var result = Mapper.Map<Tag>(item);
+            await _tagRepository.UpdateAsync(result);
         }
     }
 }

@@ -3,7 +3,7 @@ using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
-    public class HistoryDto : IDataModelDto
+    public class HistoryDto
     {
         public Guid Id { get; set; }
 

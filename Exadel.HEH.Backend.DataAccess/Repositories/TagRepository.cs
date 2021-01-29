@@ -10,9 +10,17 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
     public class TagRepository : MongoRepository<Tag>, ITagRepository
     {
+        private readonly IDiscountRepository _discountRepository;
+
         public TagRepository(IDbContext context)
             : base(context)
         {
+        }
+
+        public TagRepository(IDbContext context, IDiscountRepository discountRepository)
+            : base(context)
+        {
+            _discountRepository = discountRepository;
         }
 
         public async Task<IEnumerable<Tag>> GetByCategoryAsync(Guid categoryId)
