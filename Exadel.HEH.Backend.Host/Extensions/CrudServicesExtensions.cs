@@ -9,21 +9,23 @@ namespace Exadel.HEH.Backend.Host.Extensions
     {
         public static IServiceCollection AddCrudServices(this IServiceCollection services)
         {
-            services.AddTransient<IService<UserDto>, UserService>();
+            services.AddScoped<IService<UserDto>, UserService>();
 
-            services.AddTransient<IService<HistoryDto>, HistoryService>();
+            services.AddScoped<IService<HistoryDto>, HistoryService>();
 
             //services.AddTransient<IService<PreOrder>, PreOrderService>();
 
-            services.AddTransient<IService<LocationDto>, LocationService>();
+            services.AddScoped<IService<LocationDto>, LocationService>();
 
-            services.AddTransient<IService<VendorDto>, VendorService>();
+            services.AddScoped<IService<VendorDto>, VendorService>();
 
-            services.AddTransient<IDiscountService, DiscountService>();
+            services.AddScoped<IDiscountService, DiscountService>();
 
-            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
-            services.AddTransient<ITagService, TagService>();
+            services.AddScoped<ITagService, TagService>();
+
+            services.AddScoped<IFavoritesService, FavoritesService>();
 
             return services;
         }
