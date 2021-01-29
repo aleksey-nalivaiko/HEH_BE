@@ -1,6 +1,8 @@
 ﻿using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Exadel.HEH.Backend.Host.Extensions
@@ -26,6 +28,8 @@ namespace Exadel.HEH.Backend.Host.Extensions
             services.AddScoped<ITagService, TagService>();
 
             services.AddScoped<IFavoritesService, FavoritesService>();
+
+            services.AddScoped<IValidationService, ValidationService>();
 
             return services;
         }

@@ -24,11 +24,13 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return _tagService.RemoveAsync(id);
         }
 
+        [HttpPost]
         public Task CreateAsync(TagDto item)
         {
             return _tagService.CreateAsync(item);
         }
 
+        [HttpPut]
         public Task UpdateAsync(TagDto item)
         {
             return _tagService.UpdateAsync(item);

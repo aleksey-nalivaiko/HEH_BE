@@ -9,7 +9,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
     {
         Task<IEnumerable<CategoryDto>> GetCategoriesWithTagsAsync();
 
-        Task<bool> RemoveAsync(Guid id);
+        Task RemoveAsync(Guid id);
 
         Task CreateAsync(CategoryDto item);
 

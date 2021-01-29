@@ -26,7 +26,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [HttpDelete]
 
-        public Task<bool> RemoveAsync(Guid id)
+        public Task RemoveAsync(Guid id)
         {
             return _categoryService.RemoveAsync(id);
         }

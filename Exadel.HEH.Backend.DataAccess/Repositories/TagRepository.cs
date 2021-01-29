@@ -29,11 +29,5 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
                 .Where(x => x.CategoryId.Equals(categoryId)).ToListAsync();
             return await tagCollection;
         }
-
-        public override Task RemoveAsync(Guid id)
-        {
-            _discountRepository.RemoveTagsFromDiscounts(id);
-            return base.RemoveAsync(id);
-        }
     }
 }

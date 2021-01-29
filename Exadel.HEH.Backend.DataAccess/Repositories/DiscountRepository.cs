@@ -17,15 +17,5 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
         {
             return Context.GetAll<Discount>();
         }
-
-        public async Task RemoveTagsFromDiscounts(Guid tagId)
-        {
-            var collection = Context.GetAll<Discount>().Where(x => x.TagsIds.Contains(tagId));
-            foreach (var item in collection)
-            {
-                await Task.Run(() => item.TagsIds.Remove(tagId));
-            }
-
-        }
     }
 }

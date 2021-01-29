@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
@@ -13,16 +14,23 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     {
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Tag> _tagRepository;
+        private readonly IRepository<Discount> _discountRepository;
         private readonly ITagService _tagService;
+        private readonly IValidationService _validationService;
 
         private readonly IMapper _mapper;
 
         public CategoryService(IRepository<Category> categoryRepository,
-            ITagRepository tagRepository, IMapper mapper, ITagService tagService)
+            ITagRepository tagRepository,
+            IRepository<Discount> discountRepository,
+            IValidationService validationService,
+            IMapper mapper, ITagService tagService)
         {
+            _validationService = validationService;
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
             _tagService = tagService;
+            _discountRepository = discountRepository;
             _mapper = mapper;
         }
 
@@ -63,18 +71,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _categoryRepository.CreateAsync(result);
         }
 
-        public async Task<bool> RemoveAsync(Guid id) //TODO: Add Task<Result>
+        public async Task RemoveAsync(Guid id)
         {
-            var category = await _categoryRepository.GetByIdAsync(id);
-            var tags = await _tagService.GetByCategoryAsync(category.Id);
-            if (tags is null)
+            if (await _validationService.CheckOnDiscountContainsCategory(id))
             {
                 await _categoryRepository.RemoveAsync(id);
-                return await Task.FromResult(true);
-            }
-            else
-            {
-                return await Task.FromResult(false);
             }
         }
 

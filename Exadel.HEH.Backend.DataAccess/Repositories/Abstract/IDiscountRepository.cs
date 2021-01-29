@@ -8,7 +8,5 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
     public interface IDiscountRepository : IRepository<Discount>
     {
         IQueryable<Discount> Get();
-
-        Task RemoveTagsFromDiscounts(Guid tagId);
     }
 }
