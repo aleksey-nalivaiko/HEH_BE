@@ -24,11 +24,5 @@ namespace Exadel.HEH.Backend.Host.Controllers.Abstract
         {
             return Service.GetAllAsync();
         }
-
-        [HttpGet]
-        public Task<TDto> GetByIdAsync(Guid id)
-        {
-            return Service.GetByIdAsync(id);
-        }
     }
 }

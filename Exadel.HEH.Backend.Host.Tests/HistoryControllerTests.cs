@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
@@ -13,7 +12,6 @@ namespace Exadel.HEH.Backend.Host.Tests
     {
         private readonly HistoryController _controller;
         private readonly HistoryDto _history;
-        private readonly HistoryCreateDto _historyDto;
 
         public HistoryControllerTests()
         {
@@ -29,17 +27,6 @@ namespace Exadel.HEH.Backend.Host.Tests
                 UserName = "Mary",
                 UserRole = UserRole.Moderator
             };
-
-            //_historyDto = new HistoryCreateDto
-            //{
-            //    UserId = Guid.NewGuid(),
-            //    Action = UserAction.Add,
-            //    Description = "Added",
-            //    DateTime = DateTime.Now,
-            //    UserEmail = "email@mail.com",
-            //    UserName = "Mary",
-            //    UserRole = UserRole.Moderator
-            //};
         }
 
         [Fact]
