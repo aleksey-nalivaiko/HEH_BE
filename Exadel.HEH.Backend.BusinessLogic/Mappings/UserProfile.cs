@@ -9,7 +9,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
         public UserProfile()
         {
             CreateMap<User, UserDto>();
-            CreateMap<Favorites, FavoritesDto>();
+            CreateMap<Favorites, FavoritesDto>().ReverseMap();
         }
     }
 }

@@ -14,21 +14,21 @@ namespace Exadel.HEH.Backend.Host.Extensions
             services.AddSingleton<IDbContext>(provider =>
                 new MongoDbContext(configuration.GetConnectionString("MongoConnection")));
 
-            services.AddTransient<IRepository<User>, UserRepository>();
+            services.AddSingleton<IRepository<User>, UserRepository>();
 
-            services.AddTransient<IRepository<History>, HistoryRepository>();
+            services.AddSingleton<IRepository<History>, HistoryRepository>();
 
-            services.AddTransient<IRepository<PreOrder>, PreOrderRepository>();
+            services.AddSingleton<IRepository<PreOrder>, PreOrderRepository>();
 
-            services.AddTransient<IRepository<Vendor>, VendorRepository>();
+            services.AddSingleton<IRepository<Vendor>, VendorRepository>();
 
-            services.AddTransient<IRepository<Location>, LocationRepository>();
+            services.AddSingleton<IRepository<Location>, LocationRepository>();
 
-            services.AddTransient<ITagRepository, TagRepository>();
+            services.AddSingleton<ITagRepository, TagRepository>();
 
-            services.AddTransient<IDiscountRepository, DiscountRepository>();
+            services.AddSingleton<IDiscountRepository, DiscountRepository>();
 
-            services.AddTransient<IRepository<Category>, CategoryRepository>();
+            services.AddSingleton<IRepository<Category>, CategoryRepository>();
 
             return services;
         }

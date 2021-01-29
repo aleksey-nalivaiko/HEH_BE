@@ -11,8 +11,8 @@ namespace Exadel.HEH.Backend.Host.SwaggerFilters
 
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            var apiParam = operation.Parameters.FirstOrDefault(x =>
-                string.Equals(x.Name, ApiVersionParam, StringComparison.OrdinalIgnoreCase));
+            var apiParam = operation.Parameters.FirstOrDefault(p =>
+                string.Equals(p.Name, ApiVersionParam, StringComparison.OrdinalIgnoreCase));
             if (apiParam != null)
             {
                 operation.Parameters.Remove(apiParam);

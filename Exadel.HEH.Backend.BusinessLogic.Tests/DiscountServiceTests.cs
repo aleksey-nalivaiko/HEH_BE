@@ -2,65 +2,63 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.DataAccess.Extensions;
+using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.DataAccess.Models;
-using Exadel.HEH.Backend.DataAccess.Repositories;
+using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Moq;
 using Xunit;
 
-namespace Exadel.HEH.Backend.DataAccess.Tests
+namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
-    public class DiscountRepositoryTests : MongoRepositoryTests<Discount>
+    public class DiscountServiceTests : BaseServiceTests<Discount>
     {
-        private readonly DiscountRepository _repository;
+        private readonly DiscountService _service;
         private Discount _discount;
 
-        public DiscountRepositoryTests()
+        public DiscountServiceTests()
         {
-            _repository = new DiscountRepository(Context.Object);
+            var repository = new Mock<IDiscountRepository>();
+            _service = new DiscountService(repository.Object, Mapper);
+            repository.Setup(r => r.Get())
+                .Returns(() => Data.AsQueryable());
+            repository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
+                .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
             InitTestData();
         }
 
         [Fact]
-        public async Task CanGetAll()
+        public void CanGetAsync()
         {
-            Collection.Add(_discount);
+            Data.Add(_discount);
+            var result = _service.Get(null);
+            Assert.Single(result);
+        }
 
-            var result = await _repository.GetAllAsync();
-
-            Assert.NotEmpty(result);
+        [Fact]
+        public void CanSearchAsync()
+        {
+            Data.Add(_discount);
+            var result = _service.Get("cond");
+            Assert.Single(result);
         }
 
         [Fact]
         public async Task CanGetById()
         {
-            Collection.Add(_discount);
-
-            var result = await _repository.GetByIdAsync(_discount.Id);
-
-            Assert.Equal(_discount, result);
+            Data.Add(_discount);
+            var result = await _service.GetByIdAsync(_discount.Id);
+            Assert.NotNull(result);
         }
 
-        [Fact]
-        public async Task CanCreate()
-        {
-            await _repository.CreateAsync(_discount);
+        //[Fact]
+        //public async Task CanUpdate()
+        //{
+        //    Data.Add(_discount.DeepClone());
+        //    _discount.IsActive = false;
 
-            var discount = Collection.FirstOrDefault(x => x.Id == _discount.Id);
-
-            Assert.NotNull(discount);
-        }
-
-        [Fact]
-        public async Task CanUpdate()
-        {
-            Collection.Add(_discount.DeepClone());
-
-            _discount.PromoCode = "new promo code";
-
-            await _repository.UpdateAsync(_discount);
-
-            Assert.True(Collection.Single(x => x.Id == _discount.Id).PromoCode.Equals("new promo code"));
-        }
+        //    await _service.UpdateAsync(_discount);
+        //    Assert.False(Data.Single(x => x.Id == _discount.Id).IsActive);
+        //}
 
         private void InitTestData()
         {

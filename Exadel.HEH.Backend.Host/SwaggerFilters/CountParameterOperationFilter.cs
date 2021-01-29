@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -15,7 +16,8 @@ namespace Exadel.HEH.Backend.Host.SwaggerFilters
             if (context.ApiDescription.ActionDescriptor is ControllerActionDescriptor descriptor
                 && descriptor.ControllerName.StartsWith(ControllerName))
             {
-                var parameter = operation.Parameters.FirstOrDefault(p => p.Name == CountParam);
+                var parameter = operation.Parameters.FirstOrDefault(p =>
+                    string.Equals(p.Name, CountParam, StringComparison.OrdinalIgnoreCase));
                 if (parameter != null)
                 {
                     parameter.Schema.Default = null;

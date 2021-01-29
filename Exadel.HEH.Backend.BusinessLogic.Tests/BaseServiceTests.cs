@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Moq;
@@ -43,6 +44,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 }
             })
             .Returns(Task.CompletedTask);
+
+            Repository.Setup(r => r.RemoveAsync(It.IsAny<Guid>()))
+                .Callback((Guid id) => { Data.RemoveAll(d => d.Id == id); })
+                .Returns(Task.CompletedTask);
         }
     }
 }

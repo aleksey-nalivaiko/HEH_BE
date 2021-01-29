@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
@@ -18,10 +20,23 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public IQueryable<DiscountDto> Get()
+        public IQueryable<DiscountDto> Get(string searchText)
         {
             var discounts = _discountRepository.Get();
+            if (searchText != null)
+            {
+                var lowerSearchText = searchText.ToLower();
+                discounts = discounts.Where(d => d.Conditions.ToLower().Contains(lowerSearchText)
+                    || d.VendorName.ToLower().Contains(lowerSearchText));
+            }
+
             return discounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);
+        }
+
+        public async Task<DiscountDto> GetByIdAsync(Guid id)
+        {
+            var discount = await _discountRepository.GetByIdAsync(id);
+            return _mapper.Map<DiscountDto>(discount);
         }
     }
 }
