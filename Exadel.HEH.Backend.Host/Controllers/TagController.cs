@@ -1,14 +1,37 @@
-﻿using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+﻿using System;
+using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.Host.Controllers.Abstract;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
-    //public class TagController : BaseController<TagDto>
-    //{
-    //    public TagController(IService<TagDto> service)
-    //        : base(service)
-    //    {
-    //    }
-    //}
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TagController : ControllerBase
+    {
+        private readonly ITagService _tagService;
+
+        public TagController(ITagService tagService)
+        {
+            _tagService = tagService;
+        }
+
+        [HttpDelete]
+        public Task RemoveAsync(Guid id)
+        {
+            return _tagService.RemoveAsync(id);
+        }
+
+        public Task CreateAsync(TagDto item)
+        {
+            return _tagService.CreateAsync(item);
+        }
+
+        public Task UpdateAsync(TagDto item)
+        {
+            return _tagService.UpdateAsync(item);
+        }
+    }
 }

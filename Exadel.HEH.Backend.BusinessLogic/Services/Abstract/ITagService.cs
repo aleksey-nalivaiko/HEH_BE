@@ -9,5 +9,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
     public interface ITagService : IService<TagDto>
     {
         Task<IEnumerable<TagDto>> GetByCategoryAsync(Guid categoryId);
+
+        Task RemoveAsync(Guid id);
+
+        Task CreateAsync(TagDto item);
+
+        Task UpdateAsync(TagDto item);
     }
 }

@@ -50,5 +50,14 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             await _repository.UpdateAsync(_category);
             Assert.Equal("NewCategoryName", Collection.Single(x => x.Id == _category.Id).Name);
         }
+
+        [Fact]
+        public async Task CanRemoveById()
+        {
+            Collection.Add(_category);
+
+            await _repository.RemoveAsync(_category.Id);
+            Assert.Empty(Collection);
+        }
     }
 }

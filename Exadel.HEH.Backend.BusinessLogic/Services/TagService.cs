@@ -25,5 +25,22 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var result = await _tagRepository.GetByCategoryAsync(categoryId);
             return Mapper.Map<IEnumerable<TagDto>>(result);
         }
+
+        public async Task CreateAsync(TagDto item)
+        {
+            var result = Mapper.Map<Tag>(item);
+            await _tagRepository.CreateAsync(result);
+        }
+
+        public async Task RemoveAsync(Guid id)
+        {
+            await _tagRepository.RemoveAsync(id);
+        }
+
+        public async Task UpdateAsync(TagDto item)
+        {
+            var result = Mapper.Map<Tag>(item);
+            await _tagRepository.UpdateAsync(result);
+        }
     }
 }

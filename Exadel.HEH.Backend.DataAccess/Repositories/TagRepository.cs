@@ -9,9 +9,17 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
     public class TagRepository : MongoRepository<Tag>, ITagRepository
     {
+        private readonly IDiscountRepository _discountRepository;
+
         public TagRepository(IDbContext context)
             : base(context)
         {
+        }
+
+        public TagRepository(IDbContext context, IDiscountRepository discountRepository)
+            : base(context)
+        {
+            _discountRepository = discountRepository;
         }
 
         public async Task<IEnumerable<Tag>> GetByCategoryAsync(Guid categoryId)
@@ -19,6 +27,12 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
             var tagCollection = Context.GetAll<Tag>()
                 .Where(x => x.CategoryId.Equals(categoryId)).ToListAsync();
             return await tagCollection;
+        }
+
+        public override Task RemoveAsync(Guid id)
+        {
+            _discountRepository.RemoveTagsFromDiscounts(id);
+            return base.RemoveAsync(id);
         }
     }
 }

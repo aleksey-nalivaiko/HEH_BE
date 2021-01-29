@@ -22,6 +22,13 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             Context.Setup(c => c.GetAll<TDocument>())
                 .Returns(Collection.AsQueryable());
 
+            Context.Setup(c => c.RemoveAsync<TDocument>(It.IsAny<Guid>()))
+                .Callback((Guid id) =>
+                {
+                    Collection.RemoveAll(x => x.Id == id);
+                })
+                .Returns(Task.CompletedTask);
+
             Context.Setup(c => c.GetByIdAsync<TDocument>(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Collection.FirstOrDefault(x => x.Id == id)));
 
