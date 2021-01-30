@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Exadel.HEH.Backend.Host.Infrastructure;
+using Microsoft.AspNetCore.Builder;
 
 namespace Exadel.HEH.Backend.Host.Extensions
 {
