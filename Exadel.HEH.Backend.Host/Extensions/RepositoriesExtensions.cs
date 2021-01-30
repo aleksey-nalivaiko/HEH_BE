@@ -14,7 +14,7 @@ namespace Exadel.HEH.Backend.Host.Extensions
             services.AddSingleton<IDbContext>(provider =>
                 new MongoDbContext(configuration.GetConnectionString("MongoConnection")));
 
-            services.AddSingleton<IRepository<User>, UserRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
 
             services.AddSingleton<IRepository<History>, HistoryRepository>();
 
@@ -29,6 +29,8 @@ namespace Exadel.HEH.Backend.Host.Extensions
             services.AddSingleton<IDiscountRepository, DiscountRepository>();
 
             services.AddSingleton<IRepository<Category>, CategoryRepository>();
+
+            services.AddSingleton<IIdentityRepository, IdentityRepository>();
 
             return services;
         }

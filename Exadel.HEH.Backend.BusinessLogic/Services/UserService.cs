@@ -8,7 +8,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class UserService : BaseService<User, UserDto>
     {
-        public UserService(IRepository<User> repository, IMapper mapper)
+        public UserService(IUserRepository repository, IMapper mapper)
             : base(repository, mapper)
         {
         }

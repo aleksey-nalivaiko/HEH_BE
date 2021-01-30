@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.DataAccess.Models;
+using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Moq;
 using Xunit;
 
@@ -19,7 +20,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public FavoritesServiceTests()
         {
             var userProvider = new Mock<IUserProvider>();
-            _service = new FavoritesService(Repository.Object, Mapper, userProvider.Object);
+            var repository = new Mock<IUserRepository>();
+            _service = new FavoritesService(repository.Object, Mapper, userProvider.Object);
 
             InitTestData();
             userProvider.Setup(p => p.GetUserId()).Returns(_user.Id);

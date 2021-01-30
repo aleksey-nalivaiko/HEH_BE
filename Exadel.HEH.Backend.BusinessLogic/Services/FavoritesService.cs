@@ -12,11 +12,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class FavoritesService : IFavoritesService
     {
-        private readonly IRepository<User> _repository;
+        private readonly IUserRepository _repository;
         private readonly IMapper _mapper;
         private readonly IUserProvider _userProvider;
 
-        public FavoritesService(IRepository<User> repository, IMapper mapper, IUserProvider userProvider)
+        public FavoritesService(IUserRepository repository, IMapper mapper, IUserProvider userProvider)
         {
             _repository = repository;
             _mapper = mapper;

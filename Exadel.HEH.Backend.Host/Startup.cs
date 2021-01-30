@@ -1,7 +1,9 @@
 using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.Host.Extensions;
+using Exadel.HEH.Backend.Host.Identity;
 using Exadel.HEH.Backend.Host.SwaggerFilters;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -60,6 +62,20 @@ namespace Exadel.HEH.Backend.Host
             services.AddRepositories(Configuration);
             services.AddCrudServices();
             services.AddSingleton(MapperExtensions.Mapper);
+
+            services.AddIdentityServer()
+                .AddClients()
+                .AddIdentityApiResources()
+                .AddPersistedGrants()
+                .AddUsers()
+                .AddDeveloperSigningCredential();
+
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = Configuration["Authority"];
+                    options.ApiName = "exadel_heh_api";
+                });
         }
 
         public void Configure(IApplicationBuilder app, VersionedODataModelBuilder modelBuilder, IWebHostEnvironment env)
@@ -74,6 +90,10 @@ namespace Exadel.HEH.Backend.Host
             app.UseODataRouting();
             app.UseRouting();
 
+            app.UseIdentityServer();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -84,6 +104,8 @@ namespace Exadel.HEH.Backend.Host
             app.UseSwagger();
             app.UseSwaggerUI(options =>
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Happy Exadel Hours API V1"));
+
+            SeedIdentityData.InitializeDatabaseAsync(app).Wait();
         }
     }
 }
