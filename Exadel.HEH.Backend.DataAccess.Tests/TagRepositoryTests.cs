@@ -68,5 +68,21 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             var result = await _repository.GetByCategoryAsync(_tag.CategoryId);
             Assert.NotEmpty(result);
         }
+
+        [Fact]
+        public async Task CanRemoveById()
+        {
+            Collection.Add(_tag);
+
+            await _repository.RemoveAsync(_tag.Id);
+            Assert.Empty(Collection);
+        }
+
+        [Fact]
+        public async Task CanCreate()
+        {
+            await _repository.CreateAsync(_tag);
+            Assert.Single(Collection);
+        }
     }
 }

@@ -19,7 +19,6 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpDelete]
-
         public Task RemoveAsync(Guid id)
         {
             return _tagService.RemoveAsync(id);

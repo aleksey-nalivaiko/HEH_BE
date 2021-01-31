@@ -10,33 +10,36 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class TagService : BaseService<Tag, TagDto>, ITagService
+    public class TagService : ITagService
     {
         private readonly ITagRepository _tagRepository;
+        private readonly IRepository<Tag> _repository;
         private readonly IDiscountRepository _discountRepository;
+        private readonly IMapper _mapper;
 
-        public TagService(ITagRepository tagRepository, IDiscountRepository discountRepository, IMapper mapper)
-            : base(tagRepository, mapper)
+        public TagService(IRepository<Tag> repository, ITagRepository tagRepository, IDiscountRepository discountRepository, IMapper mapper)
         {
+            _repository = repository;
             _tagRepository = tagRepository;
             _discountRepository = discountRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<TagDto>> GetByCategoryAsync(Guid categoryId)
         {
             var result = await _tagRepository.GetByCategoryAsync(categoryId);
-            return Mapper.Map<IEnumerable<TagDto>>(result);
+            return _mapper.Map<IEnumerable<TagDto>>(result);
         }
 
         public async Task CreateAsync(TagDto item)
         {
-            var result = Mapper.Map<Tag>(item);
-            await _tagRepository.CreateAsync(result);
+            var result = _mapper.Map<Tag>(item);
+            await _repository.CreateAsync(result);
         }
 
         public async Task RemoveAsync(Guid id)
         {
-            await _tagRepository.RemoveAsync(id);
+            await _repository.RemoveAsync(id);
             var collection = await _discountRepository.GetAllAsync();
             foreach (var item in collection)
             {
@@ -47,8 +50,18 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task UpdateAsync(TagDto item)
         {
-            var result = Mapper.Map<Tag>(item);
-            await _tagRepository.UpdateAsync(result);
+            var result = _mapper.Map<Tag>(item);
+            await _repository.UpdateAsync(result);
+        }
+
+        public Task<IEnumerable<TagDto>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TagDto> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
