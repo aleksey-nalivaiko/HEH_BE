@@ -62,6 +62,7 @@ namespace Exadel.HEH.Backend.Host
             services.AddUserProvider();
             services.AddRepositories(Configuration);
             services.AddCrudServices();
+            services.AddValidationServices();
             services.AddSingleton(MapperExtensions.Mapper);
 
             services.AddIdentityServer()

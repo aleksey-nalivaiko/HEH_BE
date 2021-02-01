@@ -24,7 +24,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public CategoryServiceTests()
         {
             var tagRepository = new Mock<ITagRepository>();
-            var validationService = new Mock<IValidationService>();
+            var validationService = new Mock<IValidationCategoryService>();
 
             tagRepository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<Tag>)_tagData));

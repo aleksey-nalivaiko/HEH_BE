@@ -29,7 +29,7 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddScoped<IFavoritesService, FavoritesService>();
 
-            services.AddScoped<IValidationService, ValidationService>();
+            services.AddScoped<IValidationCategoryService, ValidationCategoryService>();
 
             return services;
         }
