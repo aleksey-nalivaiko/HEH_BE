@@ -17,7 +17,7 @@ namespace Exadel.HEH.Backend.Host.Identity
                     RequireClientSecret = false,
                     AllowedScopes = new[]
                     {
-                        "exadel_heh_api"
+                        "heh_api"
                     }
                 }
             };

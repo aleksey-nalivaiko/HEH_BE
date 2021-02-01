@@ -69,7 +69,7 @@ namespace Exadel.HEH.Backend.Host
                             TokenUrl = new Uri(Configuration["TokenUrl"]),
                             Scopes = new Dictionary<string, string>
                             {
-                                { "exadel_heh_api", "Full access to HEH Api" }
+                                { "heh_api", "Full access to HEH Api" }
                             }
                         }
                     }
@@ -101,7 +101,7 @@ namespace Exadel.HEH.Backend.Host
                 .AddIdentityServerAuthentication(options =>
                 {
                     options.Authority = Configuration["Authority"];
-                    options.ApiName = "exadel_heh_api";
+                    options.ApiName = "heh_api";
                 });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
