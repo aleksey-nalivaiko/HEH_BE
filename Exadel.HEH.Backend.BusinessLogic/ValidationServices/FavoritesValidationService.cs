@@ -13,10 +13,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
     public class FavoritesValidationService : IFavoritesValidationService
     {
         private readonly IDiscountRepository _discountRepository;
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUserProvider _userProvider;
 
-        public FavoritesValidationService(IDiscountRepository discountRepository, IRepository<User> userRepository, IUserProvider userProvider)
+        public FavoritesValidationService(IDiscountRepository discountRepository, IUserRepository userRepository, IUserProvider userProvider)
         {
             _discountRepository = discountRepository;
             _userRepository = userRepository;
