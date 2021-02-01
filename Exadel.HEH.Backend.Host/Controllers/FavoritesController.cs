@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
@@ -25,9 +26,17 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpPost]
-        public Task CreateAsync(FavoritesDto favorites)
+        public async Task<ActionResult> CreateAsync(FavoritesDto favorites)
         {
-            return _favoritesService.CreateAsync(favorites);
+            if (ModelState.IsValid)
+            {
+                await _favoritesService.CreateAsync(favorites);
+                return Created(string.Empty, favorites);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpPut]

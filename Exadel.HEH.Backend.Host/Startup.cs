@@ -1,8 +1,10 @@
 using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
+using Exadel.HEH.Backend.BusinessLogic.Validators;
 using Exadel.HEH.Backend.Host.Extensions;
 using Exadel.HEH.Backend.Host.Identity;
 using Exadel.HEH.Backend.Host.SwaggerFilters;
+using FluentValidation.AspNetCore;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
@@ -33,6 +35,10 @@ namespace Exadel.HEH.Backend.Host
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                })
+                .AddFluentValidation(validation =>
+                {
+                    validation.RegisterValidatorsFromAssemblyContaining<FavoritesValidator>();
                 });
 
             services.AddApiVersioning(options =>
@@ -62,6 +68,7 @@ namespace Exadel.HEH.Backend.Host
             services.AddUserProvider();
             services.AddRepositories(Configuration);
             services.AddCrudServices();
+            services.AddValidators();
             services.AddValidationServices();
             services.AddSingleton(MapperExtensions.Mapper);
 

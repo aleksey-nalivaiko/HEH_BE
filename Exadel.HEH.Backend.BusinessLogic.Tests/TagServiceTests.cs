@@ -29,7 +29,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             tagRepository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<Tag>)_tagData));
 
-            _service = new TagService(Repository.Object, tagRepository.Object, discountRepository.Object, MapperExtensions.Mapper);
+            _service = new TagService(tagRepository.Object, discountRepository.Object, MapperExtensions.Mapper);
 
             _tagData = new List<Tag>();
 
