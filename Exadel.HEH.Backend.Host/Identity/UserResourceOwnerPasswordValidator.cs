@@ -17,7 +17,7 @@ namespace Exadel.HEH.Backend.Host.Identity
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
             var user = await _userRepository.GetByEmail(context.UserName);
-            if (user.Password == context.Password)
+            if (user != null && user.Password == context.Password)
             {
                context.Result = new GrantValidationResult(user.Id.ToString(),
                    OidcConstants.AuthenticationMethods.Password, null);

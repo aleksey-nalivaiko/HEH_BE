@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
-using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
@@ -13,10 +10,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
     public class FavoritesValidationService : IFavoritesValidationService
     {
         private readonly IDiscountRepository _discountRepository;
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUserProvider _userProvider;
 
-        public FavoritesValidationService(IDiscountRepository discountRepository, IRepository<User> userRepository, IUserProvider userProvider)
+        public FavoritesValidationService(IDiscountRepository discountRepository, IUserRepository userRepository, IUserProvider userProvider)
         {
             _discountRepository = discountRepository;
             _userRepository = userRepository;
