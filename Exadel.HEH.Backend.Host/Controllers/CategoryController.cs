@@ -28,21 +28,21 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = Permissions.Moderation)]
+        [Authorize(Roles = Roles.Moderator)]
         public Task RemoveAsync(Guid id)
         {
             return _categoryService.RemoveAsync(id);
         }
 
         [HttpPost]
-        [Authorize(Roles = Permissions.Moderation)]
+        [Authorize(Roles = Roles.Moderator)]
         public Task CreateAsync(CategoryDto item)
         {
            return _categoryService.CreateAsync(item);
         }
 
         [HttpPut]
-        [Authorize(Roles = Permissions.Moderation)]
+        [Authorize(Roles = Roles.Moderator)]
         public Task UpdateAsync(CategoryDto item)
         {
             return _categoryService.UpdateAsync(item);

@@ -10,7 +10,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = Permissions.Moderation)]
+    [Authorize(Roles = Roles.Moderator)]
     public class TagController : ControllerBase
     {
         private readonly ITagService _tagService;
