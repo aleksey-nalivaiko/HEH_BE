@@ -8,7 +8,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
     {
         public TagProfile()
         {
-            CreateMap<Tag, TagDto>();
+            CreateMap<Tag, TagDto>().ReverseMap();
         }
     }
 }

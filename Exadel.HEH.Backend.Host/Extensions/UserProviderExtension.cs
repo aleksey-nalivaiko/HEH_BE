@@ -1,4 +1,5 @@
 ﻿using Exadel.HEH.Backend.BusinessLogic;
+using Exadel.HEH.Backend.Host.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Exadel.HEH.Backend.Host.Extensions

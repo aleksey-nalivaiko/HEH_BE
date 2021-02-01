@@ -62,6 +62,15 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
+        public async Task CanGetByEmail()
+        {
+            Collection.Add(_user);
+
+            var result = await _repository.GetByEmail(_user.Email);
+            Assert.Equal(_user, result);
+        }
+
+        [Fact]
         public async Task CanUpdate()
         {
             Collection.Add(_user.DeepClone());
