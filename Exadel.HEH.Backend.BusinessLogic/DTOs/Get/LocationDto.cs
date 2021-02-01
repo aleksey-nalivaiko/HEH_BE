@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
-    public class LocationDto : IDataModelDto
+    public class LocationDto
     {
         public Guid Id { get; set; }
 

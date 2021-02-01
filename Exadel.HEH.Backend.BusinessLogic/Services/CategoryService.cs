@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
@@ -13,11 +14,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     {
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Tag> _tagRepository;
+        private readonly IValidationService _validationService;
         private readonly IMapper _mapper;
 
         public CategoryService(IRepository<Category> categoryRepository,
-            ITagRepository tagRepository, IMapper mapper)
+            ITagRepository tagRepository,
+            IValidationService validationService,
+            IMapper mapper)
         {
+            _validationService = validationService;
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
             _mapper = mapper;
@@ -52,6 +57,26 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             }
 
             return await Task.FromResult(categoriesWithTags);
+        }
+
+        public async Task CreateAsync(CategoryDto item)
+        {
+            var result = _mapper.Map<Category>(item);
+            await _categoryRepository.CreateAsync(result);
+        }
+
+        public async Task RemoveAsync(Guid id)
+        {
+            if (await _validationService.CheckOnDiscountContainsCategory(id))
+            {
+                await _categoryRepository.RemoveAsync(id);
+            }
+        }
+
+        public async Task UpdateAsync(CategoryDto item)
+        {
+            var result = _mapper.Map<Category>(item);
+            await _categoryRepository.UpdateAsync(result);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Extensions
         {
             var mapperConfig = new MapperConfiguration(mc =>
             {
+                mc.AddProfile(new CategoryProfile());
                 mc.AddProfile(new UserProfile());
                 mc.AddProfile(new HistoryProfile());
                 mc.AddProfile(new VendorProfile());
