@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
@@ -8,7 +7,5 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
         where TDto : class, new()
     {
         Task<IEnumerable<TDto>> GetAllAsync();
-
-        Task<TDto> GetByIdAsync(Guid id);
     }
 }

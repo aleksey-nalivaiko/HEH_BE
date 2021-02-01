@@ -34,7 +34,7 @@ namespace Exadel.HEH.Backend.Host.SwaggerFilters
                                 }
                             }
 
-                        ] = new[] { "exadel_heh_api" }
+                        ] = new[] { "heh_api" }
                     }
                 };
             }

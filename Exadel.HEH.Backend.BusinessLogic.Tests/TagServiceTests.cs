@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Services;
-using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
-using Exadel.HEH.Backend.DataAccess;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Moq;
@@ -28,6 +26,29 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
             tagRepository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<Tag>)_tagData));
+
+            tagRepository.Setup(r => r.CreateAsync(It.IsAny<Tag>()))
+                .Callback((Tag item) => { Data.Add(item); })
+                .Returns(Task.CompletedTask);
+
+            tagRepository.Setup(f => f.UpdateAsync(It.IsAny<Tag>()))
+                .Callback((Tag item) =>
+                {
+                    var oldItem = Data.FirstOrDefault(x => x.Id == item.Id);
+                    if (oldItem != null)
+                    {
+                        Data.Remove(oldItem);
+                        Data.Add(item);
+                    }
+                })
+                .Returns(Task.CompletedTask);
+
+            tagRepository.Setup(r => r.RemoveAsync(It.IsAny<Guid>()))
+                .Callback((Guid id) =>
+                {
+                    Data.RemoveAll(x => x.Id == id);
+                })
+                .Returns(Task.CompletedTask);
 
             _service = new TagService(tagRepository.Object, discountRepository.Object, MapperExtensions.Mapper);
 

@@ -25,9 +25,9 @@ namespace Exadel.HEH.Backend.Host.Identity
         {
             return new[]
             {
-                new ApiResource("exadel_heh_api", "HEH Api")
+                new ApiResource("heh_api", "HEH Api")
                 {
-                    Scopes = { "exadel_heh_api" }
+                    Scopes = { "heh_api" }
                 }
             };
         }
@@ -36,7 +36,7 @@ namespace Exadel.HEH.Backend.Host.Identity
         {
             return new[]
             {
-                new ApiScope("exadel_heh_api", "Full access to HEH Api")
+                new ApiScope("heh_api", "Full access to HEH Api")
             };
         }
     }

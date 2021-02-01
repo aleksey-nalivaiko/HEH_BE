@@ -11,7 +11,7 @@ namespace Exadel.HEH.Backend.Host.Extensions
     {
         public static IServiceCollection AddCrudServices(this IServiceCollection services)
         {
-            services.AddScoped<IService<UserDto>, UserService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IService<HistoryDto>, HistoryService>();
 
