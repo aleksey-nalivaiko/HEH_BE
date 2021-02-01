@@ -25,6 +25,28 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
             InitTestData();
             userProvider.Setup(p => p.GetUserId()).Returns(_user.Id);
+
+            repository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+                .Returns((Guid id) => Task.FromResult(Data.Single()));
+
+            repository.Setup(r => r.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<User>)Data));
+
+            repository.Setup(r => r.CreateAsync(It.IsAny<User>()))
+                .Callback((User item) => { Data.Add(item); })
+                .Returns(Task.CompletedTask);
+
+            repository.Setup(f => f.UpdateAsync(It.IsAny<User>()))
+                .Callback((User item) =>
+                {
+                    var oldItem = Data.FirstOrDefault(x => x.Id == item.Id);
+                    if (oldItem != null)
+                    {
+                        Data.Remove(oldItem);
+                        Data.Add(item);
+                    }
+                })
+                .Returns(Task.CompletedTask);
         }
 
         [Fact]

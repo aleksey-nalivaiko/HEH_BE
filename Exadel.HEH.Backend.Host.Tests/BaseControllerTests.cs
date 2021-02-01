@@ -21,9 +21,6 @@ namespace Exadel.HEH.Backend.Host.Tests
             Service.Setup(s => s.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<TDto>)Data));
 
-            Service.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-                .Returns((Guid id) => Task.FromResult(Data.Single()));
-
             //Service.Setup(s => s.CreateAsync(It.IsAny<T>()))
             //    .Callback((T item) =>
             //    {

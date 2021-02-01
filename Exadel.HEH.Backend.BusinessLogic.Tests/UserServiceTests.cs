@@ -13,14 +13,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
     public class UserServiceTests : BaseServiceTests<User>
     {
-        private readonly UserService _service;
+        private readonly UserService _userService;
 
         private readonly User _user;
 
         public UserServiceTests()
         {
             var repository = new Mock<IUserRepository>();
-            _service = new UserService(repository.Object, Mapper);
+            var userProvider = new Mock<IUserProvider>();
+
+            _userService = new UserService(repository.Object, Mapper, userProvider.Object);
             _user = new User
             {
                 Id = Guid.NewGuid(),
@@ -44,13 +46,21 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 },
                 Password = "abc"
             };
+
+            userProvider.Setup(p => p.GetUserId()).Returns(_user.Id);
+
+            repository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+                .Returns((Guid id) => Task.FromResult(Data.Single()));
+
+            repository.Setup(r => r.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<User>)Data));
         }
 
         [Fact]
         public async Task CanGetAllAsync()
         {
             Data.Add(_user);
-            var result = await _service.GetAllAsync();
+            var result = await _userService.GetAllAsync();
             Assert.Single(result);
         }
 
@@ -58,7 +68,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public async Task CanGetByIdAsync()
         {
             Data.Add(_user);
-            var result = await _service.GetByIdAsync(_user.Id);
+            var result = await _userService.GetByIdAsync(_user.Id);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task CanGetProfileAsync()
+        {
+            Data.Add(_user);
+            var result = await _userService.GetProfile();
             Assert.NotNull(result);
         }
 
@@ -68,7 +86,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         //    Data.Add(_user.DeepClone());
         //    _user.IsActive = false;
 
-        //    await _service.UpdateAsync(_user);
+        //    await _userService.UpdateAsync(_user);
         //    Assert.False(Data.Single(x => x.Id == _user.Id).IsActive);
         //}
     }
