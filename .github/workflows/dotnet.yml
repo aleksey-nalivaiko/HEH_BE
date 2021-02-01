@@ -22,4 +22,4 @@ jobs:
     - name: Build with dotnet
       run: dotnet build ./Exadel.HEH.Backend.sln --configuration Release
     - name: Test with dotnet
-      run: dotnet test ./Exadel.HEH.Backend.sln --configuration Release
+      run: dotnet test ./Exadel.HEH.Backend.BusinessLogic.Tests/Exadel.HEH.Backend.BusinessLogic.Tests.csproj --configuration Release
