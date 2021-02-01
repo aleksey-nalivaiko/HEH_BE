@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using MongoDB.Bson;
@@ -20,9 +22,16 @@ namespace Exadel.HEH.Backend.DataAccess
         }
 
         public IQueryable<T> GetAll<T>()
-            where T : class, IDataModel, new()
+            where T : class, new()
         {
             return GetCollection<T>().AsQueryable();
+        }
+
+        public async Task<IEnumerable<T>> GetAsync<T>(Expression<Func<T, bool>> expression)
+            where T : class, new()
+        {
+            return await GetCollection<T>()
+                .Find(Builders<T>.Filter.Where(expression)).ToListAsync();
         }
 
         public virtual Task<T> GetByIdAsync<T>(Guid id)
@@ -33,6 +42,12 @@ namespace Exadel.HEH.Backend.DataAccess
                 .FirstOrDefaultAsync();
         }
 
+        public Task<T> GetOneAsync<T>(Expression<Func<T, bool>> expression)
+            where T : class, new()
+        {
+            return GetCollection<T>().Find(Builders<T>.Filter.Where(expression)).FirstOrDefaultAsync();
+        }
+
         public virtual Task RemoveAsync<T>(Guid id)
             where T : class, IDataModel, new()
         {
@@ -40,8 +55,14 @@ namespace Exadel.HEH.Backend.DataAccess
                 .DeleteOneAsync(Builders<T>.Filter.Eq(x => x.Id, id));
         }
 
+        public Task RemoveAsync<T>(Expression<Func<T, bool>> expression)
+            where T : class, new()
+        {
+            return GetCollection<T>().DeleteOneAsync(Builders<T>.Filter.Where(expression));
+        }
+
         public virtual Task CreateAsync<T>(T item)
-            where T : class, IDataModel, new()
+            where T : class, new()
         {
             return GetCollection<T>().InsertOneAsync(item);
         }
@@ -53,7 +74,14 @@ namespace Exadel.HEH.Backend.DataAccess
                 .ReplaceOneAsync(Builders<T>.Filter.Eq(x => x.Id, item.Id), item);
         }
 
-        protected IMongoCollection<T> GetCollection<T>()
+        public async Task<bool> AnyAsync<T>()
+            where T : class, new()
+        {
+            var totalCount = await GetCollection<T>().CountDocumentsAsync(Builders<T>.Filter.Empty);
+            return totalCount > 0;
+        }
+
+        private IMongoCollection<T> GetCollection<T>()
         {
             return _database.GetCollection<T>(typeof(T).Name);
         }
@@ -78,6 +106,13 @@ namespace Exadel.HEH.Backend.DataAccess
 
             ConventionRegistry.Register(nameof(EnumRepresentationConvention),
                 enumPack, t => true);
+
+            var extraElementsPack = new ConventionPack
+            {
+                new IgnoreExtraElementsConvention(true)
+            };
+            ConventionRegistry.Register(nameof(IgnoreExtraElementsConvention),
+                extraElementsPack, t => true);
         }
     }
 }

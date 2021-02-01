@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.DataAccess;
 using Exadel.HEH.Backend.DataAccess.Models;
+using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Moq;
 using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
@@ -17,7 +19,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         public UserServiceTests()
         {
-            _service = new UserService(Repository.Object, Mapper);
+            var repository = new Mock<IUserRepository>();
+            _service = new UserService(repository.Object, Mapper);
             _user = new User
             {
                 Id = Guid.NewGuid(),
