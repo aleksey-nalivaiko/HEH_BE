@@ -20,12 +20,5 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             return services;
         }
-
-        public static IServiceCollection AddValidationServices(this IServiceCollection services)
-        {
-            services.AddScoped<IFavoritesValidationService, FavoritesValidationService>();
-
-            return services;
-        }
     }
 }
