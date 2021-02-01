@@ -1,36 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
-using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 {
-    public class ValidationService : IValidationService
+    public class ValidationCategoryService : IValidationCategoryService
     {
-        private readonly IRepository<Discount> _discountRepository;
-        private readonly IRepository<Category> _categoryRepository;
-        private bool answer;
+        private readonly IDiscountRepository _discountRepository;
 
-        public ValidationService(IRepository<Discount> discountRepository,
-            IRepository<Category> categoryRepository)
+        public ValidationCategoryService(IDiscountRepository discountRepository)
         {
             _discountRepository = discountRepository;
-            _categoryRepository = categoryRepository;
         }
 
         public async Task<bool> CheckOnDiscountContainsCategory(Guid id)
         {
-            var discountCollention = await _discountRepository.GetAllAsync();
-            var category = _categoryRepository.GetByIdAsync(id);
-            foreach (var item in discountCollention)
+            var discounts = await _discountRepository.GetAllAsync();
+            var anyDiscountWithCategory = false;
+
+            foreach (var discount in discounts)
             {
-                answer = item.CategoryId.Equals(id);
+                if (discount.CategoryId == id)
+                {
+                    anyDiscountWithCategory = true;
+                    break;
+                }
             }
 
-            return !answer;
+            return anyDiscountWithCategory;
         }
     }
 }

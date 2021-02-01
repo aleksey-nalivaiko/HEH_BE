@@ -14,15 +14,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     {
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Tag> _tagRepository;
-        private readonly IValidationService _validationService;
+        private readonly IValidationCategoryService _validationCategoryService;
         private readonly IMapper _mapper;
 
         public CategoryService(IRepository<Category> categoryRepository,
             ITagRepository tagRepository,
-            IValidationService validationService,
+            IValidationCategoryService validationCategoryService,
             IMapper mapper)
         {
-            _validationService = validationService;
+            _validationCategoryService = validationCategoryService;
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
             _mapper = mapper;
@@ -67,7 +67,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task RemoveAsync(Guid id)
         {
-            if (await _validationService.CheckOnDiscountContainsCategory(id))
+            if (await _validationCategoryService.CheckOnDiscountContainsCategory(id))
             {
                 await _categoryRepository.RemoveAsync(id);
             }
