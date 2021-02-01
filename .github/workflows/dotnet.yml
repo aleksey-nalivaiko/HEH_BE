@@ -20,6 +20,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build with dotnet
-      run: dotnet build ./src/Exadel.HEH.Backend.sln --configuration Release
+      run: dotnet build ./HEH_BE/Exadel.HEH.Backend.sln --configuration Release
     - name: Test with dotnet
-      run: dotnet test ./src/Exadel.HEH.Backend.sln --configuration Release
+      run: dotnet test ./HEH_BE/Exadel.HEH.Backend.sln --configuration Release
