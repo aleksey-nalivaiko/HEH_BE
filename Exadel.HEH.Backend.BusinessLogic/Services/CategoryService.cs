@@ -67,7 +67,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task RemoveAsync(Guid id)
         {
-            if (await _validationCategoryService.CheckOnDiscountContainsCategory(id))
+            if (!await _validationCategoryService.DiscountContainsCategory(id))
             {
                 await _categoryRepository.RemoveAsync(id);
             }

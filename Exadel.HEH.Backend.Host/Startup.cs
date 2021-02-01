@@ -66,7 +66,7 @@ namespace Exadel.HEH.Backend.Host
                     {
                         Password = new OpenApiOAuthFlow
                         {
-                            TokenUrl = new Uri("https://localhost:5001/connect/token"),
+                            TokenUrl = new Uri(Configuration["TokenUrl"]),
                             Scopes = new Dictionary<string, string>
                             {
                                 { "exadel_heh_api", "Full access to HEH Api" }
@@ -75,8 +75,7 @@ namespace Exadel.HEH.Backend.Host
                     }
                 });
 
-                //options.OperationFilter<AuthorizeCheckOperationFilter>();
-
+                options.OperationFilter<AuthorizeCheckOperationFilter>();
                 options.OperationFilter<DefaultValuesOperationFilter>();
                 options.OperationFilter<HideApiVersionOperationFilter>();
                 options.OperationFilter<CountParameterOperationFilter>();
