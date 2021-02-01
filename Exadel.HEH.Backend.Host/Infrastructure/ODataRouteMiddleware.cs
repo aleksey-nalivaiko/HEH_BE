@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Exadel.HEH.Backend.Host
+namespace Exadel.HEH.Backend.Host.Infrastructure
 {
     public class ODataRouteMiddleware
     {

@@ -15,7 +15,6 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpGet("{id:guid}")]
-
         public Task<UserDto> GetByIdAsync(Guid id)
         {
             return Service.GetByIdAsync(id);
