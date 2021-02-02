@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
-using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
@@ -30,7 +29,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public async Task<IEnumerable<FavoritesDto>> GetAllAsync()
         {
             var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
-            var discounts = await _discountRepository.GetByIds(user.Favorites.Select(f => f.DiscountId));
+            var discounts = await _discountRepository.GetByIdsAsync(user.Favorites.Select(f => f.DiscountId));
             var discountsDto = _mapper.Map<IEnumerable<DiscountDto>>(discounts);
             var favoritesDto = _mapper.Map<IEnumerable<FavoritesDto>>(discountsDto).ToList();
 

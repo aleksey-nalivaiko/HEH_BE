@@ -41,6 +41,16 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
+        public async Task CanGetByIds()
+        {
+            Collection.Add(_discount);
+
+            var result = await _repository.GetByIdsAsync(new List<Guid> { _discount.Id });
+
+            Assert.Single(result);
+        }
+
+        [Fact]
         public async Task CanCreate()
         {
             await _repository.CreateAsync(_discount);

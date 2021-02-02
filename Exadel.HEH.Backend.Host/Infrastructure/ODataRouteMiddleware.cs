@@ -28,7 +28,7 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
                 {
                     if (!request.Query.ContainsKey(queryParam))
                     {
-                        request.QueryString = request.QueryString.Add(QueryString.Create(queryParam, null));
+                        request.QueryString = QueryString.Create(queryParam, null);
                     }
                 }
             }

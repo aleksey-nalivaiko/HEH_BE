@@ -51,8 +51,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 })
                 .Returns(Task.CompletedTask);
 
-            discountRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-                .Returns((Guid id) => Task.FromResult(_discount));
+            discountRepository.Setup(s => s.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>()))
+                .Returns((IEnumerable<Guid> ids) =>
+                    Task.FromResult((IEnumerable<Discount>)new List<Discount> { _discount }));
         }
 
         [Fact]
@@ -104,35 +105,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         private void InitTestData()
         {
-            _favorites = new Favorites
-            {
-                DiscountId = Guid.NewGuid(),
-                Note = "Note1"
-            };
-            _user = new User
-            {
-                Id = Guid.NewGuid(),
-                CategoryNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-                CityChangeNotificationIsOn = true,
-                Email = "abc@mail.com",
-                Favorites = new List<Favorites> { _favorites },
-                HotDiscountsNotificationIsOn = false,
-                IsActive = true,
-                Name = "Mary",
-                NewDiscountNotificationIsOn = true,
-                NewVendorNotificationIsOn = true,
-                TagNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-                VendorNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-                Role = UserRole.Employee,
-                Address = new Address
-                {
-                    CityId = Guid.NewGuid(),
-                    CountryId = Guid.NewGuid(),
-                    Street = "g"
-                },
-                Password = "abc"
-            };
-
             _discount = new Discount
             {
                 Id = Guid.NewGuid(),
@@ -166,6 +138,36 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 PromoCode = "new promo code",
                 StartDate = new DateTime(2021, 1, 20),
                 EndDate = new DateTime(2021, 1, 25)
+            };
+
+            _favorites = new Favorites
+            {
+                DiscountId = _discount.Id,
+                Note = "Note1"
+            };
+
+            _user = new User
+            {
+                Id = Guid.NewGuid(),
+                CategoryNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+                CityChangeNotificationIsOn = true,
+                Email = "abc@mail.com",
+                Favorites = new List<Favorites> { _favorites },
+                HotDiscountsNotificationIsOn = false,
+                IsActive = true,
+                Name = "Mary",
+                NewDiscountNotificationIsOn = true,
+                NewVendorNotificationIsOn = true,
+                TagNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+                VendorNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+                Role = UserRole.Employee,
+                Address = new Address
+                {
+                    CityId = Guid.NewGuid(),
+                    CountryId = Guid.NewGuid(),
+                    Street = "g"
+                },
+                Password = "abc"
             };
         }
     }

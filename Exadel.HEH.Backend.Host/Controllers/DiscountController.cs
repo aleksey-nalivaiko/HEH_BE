@@ -24,8 +24,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [EnableQuery]
         [ODataRoute]
-        public IQueryable<DiscountDto> Get([FromQuery] string searchText,
-            ODataQueryOptions<DiscountDto> options)
+        public IQueryable<DiscountDto> Get([FromQuery] string searchText)
         {
             return _service.Get(searchText);
         }

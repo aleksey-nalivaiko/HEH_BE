@@ -10,6 +10,6 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
     {
         IQueryable<Discount> Get();
 
-        Task<IEnumerable<Discount>> GetByIds(IEnumerable<Guid> ids);
+        Task<IEnumerable<Discount>> GetByIdsAsync(IEnumerable<Guid> ids);
     }
 }

@@ -40,21 +40,21 @@ namespace Exadel.HEH.Backend.Host.Tests
             InitTestData();
         }
 
-        //[Fact]
-        //public void CanGetAll()
-        //{
-        //    Data.Add(_discount);
-        //    var result = _controller.Get(default(string));
-        //    Assert.Single(result);
-        //}
+        [Fact]
+        public void CanGetAll()
+        {
+            Data.Add(_discount);
+            var result = _controller.Get(default(string));
+            Assert.Single(result);
+        }
 
-        //[Fact]
-        //public void CanSearch()
-        //{
-        //    Data.Add(_discount);
-        //    var result = _controller.Get("cond");
-        //    Assert.Single(result);
-        //}
+        [Fact]
+        public void CanSearch()
+        {
+            Data.Add(_discount);
+            var result = _controller.Get("cond");
+            Assert.Single(result);
+        }
 
         [Fact]
         public async Task CanGetById()
