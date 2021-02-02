@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
+﻿namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
-    public class FavoritesDto
+    public class FavoritesDto : DiscountDto
     {
-        public Guid DiscountId { get; set; }
-
         public string Note { get; set; }
     }
 }

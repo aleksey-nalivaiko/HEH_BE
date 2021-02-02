@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Moq;
@@ -21,6 +22,9 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
 
             Context.Setup(c => c.GetAll<TDocument>())
                 .Returns(Collection.AsQueryable());
+
+            Context.Setup(c => c.GetAsync(It.IsAny<Expression<Func<TDocument, bool>>>()))
+                .Returns(Task.FromResult((IEnumerable<TDocument>)Collection));
 
             Context.Setup(c => c.RemoveAsync<TDocument>(It.IsAny<Guid>()))
                 .Callback((Guid id) =>

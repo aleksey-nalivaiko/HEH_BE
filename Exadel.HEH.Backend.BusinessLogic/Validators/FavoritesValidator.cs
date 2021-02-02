@@ -9,7 +9,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
         public FavoritesValidator(IFavoritesValidationService favoritesValidationService)
         {
             // TODO: remove constant string to enother place
-            RuleFor(f => f.DiscountId).NotEmpty().NotNull()
+            RuleFor(f => f.Id).NotEmpty().NotNull()
                 .MustAsync(favoritesValidationService.ValidateDiscountId).WithMessage("This discount id doesn't exists.")
                 .MustAsync(favoritesValidationService.ValidateUserFavorites).WithMessage("Such favorites already exists.");
             RuleFor(f => f.Note).MaximumLength(255);

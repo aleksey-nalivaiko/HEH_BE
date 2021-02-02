@@ -70,7 +70,7 @@ namespace Exadel.HEH.Backend.Host.Tests
             _data.Add(_favorites);
             var newFavorites = new FavoritesDto
             {
-                DiscountId = _favorites.DiscountId,
+                Id = _favorites.Id,
                 Note = "New note"
             };
             await _controller.UpdateAsync(newFavorites);
@@ -81,7 +81,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         public async Task CanRemoveAsync()
         {
             _data.Add(_favorites);
-            await _controller.RemoveAsync(_favorites.DiscountId);
+            await _controller.RemoveAsync(_favorites.Id);
             Assert.Empty(_data);
         }
 
@@ -89,8 +89,33 @@ namespace Exadel.HEH.Backend.Host.Tests
         {
             _favorites = new FavoritesDto
             {
-                DiscountId = Guid.NewGuid(),
-                Note = "Note1"
+                Id = Guid.NewGuid(),
+                Note = "Note1",
+                Addresses = new List<AddressDto>
+                {
+                    new AddressDto
+                    {
+                        CityId = Guid.NewGuid(),
+                        CountryId = Guid.NewGuid(),
+                        Street = "street"
+                    }
+                },
+                Phones = new List<PhoneDto>
+                {
+                    new PhoneDto
+                    {
+                        Id = Guid.NewGuid(),
+                        Number = "+375441111111"
+                    }
+                },
+                CategoryId = Guid.NewGuid(),
+                Conditions = "Conditions",
+                TagsIds = new List<Guid> { Guid.NewGuid() },
+                VendorId = Guid.NewGuid(),
+                VendorName = "Vendor",
+                PromoCode = "new promo code",
+                StartDate = new DateTime(2021, 1, 20),
+                EndDate = new DateTime(2021, 1, 25)
             };
         }
     }

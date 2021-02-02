@@ -11,6 +11,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Extensions
             {
                 mc.AddProfile(new CategoryProfile());
                 mc.AddProfile(new UserProfile());
+                mc.AddProfile(new FavoritesProfile());
                 mc.AddProfile(new HistoryProfile());
                 mc.AddProfile(new VendorProfile());
                 mc.AddProfile(new TagProfile());
