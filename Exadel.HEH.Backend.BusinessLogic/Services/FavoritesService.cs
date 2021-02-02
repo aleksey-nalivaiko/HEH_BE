@@ -30,18 +30,18 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public async Task<IEnumerable<FavoritesDto>> GetAllAsync()
         {
             var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
-            var favorites = new List<FavoritesDto>();
+            var discounts = await _discountRepository.GetByIds(user.Favorites.Select(f => f.DiscountId));
+            var discountsDto = _mapper.Map<IEnumerable<DiscountDto>>(discounts);
+            var favoritesDto = _mapper.Map<IEnumerable<FavoritesDto>>(discountsDto).ToList();
 
-            foreach (var favoritesItem in user.Favorites)
+            favoritesDto = favoritesDto.Zip(user.Favorites.Select(favorites => favorites.Note),
+                (favorites, note) =>
             {
-                var discount = await _discountRepository.GetByIdAsync(favoritesItem.DiscountId);
-                var discountDto = _mapper.Map<DiscountDto>(discount);
-                var favoritesDto = _mapper.Map<FavoritesDto>(discountDto);
-                favoritesDto.Note = favoritesItem.Note;
-                favorites.Add(favoritesDto);
-            }
+                favorites.Note = note;
+                return favorites;
+            }).ToList();
 
-            return favorites;
+            return favoritesDto;
         }
 
         public async Task CreateAsync(FavoritesDto newFavorites)

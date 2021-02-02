@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
@@ -14,6 +17,11 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
         public IQueryable<Discount> Get()
         {
             return Context.GetAll<Discount>();
+        }
+
+        public Task<IEnumerable<Discount>> GetByIds(IEnumerable<Guid> ids)
+        {
+            return Context.GetAsync<Discount>(d => ids.Contains(d.Id));
         }
     }
 }
