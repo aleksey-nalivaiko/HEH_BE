@@ -42,8 +42,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                     CityId = Guid.NewGuid(),
                     CountryId = Guid.NewGuid(),
                     Street = "g"
-                },
-                Password = "abc"
+                }
             };
             userService.Setup(s => s.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<UserDto>)Data));
