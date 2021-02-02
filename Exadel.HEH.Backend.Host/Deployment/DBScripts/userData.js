@@ -4,7 +4,8 @@ let userData = [
     "role": "Moderator",
     "name": "Mary Jones",
     "email": "maryj@exadel.com",
-    "password": "a5Adj7O7",
+    "password": "9DLxQwsPzPOMkPf1dTDbSs1UCMMXy67LWcdN742oiYU=",
+    "salt": "AbPmq+l8h0GXeDxaLsLwr8aB2JDJ6vi1wLMnPRRrBBL6Tf01UBF6+B+svtaLYltS76sUKiTCiY48N1Sx70Jg8A==",
     "address":
     {
         "_id": UUID("03581ffe-5d6e-11eb-ae93-0242ac130002"),
@@ -45,7 +46,8 @@ let userData = [
     "role": "Administrator",
     "name": "Jack Smith",
     "email": "jacks@exadel.com",
-    "password": "895sdj9O765",
+    "password": "J1o+bBVlrnls2e2YTUAOq75ZKwUJBiIyc4bd8o8RJ9E=",
+    "salt": "wmns4m7RG0Cw7JplXCKrSJStHydp2vqmIVQEt/6EgUGNUyfPPI21OSJl+0C1caQPA65QZotTywR0mUt+ZPC/7Q==",
     "address":
     {
         "_id": UUID("194449b4-5d6e-11eb-ae93-0242ac130002"),
@@ -85,7 +87,8 @@ let userData = [
     "role": "Employee",
     "name": "Alex Rollings",
     "email": "alexr@exadel.com",
-    "password": "5875soj9O765",
+    "password": "mLt6OCqm/0ZqUCCcH3cq8PtNllmD/FIfj2KW+OBMmh0=",
+    "salt": "F150N1dRfQTMD4ZzG9yUP7vmoMKm5CSo0/h3q2822NaA6/KI+L8VhrOWktYyNuI6oi2t0uQYw3tgKS0ZxItXFg==",
     "address":
     {
         "_id": UUID("22d45b7c-5d6e-11eb-ae93-0242ac130002"),
@@ -123,9 +126,10 @@ let userData = [
     {
         "_id": UUID("662db544-59a4-11eb-ae93-0242ac130002"),
         "role": "Employee",
-        "name": "Alex Rollings",
-        "email": "alexr@exadel.com",
-        "password": "5875soj9O765",
+        "name": "Amy Tomas",
+        "email": "amyt@exadel.com",
+        "password": "wVCtF6ViB9aftiVx5lpy3EneokHOAn+9aAbcpQEyoYk=",
+        "salt": "GNyRwwotie5swo2qlCwVyH69nB7w3s/zcRLFqWoapeQ8cbzV9YXMqdI20Tcn4PtQK8DlEmBge8NUUo/galOH/Q==",
         "address": {
             "_id": UUID("2b80c468-5d6e-11eb-ae93-0242ac130002"),
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
