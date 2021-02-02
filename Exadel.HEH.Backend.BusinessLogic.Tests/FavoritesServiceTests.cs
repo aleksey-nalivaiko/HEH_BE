@@ -16,27 +16,30 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         private readonly FavoritesService _service;
         private User _user;
         private Favorites _favorites;
+        private Discount _discount;
 
         public FavoritesServiceTests()
         {
             var userProvider = new Mock<IUserProvider>();
-            var repository = new Mock<IUserRepository>();
-            _service = new FavoritesService(repository.Object, Mapper, userProvider.Object);
+            var userRepository = new Mock<IUserRepository>();
+            var discountRepository = new Mock<IDiscountRepository>();
+            _service = new FavoritesService(userRepository.Object, discountRepository.Object,
+                Mapper, userProvider.Object);
 
             InitTestData();
             userProvider.Setup(p => p.GetUserId()).Returns(_user.Id);
 
-            repository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+            userRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Data.Single()));
 
-            repository.Setup(r => r.GetAllAsync())
+            userRepository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<User>)Data));
 
-            repository.Setup(r => r.CreateAsync(It.IsAny<User>()))
+            userRepository.Setup(r => r.CreateAsync(It.IsAny<User>()))
                 .Callback((User item) => { Data.Add(item); })
                 .Returns(Task.CompletedTask);
 
-            repository.Setup(f => f.UpdateAsync(It.IsAny<User>()))
+            userRepository.Setup(f => f.UpdateAsync(It.IsAny<User>()))
                 .Callback((User item) =>
                 {
                     var oldItem = Data.FirstOrDefault(x => x.Id == item.Id);
@@ -47,6 +50,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                     }
                 })
                 .Returns(Task.CompletedTask);
+
+            discountRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+                .Returns((Guid id) => Task.FromResult(_discount));
         }
 
         [Fact]
@@ -63,13 +69,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             Data.Add(_user);
             var newFavorites = new FavoritesDto
             {
-                DiscountId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 Note = "Note2"
             };
 
             await _service.CreateAsync(newFavorites);
             var favorites = Data.Single(u => u.Id == _user.Id)
-                .Favorites.FirstOrDefault(f => f.DiscountId == newFavorites.DiscountId);
+                .Favorites.FirstOrDefault(f => f.DiscountId == newFavorites.Id);
             Assert.NotNull(favorites);
         }
 
@@ -79,7 +85,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             Data.Add(_user);
             var newFavorites = new FavoritesDto
             {
-                DiscountId = _favorites.DiscountId,
+                Id = _favorites.DiscountId,
                 Note = "ChangedNote"
             };
 
@@ -125,6 +131,41 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                     Street = "g"
                 },
                 Password = "abc"
+            };
+
+            _discount = new Discount
+            {
+                Id = Guid.NewGuid(),
+                Addresses = new List<Address>
+                {
+                    new Address
+                    {
+                        CityId = Guid.NewGuid(),
+                        CountryId = Guid.NewGuid(),
+                        Street = "street"
+                    }
+                },
+                Phones = new List<Phone>
+                {
+                    new Phone
+                    {
+                        Id = Guid.NewGuid(),
+                        Number = "+375441111111"
+                    },
+                    new Phone
+                    {
+                        Id = Guid.NewGuid(),
+                        Number = "+375442222222"
+                    },
+                },
+                CategoryId = Guid.NewGuid(),
+                Conditions = "Conditions",
+                TagsIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+                VendorId = Guid.NewGuid(),
+                VendorName = "Vendor",
+                PromoCode = "new promo code",
+                StartDate = new DateTime(2021, 1, 20),
+                EndDate = new DateTime(2021, 1, 25)
             };
         }
     }
