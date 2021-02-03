@@ -33,6 +33,8 @@ namespace Exadel.HEH.Backend.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var authority = Configuration["AUTHORITY"];
+
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -66,7 +68,7 @@ namespace Exadel.HEH.Backend.Host
                     {
                         Password = new OpenApiOAuthFlow
                         {
-                            TokenUrl = new Uri(Configuration["TokenUrl"]),
+                            TokenUrl = new Uri(authority + "/connect/token"),
                             Scopes = new Dictionary<string, string>
                             {
                                 { "heh_api", "Full access to HEH Api" }
@@ -100,7 +102,7 @@ namespace Exadel.HEH.Backend.Host
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = Configuration["Authority"];
+                    options.Authority = authority;
                     options.ApiName = "heh_api";
                 });
 
