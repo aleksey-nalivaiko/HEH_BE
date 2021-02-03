@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
@@ -14,12 +15,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     {
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Tag> _tagRepository;
-        private readonly IValidationCategoryService _validationCategoryService;
+        private readonly ICategoryValidationService _validationCategoryService;
         private readonly IMapper _mapper;
 
         public CategoryService(IRepository<Category> categoryRepository,
             ITagRepository tagRepository,
-            IValidationCategoryService validationCategoryService,
+            ICategoryValidationService validationCategoryService,
             IMapper mapper)
         {
             _validationCategoryService = validationCategoryService;
@@ -67,10 +68,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task RemoveAsync(Guid id)
         {
-            if (!await _validationCategoryService.DiscountContainsCategory(id))
-            {
-                await _categoryRepository.RemoveAsync(id);
-            }
+            await _categoryRepository.RemoveAsync(id);
         }
 
         public async Task UpdateAsync(CategoryDto item)
