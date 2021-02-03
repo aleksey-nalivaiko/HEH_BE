@@ -10,8 +10,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
         {
             // TODO: remove constant string to enother place
             RuleFor(f => f.Id).NotEmpty().NotNull()
-                .MustAsync(favoritesValidationService.ValidateDiscountId).WithMessage("This discount id doesn't exists.")
-                .MustAsync(favoritesValidationService.ValidateUserFavorites).WithMessage("Such favorites already exists.");
+                .MustAsync(favoritesValidationService.ValidateDiscountIdIsExist).WithMessage("This discount id doesn't exists.")
+                .MustAsync(favoritesValidationService.ValidateUserFavoritesIsExist).WithMessage("Such favorites already exists.");
             RuleFor(f => f.Note).MaximumLength(255);
         }
     }
