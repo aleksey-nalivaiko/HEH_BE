@@ -2,5 +2,8 @@ FROM mongo:latest as mongo
 
 WORKDIR /data
 COPY ["/Exadel.HEH.Backend.Host/Deployment/DBScripts/*.js", "./"]
+# BE:
+ CMD bash -c "mongo mongodb+srv://admin:admin@exadel-heh-cluster.cbbwl.mongodb.net/ExadelHEH?retryWrites=true ./db.js"
 
-CMD bash -c "mongo mongodb+srv://admin:admin@exadel-heh-cluster.cbbwl.mongodb.net/ExadelHEH?retryWrites=true ./db.js"
+# UI:
+# CMD bash -c "mongo mongodb+srv://admin:admin@exadel-heh-ui-cluster.t1y4r.mongodb.net/ExadelHEH?retryWrites=true ./db.js"
