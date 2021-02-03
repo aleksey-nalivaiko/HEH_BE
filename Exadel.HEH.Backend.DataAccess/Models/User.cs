@@ -15,6 +15,8 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public string Password { get; set; }
 
+        public string Salt { get; set; }
+
         public Address Address { get; set; }
 
         public bool IsActive { get; set; }

@@ -17,7 +17,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         protected readonly IMapper Mapper;
         protected readonly List<T> Data;
 
-        public BaseServiceTests()
+        protected BaseServiceTests()
         {
             Repository = new Mock<IRepository<T>>();
             Data = new List<T>();

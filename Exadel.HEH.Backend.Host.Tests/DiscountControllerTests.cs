@@ -99,7 +99,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                     {
                         Id = Guid.NewGuid(),
                         Number = "+375442222222"
-                    },
+                    }
                 },
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",

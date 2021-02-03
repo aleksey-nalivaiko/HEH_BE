@@ -14,8 +14,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 
         public string Email { get; set; }
 
-        public string Password { get; set; }
-
         public Address Address { get; set; }
 
         public bool IsActive { get; set; }

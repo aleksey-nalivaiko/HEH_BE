@@ -14,7 +14,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             _discountRepository = discountRepository;
         }
 
-        public async Task<bool> CheckOnDiscountContainsCategory(Guid id)
+        public async Task<bool> DiscountContainsCategory(Guid id)
         {
             var discounts = await _discountRepository.GetAllAsync();
             var anyDiscountWithCategory = false;

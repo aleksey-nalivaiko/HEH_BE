@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Validators;
@@ -31,6 +33,8 @@ namespace Exadel.HEH.Backend.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var authority = Configuration["AUTHORITY"];
+
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -57,7 +61,23 @@ namespace Exadel.HEH.Backend.Host
                     Title = $"Happy Exadel Hours API {groupName}",
                     Version = groupName
                 });
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        Password = new OpenApiOAuthFlow
+                        {
+                            TokenUrl = new Uri(authority + "/connect/token"),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { "heh_api", "Full access to HEH Api" }
+                            }
+                        }
+                    }
+                });
 
+                options.OperationFilter<AuthorizeCheckOperationFilter>();
                 options.OperationFilter<DefaultValuesOperationFilter>();
                 options.OperationFilter<HideApiVersionOperationFilter>();
                 options.OperationFilter<CountParameterOperationFilter>();
@@ -82,8 +102,8 @@ namespace Exadel.HEH.Backend.Host
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = Configuration["Authority"];
-                    options.ApiName = "exadel_heh_api";
+                    options.Authority = authority;
+                    options.ApiName = "heh_api";
                 });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -114,7 +134,11 @@ namespace Exadel.HEH.Backend.Host
 
             app.UseSwagger();
             app.UseSwaggerUI(options =>
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Happy Exadel Hours API V1"));
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Happy Exadel Hours API V1");
+                options.OAuthClientId("HEHApiClient");
+                options.OAuthAppName("Happy Exadel Hours Api client");
+            });
 
             SeedIdentityData.InitializeDatabaseAsync(app).Wait();
         }

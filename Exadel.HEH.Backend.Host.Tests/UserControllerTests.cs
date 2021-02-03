@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
+using Moq;
 using Xunit;
 
 namespace Exadel.HEH.Backend.Host.Tests
@@ -17,7 +20,8 @@ namespace Exadel.HEH.Backend.Host.Tests
 
         public UserControllerTests()
         {
-            _controller = new UserController(Service.Object);
+            var userService = new Mock<IUserService>();
+            _controller = new UserController(userService.Object);
             _user = new UserDto
             {
                 Id = Guid.NewGuid(),
@@ -38,16 +42,16 @@ namespace Exadel.HEH.Backend.Host.Tests
                     CityId = Guid.NewGuid(),
                     CountryId = Guid.NewGuid(),
                     Street = "g"
-                },
-                Password = "abc"
+                }
             };
+            userService.Setup(s => s.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<UserDto>)Data));
 
-            //_userDto = new UserUpdateDto
-            //{
-            //    Id = _user.Id,
-            //    IsActive = true,
-            //    UserRole = UserRole.Employee
-            //};
+            userService.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+                .Returns(() => Task.FromResult(Data.Single()));
+
+            userService.Setup(s => s.GetProfile())
+                .Returns(() => Task.FromResult(Data.Single()));
         }
 
         [Fact]
@@ -63,6 +67,14 @@ namespace Exadel.HEH.Backend.Host.Tests
         {
             Data.Add(_user);
             var result = await _controller.GetByIdAsync(_user.Id);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task CanGetProfileAsync()
+        {
+            Data.Add(_user);
+            var result = await _controller.GetProfile();
             Assert.NotNull(result);
         }
 

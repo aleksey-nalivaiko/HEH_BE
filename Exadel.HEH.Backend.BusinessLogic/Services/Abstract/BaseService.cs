@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -24,12 +23,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
         {
             var result = await Repository.GetAllAsync();
             return Mapper.Map<IEnumerable<TDto>>(result);
-        }
-
-        public async Task<TDto> GetByIdAsync(Guid id)
-        {
-            var result = await Repository.GetByIdAsync(id);
-            return Mapper.Map<TDto>(result);
         }
     }
 }

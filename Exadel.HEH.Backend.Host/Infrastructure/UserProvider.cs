@@ -16,15 +16,7 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
 
         public Guid GetUserId()
         {
-            var user = _httpContextAccessor.HttpContext.User;
-            if (user.IsAuthenticated())
-            {
-                var subjectId = user.GetSubjectId();
-                return Guid.Parse(subjectId);
-            }
-
-            // TODO: remove
-            return Guid.Parse("6dead3f8-599e-11eb-ae93-0242ac130002");
+            return Guid.Parse(_httpContextAccessor.HttpContext.User.GetSubjectId());
         }
     }
 }

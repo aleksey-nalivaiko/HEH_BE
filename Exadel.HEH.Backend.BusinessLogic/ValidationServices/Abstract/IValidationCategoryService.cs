@@ -5,6 +5,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 {
     public interface IValidationCategoryService
     {
-        Task<bool> CheckOnDiscountContainsCategory(Guid id);
+        Task<bool> DiscountContainsCategory(Guid id);
     }
 }
