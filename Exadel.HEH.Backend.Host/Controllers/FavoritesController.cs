@@ -8,14 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
-    public class FavoritesController : BaseController<FavoritesDto>
+    public class FavoritesController : ControllerBase /*BaseController<FavoritesDto>*/
     {
         private readonly IFavoritesService _favoritesService;
 
         public FavoritesController(IFavoritesService favoritesService)
-            : base(favoritesService)
+            //: base(favoritesService)
         {
             _favoritesService = favoritesService;
         }
