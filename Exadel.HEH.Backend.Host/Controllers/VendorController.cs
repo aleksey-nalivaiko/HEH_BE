@@ -38,26 +38,23 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [HttpPost]
         [Authorize(Roles = nameof(UserRole.Moderator))]
-        public Task CreateAsync(VendorDto vendor)
+        public async Task CreateAsync(VendorDto vendor)
         {
-            _vendorService.CreateAsync(vendor);
-            return Task.CompletedTask;
+            await _vendorService.CreateAsync(vendor);
         }
 
         [HttpPut]
         [Authorize(Roles = nameof(UserRole.Moderator))]
-        public Task UpdateAsync(VendorDto vendor)
+        public async Task UpdateAsync(VendorDto vendor)
         {
-            _vendorService.UpdateAsync(vendor);
-            return Task.CompletedTask;
+            await _vendorService.UpdateAsync(vendor);
         }
 
         [HttpDelete]
         [Authorize(Roles = nameof(UserRole.Moderator))]
-        public Task RemoveAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
-            _vendorService.RemoveAsync(id);
-            return Task.CompletedTask;
+            await _vendorService.RemoveAsync(id);
         }
     }
 }
