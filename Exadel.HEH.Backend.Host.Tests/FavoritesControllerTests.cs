@@ -53,8 +53,8 @@ namespace Exadel.HEH.Backend.Host.Tests
         public async Task CanGetAllAsync()
         {
             _data.Add(_favorites);
-            await _controller.GetAllAsync();
-            Assert.Single(_data);
+            var result = await _controller.GetAllAsync();
+            Assert.Single(result);
         }
 
         [Fact]

@@ -8,9 +8,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
     {
         public CategoryProfile()
         {
-            CreateMap<CategoryDto, Category>();
-            CreateMap<Category, CategoryDto>()
-                .ForMember(dest => dest.Tags, opts => opts.Ignore());
+            CreateMap<CategoryDto, Category>()
+                .ReverseMap().ForMember(dest => dest.Tags, opts => opts.Ignore());
         }
     }
 }

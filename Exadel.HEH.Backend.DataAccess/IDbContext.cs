@@ -30,7 +30,13 @@ namespace Exadel.HEH.Backend.DataAccess
         Task CreateAsync<T>(T item)
             where T : class, new();
 
+        Task CreateManyAsync<T>(IEnumerable<T> items)
+            where T : class, new();
+
         Task UpdateAsync<T>(T item)
+            where T : class, IDataModel, new();
+
+        Task UpdateManyAsync<T>(IEnumerable<T> items)
             where T : class, IDataModel, new();
 
         Task<bool> AnyAsync<T>()

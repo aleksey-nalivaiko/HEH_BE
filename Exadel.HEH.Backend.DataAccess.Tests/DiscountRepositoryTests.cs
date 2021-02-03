@@ -24,7 +24,6 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         public async Task CanGetAll()
         {
             Collection.Add(_discount);
-
             var result = await _repository.GetAllAsync();
 
             Assert.NotEmpty(result);
@@ -34,7 +33,6 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         public async Task CanGetById()
         {
             Collection.Add(_discount);
-
             var result = await _repository.GetByIdAsync(_discount.Id);
 
             Assert.Equal(_discount, result);
@@ -44,7 +42,6 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         public async Task CanGetByIds()
         {
             Collection.Add(_discount);
-
             var result = await _repository.GetByIdsAsync(new List<Guid> { _discount.Id });
 
             Assert.Single(result);
@@ -54,7 +51,6 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         public async Task CanCreate()
         {
             await _repository.CreateAsync(_discount);
-
             var discount = Collection.FirstOrDefault(x => x.Id == _discount.Id);
 
             Assert.NotNull(discount);
@@ -66,10 +62,19 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             Collection.Add(_discount.DeepClone());
 
             _discount.PromoCode = "new promo code";
-
             await _repository.UpdateAsync(_discount);
 
             Assert.True(Collection.Single(x => x.Id == _discount.Id).PromoCode.Equals("new promo code"));
+        }
+
+        [Fact]
+        public async Task CanRemoveByVendorId()
+        {
+            Collection.Add(_discount);
+
+            await _repository.RemoveAsync(d => d.VendorId == _discount.VendorId);
+
+            Assert.Empty(Collection);
         }
 
         private void InitTestData()
