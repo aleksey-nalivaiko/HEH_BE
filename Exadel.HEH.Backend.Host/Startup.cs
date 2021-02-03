@@ -5,6 +5,7 @@ using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Validators;
 using Exadel.HEH.Backend.Host.Extensions;
 using Exadel.HEH.Backend.Host.Identity;
+using Exadel.HEH.Backend.Host.Infrastructure;
 using Exadel.HEH.Backend.Host.SwaggerFilters;
 using FluentValidation.AspNetCore;
 using IdentityServer4.AccessTokenValidation;
@@ -35,7 +36,7 @@ namespace Exadel.HEH.Backend.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var authority = Configuration["AUTHORITY"];
+            var authority = Configuration["Authority"];
 
             services.AddControllers()
                 .AddJsonOptions(options =>
@@ -120,16 +121,7 @@ namespace Exadel.HEH.Backend.Host
 
             app.UseHttpsRedirection();
 
-            var forwardOptions = new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-                RequireHeaderSymmetry = false
-            };
-
-            forwardOptions.KnownNetworks.Clear();
-            forwardOptions.KnownProxies.Clear();
-
-            app.UseForwardedHeaders(forwardOptions);
+            app.UseForwardedHeaders(ForwardedHeadersSettings.Options);
 
             app.UseODataRouting();
             app.UseRouting();

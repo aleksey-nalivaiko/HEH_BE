@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Exadel.HEH.Backend.Host.Controllers
 {
     [ODataRoutePrefix("Discount")]
-    //[ODataAuthorize]
+    [ODataAuthorize]
     public class DiscountController : ODataController
     {
         private readonly IDiscountService _service;
