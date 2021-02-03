@@ -88,7 +88,9 @@ namespace Exadel.HEH.Backend.Host
 
             services.AddOdataSwaggerSupport();
 
+            services.AddHttpContextAccessor();
             services.AddUserProvider();
+            services.AddMethodProvider();
             services.AddRepositories(Configuration);
             services.AddCrudServices();
             services.AddValidators();
@@ -108,8 +110,6 @@ namespace Exadel.HEH.Backend.Host
                     options.Authority = authority;
                     options.ApiName = "heh_api";
                 });
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         public void Configure(IApplicationBuilder app, VersionedODataModelBuilder modelBuilder, IWebHostEnvironment env)

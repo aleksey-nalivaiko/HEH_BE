@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Microsoft.AspNetCore.Http;
 
 namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 {
@@ -12,25 +13,36 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
         private readonly IDiscountRepository _discountRepository;
         private readonly IUserRepository _userRepository;
         private readonly IUserProvider _userProvider;
+        private readonly IMethodProvider _methodProvider;
 
-        public FavoritesValidationService(IDiscountRepository discountRepository, IUserRepository userRepository, IUserProvider userProvider)
+        public FavoritesValidationService(IDiscountRepository discountRepository, IUserRepository userRepository, IUserProvider userProvider, IMethodProvider methodProvider)
         {
             _discountRepository = discountRepository;
             _userRepository = userRepository;
             _userProvider = userProvider;
+            _methodProvider = methodProvider;
         }
 
-        public async Task<bool> ValidateDiscountId(Guid discountId, CancellationToken token)
+        public async Task<bool> ValidateDiscountIdIsExist(Guid discountId, CancellationToken token)
         {
             var result = await _discountRepository.GetByIdAsync(discountId);
             return !(result is null);
         }
 
-        public async Task<bool> ValidateUserFavorites(Guid discountId, CancellationToken token)
+        public async Task<bool> ValidateUserFavoritesIsExist(Guid discountId, CancellationToken token)
         {
             var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
             var result = user.Favorites.FirstOrDefault(f => f.DiscountId == discountId);
-            return result is null;
+            if (_methodProvider.GetMethodUpperName() == "POST")
+            {
+                return result is null;
+            }
+            else if (_methodProvider.GetMethodUpperName() == "PUT")
+            {
+                return !(result is null);
+            }
+
+            return true;
         }
     }
 }

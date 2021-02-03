@@ -8,8 +8,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 {
     public interface IFavoritesValidationService
     {
-        Task<bool> ValidateDiscountId(Guid discountId, CancellationToken token);
+        Task<bool> ValidateDiscountIdIsExist(Guid discountId, CancellationToken token);
 
-        Task<bool> ValidateUserFavorites(Guid discountId, CancellationToken token);
+        Task<bool> ValidateUserFavoritesIsExist(Guid discountId, CancellationToken token);
     }
 }
