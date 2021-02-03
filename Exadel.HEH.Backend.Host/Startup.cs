@@ -5,6 +5,7 @@ using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Validators;
 using Exadel.HEH.Backend.Host.Extensions;
 using Exadel.HEH.Backend.Host.Identity;
+using Exadel.HEH.Backend.Host.Infrastructure;
 using Exadel.HEH.Backend.Host.SwaggerFilters;
 using FluentValidation.AspNetCore;
 using IdentityServer4.AccessTokenValidation;
@@ -13,10 +14,12 @@ using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 using OData.Swagger.Services;
 
@@ -33,7 +36,7 @@ namespace Exadel.HEH.Backend.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var authority = Configuration["AUTHORITY"];
+            var authority = Configuration["Authority"];
 
             services.AddControllers()
                 .AddJsonOptions(options =>
@@ -118,6 +121,8 @@ namespace Exadel.HEH.Backend.Host
 
             app.UseHttpsRedirection();
 
+            app.UseForwardedHeaders(ForwardedHeadersSettings.Options);
+
             app.UseODataRouting();
             app.UseRouting();
 
@@ -138,6 +143,7 @@ namespace Exadel.HEH.Backend.Host
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Happy Exadel Hours API V1");
                 options.OAuthClientId("HEHApiClient");
                 options.OAuthAppName("Happy Exadel Hours Api client");
+                options.RoutePrefix = string.Empty;
             });
 
             SeedIdentityData.InitializeDatabaseAsync(app).Wait();

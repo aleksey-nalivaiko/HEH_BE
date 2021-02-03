@@ -1,0 +1,6 @@
+FROM mongo:latest as mongo
+
+WORKDIR /data
+COPY ["/Exadel.HEH.Backend.Host/Deployment/DBScripts/*.js", "./"]
+
+CMD bash -c "mongo mongodb+srv://admin:admin@exadel-heh-cluster.cbbwl.mongodb.net/ExadelHEH?retryWrites=true ./db.js"
