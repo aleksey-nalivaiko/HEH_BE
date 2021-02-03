@@ -58,8 +58,8 @@ namespace Exadel.HEH.Backend.Host.Tests
         {
             _data.Add(_favorites);
             _dataCreateUpdate.Add(_favoritesCreateUpdate);
-            await _controller.GetAllAsync();
-            Assert.Single(_data);
+            var result = await _controller.GetAllAsync();
+            Assert.Single(result);
         }
 
         [Fact]
