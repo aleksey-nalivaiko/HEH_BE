@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.Host.Controllers;
@@ -14,32 +15,35 @@ namespace Exadel.HEH.Backend.Host.Tests
     {
         private readonly FavoritesController _controller;
         private readonly List<FavoritesDto> _data;
+        private readonly List<FavoritesCreateUpdateDto> _dataCreateUpdate;
         private FavoritesDto _favorites;
+        private FavoritesCreateUpdateDto _favoritesCreateUpdate;
 
         public FavoritesControllerTests()
         {
             var service = new Mock<IFavoritesService>();
             _controller = new FavoritesController(service.Object);
             _data = new List<FavoritesDto>();
+            _dataCreateUpdate = new List<FavoritesCreateUpdateDto>();
             InitTestData();
 
             service.Setup(s => s.GetAllAsync()).Returns(Task.FromResult((IEnumerable<FavoritesDto>)_data));
 
-            service.Setup(s => s.CreateAsync(It.IsAny<FavoritesDto>()))
-                .Callback((FavoritesDto item) =>
+            service.Setup(s => s.CreateAsync(It.IsAny<FavoritesCreateUpdateDto>()))
+                .Callback((FavoritesCreateUpdateDto item) =>
                 {
-                    _data.Add(item);
+                    _dataCreateUpdate.Add(item);
                 })
                 .Returns(Task.CompletedTask);
 
-            service.Setup(s => s.UpdateAsync(It.IsAny<FavoritesDto>()))
-                .Callback((FavoritesDto item) =>
+            service.Setup(s => s.UpdateAsync(It.IsAny<FavoritesCreateUpdateDto>()))
+                .Callback((FavoritesCreateUpdateDto item) =>
                 {
-                    var oldItem = _data.Single();
+                    var oldItem = _dataCreateUpdate.Single();
                     if (oldItem != null)
                     {
-                        _data.Remove(oldItem);
-                        _data.Add(item);
+                        _dataCreateUpdate.Remove(oldItem);
+                        _dataCreateUpdate.Add(item);
                     }
                 })
                 .Returns(Task.CompletedTask);
@@ -53,6 +57,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         public async Task CanGetAllAsync()
         {
             _data.Add(_favorites);
+            _dataCreateUpdate.Add(_favoritesCreateUpdate);
             await _controller.GetAllAsync();
             Assert.Single(_data);
         }
@@ -60,21 +65,21 @@ namespace Exadel.HEH.Backend.Host.Tests
         [Fact]
         public async Task CanCreateAsync()
         {
-            await _controller.CreateAsync(_favorites);
-            Assert.Single(_data);
+            await _controller.CreateAsync(_favoritesCreateUpdate);
+            Assert.Single(_dataCreateUpdate);
         }
 
         [Fact]
         public async Task CanUpdateAsync()
         {
-            _data.Add(_favorites);
-            var newFavorites = new FavoritesDto
+            _dataCreateUpdate.Add(_favoritesCreateUpdate);
+            var newFavorites = new FavoritesCreateUpdateDto
             {
-                Id = _favorites.Id,
+                DiscountId = _favorites.Id,
                 Note = "New note"
             };
             await _controller.UpdateAsync(newFavorites);
-            Assert.NotEqual(_data.Single().Note, _favorites.Note);
+            Assert.NotEqual(_dataCreateUpdate.Single().Note, _favoritesCreateUpdate.Note);
         }
 
         [Fact]
@@ -116,6 +121,12 @@ namespace Exadel.HEH.Backend.Host.Tests
                 PromoCode = "new promo code",
                 StartDate = new DateTime(2021, 1, 20),
                 EndDate = new DateTime(2021, 1, 25)
+            };
+
+            _favoritesCreateUpdate = new FavoritesCreateUpdateDto
+            {
+                DiscountId = Guid.NewGuid(),
+                Note = "Note1",
             };
         }
     }

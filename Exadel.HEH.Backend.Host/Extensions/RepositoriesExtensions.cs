@@ -12,7 +12,7 @@ namespace Exadel.HEH.Backend.Host.Extensions
         public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<IDbContext>(provider =>
-                new MongoDbContext(configuration["MONGO_CONNECTION"]));
+                new MongoDbContext(configuration["MongoConnection"]));
 
             services.AddSingleton<IUserRepository, UserRepository>();
 

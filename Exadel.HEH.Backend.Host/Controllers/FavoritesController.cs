@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.Host.Controllers.Abstract;
@@ -20,7 +21,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync(FavoritesDto favorites)
+        public async Task<ActionResult> CreateAsync(FavoritesCreateUpdateDto favorites)
         {
             if (ModelState.IsValid)
             {
@@ -32,9 +33,15 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpPut]
-        public Task UpdateAsync(FavoritesDto favorites)
+        public async Task<ActionResult> UpdateAsync(FavoritesCreateUpdateDto favorites)
         {
-            return _favoritesService.UpdateAsync(favorites);
+            if (ModelState.IsValid)
+            {
+                await _favoritesService.UpdateAsync(favorites);
+                return Ok(favorites);
+            }
+
+            return BadRequest(ModelState);
         }
 
         [HttpDelete("{discountId:guid}")]
