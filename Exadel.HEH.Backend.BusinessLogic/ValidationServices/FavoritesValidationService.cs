@@ -42,7 +42,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
                 return !(result is null);
             }
 
-            return false;
+            return true;
         }
     }
 }

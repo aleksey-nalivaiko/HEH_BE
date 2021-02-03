@@ -33,9 +33,15 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpPut]
-        public Task UpdateAsync(FavoritesCreateUpdateDto favorites)
+        public async Task<ActionResult> UpdateAsync(FavoritesCreateUpdateDto favorites)
         {
-            return _favoritesService.UpdateAsync(favorites);
+            if (ModelState.IsValid)
+            {
+                await _favoritesService.UpdateAsync(favorites);
+                return Ok(favorites);
+            }
+
+            return BadRequest(ModelState);
         }
 
         [HttpDelete("{discountId:guid}")]
