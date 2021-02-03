@@ -1,0 +1,9 @@
+FROM mongo:latest as mongo
+
+WORKDIR /data
+COPY ["/Deployment/DBScripts/*.js", "./"]
+
+CMD bash -c "mongo mongodb+srv://admin:admin@exadel-heh-cluster.cbbwl.mongodb.net/ExadelHEH?retryWrites=true ./db.js"
+
+#CMD ["mongo localhost:27017 ./data/scripts/db.js"]
+#RUN ls /data
