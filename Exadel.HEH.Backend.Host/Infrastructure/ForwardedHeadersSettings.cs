@@ -7,6 +7,7 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
     {
         static ForwardedHeadersSettings()
         {
+            //https://github.com/IdentityServer/IdentityServer4/issues/1331
             var forwardOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,

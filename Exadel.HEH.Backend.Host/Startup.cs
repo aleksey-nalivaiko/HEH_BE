@@ -143,6 +143,7 @@ namespace Exadel.HEH.Backend.Host
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Happy Exadel Hours API V1");
                 options.OAuthClientId("HEHApiClient");
                 options.OAuthAppName("Happy Exadel Hours Api client");
+                options.RoutePrefix = string.Empty;
             });
 
             SeedIdentityData.InitializeDatabaseAsync(app).Wait();
