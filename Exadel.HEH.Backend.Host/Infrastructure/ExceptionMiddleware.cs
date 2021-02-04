@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,13 +17,15 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
 
         public async Task InvokeAsync(HttpContext context)
         {
-            var request = context.Request;
-
-            context.Response.Clear();
-            //context.Response.StatusCode = OkResult;
-
-            await _next(context);
+            try
+            {
+                await _next(context);
+            }
+            catch (Exception e)
+            {
+                //todo: log exception
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            }
         }
-
     }
 }
