@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.Host.Controllers;
 using Moq;
 using Xunit;
@@ -22,7 +24,9 @@ namespace Exadel.HEH.Backend.Host.Tests
         public FavoritesControllerTests()
         {
             var service = new Mock<IFavoritesService>();
-            _controller = new FavoritesController(service.Object);
+            var validationService = new Mock<IFavoritesValidationService>();
+
+            _controller = new FavoritesController(service.Object, validationService.Object);
             _data = new List<FavoritesDto>();
             _dataCreateUpdate = new List<FavoritesCreateUpdateDto>();
             InitTestData();
@@ -48,9 +52,17 @@ namespace Exadel.HEH.Backend.Host.Tests
                 })
                 .Returns(Task.CompletedTask);
 
-            service.Setup(r => r.RemoveAsync(It.IsAny<Guid>()))
-                .Callback((Guid id) => { _data.RemoveAt(0); })
+            service.Setup(s => s.RemoveAsync(It.IsAny<Guid>()))
+                .Callback((Guid id) => { _data.RemoveAll(d => d.Id == id); })
                 .Returns(Task.CompletedTask);
+
+            validationService.Setup(v => v.ValidateDiscountIdIsExist(It.IsAny<Guid>(), default))
+                .Returns((Guid id, CancellationToken token) =>
+                    Task.FromResult(_data.FirstOrDefault(d => d.Id == id) != null));
+
+            validationService.Setup(v => v.ValidateUserFavoritesIsExist(It.IsAny<Guid>(), default))
+                .Returns((Guid id, CancellationToken token) =>
+                    Task.FromResult(_data.FirstOrDefault(d => d.Id == id) != null));
         }
 
         [Fact]
