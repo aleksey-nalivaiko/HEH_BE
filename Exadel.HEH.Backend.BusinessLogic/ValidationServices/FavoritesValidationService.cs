@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
-using Microsoft.AspNetCore.Http;
 
 namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 {
@@ -33,11 +32,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
         {
             var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
             var result = user.Favorites.FirstOrDefault(f => f.DiscountId == discountId);
+
             if (_methodProvider.GetMethodUpperName() == "POST")
             {
                 return result is null;
             }
-            else if (_methodProvider.GetMethodUpperName() == "PUT")
+            else if (_methodProvider.GetMethodUpperName() == "PUT"
+                     || _methodProvider.GetMethodUpperName() == "DELETE")
             {
                 return !(result is null);
             }

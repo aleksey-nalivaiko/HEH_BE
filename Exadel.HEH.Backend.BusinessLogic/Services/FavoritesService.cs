@@ -67,7 +67,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public async Task RemoveAsync(Guid discountId)
         {
             var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
-            var favorites = user.Favorites.FirstOrDefault(f => f.DiscountId == discountId);
+            var favorites = user.Favorites.First(f => f.DiscountId == discountId);
 
             user.Favorites.Remove(favorites);
             await _userRepository.UpdateAsync(user);
