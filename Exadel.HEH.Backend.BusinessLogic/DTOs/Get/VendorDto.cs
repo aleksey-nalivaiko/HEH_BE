@@ -3,7 +3,7 @@
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
     public class VendorDto : VendorShortDto
-    {        
+    {
         public IEnumerable<LinkDto> Links { get; set; }
 
         public bool Mailing { get; set; }
