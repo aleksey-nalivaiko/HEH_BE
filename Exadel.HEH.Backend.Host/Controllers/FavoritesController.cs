@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class FavoritesController : BaseController<FavoritesDto>
     {
         private readonly IFavoritesService _favoritesService;

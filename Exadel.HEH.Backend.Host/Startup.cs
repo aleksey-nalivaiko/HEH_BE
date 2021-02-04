@@ -107,6 +107,18 @@ namespace Exadel.HEH.Backend.Host
                     options.Authority = authority;
                     options.ApiName = "heh_api";
                 });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsForUI",
+                    builder =>
+                    {
+                        builder.WithOrigins(Configuration["CorsOrigins"].Split(','))
+                            .AllowCredentials()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
         }
 
         public void Configure(IApplicationBuilder app, VersionedODataModelBuilder modelBuilder, IWebHostEnvironment env)
@@ -126,6 +138,8 @@ namespace Exadel.HEH.Backend.Host
 
             app.UseODataRouting();
             app.UseRouting();
+
+            app.UseCors("CorsForUI");
 
             app.UseIdentityServer();
             app.UseAuthentication();

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class UserController : BaseController<UserDto>
     {
         private readonly IUserService _userService;
