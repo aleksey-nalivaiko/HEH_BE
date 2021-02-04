@@ -116,7 +116,7 @@ namespace Exadel.HEH.Backend.Host
                 options.AddPolicy("CorsForUI",
                     builder =>
                     {
-                        builder.WithOrigins(Configuration["CorsOrigin"])
+                        builder.WithOrigins(Configuration["CorsOrigins"].Split(','))
                             .AllowCredentials()
                             .AllowAnyMethod()
                             .AllowAnyHeader();
