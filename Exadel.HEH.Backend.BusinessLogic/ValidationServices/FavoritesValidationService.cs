@@ -37,7 +37,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             {
                 return result is null;
             }
-            else if (_methodProvider.GetMethodUpperName() == "PUT"
+
+            if (_methodProvider.GetMethodUpperName() == "PUT"
                      || _methodProvider.GetMethodUpperName() == "DELETE")
             {
                 return !(result is null);
