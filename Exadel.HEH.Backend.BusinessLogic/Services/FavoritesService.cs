@@ -34,12 +34,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var discountsDto = _mapper.Map<IEnumerable<DiscountDto>>(discounts);
             var favoritesDto = _mapper.Map<IEnumerable<FavoritesDto>>(discountsDto).ToList();
 
-            favoritesDto = favoritesDto.Zip(user.Favorites.Select(favorites => favorites.Note),
-                (favorites, note) =>
-            {
-                favorites.Note = note;
-                return favorites;
-            }).ToList();
+            favoritesDto = favoritesDto.Join(
+                user.Favorites,
+                fd => fd.Id,
+                f => f.DiscountId,
+                (favDto, fav) =>
+                {
+                    favDto.Note = fav.Note;
+                    return favDto;
+                }).ToList();
 
             return favoritesDto;
         }
@@ -47,31 +50,27 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public async Task CreateAsync(FavoritesCreateUpdateDto newFavorites)
         {
             var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
-            user?.Favorites.Add(_mapper.Map<Favorites>(newFavorites));
+            user.Favorites.Add(_mapper.Map<Favorites>(newFavorites));
             await _userRepository.UpdateAsync(user);
         }
 
         public async Task UpdateAsync(FavoritesCreateUpdateDto newFavorites)
         {
             var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
-            var favorites = user?.Favorites.FirstOrDefault(f => f.DiscountId == newFavorites.DiscountId);
-            if (favorites != null)
-            {
-                user.Favorites.Remove(favorites);
-                user.Favorites.Add(_mapper.Map<Favorites>(newFavorites));
-                await _userRepository.UpdateAsync(user);
-            }
+            var favorites = user.Favorites.FirstOrDefault(f => f.DiscountId == newFavorites.DiscountId);
+
+            user.Favorites.Remove(favorites);
+            user.Favorites.Add(_mapper.Map<Favorites>(newFavorites));
+            await _userRepository.UpdateAsync(user);
         }
 
         public async Task RemoveAsync(Guid discountId)
         {
             var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
-            var favorites = user?.Favorites.FirstOrDefault(f => f.DiscountId == discountId);
-            if (favorites != null)
-            {
-                user.Favorites.Remove(favorites);
-                await _userRepository.UpdateAsync(user);
-            }
+            var favorites = user.Favorites.FirstOrDefault(f => f.DiscountId == discountId);
+
+            user.Favorites.Remove(favorites);
+            await _userRepository.UpdateAsync(user);
         }
     }
 }
