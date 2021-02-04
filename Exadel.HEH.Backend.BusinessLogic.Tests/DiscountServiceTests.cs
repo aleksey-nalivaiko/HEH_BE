@@ -85,7 +85,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                     {
                         Id = Guid.NewGuid(),
                         Number = "+375442222222"
-                    },
+                    }
                 },
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",

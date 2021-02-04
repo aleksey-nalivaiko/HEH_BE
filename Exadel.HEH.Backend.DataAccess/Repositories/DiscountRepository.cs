@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -22,6 +23,21 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
         public Task<IEnumerable<Discount>> GetByIdsAsync(IEnumerable<Guid> ids)
         {
             return Context.GetAsync<Discount>(d => ids.Contains(d.Id));
+        }
+
+        public Task CreateManyAsync(IEnumerable<Discount> discounts)
+        {
+            return Context.CreateManyAsync(discounts);
+        }
+
+        public Task UpdateManyAsync(IEnumerable<Discount> discounts)
+        {
+            return Context.UpdateManyAsync(discounts);
+        }
+
+        public Task RemoveAsync(Expression<Func<Discount, bool>> expression)
+        {
+            return Context.RemoveAsync(expression);
         }
     }
 }

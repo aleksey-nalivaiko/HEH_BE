@@ -33,6 +33,13 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                 })
                 .Returns(Task.CompletedTask);
 
+            Context.Setup(c => c.RemoveAsync(It.IsAny<Expression<Func<TDocument, bool>>>()))
+                .Callback((Expression<Func<TDocument, bool>> expression) =>
+                {
+                    Collection.RemoveAll(x => expression.Compile()(x));
+                })
+                .Returns(Task.CompletedTask);
+
             Context.Setup(c => c.GetByIdAsync<TDocument>(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Collection.FirstOrDefault(x => x.Id == id)));
 

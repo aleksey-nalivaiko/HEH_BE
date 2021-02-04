@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
@@ -58,7 +59,7 @@ namespace Exadel.HEH.Backend.DataAccess
         public Task RemoveAsync<T>(Expression<Func<T, bool>> expression)
             where T : class, new()
         {
-            return GetCollection<T>().DeleteOneAsync(Builders<T>.Filter.Where(expression));
+            return GetCollection<T>().DeleteManyAsync(Builders<T>.Filter.Where(expression));
         }
 
         public virtual Task CreateAsync<T>(T item)
@@ -67,11 +68,39 @@ namespace Exadel.HEH.Backend.DataAccess
             return GetCollection<T>().InsertOneAsync(item);
         }
 
+        public virtual Task CreateManyAsync<T>(IEnumerable<T> items)
+            where T : class, new()
+        {
+            return GetCollection<T>().InsertManyAsync(items);
+        }
+
         public virtual Task UpdateAsync<T>(T item)
             where T : class, IDataModel, new()
-{
+        {
             return GetCollection<T>()
                 .ReplaceOneAsync(Builders<T>.Filter.Eq(x => x.Id, item.Id), item);
+        }
+
+        public virtual Task UpdateManyAsync<T>(IEnumerable<T> items)
+            where T : class, IDataModel, new()
+        {
+            var requests = new List<ReplaceOneModel<T>>();
+            var itemsList = items.ToList();
+
+            foreach (var item in itemsList)
+            {
+                if (item.Id == default)
+                {
+                    item.Id = Guid.NewGuid();
+                }
+
+                var filter = Builders<T>.Filter.Eq(x => x.Id, item.Id);
+
+                var request = new ReplaceOneModel<T>(filter, item) { IsUpsert = true };
+                requests.Add(request);
+            }
+
+            return GetCollection<T>().BulkWriteAsync(requests);
         }
 
         public async Task<bool> AnyAsync<T>()
