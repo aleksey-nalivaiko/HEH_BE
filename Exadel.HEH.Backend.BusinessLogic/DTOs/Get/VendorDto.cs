@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
-    public class VendorDto
-    {
-        public Guid Id { get; set; }
+    public class VendorDto : VendorShortDto
+    {        
+        public IEnumerable<LinkDto> Links { get; set; }
 
-        public string Name { get; set; }
+        public bool Mailing { get; set; }
 
-        //public IList<LinkDto> Links { get; set; }
+        public IEnumerable<PhoneDto> Phones { get; set; }
 
-        //public bool Mailing { get; set; }
+        public IEnumerable<AddressDto> Addresses { get; set; }
 
-        //public IList<PhoneDto> Phones { get; set; }
+        public int ViewsAmount { get; set; }
 
-        //public IList<AddressDto> Addresses { get; set; }
+        public string Email { get; set; }
 
-        //public int ViewsAmount { get; set; }
-
-        //public string Email { get; set; }
+        public IEnumerable<DiscountDto> Discounts { get; set; }
     }
 }

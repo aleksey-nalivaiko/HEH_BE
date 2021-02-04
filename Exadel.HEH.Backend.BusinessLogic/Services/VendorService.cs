@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
@@ -9,11 +10,73 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class VendorService : BaseService<Vendor, VendorDto>
+    public class VendorService : BaseService<Vendor, VendorShortDto>, IVendorService
     {
-        public VendorService(IRepository<Vendor> repository, IMapper mapper)
-            : base(repository, mapper)
+        private readonly IRepository<Vendor> _vendorRepository;
+        private readonly IDiscountRepository _discountRepository;
+        private readonly IMapper _mapper;
+
+        public VendorService(IRepository<Vendor> vendorRepository,
+            IDiscountRepository discountRepository, IMapper mapper)
+            : base(vendorRepository, mapper)
         {
+            _vendorRepository = vendorRepository;
+            _discountRepository = discountRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<VendorDto>> GetAllDetailedAsync()
+        {
+            var discounts = _discountRepository.Get().ToList();
+            var vendors = (await _vendorRepository.GetAllAsync()).ToList();
+
+            var vendorsWithDiscounts = vendors.GroupJoin(
+                discounts,
+                vendor => vendor.Id,
+                discount => discount.VendorId,
+                GetVendorDto);
+
+            return vendorsWithDiscounts;
+        }
+
+        public async Task<VendorDto> GetByIdAsync(Guid id)
+        {
+           var vendor = await _vendorRepository.GetByIdAsync(id);
+           var vendorDiscounts = _discountRepository.Get().Where(d => d.VendorId == id).ToList();
+
+           return GetVendorDto(vendor, vendorDiscounts);
+        }
+
+        public async Task CreateAsync(VendorDto vendor)
+        {
+            await _vendorRepository.CreateAsync(_mapper.Map<Vendor>(vendor));
+            await _discountRepository.CreateManyAsync(_mapper.Map<IEnumerable<Discount>>(vendor.Discounts));
+        }
+
+        public async Task UpdateAsync(VendorDto vendor)
+        {
+            await _vendorRepository.UpdateAsync(_mapper.Map<Vendor>(vendor));
+
+            var discounts = _mapper.Map<IEnumerable<Discount>>(vendor.Discounts).ToList();
+            var vendorDiscountsIds = discounts.Select(d => d.Id).ToList();
+
+            await _discountRepository.RemoveAsync(d => d.VendorId == vendor.Id
+                                                       && !vendorDiscountsIds.Contains(d.Id));
+
+            await _discountRepository.UpdateManyAsync(discounts);
+        }
+
+        public async Task RemoveAsync(Guid id)
+        {
+            await _vendorRepository.RemoveAsync(id);
+            await _discountRepository.RemoveAsync(d => d.VendorId == id);
+        }
+
+        private VendorDto GetVendorDto(Vendor vendor, IEnumerable<Discount> vendorDiscounts)
+        {
+            var vendorDto = _mapper.Map<VendorDto>(vendor);
+            vendorDto.Discounts = _mapper.Map<IEnumerable<DiscountDto>>(vendorDiscounts);
+            return vendorDto;
         }
     }
 }

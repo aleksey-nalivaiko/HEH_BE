@@ -8,7 +8,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
     {
         public AddressProfile()
         {
-            CreateMap<Address, AddressDto>();
+            CreateMap<Address, AddressDto>().ReverseMap();
         }
     }
 }

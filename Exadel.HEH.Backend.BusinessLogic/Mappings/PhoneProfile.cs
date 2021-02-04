@@ -8,7 +8,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
     {
         public PhoneProfile()
         {
-            CreateMap<Phone, PhoneDto>();
+            CreateMap<Phone, PhoneDto>().ReverseMap();
         }
     }
 }

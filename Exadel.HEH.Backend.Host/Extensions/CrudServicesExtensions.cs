@@ -19,7 +19,7 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddScoped<IService<LocationDto>, LocationService>();
 
-            services.AddScoped<IService<VendorDto>, VendorService>();
+            services.AddScoped<IVendorService, VendorService>();
 
             services.AddScoped<IDiscountService, DiscountService>();
 
@@ -29,7 +29,7 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddScoped<IFavoritesService, FavoritesService>();
 
-            services.AddScoped<IValidationCategoryService, ValidationCategoryService>();
+            services.AddScoped<ICategoryValidationService, CategoryValidationService>();
 
             return services;
         }

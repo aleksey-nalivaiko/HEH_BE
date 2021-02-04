@@ -30,25 +30,43 @@ namespace Exadel.HEH.Backend.Host.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpDelete]
         [Authorize(Roles = nameof(UserRole.Moderator))]
-        public Task RemoveAsync(Guid id)
+        public async Task<ActionResult> RemoveAsync(Guid id)
         {
-            return _categoryService.RemoveAsync(id);
+            if (ModelState.IsValid)
+            {
+                 await _categoryService.RemoveAsync(id);
+                 return Ok();
+            }
+
+            return BadRequest(ModelState);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = nameof(UserRole.Moderator))]
-        public Task CreateAsync(CategoryDto item)
+        public async Task<ActionResult> CreateAsync(CategoryDto item)
         {
-           return _categoryService.CreateAsync(item);
+            if (ModelState.IsValid)
+            {
+                await _categoryService.CreateAsync(item);
+                return Created(string.Empty, item);
+            }
+
+            return BadRequest(ModelState);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         [Authorize(Roles = nameof(UserRole.Moderator))]
-        public Task UpdateAsync(CategoryDto item)
+        public async Task<ActionResult> UpdateAsync(CategoryDto item)
         {
-            return _categoryService.UpdateAsync(item);
+            if (ModelState.IsValid)
+            {
+                await _categoryService.UpdateAsync(item);
+                return Created(string.Empty, item);
+            }
+
+            return BadRequest(ModelState);
         }
     }
 }

@@ -28,15 +28,27 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpPost]
-        public Task CreateAsync(TagDto item)
+        public async Task<ActionResult> CreateAsync(TagDto item)
         {
-            return _tagService.CreateAsync(item);
+            if (ModelState.IsValid)
+            {
+                await _tagService.CreateAsync(item);
+                return Created(string.Empty, item);
+            }
+
+            return BadRequest(ModelState);
         }
 
         [HttpPut]
-        public Task UpdateAsync(TagDto item)
+        public async Task<ActionResult> UpdateAsync(TagDto item)
         {
-            return _tagService.UpdateAsync(item);
+            if (ModelState.IsValid)
+            {
+                await _tagService.UpdateAsync(item);
+                return Created(string.Empty, item);
+            }
+
+            return BadRequest(ModelState);
         }
     }
 }

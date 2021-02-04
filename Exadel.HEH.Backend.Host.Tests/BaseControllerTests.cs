@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Moq;
@@ -20,25 +18,6 @@ namespace Exadel.HEH.Backend.Host.Tests
 
             Service.Setup(s => s.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<TDto>)Data));
-
-            //Service.Setup(s => s.CreateAsync(It.IsAny<T>()))
-            //    .Callback((T item) =>
-            //    {
-            //        Data.Add(item);
-            //    })
-            //    .Returns(Task.CompletedTask);
-
-            //Service.Setup(s => s.UpdateAsync(It.IsAny<T>()))
-            //    .Callback((T item) =>
-            //    {
-            //        var oldItem = Data.FirstOrDefault(x => x.Id == item.Id);
-            //        if (oldItem != null)
-            //        {
-            //            Data.Remove(oldItem);
-            //            Data.Add(item);
-            //        }
-            //    })
-            //    .Returns(Task.CompletedTask);
         }
     }
 }

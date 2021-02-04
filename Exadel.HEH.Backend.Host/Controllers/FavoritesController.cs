@@ -3,22 +3,22 @@ using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.Host.Controllers.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class FavoritesController : ControllerBase /*BaseController<FavoritesDto>*/
+    public class FavoritesController : BaseController<FavoritesDto>
     {
         private readonly IFavoritesService _favoritesService;
+        private readonly IFavoritesValidationService _validationService;
 
-        public FavoritesController(IFavoritesService favoritesService)
-            //: base(favoritesService)
+        public FavoritesController(IFavoritesService favoritesService, IFavoritesValidationService validationService)
+            : base(favoritesService)
         {
             _favoritesService = favoritesService;
+            _validationService = validationService;
         }
 
         [HttpPost]
@@ -46,9 +46,16 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpDelete("{discountId:guid}")]
-        public Task RemoveAsync(Guid discountId)
+        public async Task<ActionResult> RemoveAsync(Guid discountId)
         {
-            return _favoritesService.RemoveAsync(discountId);
+            if (await _validationService.ValidateDiscountIdIsExist(discountId)
+                && await _validationService.ValidateUserFavoritesIsExist(discountId))
+            {
+                await _favoritesService.RemoveAsync(discountId);
+                return Ok();
+            }
+
+            return NotFound();
         }
     }
 }
