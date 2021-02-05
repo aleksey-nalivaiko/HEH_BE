@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.Host.Controllers;
 using Moq;
 using Xunit;
@@ -19,7 +20,8 @@ namespace Exadel.HEH.Backend.Host.Tests
         public DiscountControllerTests()
         {
             var service = new Mock<IDiscountService>();
-            _controller = new DiscountController(service.Object);
+            var validationService = new Mock<IDiscountValidationService>();
+            _controller = new DiscountController(service.Object, validationService.Object);
 
             var data = Data;
 
@@ -34,9 +36,13 @@ namespace Exadel.HEH.Backend.Host.Tests
                     }
                 })
                 .Returns(() => Task.FromResult(data.AsQueryable()));
+
             service.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(d => d.Id == id)));
 
+            validationService.Setup(v => v.DiscountExists(It.IsAny<Guid>()))
+                .Returns((Guid id) =>
+                    Task.FromResult(Data.FirstOrDefault(d => d.Id == id) != null));
             InitTestData();
         }
 
@@ -44,7 +50,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         public async Task CanGetAll()
         {
             Data.Add(_discount);
-            var result = await _controller.Get(default(string));
+            var result = await _controller.Get(default);
             Assert.Single(result);
         }
 
@@ -60,7 +66,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         public async Task CanGetById()
         {
             Data.Add(_discount);
-            var result = await _controller.Get(_discount.Id);
+            var result = await _controller.GetAsync(_discount.Id);
             Assert.NotNull(result);
         }
 
