@@ -39,7 +39,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         {
             if (!await _discountValidationService.DiscountExists(id))
             {
-                return NotFound(id);
+                return NotFound();
             }
 
             return Ok(await _discountService.GetByIdAsync(id));
