@@ -7,7 +7,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
     public interface IDiscountService
     {
-        IQueryable<DiscountDto> Get(string searchText);
+        Task<IQueryable<DiscountDto>> GetAsync(string searchText);
 
         Task<DiscountDto> GetByIdAsync(Guid id);
     }
