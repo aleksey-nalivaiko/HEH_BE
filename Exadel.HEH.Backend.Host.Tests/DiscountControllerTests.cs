@@ -23,7 +23,7 @@ namespace Exadel.HEH.Backend.Host.Tests
 
             var data = Data;
 
-            service.Setup(s => s.Get(It.IsAny<string>()))
+            service.Setup(s => s.GetAsync(It.IsAny<string>()))
                 .Callback((string param) =>
                 {
                     if (param != null)
@@ -33,7 +33,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                                                || d.VendorName.ToLower().Contains(lowerParam)).ToList();
                     }
                 })
-                .Returns(() => data.AsQueryable());
+                .Returns(() => Task.FromResult(data.AsQueryable()));
             service.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(d => d.Id == id)));
 
@@ -41,18 +41,18 @@ namespace Exadel.HEH.Backend.Host.Tests
         }
 
         [Fact]
-        public void CanGetAll()
+        public async Task CanGetAll()
         {
             Data.Add(_discount);
-            var result = _controller.Get(default(string));
+            var result = await _controller.Get(default(string));
             Assert.Single(result);
         }
 
         [Fact]
-        public void CanSearch()
+        public async Task CanSearch()
         {
             Data.Add(_discount);
-            var result = _controller.Get("cond");
+            var result = await _controller.Get("cond");
             Assert.Single(result);
         }
 

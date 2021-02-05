@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Moq;
@@ -18,27 +19,36 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public DiscountServiceTests()
         {
             var repository = new Mock<IDiscountRepository>();
-            _service = new DiscountService(repository.Object, Mapper);
+            var favoritesService = new Mock<IFavoritesService>();
+
+            _service = new DiscountService(repository.Object, favoritesService.Object, Mapper);
             repository.Setup(r => r.Get())
                 .Returns(() => Data.AsQueryable());
             repository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
             InitTestData();
+
+            favoritesService.Setup(s => s.DiscountsAreInFavorites(It.IsAny<IEnumerable<Guid>>()))
+                .Returns((IEnumerable<Guid> discountsIds) =>
+                    Task.FromResult(discountsIds.ToDictionary(d => d, d => true)));
+
+            favoritesService.Setup(s => s.DiscountIsInFavorites(It.IsAny<Guid>()))
+                .Returns((Guid discountId) => Task.FromResult(true));
         }
 
         [Fact]
-        public void CanGetAsync()
+        public async Task CanGetAsync()
         {
             Data.Add(_discount);
-            var result = _service.Get(null);
+            var result = await _service.GetAsync(null);
             Assert.Single(result);
         }
 
         [Fact]
-        public void CanSearchAsync()
+        public async Task CanSearchAsync()
         {
             Data.Add(_discount);
-            var result = _service.Get("cond");
+            var result = await _service.GetAsync("cond");
             Assert.Single(result);
         }
 

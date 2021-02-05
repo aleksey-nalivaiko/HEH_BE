@@ -8,7 +8,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
     {
         public DiscountProfile()
         {
-            CreateMap<Discount, DiscountDto>().ReverseMap();
+            CreateMap<Discount, DiscountDto>()
+                .ForMember(dest => dest.IsFavorite, opts => opts.Ignore())
+                .ReverseMap();
         }
     }
 }

@@ -26,5 +26,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
         public DateTime EndDate { get; set; }
 
         public Guid CategoryId { get; set; }
+
+        public virtual bool IsFavorite { get; set; }
     }
 }
