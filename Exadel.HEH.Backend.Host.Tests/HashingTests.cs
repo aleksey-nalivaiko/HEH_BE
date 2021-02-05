@@ -9,7 +9,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         public void HashPasswordWithSalt()
         {
             var salt = Hashing.GetRandomSalt();
-            var password = string.Empty;
+            var password = " ";
             var hash = Hashing.HashPasswordWithSalt(password, salt);
         }
     }
