@@ -1,11 +1,11 @@
 let userData = [
     {
         "_id": UUID("e1544fa5-42ff-4dea-962b-820f7be52fa2"),
-        "role": 1,
+        "role": "Moderator",
         "name": "Liza",
         "email": "user.liza@mail.com",
-        "password": "3LwWe570x5w+IUIiavQDBDYCY0vHFUzuKCz3FxmJDC4=",
-        "salt": "ijEcc4oL6RoIaDpj0ROdp2Smi+iVQEMPlgppsLWsLMpVgi8fNIOZ85NBVlw/Xi8Hr0QvqUX8L78iIR2v/fHU4g==",
+        "password": "bnxvsnbBpRtZQFpNcJxz8CoOsM+6gDw7F13xbmPGCOM=",
+        "salt": "YK6w/WvSmx5IcE8g4PW9VRdTGW/Y4KuqXD8lOyzxpwxRH0TOzyQob6F1Whom0EIsRFra7wuQscYwbOEYawleBg==",
         "address": {
             "_id": UUID("5947d8bc-05a3-4efa-885c-fbcc760336f5"),
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
@@ -35,7 +35,7 @@ let userData = [
     },
     {
         "_id": UUID("5ce9c143-af8d-4fc0-8760-76318625a16c"),
-        "role": 1,
+        "role": "Moderator",
         "name": "Julia",
         "email": "user.julia@mail.com",
         "password": "Xd7ydy6TAuxuqm7polMaj3ulcQeANyzWgKQlLifCqEk=",
@@ -69,9 +69,9 @@ let userData = [
     },
     {
         "_id": UUID("4e4bd3af-9590-4e19-afce-522c13338f95"),
-        "role": 1,
+        "role": "Moderator",
         "name": "Kostya",
-        "Email": "user.kostya@mail.com",
+        "email": "user.kostya@mail.com",
         "password": "+8XdtReWH00erclr9ir/Og20iqaOq5ttTO1x8azcRGM=",
         "salt": "5MBuKZ3m8Gp3FsWqi6v0o7ED2cWpKeR6ug6D/IY/oMr4MIqFTVucUcZ0jWzNJbBXqGbUSq+wGO8q7R7r2GgtUQ==",
         "address": {
@@ -102,7 +102,7 @@ let userData = [
     },
     {
         "_id": UUID("e847632e-b375-438f-bbcc-53023c173800"),
-        "role": 2,
+        "role": "Administrator",
         "name": "Sasha",
         "email": "user.alexander@mail.com",
         "password": "SfQk5p4/47wsFb4ERhd3aAHaq0SV/G73yER0z+9pl2Q=",
@@ -135,7 +135,7 @@ let userData = [
     },
     {
         "_id": UUID("339e7053-e939-4d96-afac-47777f4283ac"),
-        "role": 1,
+        "role": "Moderator",
         "name": "Yury",
         "email": "user.yury@mail.com",
         "password": "I+UDSbxm8JCOF4z3KM7iDQ/E2a8p1+gtyEOvyVU9Tb4=",
@@ -168,7 +168,7 @@ let userData = [
     },
     {
         "_id": UUID("250569cb-eb1e-45c4-887f-00b758503a7a"),
-        "role": 3,
+        "role": "Employee",
         "name": "Joe",
         "email": "user.joe@mail.com",
         "password": "AsEFlkEZeCVwqNd4QkyJib2s82k6S6YEH4b4NwDPv9Q=",
@@ -201,7 +201,7 @@ let userData = [
     },
     {
         "_id": UUID("50a96d23-8842-4654-a450-1a6383b7a63a"),
-        "role": 3,
+        "role": "Employee",
         "name": "Dron",
         "email": "user.dron@mail.com",
         "password": "KEwgiwGzwJoAJOrtOOS+COZDJRg59x/pywabntSz9VI=",
@@ -234,7 +234,7 @@ let userData = [
     },
     {
         "_id": UUID("89eb0d1b-e235-4a19-b372-27c85c6816bc"),
-        "role": 3,
+        "role": "Employee",
         "name": "Taras",
         "email": "user.taras@mail.com",
         "password": "ZEvwGJRJexuKd4nMUukk09+COvxYxhwTRDFoJhyHO/M=",
@@ -267,7 +267,7 @@ let userData = [
     },
     {
         "_id": UUID("cdb65d5f-1a59-48f0-ba55-9e08d49d89a8"),
-        "role": 3,
+        "role": "Employee",
         "name": "Gerasim",
         "email": "user.gerasim@mail.com",
         "password": "+IVPYz7HeoKzKePb7IZHfdkPjCdvI4UYe8TH1lnbYG0=",
@@ -300,7 +300,7 @@ let userData = [
     },
     {
         "_id": UUID("627166ae-6703-4941-a5fa-8708ae21aa27"),
-        "role": 3,
+        "role": "Employee",
         "name": "Huan",
         "email": "user.huan@mail.com",
         "password": "oWVZ+N9N+5tcqXeTYihblCZ7Axx9byMM7UkzVRzP6UQ=",
@@ -333,7 +333,7 @@ let userData = [
     },
     {
         "_id": UUID("580b8097-1d1c-4d7a-b8bd-f9c0c4d8faa7"),
-        "role": 4,
+        "role": "Employee",
         "name": "Petia",
         "email": "user.petia@mail.com",
         "password": "n6R7Z0BtuYKOvGNWTcvrIKPo4s9HBbnY9k4ktomxzh4=",
@@ -366,7 +366,7 @@ let userData = [
     },
     {
         "_id": UUID("7b70f057-18d7-4693-b83b-21b71ca487f3"),
-        "role": 4,
+        "role": "Employee",
         "name": "Jim",
         "email": "user.jim@mail.com",
         "password": "CwjBxc9eaQIVM5Kpmz881J/kr6VRRYvht7XO0ZCcE8s=",
@@ -399,7 +399,7 @@ let userData = [
     },
     {
         "_id": UUID("99d0bfee-bc78-40f4-8b76-aae9caa0c327"),
-        "role": 3,
+        "role": "Employee",
         "name": "Eva",
         "email": "user.eva@mail.com",
         "password": "cJLxaQVZg6LNdB6lQ/QBfhuwgRl16O2aDpBY4ou1+ic=",
@@ -432,11 +432,11 @@ let userData = [
     },
     {
         "_id": UUID("ae9961e8-24f2-40e8-be25-8cac3889297c"),
-        "role": 3,
+        "role": "Employee",
         "name": "Rosa",
         "email": "user.rosa@mail.com",
-        "password": "a/6FB0Aagn1bfNoZaqikGuiELIix3miaZfRIUm0//E0=",
-        "salt": "zm3v2cOpc5KgGc4iMDaXfbCOy7kd4/gQd1+eHd7bzNRjF+aYKgx7VbL0a8nn/oXSEKp4uyqMsTCBNSKWUx+Mjg==",
+        "password": "GU6d3h51DB175OjqrSfBO9T4IRTG+mDgeNRsNLIkG/w=",
+        "salt": "hJsynLJM5iD0/WG6kpsRdR56GFLHLK9wWYRwkMrDcj2APM2uR5P78ZlMhHSLIHHBNg6wX0WkgcD6VVwUxlFEBw==",
         "address": {
             "_id": UUID("3e0b1f00-7ed1-4d8c-aa71-a974e7e1f0e4"),
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
@@ -465,7 +465,7 @@ let userData = [
     },
     {
         "_id": UUID("e1854ee5-4b0e-4b37-b2ca-5417f298bcaf"),
-        "role": 3,
+        "role": "Employee",
         "name": "Esmeralda",
         "email": "user.esmeralda@mail.com",
         "password": "PXrBbVbNiMXoPS9B6/2IhTXR529Evn69DU6bPhvwXkQ=",
@@ -497,11 +497,11 @@ let userData = [
     },
     {
         "_id": UUID("e7f87b00-d88c-4266-9974-026c76da4fc2"),
-        "role": 4,
+        "role": "Employee",
         "name": "Serafina",
         "email": "user.serafina@mail.com",
-        "password": "PTjjjHSXcXjg4JTfoN2wIN/ dttR1UiDr / kmZ8eqTjUE=",
-        "salt": "qmyEVPK4zWwQE23H/M4ta5KPMjqkaAs4sNPcP/xqEXRhE6TkxiMH+Iz91sG1MA0p8w+AS8U4TmQoMXsg0gWBcw==",
+        "password": "E3woiDpSbYhZEwdJKMxYAEZ45ksAflW0nU0aSrCOOQg=",
+        "salt": "UsoFRg5Lxl/a82XDFIci/7DYCmhNYXa0Mp04lk/E7qHDdw3DyU30GgaD2XLpJDrWohiVj/ompS8PWEY74TpTcw==",
         "address": {
             "_id": UUID("f260afb3-acd5-4fa6-b33c-ef72d38388a2"),
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
@@ -530,7 +530,7 @@ let userData = [
     },
     {
         "_id": UUID("0e43f633-dce3-468f-bbc6-791059796ecd"),
-        "role": 3,
+        "role": "Employee",
         "name": "Alexandra",
         "email": "user.alexandra@mail.com",
         "password": "05Kf9tArGdwX8oL6mzQrqeaBK4If7ThKA1VW+OSbAcE=",
@@ -563,7 +563,7 @@ let userData = [
     },
     {
         "_id": UUID("f439f9e9-02e6-4306-ae93-48dc14cd220b"),
-        "role": 3,
+        "role": "Employee",
         "name": "Germiona",
         "email": "user.germiona@mail.com",
         "password": "MQvQDkUof6cvsKrdVNSy0N53fOykZT3AcBq0SfimBIE=",
@@ -596,7 +596,7 @@ let userData = [
     },
     {
         "_id": UUID("94e5e453-d5d0-4122-b34e-a718d12b2fcd"),
-        "role": 4,
+        "role": "Employee",
         "name": "Tara",
         "email": "user.tara@mail.com",
         "password": "N/WqjdZ7Reec1ki8ZnLreLWTYQUsbLh2zX7w3RM6G+8=",
@@ -629,7 +629,7 @@ let userData = [
     },
     {
         "_id": UUID("da392cad-d833-48c7-b0ac-3165f4f062e2"),
-        "role": 3,
+        "role": "Employee",
         "name": "MarieCurie",
         "email": "user.mariecurie@mail.com",
         "password": "ZZg7UPrask30RP+qMQBrcNKBnY5Ov9nONrPxM8DB4j0=",
