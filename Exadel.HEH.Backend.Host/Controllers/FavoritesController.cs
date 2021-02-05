@@ -21,6 +21,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             _validationService = validationService;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         public async Task<ActionResult> CreateAsync(FavoritesCreateUpdateDto favorites)
         {
@@ -33,6 +34,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return BadRequest(ModelState);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         public async Task<ActionResult> UpdateAsync(FavoritesCreateUpdateDto favorites)
         {
@@ -45,6 +47,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return BadRequest(ModelState);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpDelete("{discountId:guid}")]
         public async Task<ActionResult> RemoveAsync(Guid discountId)
         {

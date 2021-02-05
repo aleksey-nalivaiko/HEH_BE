@@ -29,6 +29,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return _vendorService.GetAllDetailedAsync();
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet("{id:guid}")]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         public Task<VendorDto> GetByIdAsync(Guid id)
@@ -36,6 +37,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return _vendorService.GetByIdAsync(id);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         public async Task CreateAsync(VendorDto vendor)
@@ -43,6 +45,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             await _vendorService.CreateAsync(vendor);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         public async Task UpdateAsync(VendorDto vendor)
@@ -50,6 +53,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             await _vendorService.UpdateAsync(vendor);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpDelete]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         public async Task RemoveAsync(Guid id)

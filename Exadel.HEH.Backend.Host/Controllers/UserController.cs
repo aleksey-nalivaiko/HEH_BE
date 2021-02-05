@@ -20,12 +20,19 @@ namespace Exadel.HEH.Backend.Host.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Only for administrators.
+        /// </summary>
         [Authorize(Roles = nameof(UserRole.Administrator))]
         public override Task<IEnumerable<UserDto>> GetAllAsync()
         {
             return base.GetAllAsync();
         }
 
+        /// <summary>
+        /// Only for administrators.
+        /// </summary>
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet("{id:guid}")]
         [Authorize(Roles = nameof(UserRole.Administrator))]
         public async Task<ActionResult<UserDto>> GetByIdAsync(Guid id)
@@ -38,6 +45,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// For current user (who was logged in).
+        /// </summary>
         [HttpGet("profile")]
         public Task<UserDto> GetProfile()
         {

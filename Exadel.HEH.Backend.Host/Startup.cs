@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Validators;
@@ -61,6 +63,10 @@ namespace Exadel.HEH.Backend.Host
                     Title = $"Happy Exadel Hours API {groupName}",
                     Version = groupName
                 });
+
+                options.IncludeXmlComments(Path.Combine(
+                    AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
                     Type = SecuritySchemeType.OAuth2,
