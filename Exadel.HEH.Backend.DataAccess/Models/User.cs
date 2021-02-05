@@ -36,5 +36,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public bool CityChangeNotificationIsOn { get; set; }
 
         public IList<Favorites> Favorites { get; set; }
+
+        public string img { get; set; }
     }
 }

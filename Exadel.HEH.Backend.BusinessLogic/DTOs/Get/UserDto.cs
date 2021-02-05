@@ -33,5 +33,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
         public bool CityChangeNotificationIsOn { get; set; }
 
         public IList<Favorites> Favorites { get; set; }
+
+        public string img { get; set; }
     }
 }
