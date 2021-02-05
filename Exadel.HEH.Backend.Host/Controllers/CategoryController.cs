@@ -11,7 +11,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -27,7 +27,6 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return _categoryService.GetCategoriesWithTagsAsync();
         }
 
-        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpDelete]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         public async Task<ActionResult> RemoveAsync(Guid id)
@@ -41,7 +40,6 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return BadRequest(ModelState);
         }
 
-        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         public async Task<ActionResult> CreateAsync(CategoryDto item)
@@ -55,7 +53,6 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return BadRequest(ModelState);
         }
 
-        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         public async Task<ActionResult> UpdateAsync(CategoryDto item)
