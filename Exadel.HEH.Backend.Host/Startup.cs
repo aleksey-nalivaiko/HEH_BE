@@ -64,9 +64,6 @@ namespace Exadel.HEH.Backend.Host
                     Version = groupName
                 });
 
-                options.IncludeXmlComments(Path.Combine(
-                    AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
-
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
                     Type = SecuritySchemeType.OAuth2,

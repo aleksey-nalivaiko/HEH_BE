@@ -15,9 +15,6 @@ namespace Exadel.HEH.Backend.Host.Controllers
         {
         }
 
-        /// <summary>
-        /// Only for administrators.
-        /// </summary>
         [Authorize(Roles = nameof(UserRole.Administrator))]
         public override Task<IEnumerable<HistoryDto>> GetAllAsync()
         {
