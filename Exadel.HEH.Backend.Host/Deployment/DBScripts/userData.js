@@ -3,7 +3,7 @@ let userData = [
         "_id": UUID("e1544fa5-42ff-4dea-962b-820f7be52fa2"),
         "role": 1,
         "name": "Liza",
-        "email": "UserLiza@mail.com",
+        "email": "user.liza@mail.com",
         "password": "3LwWe570x5w+IUIiavQDBDYCY0vHFUzuKCz3FxmJDC4=",
         "salt": "ijEcc4oL6RoIaDpj0ROdp2Smi+iVQEMPlgppsLWsLMpVgi8fNIOZ85NBVlw/Xi8Hr0QvqUX8L78iIR2v/fHU4g==",
         "address": {
@@ -37,7 +37,7 @@ let userData = [
         "_id": UUID("5ce9c143-af8d-4fc0-8760-76318625a16c"),
         "role": 1,
         "name": "Julia",
-        "email": "UserJulia@mail.com",
+        "email": "user.julia@mail.com",
         "password": "Xd7ydy6TAuxuqm7polMaj3ulcQeANyzWgKQlLifCqEk=",
         "salt": "VkMCn2ClqoH64yRDNdrFm5sLJ5zPBGjxB0oebB1BcV+AaHvPVLZ5WrCHTRwZCyY5bZ2X1xCQiXSK1CSfx9dxRg==",
         "address": {
@@ -71,7 +71,7 @@ let userData = [
         "_id": UUID("4e4bd3af-9590-4e19-afce-522c13338f95"),
         "role": 1,
         "name": "Kostya",
-        "Email": "UserKostya@mail.com",
+        "Email": "user.kostya@mail.com",
         "password": "+8XdtReWH00erclr9ir/Og20iqaOq5ttTO1x8azcRGM=",
         "salt": "5MBuKZ3m8Gp3FsWqi6v0o7ED2cWpKeR6ug6D/IY/oMr4MIqFTVucUcZ0jWzNJbBXqGbUSq+wGO8q7R7r2GgtUQ==",
         "address": {
@@ -104,7 +104,7 @@ let userData = [
         "_id": UUID("e847632e-b375-438f-bbcc-53023c173800"),
         "role": 2,
         "name": "Sasha",
-        "email": "UserAlexander@mail.com",
+        "email": "user.alexander@mail.com",
         "password": "SfQk5p4/47wsFb4ERhd3aAHaq0SV/G73yER0z+9pl2Q=",
         "salt": "EYtDMgHN0o5a6b7ImQN6QC0yCNrTPtVIm3BsWldJkURbWlbQia3+FNWDCdwO/eCa1p5NMSXfjqc+YDLAGM7Mnw==",
         "address": {
@@ -137,7 +137,7 @@ let userData = [
         "_id": UUID("339e7053-e939-4d96-afac-47777f4283ac"),
         "role": 1,
         "name": "Yury",
-        "email": "UserYury@mail.com",
+        "email": "user.yury@mail.com",
         "password": "I+UDSbxm8JCOF4z3KM7iDQ/E2a8p1+gtyEOvyVU9Tb4=",
         "salt": "NgQ/z845TvQqA4cxb7+zb7f0nakKUnBi4zjnppTHYg+iOalv4svjkSKNN1czuNI+JKLpRhyYSzOrQ9EK1Q73xA==",
         "address": {
@@ -170,7 +170,7 @@ let userData = [
         "_id": UUID("250569cb-eb1e-45c4-887f-00b758503a7a"),
         "role": 3,
         "name": "Joe",
-        "email": "UserJoe@mail.com",
+        "email": "user.joe@mail.com",
         "password": "AsEFlkEZeCVwqNd4QkyJib2s82k6S6YEH4b4NwDPv9Q=",
         "salt": "QIVOWx+Ok/y7Z6N+7eqAq8FQ6Gti90EcdSpH75l3qPGfkYreIxPaXdeSN+yZASYcUlWHY3pR32AfS0xjmvVAlg==",
         "address": {
@@ -203,7 +203,7 @@ let userData = [
         "_id": UUID("50a96d23-8842-4654-a450-1a6383b7a63a"),
         "role": 3,
         "name": "Dron",
-        "email": "UserDron@mail.com",
+        "email": "user.dron@mail.com",
         "password": "KEwgiwGzwJoAJOrtOOS+COZDJRg59x/pywabntSz9VI=",
         "salt": "ocQLtPyqqRI9IconwedwAbWPaqs2oqhw/o96PGvZ9JPyyKdm/g5gV3pXOGrmScuHBC4h7A19kpWrGNMGBLi6yg==",
         "address": {
@@ -236,7 +236,7 @@ let userData = [
         "_id": UUID("89eb0d1b-e235-4a19-b372-27c85c6816bc"),
         "role": 3,
         "name": "Taras",
-        "email": "UserTaras@mail.com",
+        "email": "user.taras@mail.com",
         "password": "ZEvwGJRJexuKd4nMUukk09+COvxYxhwTRDFoJhyHO/M=",
         "salt": "4h0zi0Ve93nzw90bE560Iw1PM5DEl/tG02Q9H/qRWJXgwpPaFDTlk1zejUgjqTz7oj7MMIwQaFOoFxL1Fhxh2A==",
         "address": {
@@ -269,7 +269,7 @@ let userData = [
         "_id": UUID("cdb65d5f-1a59-48f0-ba55-9e08d49d89a8"),
         "role": 3,
         "name": "Gerasim",
-        "email": "UserGerasim@mail.com",
+        "email": "user.gerasim@mail.com",
         "password": "+IVPYz7HeoKzKePb7IZHfdkPjCdvI4UYe8TH1lnbYG0=",
         "salt": "8vvy90Par1Qiubj7kRBJDEkNjITjeIb3ks5bLdMGMpZGSdgZ0UtiC2md/+9IKsPwexNLuc5p02iRZoqUIAYK3Q==",
         "address": {
@@ -302,7 +302,7 @@ let userData = [
         "_id": UUID("627166ae-6703-4941-a5fa-8708ae21aa27"),
         "role": 3,
         "name": "Huan",
-        "email": "UserHuan@mail.com",
+        "email": "user.huan@mail.com",
         "password": "oWVZ+N9N+5tcqXeTYihblCZ7Axx9byMM7UkzVRzP6UQ=",
         "salt": "hv0mUmZ9eNK0UJMR0XTfaI9NsVUJiNcsqskySw7j25qdZVPxNExfRZdUo9KraQwlHo4+lqts9OdFSIZ6bq5hlA==",
         "address": {
@@ -335,7 +335,7 @@ let userData = [
         "_id": UUID("580b8097-1d1c-4d7a-b8bd-f9c0c4d8faa7"),
         "role": 4,
         "name": "Petia",
-        "email": "UserPetia@mail.com",
+        "email": "user.petia@mail.com",
         "password": "n6R7Z0BtuYKOvGNWTcvrIKPo4s9HBbnY9k4ktomxzh4=",
         "salt": "xSqNVOBKmiV1kc/ifEFuJdEZeuRFuJLM+1o+/z1mQYTrxBK3CjuguPbIuCPQhUTfKVUKolAtgje4hkKTc2gEhQ==",
         "address": {
@@ -368,7 +368,7 @@ let userData = [
         "_id": UUID("7b70f057-18d7-4693-b83b-21b71ca487f3"),
         "role": 4,
         "name": "Jim",
-        "email": "UserJim@mail.com",
+        "email": "user.jim@mail.com",
         "password": "CwjBxc9eaQIVM5Kpmz881J/kr6VRRYvht7XO0ZCcE8s=",
         "salt": "ToaEv8gWsKql6xaGTIAtfIQIx9nlU3ZpeSw89bYKhKrENndQxkz8C3rfYfUsgiIJjsMG3DkrgSoE+t/tVWWorw==",
         "address": {
@@ -401,7 +401,7 @@ let userData = [
         "_id": UUID("99d0bfee-bc78-40f4-8b76-aae9caa0c327"),
         "role": 3,
         "name": "Eva",
-        "email": "UserEva@mail.com",
+        "email": "user.eva@mail.com",
         "password": "cJLxaQVZg6LNdB6lQ/QBfhuwgRl16O2aDpBY4ou1+ic=",
         "salt": "upSYP2/JZPnMQnpG09kIFKoFHF9v0FrI3uf3p5qczr0ndTJHyYjCA5Nv7G2TwzM7INMc4c9sZCT9s3UHOmuWwg==",
         "address": {
@@ -434,7 +434,7 @@ let userData = [
         "_id": UUID("ae9961e8-24f2-40e8-be25-8cac3889297c"),
         "role": 3,
         "name": "Rosa",
-        "email": "UserRosa@mail.com",
+        "email": "user.rosa@mail.com",
         "password": "a/6FB0Aagn1bfNoZaqikGuiELIix3miaZfRIUm0//E0=",
         "salt": "zm3v2cOpc5KgGc4iMDaXfbCOy7kd4/gQd1+eHd7bzNRjF+aYKgx7VbL0a8nn/oXSEKp4uyqMsTCBNSKWUx+Mjg==",
         "address": {
@@ -467,7 +467,7 @@ let userData = [
         "_id": UUID("e1854ee5-4b0e-4b37-b2ca-5417f298bcaf"),
         "role": 3,
         "name": "Esmeralda",
-        "email": "UserEsmeralda@mail.com",
+        "email": "user.esmeralda@mail.com",
         "password": "PXrBbVbNiMXoPS9B6/2IhTXR529Evn69DU6bPhvwXkQ=",
         "salt": "3gGurpQpmdIzM4mlnfC2UDP3pcoLM/7K3sEJFElW/D8evs/7oPvZbeNrxYFhNn2uhMee9E9StY1F8w+sg4bLeQ==",
         "address": {
@@ -499,7 +499,7 @@ let userData = [
         "_id": UUID("e7f87b00-d88c-4266-9974-026c76da4fc2"),
         "role": 4,
         "name": "Serafina",
-        "email": "UserSerafina@mail.com",
+        "email": "user.serafina@mail.com",
         "password": "PTjjjHSXcXjg4JTfoN2wIN/ dttR1UiDr / kmZ8eqTjUE=",
         "salt": "qmyEVPK4zWwQE23H/M4ta5KPMjqkaAs4sNPcP/xqEXRhE6TkxiMH+Iz91sG1MA0p8w+AS8U4TmQoMXsg0gWBcw==",
         "address": {
@@ -532,7 +532,7 @@ let userData = [
         "_id": UUID("0e43f633-dce3-468f-bbc6-791059796ecd"),
         "role": 3,
         "name": "Alexandra",
-        "email": "UserAlexandra@mail.com",
+        "email": "user.alexandra@mail.com",
         "password": "05Kf9tArGdwX8oL6mzQrqeaBK4If7ThKA1VW+OSbAcE=",
         "salt": "VpChul3PY/InJkaLRm6K2KAwZgu8BrjGm4n3cFzz3qudTRWYH/hK7JFuUrbtUzHA65gQ7mLIzhe6JM9l/etREQ==",
         "address": {
@@ -565,7 +565,7 @@ let userData = [
         "_id": UUID("f439f9e9-02e6-4306-ae93-48dc14cd220b"),
         "role": 3,
         "name": "Germiona",
-        "email": "UserGermiona@mail.com",
+        "email": "user.germiona@mail.com",
         "password": "MQvQDkUof6cvsKrdVNSy0N53fOykZT3AcBq0SfimBIE=",
         "salt": "2r/zFfpUEUdnFzQSi84jgAzeQ1PyKOZP8XVhdeuxLo2tDbEb5i/emoA3VlflCkGfdgq7VeSsMNqr9GhxTqrndw==",
         "address": {
@@ -598,7 +598,7 @@ let userData = [
         "_id": UUID("94e5e453-d5d0-4122-b34e-a718d12b2fcd"),
         "role": 4,
         "name": "Tara",
-        "email": "UserTara@mail.com",
+        "email": "user.tara@mail.com",
         "password": "N/WqjdZ7Reec1ki8ZnLreLWTYQUsbLh2zX7w3RM6G+8=",
         "salt": "iYQSDMZ5sQIMlfYdQsO3eVnqT7lM/upbY9pXtMNc+54N/2U8c42JCSut/dUyrm1P0JOcR4aLM6LTpOFyv28dXw==",
         "address": {
@@ -631,7 +631,7 @@ let userData = [
         "_id": UUID("da392cad-d833-48c7-b0ac-3165f4f062e2"),
         "role": 3,
         "name": "MarieCurie",
-        "email": "UserMarieCurie@mail.com",
+        "email": "user.mariecurie@mail.com",
         "password": "ZZg7UPrask30RP+qMQBrcNKBnY5Ov9nONrPxM8DB4j0=",
         "salt": "1tEVa+N72hgLGDkcgwWDSO/WrsvEgOB3mBlI2rveMknWhXfHPCKW8f4cyHJfVRYhtscUGwLI+IrnUfmMI+mI8g==",
         "address": {
