@@ -9,7 +9,10 @@ namespace Exadel.HEH.Backend.Host.Extensions
         public static IServiceCollection AddValidationServices(this IServiceCollection services)
         {
             services.AddScoped<IFavoritesValidationService, FavoritesValidationService>();
+
             services.AddScoped<ICategoryValidationService, CategoryValidationService>();
+
+            services.AddScoped<IDiscountValidationService, DiscountValidationService>();
 
             return services;
         }
