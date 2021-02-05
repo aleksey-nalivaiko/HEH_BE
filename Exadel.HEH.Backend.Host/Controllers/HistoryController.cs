@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
     public class HistoryController : BaseController<HistoryDto>
     {
         public HistoryController(IService<HistoryDto> service)
