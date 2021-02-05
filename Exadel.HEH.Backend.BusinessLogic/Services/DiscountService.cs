@@ -13,13 +13,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     {
         private readonly IDiscountRepository _discountRepository;
         private readonly IFavoritesService _favoritesService;
+        private readonly IVendorService _vendorService;
         private readonly IMapper _mapper;
 
         public DiscountService(IDiscountRepository discountRepository,
-            IFavoritesService favoritesService, IMapper mapper)
+            IFavoritesService favoritesService, IVendorService vendorService, IMapper mapper)
         {
             _discountRepository = discountRepository;
             _favoritesService = favoritesService;
+            _vendorService = vendorService;
             _mapper = mapper;
         }
 
@@ -54,9 +56,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public async Task<DiscountDto> GetByIdAsync(Guid id)
         {
             var discount = await _discountRepository.GetByIdAsync(id);
+            var vendor = await _vendorService.GetByIdAsync(discount.VendorId);
 
             var discountDto = _mapper.Map<DiscountDto>(discount);
             discountDto.IsFavorite = await _favoritesService.DiscountIsInFavorites(discountDto.Id);
+            discountDto.Links = vendor.Links;
 
             return discountDto;
         }
