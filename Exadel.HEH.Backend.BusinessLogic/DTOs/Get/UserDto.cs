@@ -34,6 +34,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 
         public IList<Favorites> Favorites { get; set; }
 
-        public string img { get; set; }
+        public string Img { get; set; }
     }
 }
