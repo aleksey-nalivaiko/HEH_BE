@@ -30,7 +30,7 @@
         "dateTime": new Date("2021-01-17T13:56:45Z")
     },
     {
-        "_id": UUID("9df3a552-8802-497b-a8b8-cfdbc7fc1411"),
+        "_id": UUID("386b9fcd-d752-49ca-81b1-046d266a8d21"),
         "userId": UUID("5ce9c143-af8d-4fc0-8760-76318625a16c"),
         "userRole": "Moderator",
         "userName": "Yury",
@@ -40,7 +40,7 @@
         "dateTime": new Date("2021-02-08T16:10:12Z")
     },
     {
-        "_id": UUID("9df3a552-8802-497b-a8b8-cfdbc7fc1411"),
+        "_id": UUID("60c0a284-a97e-4eb3-8c85-8d21f047fe16"),
         "userId": UUID("5ce9c143-af8d-4fc0-8760-76318625a16c"),
         "userRole": "Moderator",
         "userName": "Yury",
