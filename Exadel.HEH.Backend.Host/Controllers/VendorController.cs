@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers.Abstract;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +16,13 @@ namespace Exadel.HEH.Backend.Host.Controllers
     public class VendorController : BaseController<VendorShortDto>
     {
         private readonly IVendorService _vendorService;
+        private readonly IVendorValidationService _vendorValidationService;
 
-        public VendorController(IVendorService vendorService)
+        public VendorController(IVendorService vendorService, IVendorValidationService vendorValidationService)
             : base(vendorService)
         {
             _vendorService = vendorService;
+            _vendorValidationService = vendorValidationService;
         }
 
         [HttpGet("detailed")]
@@ -31,30 +34,53 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [HttpGet("{id:guid}")]
         [Authorize(Roles = nameof(UserRole.Moderator))]
-        public Task<VendorDto> GetByIdAsync(Guid id)
+        public async Task<ActionResult<VendorDto>> GetByIdAsync(Guid id)
         {
-            return _vendorService.GetByIdAsync(id);
+            if (!await _vendorValidationService.VendorExists(id))
+            {
+                return NotFound();
+            }
+
+            return Ok(await _vendorService.GetByIdAsync(id));
         }
 
         [HttpPost]
         [Authorize(Roles = nameof(UserRole.Moderator))]
-        public async Task CreateAsync(VendorDto vendor)
+        public async Task<ActionResult> CreateAsync(VendorDto vendor)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             await _vendorService.CreateAsync(vendor);
+            return Created(string.Empty, vendor);
         }
 
         [HttpPut]
         [Authorize(Roles = nameof(UserRole.Moderator))]
-        public async Task UpdateAsync(VendorDto vendor)
+        public async Task<ActionResult> UpdateAsync(VendorDto vendor)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             await _vendorService.UpdateAsync(vendor);
+            return Ok(vendor);
         }
 
         [HttpDelete]
         [Authorize(Roles = nameof(UserRole.Moderator))]
-        public async Task RemoveAsync(Guid id)
+        public async Task<ActionResult> RemoveAsync(Guid id)
         {
+            if (!await _vendorValidationService.VendorExists(id))
+            {
+                return NotFound();
+            }
+
             await _vendorService.RemoveAsync(id);
+            return Ok();
         }
     }
 }

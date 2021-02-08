@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
@@ -20,7 +21,9 @@ namespace Exadel.HEH.Backend.Host.Tests
         public VendorControllerTests()
         {
             var service = new Mock<IVendorService>();
-            _controller = new VendorController(service.Object);
+            var validationService = new Mock<IVendorValidationService>();
+
+            _controller = new VendorController(service.Object, validationService.Object);
 
             service.Setup(s => s.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<VendorShortDto>)Data));
@@ -53,6 +56,9 @@ namespace Exadel.HEH.Backend.Host.Tests
             service.Setup(s => s.RemoveAsync(It.IsAny<Guid>()))
                 .Callback((Guid id) => { Data.RemoveAll(d => d.Id == id); })
                 .Returns(Task.CompletedTask);
+
+            validationService.Setup(s => s.VendorExists(It.IsAny<Guid>(), default))
+                .Returns(Task.FromResult(true));
 
             InitTestData();
         }
