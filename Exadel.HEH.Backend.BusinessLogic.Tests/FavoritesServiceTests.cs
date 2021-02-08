@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -102,6 +101,24 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             Data.Add(_user);
             await _service.RemoveAsync(_favorites.DiscountId);
             Assert.Empty(Data.Single(u => u.Id == _user.Id).Favorites);
+        }
+
+        [Fact]
+        public async Task CanCheckIfDiscountsAreInFavorites()
+        {
+            Data.Add(_user);
+            var result = await _service.DiscountsAreInFavorites(new List<Guid> { _discount.Id });
+
+            Assert.True(result[_discount.Id]);
+        }
+
+        [Fact]
+        public async Task CanCheckIfDiscountIsInFavorites()
+        {
+            Data.Add(_user);
+            var result = await _service.DiscountIsInFavorites(_discount.Id);
+
+            Assert.True(result);
         }
 
         private void InitTestData()

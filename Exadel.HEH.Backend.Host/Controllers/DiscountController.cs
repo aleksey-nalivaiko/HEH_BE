@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.Host.Infrastructure;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
@@ -15,25 +16,33 @@ namespace Exadel.HEH.Backend.Host.Controllers
     [ODataAuthorize]
     public class DiscountController : ODataController
     {
-        private readonly IDiscountService _service;
+        private readonly IDiscountService _discountService;
+        private readonly IDiscountValidationService _discountValidationService;
 
-        public DiscountController(IDiscountService service)
+        public DiscountController(IDiscountService discountService,
+            IDiscountValidationService discountValidationService)
         {
-            _service = service;
+            _discountService = discountService;
+            _discountValidationService = discountValidationService;
         }
 
         [EnableQuery]
         [ODataRoute]
-        public IQueryable<DiscountDto> Get([FromQuery] string searchText)
+        public Task<IQueryable<DiscountDto>> Get([FromQuery] string searchText)
         {
-            return _service.Get(searchText);
+            return _discountService.GetAsync(searchText);
         }
 
         [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.None)]
         [ODataRoute("({id})")]
-        public Task<DiscountDto> Get(Guid id)
+        public async Task<ActionResult<DiscountDto>> GetAsync(Guid id)
         {
-            return _service.GetByIdAsync(id);
+            if (!await _discountValidationService.DiscountExists(id))
+            {
+                return NotFound();
+            }
+
+            return Ok(await _discountService.GetByIdAsync(id));
         }
     }
 }

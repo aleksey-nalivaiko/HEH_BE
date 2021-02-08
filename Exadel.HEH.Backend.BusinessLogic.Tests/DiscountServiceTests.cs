@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Moq;
@@ -14,31 +16,46 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     {
         private readonly DiscountService _service;
         private Discount _discount;
+        private VendorDto _vendor;
 
         public DiscountServiceTests()
         {
             var repository = new Mock<IDiscountRepository>();
-            _service = new DiscountService(repository.Object, Mapper);
+            var favoritesService = new Mock<IFavoritesService>();
+            var vendorService = new Mock<IVendorService>();
+
+            _service = new DiscountService(repository.Object, favoritesService.Object, vendorService.Object, Mapper);
+
             repository.Setup(r => r.Get())
                 .Returns(() => Data.AsQueryable());
             repository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
             InitTestData();
+
+            favoritesService.Setup(s => s.DiscountsAreInFavorites(It.IsAny<IEnumerable<Guid>>()))
+                .Returns((IEnumerable<Guid> discountsIds) =>
+                    Task.FromResult(discountsIds.ToDictionary(d => d, d => true)));
+
+            favoritesService.Setup(s => s.DiscountIsInFavorites(It.IsAny<Guid>()))
+                .Returns((Guid discountId) => Task.FromResult(true));
+
+            vendorService.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+                .Returns((Guid vendorId) => Task.FromResult(_vendor));
         }
 
         [Fact]
-        public void CanGetAsync()
+        public async Task CanGetAsync()
         {
             Data.Add(_discount);
-            var result = _service.Get(null);
+            var result = await _service.GetAsync(null);
             Assert.Single(result);
         }
 
         [Fact]
-        public void CanSearchAsync()
+        public async Task CanSearchAsync()
         {
             Data.Add(_discount);
-            var result = _service.Get("cond");
+            var result = await _service.GetAsync("cond");
             Assert.Single(result);
         }
 
@@ -62,6 +79,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         private void InitTestData()
         {
+            _vendor = new VendorDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "Vendor",
+                Links = new List<LinkDto>
+                {
+                    new LinkDto
+                    {
+                        Type = LinkType.Website,
+                        Url = "v.com"
+                    }
+                }
+            };
+
             _discount = new Discount
             {
                 Id = Guid.NewGuid(),
@@ -90,8 +121,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",
                 TagsIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-                VendorId = Guid.NewGuid(),
-                VendorName = "Vendor",
+                VendorId = _vendor.Id,
+                VendorName = _vendor.Name,
                 PromoCode = "new promo code",
                 StartDate = new DateTime(2021, 1, 20),
                 EndDate = new DateTime(2021, 1, 25)

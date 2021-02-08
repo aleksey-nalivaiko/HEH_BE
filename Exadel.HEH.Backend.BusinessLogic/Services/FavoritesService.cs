@@ -29,7 +29,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task<IEnumerable<FavoritesDto>> GetAllAsync()
         {
-            var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
+            var user = await GetCurrentUser();
             var discounts = await _discountRepository.GetByIdsAsync(user.Favorites.Select(f => f.DiscountId));
             var discountsDto = _mapper.Map<IEnumerable<DiscountDto>>(discounts);
             var favoritesDto = _mapper.Map<IEnumerable<FavoritesDto>>(discountsDto).ToList();
@@ -49,14 +49,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task CreateAsync(FavoritesCreateUpdateDto newFavorites)
         {
-            var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
+            var user = await GetCurrentUser();
             user.Favorites.Add(_mapper.Map<Favorites>(newFavorites));
             await _userRepository.UpdateAsync(user);
         }
 
         public async Task UpdateAsync(FavoritesCreateUpdateDto newFavorites)
         {
-            var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
+            var user = await GetCurrentUser();
             var favorites = user.Favorites.FirstOrDefault(f => f.DiscountId == newFavorites.DiscountId);
 
             user.Favorites.Remove(favorites);
@@ -66,11 +66,38 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task RemoveAsync(Guid discountId)
         {
-            var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
+            var user = await GetCurrentUser();
             var favorites = user.Favorites.First(f => f.DiscountId == discountId);
 
             user.Favorites.Remove(favorites);
             await _userRepository.UpdateAsync(user);
+        }
+
+        public async Task<Dictionary<Guid, bool>> DiscountsAreInFavorites(IEnumerable<Guid> discountsIds)
+        {
+            var user = await GetCurrentUser();
+
+            return discountsIds.GroupJoin(
+                user.Favorites,
+                d => d,
+                f => f.DiscountId,
+                (d, f) => new
+                {
+                    DiscountId = d,
+                    IsFavorite = f.Any()
+                }).ToDictionary(f => f.DiscountId, f => f.IsFavorite);
+        }
+
+        public async Task<bool> DiscountIsInFavorites(Guid discountId)
+        {
+            var user = await GetCurrentUser();
+
+            return user.Favorites.FirstOrDefault(f => f.DiscountId == discountId) != null;
+        }
+
+        private Task<User> GetCurrentUser()
+        {
+            return _userRepository.GetByIdAsync(_userProvider.GetUserId());
         }
     }
 }
