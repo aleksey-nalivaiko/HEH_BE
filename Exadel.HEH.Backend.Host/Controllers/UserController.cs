@@ -26,6 +26,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return base.GetAllAsync();
         }
 
+        //[ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet("{id:guid}")]
         [Authorize(Roles = nameof(UserRole.Administrator))]
         public async Task<ActionResult<UserDto>> GetByIdAsync(Guid id)

@@ -20,12 +20,14 @@ namespace Exadel.HEH.Backend.Host.Controllers
             _tagService = tagService;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpDelete]
         public Task RemoveAsync(Guid id)
         {
             return _tagService.RemoveAsync(id);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         public async Task<ActionResult> CreateAsync(TagDto item)
         {
@@ -38,6 +40,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return BadRequest(ModelState);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         public async Task<ActionResult> UpdateAsync(TagDto item)
         {
