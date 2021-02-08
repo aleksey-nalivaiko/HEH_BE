@@ -1,14 +1,14 @@
 ﻿let discountData = [
     {
         "_id": UUID("f1aac79e-f684-42f2-8ff9-8613b2541878"),
-        "conditions": "30% by promocode",
+        "conditions": "1 + 1 = 3 hamburgers",
         "tagsIds": [UUID("d1adffea-945d-44c6-a79d-b935ccec3051"),
         UUID("7de99c4f-d795-4a28-a7cf-1e2f952c71ee"),
         UUID("7bb365ae-87d7-458d-b170-00ceabea9c54")
         ],
         "vendorId": UUID("e7922459-d83c-4a8d-ba86-6b80e1e55d1d"),
         "vendorName": "Mcdonalds",
-        "promoCode": "Mcfood",
+        "promoCode": "HAMBURGER",
         "addresses": [
             {
                 "_id": UUID("0a42474c-775f-43f4-8c7d-fd4873217de5"),
@@ -130,7 +130,7 @@
     },
     {
         "_id": UUID("ec82d67f-1371-4a69-98c9-ef425ba2e47d"),
-        "conditions": "3% by promocode",
+        "conditions": "Traid-in until 50%",
         "tagsIds": [
             UUID("d1575ac0-cedf-49fd-9fb5-18579878720d"),
             UUID("76dce0ac-3d3d-49cd-8f15-fbe43ebe9900")
@@ -192,14 +192,14 @@
     },
     {
         "_id": UUID("b0697535-7071-4380-80d1-15556203dd0c"),
-        "conditions": "7% by promocode",
+        "conditions": "Refer a friend and get a discount for both 15%",
         "tagsIds": [
             UUID("42a69c2c-d3a0-4ec8-b0ef-5319bc27538f"),
             UUID("3d9590bb-49b6-4f08-b717-264c34ec6d26")
         ],
         "vendorId": UUID("b2f9bca3-bd3a-4fa1-874b-b17025a05873"),
         "vendorName": "It-academy",
-        "promoCode": "Auto",
+        "promoCode": "FRIEND",
         "addresses": [
             {
                 "_id": UUID("5fd5796b-a71b-415e-9492-169e16d7502d"),
