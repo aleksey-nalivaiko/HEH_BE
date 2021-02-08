@@ -124,7 +124,7 @@ let userData = [
             "_id": UUID("251a54df-0d05-4f16-8180-d85282702f88"),
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
             "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
-            "street": "pr. Niezalie?nasci 117à"
+            "street": "pr. Niezaliejnasci 117à"
         },
         "isActive": true,
         "categoryNotifications": [
@@ -157,7 +157,7 @@ let userData = [
             "_id": UUID("37ac3e3f-267e-48e9-8e87-c7841078a55a"),
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
             "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
-            "street": "pr. Niezalie?nasci 117à"
+            "street": "pr. Niezaliejnasci 117à"
         },
         "isActive": true,
         "categoryNotifications": [
@@ -195,7 +195,7 @@ let userData = [
             "_id": UUID("5330c5b3-d2d7-4dae-8604-5964fedf7e18"),
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
             "cityId": UUID("a1d19bb5-ba10-4f51-8eac-053a264d8ce2"),
-            "street": "pr. Niezalie?nasci 117à"
+            "street": "pr. Niezaliejnasci 117à"
         },
         "isActive": false,
         "categoryNotifications": [
@@ -492,7 +492,7 @@ let userData = [
             "_id": UUID("704a2749-0828-49ab-840c-797cd9a3e527"),
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
             "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
-            "street": "pr. Niezalie?nasci 117à"
+            "street": "pr. Niezaliejnasci 117à"
         },
         "isActive": false,
         "categoryNotifications": [
@@ -557,7 +557,7 @@ let userData = [
             "_id": UUID("dd824a55-24b3-4fdd-97d2-afef30c84f70"),
             "countryId": UUID("571ffd86-ae90-4457-b1ec-0ed504076706"),
             "cityId": UUID("4198a349-0f53-4f48-a5ed-766517a26ef3"),
-            "street": "pr. Niezalie?nasci 117à"
+            "street": "pr. Niezaliejnasci 117à"
         },
         "isActive": false,
         "categoryNotifications": [
@@ -623,7 +623,7 @@ let userData = [
             "_id": UUID("88cf6fa4-b4f4-49f9-9fdc-24a3bc146e6d"),
             "countryId": UUID("571ffd86-ae90-4457-b1ec-0ed504076706"),
             "cityId": UUID("4198a349-0f53-4f48-a5ed-766517a26ef3"),
-            "street": "pr. Niezalie?nasci 117à"
+            "street": "pr. Niezaliejnasci 117à"
         },
         "isActive": false,
         "categoryNotifications": [
@@ -656,7 +656,7 @@ let userData = [
             "_id": UUID("c2176fe6-b3e0-469a-92d7-b1b60d774094"),
             "countryId": UUID("571ffd86-ae90-4457-b1ec-0ed504076706"),
             "cityId": UUID("23fde963-54e5-4991-a0a9-d5013550703c"),
-            "street": "pr. Niezalie?nasci 117à"
+            "street": "pr. Niezaliejnasci 117à"
         },
         "isActive": false,
         "categoryNotifications": [
