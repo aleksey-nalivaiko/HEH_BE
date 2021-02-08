@@ -10,12 +10,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
     public class VendorValidationService : IVendorValidationService
     {
         private readonly IRepository<Vendor> _vendorRepository;
-        private readonly IMethodProvider _methodProvider;
 
-        public VendorValidationService(IRepository<Vendor> vendorRepository, IMethodProvider methodProvider)
+        public VendorValidationService(IRepository<Vendor> vendorRepository)
         {
             _vendorRepository = vendorRepository;
-            _methodProvider = methodProvider;
         }
 
         public async Task<bool> VendorExists(Guid vendorId, CancellationToken token)

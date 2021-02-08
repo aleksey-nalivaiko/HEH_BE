@@ -41,7 +41,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
                 return NotFound();
             }
 
-            return Ok(_vendorService.GetByIdAsync(id));
+            return Ok(await _vendorService.GetByIdAsync(id));
         }
 
         [HttpPost]
