@@ -17,7 +17,7 @@
             },
             {
                 "url": "https://mcdonalds.by/ru/",
-                "type": "Wedsite"
+                "type": "Website"
             }
         ],
         "mailing": true,
@@ -230,10 +230,6 @@
             {
                 "url": "https://www.facebook.com/park.itacademy/",
                 "type": "Facebook"
-            },
-            {
-                "url": "https://www.linkedin.com/school/it-academy/",
-                "type": "Linkedin"
             }
         ],
         "mailing": false,

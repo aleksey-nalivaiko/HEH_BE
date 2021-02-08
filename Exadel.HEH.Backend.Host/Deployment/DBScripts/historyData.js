@@ -4,7 +4,7 @@
         "userId": UUID("e1544fa5-42ff-4dea-962b-820f7be52fa2"),
         "userRole": "Moderator",
         "userName": "Liza",
-        "userEmail": "UserLiza@mail.com",
+        "userEmail": "user.liza@mail.com",
         "action": "Add",
         "description": "Add new vendor: Dominos",
         "dateTime": new Date("2021-01-18T16:00:00Z")
@@ -14,7 +14,7 @@
         "userId": UUID("5ce9c143-af8d-4fc0-8760-76318625a16c"),
         "userRole": "Moderator",
         "userName": "Julia",
-        "userEmail": "UserJulia@mail.com",
+        "userEmail": "user.julia@mail.com",
         "action": "Add",
         "description": "Add new discount: 10% for second pizza",
         "dateTime": new Date("2021-01-18T16:10:12Z")
@@ -24,9 +24,29 @@
         "userId": UUID("e847632e-b375-438f-bbcc-53023c173800"),
         "userRole": "Administrator",
         "userName": "Sasha",
-        "userEmail": "UserAlexander@mail.com",
+        "userEmail": "user.alexander@mail.com",
         "action": "Remove",
         "description": "Remove discount: 70% for second pizza",
         "dateTime": new Date("2021-01-17T13:56:45Z")
+    },
+    {
+        "_id": UUID("386b9fcd-d752-49ca-81b1-046d266a8d21"),
+        "userId": UUID("5ce9c143-af8d-4fc0-8760-76318625a16c"),
+        "userRole": "Moderator",
+        "userName": "Yury",
+        "userEmail": "user.yury@mail.com",
+        "action": "Edit",
+        "description": "Edit condition Mcdonalds vendor: 1 + 1 = 3 hamburgers",
+        "dateTime": new Date("2021-02-08T16:10:12Z")
+    },
+    {
+        "_id": UUID("60c0a284-a97e-4eb3-8c85-8d21f047fe16"),
+        "userId": UUID("5ce9c143-af8d-4fc0-8760-76318625a16c"),
+        "userRole": "Moderator",
+        "userName": "Yury",
+        "userEmail": "user.yury@mail.com",
+        "action": "Edit",
+        "description": "Edit condition Autocenter Citroen: traid-in until 50%",
+        "dateTime": new Date("2021-02-08T16:13:47Z")
     }
 ];
