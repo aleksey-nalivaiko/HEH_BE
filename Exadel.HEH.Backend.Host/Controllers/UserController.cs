@@ -33,12 +33,12 @@ namespace Exadel.HEH.Backend.Host.Controllers
         [Authorize(Roles = nameof(UserRole.Administrator))]
         public async Task<ActionResult<UserDto>> GetByIdAsync(Guid id)
         {
-            if (ModelState.IsValid)
+            if (await _validationService.ValidateUserIdExists(id))
             {
                 return Ok(await _userService.GetByIdAsync(id));
             }
 
-            return BadRequest();
+            return NotFound();
         }
 
         [HttpGet("profile")]
