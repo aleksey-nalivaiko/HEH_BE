@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,16 +15,24 @@ namespace Exadel.HEH.Backend.Host.Controllers
     public class TagController : ControllerBase
     {
         private readonly ITagService _tagService;
+        private readonly ITagValidationService _validationService;
 
-        public TagController(ITagService tagService)
+        public TagController(ITagService tagService, ITagValidationService validationService)
         {
             _tagService = tagService;
+            _validationService = validationService;
         }
 
         [HttpDelete]
-        public Task RemoveAsync(Guid id)
+        public async Task<ActionResult> RemoveAsync(Guid id)
         {
-            return _tagService.RemoveAsync(id);
+            if (await _validationService.DiscountContainsTag(id))
+            {
+                await _tagService.RemoveAsync(id);
+                return Ok();
+            }
+
+            return BadRequest(ModelState);
         }
 
         [HttpPost]
