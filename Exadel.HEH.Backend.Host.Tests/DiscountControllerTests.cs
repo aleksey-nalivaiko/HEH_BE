@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
@@ -15,15 +16,18 @@ namespace Exadel.HEH.Backend.Host.Tests
         : BaseControllerTests<DiscountDto>
     {
         private readonly DiscountController _controller;
+        private readonly List<DiscountExtendedDto> _data;
         private DiscountDto _discount;
+        private DiscountExtendedDto _discountExtended;
 
         public DiscountControllerTests()
         {
+            _data = new List<DiscountExtendedDto>();
             var service = new Mock<IDiscountService>();
             var validationService = new Mock<IDiscountValidationService>();
             _controller = new DiscountController(service.Object, validationService.Object);
 
-            var data = Data;
+            var searchData = Data;
 
             service.Setup(s => s.GetAsync(It.IsAny<string>()))
                 .Callback((string param) =>
@@ -31,17 +35,17 @@ namespace Exadel.HEH.Backend.Host.Tests
                     if (param != null)
                     {
                         var lowerParam = param.ToLower();
-                        data = Data.Where(d => d.Conditions.ToLower().Contains(lowerParam)
+                        searchData = Data.Where(d => d.Conditions.ToLower().Contains(lowerParam)
                                                || d.VendorName.ToLower().Contains(lowerParam)).ToList();
                     }
                 })
-                .Returns(() => Task.FromResult(data.AsQueryable()));
+                .Returns(() => Task.FromResult(searchData.AsQueryable()));
 
             service.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-                .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(d => d.Id == id)));
+                .Returns((Guid id) => Task.FromResult(_data.FirstOrDefault(d => d.Id == id)));
 
-            validationService.Setup(v => v.DiscountExists(It.IsAny<Guid>()))
-                .Returns((Guid id) =>
+            validationService.Setup(v => v.DiscountExists(It.IsAny<Guid>(), default))
+                .Returns((Guid id, CancellationToken token) =>
                     Task.FromResult(Data.FirstOrDefault(d => d.Id == id) != null));
             InitTestData();
         }
@@ -65,7 +69,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         [Fact]
         public async Task CanGetById()
         {
-            Data.Add(_discount);
+            _data.Add(_discountExtended);
             var result = await _controller.GetAsync(_discount.Id);
             Assert.NotNull(result);
         }
@@ -85,7 +89,28 @@ namespace Exadel.HEH.Backend.Host.Tests
             _discount = new DiscountDto
             {
                 Id = Guid.NewGuid(),
-                AddressesIds = new List<AddressDto>
+                AddressesIds = new List<Guid>
+                {
+                    Guid.NewGuid()
+                },
+                PhonesIds = new List<Guid>
+                {
+                    Guid.NewGuid()
+                },
+                CategoryId = Guid.NewGuid(),
+                Conditions = "Conditions",
+                TagsIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
+                VendorId = Guid.NewGuid(),
+                VendorName = "Vendor",
+                PromoCode = "new promo code",
+                StartDate = new DateTime(2021, 1, 20),
+                EndDate = new DateTime(2021, 1, 25)
+            };
+
+            _discountExtended = new DiscountExtendedDto
+            {
+                Id = Guid.NewGuid(),
+                Addresses = new List<AddressDto>
                 {
                     new AddressDto
                     {
@@ -94,7 +119,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                         Street = "street"
                     }
                 },
-                PhonesIds = new List<PhoneDto>
+                Phones = new List<PhoneDto>
                 {
                     new PhoneDto
                     {

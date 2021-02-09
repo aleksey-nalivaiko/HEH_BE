@@ -197,8 +197,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             _testDiscount = new Discount
             {
                 Id = Guid.NewGuid(),
-                AddressesIds = addresses,
-                PhonesIds = phonesIds,
+                AddressesIds = addresses.Select(a => a.Id).ToList(),
+                PhonesIds = phonesIds.Select(p => p.Id).ToList(),
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",
                 TagsIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },

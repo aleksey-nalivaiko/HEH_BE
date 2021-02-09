@@ -67,16 +67,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             Assert.NotNull(result);
         }
 
-        //[Fact]
-        //public async Task CanUpdate()
-        //{
-        //    Data.Add(_discount.DeepClone());
-        //    _discount.IsActive = false;
-
-        //    await _service.UpdateAsync(_discount);
-        //    Assert.False(Data.Single(x => x.Id == _discount.Id).IsActive);
-        //}
-
         private void InitTestData()
         {
             _vendor = new VendorDto
@@ -90,33 +80,37 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                         Type = LinkType.Website,
                         Url = "v.com"
                     }
+                },
+                Addresses = new List<AddressDto>
+                {
+                    new AddressDto
+                    {
+                        Id = Guid.NewGuid(),
+                        CityId = Guid.NewGuid(),
+                        CountryId = Guid.NewGuid(),
+                        Street = "street"
+                    }
+                },
+                Phones = new List<PhoneDto>
+                {
+                    new PhoneDto
+                    {
+                        Id = Guid.NewGuid(),
+                        Number = "+375441111111"
+                    }
                 }
             };
 
             _discount = new Discount
             {
                 Id = Guid.NewGuid(),
-                AddressesIds = new List<Address>
+                AddressesIds = new List<Guid>
                 {
-                    new Address
-                    {
-                        CityId = Guid.NewGuid(),
-                        CountryId = Guid.NewGuid(),
-                        Street = "street"
-                    }
+                    _vendor.Addresses.ElementAt(0).Id
                 },
-                PhonesIds = new List<Phone>
+                PhonesIds = new List<Guid>
                 {
-                    new Phone
-                    {
-                        Id = Guid.NewGuid(),
-                        Number = "+375441111111"
-                    },
-                    new Phone
-                    {
-                        Id = Guid.NewGuid(),
-                        Number = "+375442222222"
-                    }
+                    _vendor.Phones.ElementAt(0).Id
                 },
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",
