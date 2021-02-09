@@ -10,12 +10,12 @@
         "vendorId": UUID("e7922459-d83c-4a8d-ba86-6b80e1e55d1d"),
         "vendorName": "Mcdonalds",
         "promoCode": "HAMBURGER",
-        "addresses": [
+        "addressesIds": [
             UUID("0a42474c-775f-43f4-8c7d-fd4873217de5"),
             UUID("cf9e5eb1-5125-45ba-a22b-95d4d3ea121f"),
             UUID("231780e4-29e5-4572-aef9-24e6830a0f0d")
         ],
-        "phones": [
+        "phonesIds": [
             UUID("75e228dc-ee5b-4d81-bf42-6133c5330774"),
             UUID("18f71e53-def0-4ae8-841c-75a9e871c347")
         ],
@@ -34,10 +34,10 @@
         "vendorId": UUID("b883835e-4ce3-4134-9811-45a85b6ff113"),
         "vendorName": "Max Mirnyi Center",
         "promoCode": "Tenis",
-        "addresses": [
+        "addressesIds": [
             UUID("1da47e2f-ca87-4e9f-a905-023b0bc930ab")
         ],
-        "phones": [
+        "phonesIds": [
             UUID("0b89bcbc-6b14-48ce-8946-bb093fc853d8")
         ],
         "startDate": "2021-10-03T18:30:25",
@@ -54,10 +54,10 @@
         "vendorId": UUID("a81d4813-0ff3-4a2b-b53c-ebec989ae7fc"),
         "vendorName": "Beautycenter O2",
         "promoCode": "nails",
-        "addresses": [
+        "addressesIds": [
             UUID("e52e7a46-08ad-400d-a475-2cf16a20c360")
         ],
-        "phones": [
+        "phonesIds": [
             UUID("be7ef511-a3c6-4904-9d2f-5e5d58687bcb")
         ],
         "startDate": "2021-10-03T18:30:25",
@@ -74,10 +74,10 @@
         "vendorId": UUID("91d19b85-6232-4373-b08b-a988d828d27e"),
         "vendorName": "Dinozavria",
         "promoCode": "DinosorAndI",
-        "addresses": [
+        "addressesIds": [
             UUID("2246d903-fcf2-45ca-8f9e-f9226fbe74c9")
         ],
-        "phones": [
+        "phonesIds": [
             UUID("f6fd6b9b-53af-4ca2-a53d-18d551dd2045")
         ],
         "startDate": "2021-10-03T18:30:25",
@@ -94,12 +94,12 @@
         "vendorId": UUID("34654c1a-a2c9-4562-abdd-98e62cbcc6f7"),
         "vendorName": "Autocenter Citroen",
         "promoCode": "Auto",
-        "addresses": [
+        "addressesIds": [
             UUID("f868212b-bbf3-4a68-a13c-7459b9eeeabb"),
             UUID("0f45a222-af0a-4536-a88d-8f2b2a027fdd"),
             UUID("d43680d8-9460-4fbe-ac99-c57f8fe7fdfa")
         ],
-        "phones": [
+        "phonesIds": [
             UUID("dc9598e2-eb40-4bd7-ac31-1014900e72d8")
                
         ],
@@ -117,9 +117,9 @@
         "vendorId": UUID("72ff6421-f6c6-4d55-bf54-f9833723f30f"),
         "vendorName": "Booking",
         "promoCode": "Travel",
-        "addresses": [
+        "addressesIds": [
         ],
-        "phones": [
+        "phonesIds": [
             UUID("5071092e-e7b0-491f-813e-8113071015ab")
         ],
         "startDate": "2021-10-03T18:30:25",
@@ -136,10 +136,10 @@
         "vendorId": UUID("b2f9bca3-bd3a-4fa1-874b-b17025a05873"),
         "vendorName": "It-academy",
         "promoCode": "FRIEND",
-        "addresses": [
+        "addressesIds": [
             UUID("5fd5796b-a71b-415e-9492-169e16d7502d")
         ],
-        "phones": [
+        "phonesIds": [
             UUID("9e5d1d27-3196-4102-818d-8c2c48bc428a")
         ],
         "startDate": "2021-10-03T18:30:25",
