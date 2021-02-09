@@ -19,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OData.Swagger.Services;
+using Serilog;
 
 namespace Exadel.HEH.Backend.Host
 {
@@ -133,6 +134,8 @@ namespace Exadel.HEH.Backend.Host
             }
 
             app.UseHttpsRedirection();
+
+            app.UseSerilogRequestLogging();
 
             app.UseForwardedHeaders(ForwardedHeadersSettings.Options);
 
