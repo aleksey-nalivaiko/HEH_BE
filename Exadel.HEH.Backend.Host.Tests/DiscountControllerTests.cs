@@ -85,7 +85,7 @@ namespace Exadel.HEH.Backend.Host.Tests
             _discount = new DiscountDto
             {
                 Id = Guid.NewGuid(),
-                Addresses = new List<AddressDto>
+                AddressesIds = new List<AddressDto>
                 {
                     new AddressDto
                     {
@@ -94,7 +94,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                         Street = "street"
                     }
                 },
-                Phones = new List<PhoneDto>
+                PhonesIds = new List<PhoneDto>
                 {
                     new PhoneDto
                     {

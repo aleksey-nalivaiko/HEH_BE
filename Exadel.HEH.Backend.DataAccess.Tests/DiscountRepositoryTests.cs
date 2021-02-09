@@ -82,7 +82,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             _discount = new Discount
             {
                 Id = Guid.NewGuid(),
-                Addresses = new List<Address>
+                AddressesIds = new List<Address>
                 {
                     new Address
                     {
@@ -91,7 +91,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                         Street = "street"
                     }
                 },
-                Phones = new List<Phone>
+                PhonesIds = new List<Phone>
                 {
                     new Phone
                     {
