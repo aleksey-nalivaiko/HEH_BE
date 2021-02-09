@@ -6,6 +6,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 {
     public interface ICategoryValidationService
     {
-        Task<bool> DiscountContainsCategory(Guid id, CancellationToken token);
+        Task<bool> DiscountContainsCategory(Guid id, CancellationToken token = default);
     }
 }

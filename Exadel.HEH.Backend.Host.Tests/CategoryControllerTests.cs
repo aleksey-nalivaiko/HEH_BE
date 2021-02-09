@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.Host.Controllers;
 using Moq;
 using Xunit;
@@ -19,7 +20,8 @@ namespace Exadel.HEH.Backend.Host.Tests
         public CategoryControllerTests()
         {
             var service = new Mock<ICategoryService>();
-            _controller = new CategoryController(service.Object);
+            var validationService = new Mock<ICategoryValidationService>();
+            _controller = new CategoryController(service.Object, validationService.Object);
 
             _categoryWithTagsData = new List<CategoryDto>();
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.Host.Controllers;
 using Moq;
 using Xunit;
@@ -20,7 +21,8 @@ namespace Exadel.HEH.Backend.Host.Tests
         public TagControllerTests()
         {
             var service = new Mock<ITagService>();
-            _controller = new TagController(service.Object);
+            var validationService = new Mock<ITagValidationService>();
+            _controller = new TagController(service.Object, validationService.Object);
 
             _tagData = new List<TagDto>();
 
