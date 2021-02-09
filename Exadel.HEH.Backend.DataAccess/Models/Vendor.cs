@@ -20,5 +20,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
         public int ViewsAmount { get; set; }
 
         public string Email { get; set; }
+
+        public string WorkingHours { get; set; }
     }
 }
