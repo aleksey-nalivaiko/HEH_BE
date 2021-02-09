@@ -59,8 +59,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var vendor = await _vendorService.GetByIdAsync(discount.VendorId);
 
             var discountDto = _mapper.Map<DiscountDto>(discount);
+
             discountDto.IsFavorite = await _favoritesService.DiscountIsInFavorites(discountDto.Id);
             discountDto.Links = vendor.Links;
+            discountDto.WorkingHours = vendor.WorkingHours;
 
             return discountDto;
         }
