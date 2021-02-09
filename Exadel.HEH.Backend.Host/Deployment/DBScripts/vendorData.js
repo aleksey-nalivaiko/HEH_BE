@@ -52,7 +52,8 @@
             }
         ],
         "viewsAmount": 7342,
-        "email": "info@by.mcd.com"
+        "email": "info@by.mcd.com",
+        "workingHours": "07:00–00:00"
     },
     {
         "_id": UUID("b883835e-4ce3-4134-9811-45a85b6ff113"),
@@ -83,7 +84,8 @@
             }
         ],
         "viewsAmount": 222,
-        "email": "maxs.mmta@gmail.com"
+        "email": "maxs.mmta@gmail.com",
+        "workingHours": "08:00–23:00"
     },
     {
         "_id": UUID("a81d4813-0ff3-4a2b-b53c-ebec989ae7fc"),
@@ -114,7 +116,8 @@
             }
         ],
         "viewsAmount": 101,
-        "email": "nikolya811@gmail.com"
+        "email": "nikolya811@gmail.com",
+        "workingHours": "09:00–21:00"
     },
     {
         "_id": UUID("91d19b85-6232-4373-b08b-a988d828d27e"),
@@ -145,7 +148,8 @@
             }
         ],
         "viewsAmount": 162,
-        "email": "dinozavria@vek.by"
+        "email": "dinozavria@vek.by",
+        "workingHours": "12:00–21:00"
     },
     {
         "_id": UUID("34654c1a-a2c9-4562-abdd-98e62cbcc6f7"),
@@ -192,7 +196,8 @@
             }
         ],
         "viewsAmount": 366,
-        "email": "auto_vendor@gmail.com"
+        "email": "auto_vendor@gmail.com",
+        "workingHours": "08:00–20:00"
     },
     {
         "_id": UUID("72ff6421-f6c6-4d55-bf54-f9833723f30f"),
@@ -213,7 +218,8 @@
         "addresses": [
         ],
         "viewsAmount": 167,
-        "email": ""
+        "email": "",
+        "workingHours": "day-and-night"
     },
     {
         "_id": UUID("b2f9bca3-bd3a-4fa1-874b-b17025a05873"),
@@ -248,6 +254,7 @@
             }
         ],
         "viewsAmount": 289,
-        "email": ""
+        "email": "",
+        "workingHours": "08:30–19:00"
     }
 ]
