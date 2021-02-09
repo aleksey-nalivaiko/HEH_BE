@@ -82,27 +82,13 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             _discount = new Discount
             {
                 Id = Guid.NewGuid(),
-                AddressesIds = new List<Address>
+                AddressesIds = new List<Guid>
                 {
-                    new Address
-                    {
-                        CityId = Guid.NewGuid(),
-                        CountryId = Guid.NewGuid(),
-                        Street = "street"
-                    }
+                    Guid.NewGuid()
                 },
-                PhonesIds = new List<Phone>
+                PhonesIds = new List<Guid>
                 {
-                    new Phone
-                    {
-                        Id = Guid.NewGuid(),
-                        Number = "+375441111111"
-                    },
-                    new Phone
-                    {
-                        Id = Guid.NewGuid(),
-                        Number = "+375442222222"
-                    },
+                    Guid.NewGuid()
                 },
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",
