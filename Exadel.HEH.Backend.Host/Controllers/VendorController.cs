@@ -36,7 +36,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         [Authorize(Roles = nameof(UserRole.Moderator))]
         public async Task<ActionResult<VendorDto>> GetByIdAsync(Guid id)
         {
-            if (!await _vendorValidationService.VendorExists(id))
+            if (!await _vendorValidationService.VendorExistsAsync(id))
             {
                 return NotFound();
             }
@@ -74,7 +74,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         [Authorize(Roles = nameof(UserRole.Moderator))]
         public async Task<ActionResult> RemoveAsync(Guid id)
         {
-            if (!await _vendorValidationService.VendorExists(id))
+            if (!await _vendorValidationService.VendorExistsAsync(id))
             {
                 return NotFound();
             }

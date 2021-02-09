@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Exadel.HEH.Backend.DataAccess.Models
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 {
-    public class Discount : IDataModel
+    public class DiscountBaseDto
     {
         public Guid Id { get; set; }
 
@@ -17,14 +17,12 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public string PromoCode { get; set; }
 
-        public IList<Guid> AddressesIds { get; set; }
-
-        public IList<Guid> PhonesIds { get; set; }
-
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
 
         public Guid CategoryId { get; set; }
+
+        public virtual bool IsFavorite { get; set; }
     }
 }

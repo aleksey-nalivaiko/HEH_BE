@@ -53,16 +53,28 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return discountsDto;
         }
 
-        public async Task<DiscountDto> GetByIdAsync(Guid id)
+        public async Task<DiscountExtendedDto> GetByIdAsync(Guid id)
         {
             var discount = await _discountRepository.GetByIdAsync(id);
             var vendor = await _vendorService.GetByIdAsync(discount.VendorId);
 
-            var discountDto = _mapper.Map<DiscountDto>(discount);
+            var discountDto = _mapper.Map<DiscountExtendedDto>(discount);
 
             discountDto.IsFavorite = await _favoritesService.DiscountIsInFavorites(discountDto.Id);
             discountDto.Links = vendor.Links;
             discountDto.WorkingHours = vendor.WorkingHours;
+
+            discountDto.Addresses = vendor.Addresses.Join(
+                discount.AddressesIds,
+                a => a.Id,
+                i => i,
+                (a, i) => a);
+
+            discountDto.Phones = vendor.Phones.Join(
+                discount.PhonesIds,
+                p => p.Id,
+                i => i,
+                (p, i) => p);
 
             return discountDto;
         }

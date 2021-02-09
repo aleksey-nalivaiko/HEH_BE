@@ -49,19 +49,39 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task CreateAsync(VendorDto vendor)
         {
+            InitPhonesIds(vendor);
+            InitAddressesIds(vendor);
+
+            vendor.Id = vendor.Id == Guid.Empty ? Guid.NewGuid() : vendor.Id;
+
+            InitVendorInfoInDiscounts(vendor);
+
             await _vendorRepository.CreateAsync(_mapper.Map<Vendor>(vendor));
             await _discountRepository.CreateManyAsync(_mapper.Map<IEnumerable<Discount>>(vendor.Discounts));
         }
 
         public async Task UpdateAsync(VendorDto vendor)
         {
+            InitPhonesIds(vendor);
+            InitAddressesIds(vendor);
+            InitVendorInfoInDiscounts(vendor);
+
             await _vendorRepository.UpdateAsync(_mapper.Map<Vendor>(vendor));
 
             var discounts = _mapper.Map<IEnumerable<Discount>>(vendor.Discounts).ToList();
+
             var vendorDiscountsIds = discounts.Select(d => d.Id).ToList();
+            var vendorPhonesIds = vendor.Phones.Select(p => p.Id).ToList();
 
             await _discountRepository.RemoveAsync(d => d.VendorId == vendor.Id
                                                        && !vendorDiscountsIds.Contains(d.Id));
+
+            discounts.ForEach(d =>
+            {
+                var phoneList = d.PhonesIds.ToList();
+                phoneList.RemoveAll(p => !vendorPhonesIds.Contains(p));
+                d.PhonesIds = phoneList;
+            });
 
             await _discountRepository.UpdateManyAsync(discounts);
         }
@@ -77,6 +97,27 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var vendorDto = _mapper.Map<VendorDto>(vendor);
             vendorDto.Discounts = _mapper.Map<IEnumerable<DiscountDto>>(vendorDiscounts);
             return vendorDto;
+        }
+
+        private void InitVendorInfoInDiscounts(VendorDto vendor)
+        {
+            vendor.Discounts.ToList().ForEach(d =>
+            {
+                d.VendorId = vendor.Id;
+                d.VendorName = vendor.Name;
+            });
+        }
+
+        private void InitAddressesIds(VendorDto vendor)
+        {
+            vendor.Addresses.ToList().ForEach(
+                a => a.Id = a.Id == Guid.Empty ? Guid.NewGuid() : a.Id);
+        }
+
+        private void InitPhonesIds(VendorDto vendor)
+        {
+            vendor.Phones.ToList().ForEach(
+                p => p.Id = p.Id == Guid.Empty ? Guid.NewGuid() : p.Id);
         }
     }
 }

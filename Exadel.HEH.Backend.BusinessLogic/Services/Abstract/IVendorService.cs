@@ -11,7 +11,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 
         Task<VendorDto> GetByIdAsync(Guid id);
 
-        Task CreateAsync(VendorDto vendor);
+        Task CreateAsync(VendorDto vendorDto);
 
         Task UpdateAsync(VendorDto vendor);
 

@@ -161,7 +161,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 }
             };
 
-            var phones = new List<Phone>
+            var phonesIds = new List<Phone>
             {
                 new Phone
                 {
@@ -183,7 +183,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 Mailing = true,
                 ViewsAmount = 100,
                 Addresses = addresses,
-                Phones = phones,
+                Phones = phonesIds,
                 Links = new List<Link>
                 {
                     new Link
@@ -197,8 +197,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             _testDiscount = new Discount
             {
                 Id = Guid.NewGuid(),
-                Addresses = addresses,
-                Phones = phones,
+                AddressesIds = addresses.Select(a => a.Id).ToList(),
+                PhonesIds = phonesIds.Select(p => p.Id).ToList(),
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",
                 TagsIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },

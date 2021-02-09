@@ -35,7 +35,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.None)]
         [ODataRoute("({id})")]
-        public async Task<ActionResult<DiscountDto>> GetAsync(Guid id)
+        public async Task<ActionResult<DiscountExtendedDto>> GetAsync(Guid id)
         {
             if (!await _discountValidationService.DiscountExists(id))
             {

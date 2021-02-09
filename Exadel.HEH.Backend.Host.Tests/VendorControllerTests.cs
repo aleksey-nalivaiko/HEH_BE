@@ -57,7 +57,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                 .Callback((Guid id) => { Data.RemoveAll(d => d.Id == id); })
                 .Returns(Task.CompletedTask);
 
-            validationService.Setup(s => s.VendorExists(It.IsAny<Guid>(), default))
+            validationService.Setup(s => s.VendorExistsAsync(It.IsAny<Guid>(), default))
                 .Returns(Task.FromResult(true));
 
             InitTestData();
@@ -125,7 +125,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                 }
             };
 
-            var phones = new List<PhoneDto>
+            var phonesIds = new List<PhoneDto>
             {
                 new PhoneDto
                 {
@@ -147,7 +147,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                 Mailing = true,
                 ViewsAmount = 100,
                 Addresses = addresses,
-                Phones = phones,
+                Phones = phonesIds,
                 Links = new List<LinkDto>
                 {
                     new LinkDto
@@ -163,8 +163,8 @@ namespace Exadel.HEH.Backend.Host.Tests
                 new DiscountDto
                 {
                     Id = Guid.NewGuid(),
-                    Addresses = addresses,
-                    Phones = phones,
+                    AddressesIds = addresses.Select(a => a.Id).ToList(),
+                    PhonesIds = phonesIds.Select(p => p.Id).ToList(),
                     CategoryId = Guid.NewGuid(),
                     Conditions = "Conditions",
                     TagsIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
