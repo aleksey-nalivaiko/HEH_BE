@@ -11,9 +11,12 @@ namespace Exadel.HEH.Backend.Host.Extensions
             services.AddScoped<IFavoritesValidationService, FavoritesValidationService>();
 
             services.AddScoped<ICategoryValidationService, CategoryValidationService>();
+
             services.AddScoped<IVendorValidationService, VendorValidationService>();
 
             services.AddScoped<IDiscountValidationService, DiscountValidationService>();
+
+            services.AddScoped<IUserValidationService, UserValidationService>();
 
             return services;
         }

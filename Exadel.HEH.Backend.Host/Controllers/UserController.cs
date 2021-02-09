@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers.Abstract;
 using Microsoft.AspNetCore.Authorization;
@@ -13,11 +14,13 @@ namespace Exadel.HEH.Backend.Host.Controllers
     public class UserController : BaseController<UserDto>
     {
         private readonly IUserService _userService;
+        private readonly IUserValidationService _validationService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IUserValidationService validationService)
             : base(userService)
         {
             _userService = userService;
+            _validationService = validationService;
         }
 
         [Authorize(Roles = nameof(UserRole.Administrator))]
