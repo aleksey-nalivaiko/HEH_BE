@@ -28,6 +28,24 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                     .MustAsync(async (vendor, addresses, cancellation) =>
                         await vendorValidationService.AddressesCanBeRemovedAsync(vendor.Id, addresses, cancellation))
                     .WithMessage("Address(es) cannot be removed: they are used in discount(s).");
+
+                RuleFor(v => v.Addresses)
+                    .MustAsync(async (vendor, addresses, cancellation) =>
+                        await vendorValidationService.AddressesAreUniqueAsync(vendor.Id, addresses, cancellation))
+                    .WithMessage("There are addresses with same id.");
+
+                RuleFor(v => v.Discounts)
+                    .MustAsync(async (vendor, discounts, cancellation) =>
+                        await vendorValidationService.AddressesAreFromVendorAsync(vendor.Id, discounts, cancellation))
+                    .WithMessage("Vendor does not contain addresses defined in discounts.")
+                    .MustAsync(async (vendor, discounts, cancellation) =>
+                        await vendorValidationService.PhonesAreFromVendorAsync(vendor.Id, discounts, cancellation))
+                    .WithMessage("Vendor does not contain phones defined in discounts.");
+
+                RuleFor(v => v.Phones)
+                    .MustAsync(async (vendor, phones, cancellation) =>
+                        await vendorValidationService.PhonesAreUniqueAsync(vendor.Id, phones, cancellation))
+                    .WithMessage("There are phones with same id.");
             });
 
             When(dto => methodType == "POST", () =>
@@ -42,24 +60,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                     .WithMessage("Discount with this id already exists.")
                     .WithName("DiscountId");
             });
-
-            RuleFor(v => v.Addresses)
-                .MustAsync(async (vendor, addresses, cancellation) =>
-                    await vendorValidationService.AddressesAreUniqueAsync(vendor.Id, addresses, cancellation))
-                .WithMessage("There are addresses with same id.");
-
-            RuleFor(v => v.Discounts)
-                .MustAsync(async (vendor, discounts, cancellation) =>
-                    await vendorValidationService.AddressesAreFromVendorAsync(vendor.Id, discounts, cancellation))
-                .WithMessage("Vendor does not contain addresses defined in discounts.")
-                .MustAsync(async (vendor, discounts, cancellation) =>
-                    await vendorValidationService.PhonesAreFromVendorAsync(vendor.Id, discounts, cancellation))
-                .WithMessage("Vendor does not contain phones defined in discounts.");
-
-            RuleFor(v => v.Phones)
-                .MustAsync(async (vendor, phones, cancellation) =>
-                    await vendorValidationService.PhonesAreUniqueAsync(vendor.Id, phones, cancellation))
-                .WithMessage("There are phones with same id.");
         }
     }
 }
