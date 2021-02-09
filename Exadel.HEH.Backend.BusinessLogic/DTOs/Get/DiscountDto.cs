@@ -30,5 +30,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
         public virtual bool IsFavorite { get; set; }
 
         public IEnumerable<LinkDto> Links { get; set; }
+
+        public string WorkingHours { get; set; }
     }
 }
