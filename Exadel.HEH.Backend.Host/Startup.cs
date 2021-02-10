@@ -14,6 +14,7 @@ using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,6 +37,7 @@ namespace Exadel.HEH.Backend.Host
         {
             var authority = Configuration["Authority"];
 
+            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
