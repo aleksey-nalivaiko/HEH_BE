@@ -39,21 +39,21 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpGet("profile")]
-        public Task<UserDto> GetProfile()
+        public Task<UserDto> GetProfileAsync()
         {
-            return _userService.GetProfile();
+            return _userService.GetProfileAsync();
         }
 
-        [HttpPut("status")]
-        public async Task UpdateStatusAsync(bool isActive)
+        [HttpPut("{id:guid}/{isActive:bool}")]
+        public async Task UpdateStatusAsync(Guid id, bool isActive)
         {
-            await _userService.GetProfile();
+            await _userService.UpdateStatusAsync(id, isActive);
         }
 
-        [HttpPut("role")]
-        public async Task UpdateRoleAsync(UserRole role)
+        [HttpPut("{id:guid}/{role}")]
+        public async Task UpdateRoleAsync(Guid id, UserRole role)
         {
-            await _userService.GetProfile();
+            await _userService.UpdateRoleAsync(id, role);
         }
     }
 }
