@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 {
-    public class UserValidationService : IUserValidationService
+    public class UserValidationService
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserProvider _userProvider;

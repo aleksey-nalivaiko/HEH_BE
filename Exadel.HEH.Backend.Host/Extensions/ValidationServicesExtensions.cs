@@ -16,8 +16,6 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddScoped<IDiscountValidationService, DiscountValidationService>();
 
-            services.AddScoped<IUserValidationService, UserValidationService>();
-
             return services;
         }
     }
