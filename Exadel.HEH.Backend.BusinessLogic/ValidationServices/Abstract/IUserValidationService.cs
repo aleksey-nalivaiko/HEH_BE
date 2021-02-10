@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 {
-    public interface ICategoryValidationService
+    public interface IUserValidationService
     {
-        Task<bool> DiscountContainsCategory(Guid id, CancellationToken token = default);
+        Task<bool> ValidateUserIdExists(Guid userId, CancellationToken token = default);
     }
 }
