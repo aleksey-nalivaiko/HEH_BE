@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+﻿using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using FluentValidation;
 

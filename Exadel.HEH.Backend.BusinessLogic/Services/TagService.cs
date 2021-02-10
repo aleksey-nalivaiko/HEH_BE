@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
@@ -22,12 +21,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<TagDto>> GetByCategoryAsync(Guid categoryId)
-        {
-            var result = await _tagRepository.GetByCategoryAsync(categoryId);
-            return _mapper.Map<IEnumerable<TagDto>>(result);
-        }
-
         public async Task CreateAsync(TagDto item)
         {
             var result = _mapper.Map<Tag>(item);
@@ -37,11 +30,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public async Task RemoveAsync(Guid id)
         {
             await _tagRepository.RemoveAsync(id);
-            var collection = await _discountRepository.GetAllAsync();
-            foreach (var item in collection)
+            var discounts = await _discountRepository.GetAllAsync();
+            foreach (var discount in discounts)
             {
-                await Task.Run(() => item.TagsIds.Remove(id));
-                await _discountRepository.UpdateAsync(item);
+                discount.TagsIds.Remove(id);
+                await _discountRepository.UpdateAsync(discount);
             }
         }
 
@@ -49,16 +42,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             var result = _mapper.Map<Tag>(item);
             await _tagRepository.UpdateAsync(result);
-        }
-
-        public Task<IEnumerable<TagDto>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TagDto> GetByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
         }
     }
 }
