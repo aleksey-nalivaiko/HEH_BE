@@ -24,7 +24,7 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddSingleton<IRepository<Location>, LocationRepository>();
 
-            services.AddSingleton<ITagRepository, TagRepository>();
+            services.AddSingleton<IRepository<Tag>, TagRepository>();
 
             services.AddSingleton<IDiscountRepository, DiscountRepository>();
 

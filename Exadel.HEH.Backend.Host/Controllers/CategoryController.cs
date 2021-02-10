@@ -34,13 +34,18 @@ namespace Exadel.HEH.Backend.Host.Controllers
         [Authorize(Roles = nameof(UserRole.Moderator))]
         public async Task<ActionResult> RemoveAsync(Guid id)
         {
-            if (await _validationService.CategoryNotInDiscounts(id))
+            if (await _validationService.CategoryExistsAsync(id))
             {
-                await _categoryService.RemoveAsync(id);
-                return Ok();
+                if (await _validationService.CategoryNotInDiscountsAsync(id))
+                {
+                    await _categoryService.RemoveAsync(id);
+                    return Ok();
+                }
+
+                return BadRequest(ModelState);
             }
 
-            return BadRequest(ModelState);
+            return NotFound();
         }
 
         [HttpPost]

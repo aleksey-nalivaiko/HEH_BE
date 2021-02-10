@@ -12,7 +12,7 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddScoped<ICategoryValidationService, CategoryValidationService>();
 
-            services.AddScoped<ITagValidationService, TagValidationSevice>();
+            services.AddScoped<ITagValidationService, TagValidationService>();
 
             services.AddScoped<IVendorValidationService, VendorValidationService>();
 

@@ -26,13 +26,13 @@ namespace Exadel.HEH.Backend.Host.Controllers
         [HttpDelete]
         public async Task<ActionResult> RemoveAsync(Guid id)
         {
-            if (await _validationService.DiscountContainsTag(id))
+            if (await _validationService.TagExistsAsync(id))
             {
                 await _tagService.RemoveAsync(id);
                 return Ok();
             }
 
-            return BadRequest(ModelState);
+            return NotFound();
         }
 
         [HttpPost]
@@ -53,7 +53,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             if (ModelState.IsValid)
             {
                 await _tagService.UpdateAsync(item);
-                return Created(string.Empty, item);
+                return Ok();
             }
 
             return BadRequest(ModelState);

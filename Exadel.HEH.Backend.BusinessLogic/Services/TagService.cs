@@ -10,11 +10,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class TagService : ITagService
     {
-        private readonly ITagRepository _tagRepository;
+        private readonly IRepository<Tag> _tagRepository;
         private readonly IDiscountRepository _discountRepository;
         private readonly IMapper _mapper;
 
-        public TagService(ITagRepository tagRepository, IDiscountRepository discountRepository, IMapper mapper)
+        public TagService(IRepository<Tag> tagRepository, IDiscountRepository discountRepository, IMapper mapper)
         {
             _tagRepository = tagRepository;
             _discountRepository = discountRepository;

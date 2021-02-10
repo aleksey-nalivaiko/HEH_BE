@@ -6,6 +6,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 {
     public interface ICategoryValidationService
     {
-        Task<bool> CategoryNotInDiscounts(Guid id, CancellationToken token = default);
+        Task<bool> CategoryNotInDiscountsAsync(Guid id);
+
+        Task<bool> CategoryExistsAsync(Guid categoryId, CancellationToken token = default);
+
+        Task<bool> CategoryNotExistsAsync(Guid categoryId, CancellationToken token = default);
     }
 }
