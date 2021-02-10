@@ -43,5 +43,17 @@ namespace Exadel.HEH.Backend.Host.Controllers
         {
             return _userService.GetProfile();
         }
+
+        [HttpPut("status")]
+        public async Task UpdateStatusAsync(bool isActive)
+        {
+            await _userService.GetProfile();
+        }
+
+        [HttpPut("role")]
+        public async Task UpdateRoleAsync(UserRole role)
+        {
+            await _userService.GetProfile();
+        }
     }
 }
