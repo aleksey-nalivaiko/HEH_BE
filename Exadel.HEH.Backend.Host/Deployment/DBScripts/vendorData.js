@@ -13,7 +13,7 @@
             },
             {
                 "url": "https://www.instagram.com/mcdonalds_belarus/",
-                "type": "Facebook"
+                "type": "Instagram"
             },
             {
                 "url": "https://mcdonalds.by/ru/",
