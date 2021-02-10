@@ -48,6 +48,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpPut("{id:guid}/{isActive:bool}")]
+        [Authorize(Roles = nameof(UserRole.Administrator))]
         public async Task<ActionResult> UpdateStatusAsync(Guid id, bool isActive)
         {
             if (await _validationService.UserExists(id))
@@ -60,6 +61,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpPut("{id:guid}/{role}")]
+        [Authorize(Roles = nameof(UserRole.Administrator))]
         public async Task<ActionResult> UpdateRoleAsync(Guid id, UserRole role)
         {
             if (await _validationService.UserExists(id))
