@@ -5,14 +5,6 @@ using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories;
 using Xunit;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using Exadel.HEH.Backend.DataAccess.Models;
-//using Exadel.HEH.Backend.DataAccess.Repositories;
-//using Xunit;
 
 namespace Exadel.HEH.Backend.DataAccess.Tests
 {
@@ -58,15 +50,6 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
 
             await _repository.UpdateAsync(_tag);
             Assert.Equal("NewCategoryName", Collection.Single(x => x.Id == _tag.Id).Name);
-        }
-
-        [Fact]
-        public async Task CanGetByCategoryAsync()
-        {
-            Collection.Add(_tag);
-
-            var result = await _repository.GetByCategoryAsync(_tag.CategoryId);
-            Assert.NotEmpty(result);
         }
 
         [Fact]

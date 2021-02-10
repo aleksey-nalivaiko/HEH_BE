@@ -10,10 +10,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
             ICategoryValidationService categoryValidationService,
             IMethodProvider methodProvider)
         {
+            CascadeMode = CascadeMode.Stop;
+
             var methodType = methodProvider.GetMethodUpperName();
 
             RuleFor(r => r.Id)
-                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()
                 .MustAsync(tagValidationService.TagExistsAsync)
@@ -26,13 +27,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .When(dto => methodType == "POST");
 
             RuleFor(r => r.Name)
-                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(50);
 
             RuleFor(r => r.CategoryId)
-                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()
                 .MustAsync(categoryValidationService.CategoryExistsAsync)

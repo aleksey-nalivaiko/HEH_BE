@@ -42,7 +42,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
                     return Ok();
                 }
 
-                return BadRequest(ModelState);
+                return BadRequest("There are discounts with this category");
             }
 
             return NotFound();
