@@ -5,7 +5,6 @@ using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
-using Exadel.HEH.Backend.Host.Controllers.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,13 +34,18 @@ namespace Exadel.HEH.Backend.Host.Controllers
         [Authorize(Roles = nameof(UserRole.Moderator))]
         public async Task<ActionResult> RemoveAsync(Guid id)
         {
-            if (await _validationService.DiscountContainsCategory(id))
+            if (await _validationService.CategoryExistsAsync(id))
             {
-                await _categoryService.RemoveAsync(id);
-                return Ok();
+                if (await _validationService.CategoryNotInDiscountsAsync(id))
+                {
+                    await _categoryService.RemoveAsync(id);
+                    return Ok();
+                }
+
+                return BadRequest("There are discounts with this category");
             }
 
-            return BadRequest(ModelState);
+            return NotFound();
         }
 
         [HttpPost]
@@ -64,7 +68,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             if (ModelState.IsValid)
             {
                 await _categoryService.UpdateAsync(item);
-                return Created(string.Empty, item);
+                return Ok(item);
             }
 
             return BadRequest(ModelState);

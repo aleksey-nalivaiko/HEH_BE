@@ -15,44 +15,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     public class TagServiceTests : BaseServiceTests<Tag>
     {
         private readonly TagService _service;
-        private readonly List<Tag> _tagData;
         private List<Category> _testCategories;
         private Tag _testTag;
 
         public TagServiceTests()
         {
-            var tagRepository = new Mock<ITagRepository>();
             var discountRepository = new Mock<IDiscountRepository>();
 
-            tagRepository.Setup(r => r.GetAllAsync())
-                .Returns(() => Task.FromResult((IEnumerable<Tag>)_tagData));
-
-            tagRepository.Setup(r => r.CreateAsync(It.IsAny<Tag>()))
-                .Callback((Tag item) => { Data.Add(item); })
-                .Returns(Task.CompletedTask);
-
-            tagRepository.Setup(f => f.UpdateAsync(It.IsAny<Tag>()))
-                .Callback((Tag item) =>
-                {
-                    var oldItem = Data.FirstOrDefault(x => x.Id == item.Id);
-                    if (oldItem != null)
-                    {
-                        Data.Remove(oldItem);
-                        Data.Add(item);
-                    }
-                })
-                .Returns(Task.CompletedTask);
-
-            tagRepository.Setup(r => r.RemoveAsync(It.IsAny<Guid>()))
-                .Callback((Guid id) =>
-                {
-                    Data.RemoveAll(x => x.Id == id);
-                })
-                .Returns(Task.CompletedTask);
-
-            _service = new TagService(tagRepository.Object, discountRepository.Object, MapperExtensions.Mapper);
-
-            _tagData = new List<Tag>();
+            _service = new TagService(Repository.Object, discountRepository.Object, MapperExtensions.Mapper);
 
             InitTestData();
         }

@@ -33,7 +33,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         [Authorize(Roles = nameof(UserRole.Administrator))]
         public async Task<ActionResult<UserDto>> GetByIdAsync(Guid id)
         {
-            if (await _validationService.ValidateUserIdExists(id))
+            if (await _validationService.UserExists(id))
             {
                 return Ok(await _userService.GetByIdAsync(id));
             }
@@ -42,9 +42,35 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpGet("profile")]
-        public Task<UserDto> GetProfile()
+        public Task<UserDto> GetProfileAsync()
         {
-            return _userService.GetProfile();
+            return _userService.GetProfileAsync();
+        }
+
+        [HttpPut("{id:guid}/{isActive:bool}")]
+        [Authorize(Roles = nameof(UserRole.Administrator))]
+        public async Task<ActionResult> UpdateStatusAsync(Guid id, bool isActive)
+        {
+            if (await _validationService.UserExists(id))
+            {
+                await _userService.UpdateStatusAsync(id, isActive);
+                return Ok();
+            }
+
+            return NotFound();
+        }
+
+        [HttpPut("{id:guid}/{role}")]
+        [Authorize(Roles = nameof(UserRole.Administrator))]
+        public async Task<ActionResult> UpdateRoleAsync(Guid id, UserRole role)
+        {
+            if (await _validationService.UserExists(id))
+            {
+                await _userService.UpdateRoleAsync(id, role);
+                return Ok();
+            }
+
+            return NotFound();
         }
     }
 }

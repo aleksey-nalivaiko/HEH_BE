@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services;
-using Exadel.HEH.Backend.DataAccess;
+using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Moq;
@@ -54,6 +54,17 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
             repository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<User>)Data));
+
+            repository.Setup(f => f.UpdateAsync(It.IsAny<User>()))
+                .Callback((User item) =>
+                {
+                    var oldItem = Data.FirstOrDefault(x => x.Id == item.Id);
+                    if (oldItem != null)
+                    {
+                        Data.Remove(oldItem);
+                        Data.Add(item);
+                    }
+                });
         }
 
         [Fact]
@@ -76,18 +87,28 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public async Task CanGetProfileAsync()
         {
             Data.Add(_user);
-            var result = await _userService.GetProfile();
+            var result = await _userService.GetProfileAsync();
             Assert.NotNull(result);
         }
 
-        //[Fact]
-        //public async Task CanUpdate()
-        //{
-        //    Data.Add(_user.DeepClone());
-        //    _user.IsActive = false;
+        [Fact]
+        public async Task CanUpdateStatusAsync()
+        {
+            Data.Add(_user.DeepClone());
+            _user.IsActive = false;
 
-        //    await _userService.UpdateAsync(_user);
-        //    Assert.False(Data.Single(x => x.Id == _user.Id).IsActive);
-        //}
+            await _userService.UpdateStatusAsync(_user.Id, _user.IsActive);
+            Assert.False(Data.Single(x => x.Id == _user.Id).IsActive);
+        }
+
+        [Fact]
+        public async Task CanUpdateRoleAsync()
+        {
+            Data.Add(_user.DeepClone());
+            _user.Role = UserRole.Moderator;
+
+            await _userService.UpdateRoleAsync(_user.Id, _user.Role);
+            Assert.Equal(UserRole.Moderator, Data.Single(x => x.Id == _user.Id).Role);
+        }
     }
 }

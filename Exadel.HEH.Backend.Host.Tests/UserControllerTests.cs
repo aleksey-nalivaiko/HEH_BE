@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
+using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
 using Moq;
@@ -52,8 +54,35 @@ namespace Exadel.HEH.Backend.Host.Tests
             userService.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns(() => Task.FromResult(Data.Single()));
 
-            userService.Setup(s => s.GetProfile())
+            userService.Setup(s => s.GetProfileAsync())
                 .Returns(() => Task.FromResult(Data.Single()));
+
+            userService.Setup(s => s.UpdateStatusAsync(It.IsAny<Guid>(), It.IsAny<bool>()))
+                .Callback((Guid id, bool isActive) =>
+                {
+                    var oldItem = Data.FirstOrDefault(x => x.Id == id);
+                    if (oldItem != null)
+                    {
+                        Data.Remove(oldItem);
+                        oldItem.IsActive = isActive;
+                        Data.Add(oldItem);
+                    }
+                });
+
+            userService.Setup(s => s.UpdateRoleAsync(It.IsAny<Guid>(), It.IsAny<UserRole>()))
+                .Callback((Guid id, UserRole role) =>
+                {
+                    var oldItem = Data.FirstOrDefault(x => x.Id == id);
+                    if (oldItem != null)
+                    {
+                        Data.Remove(oldItem);
+                        oldItem.Role = role;
+                        Data.Add(oldItem);
+                    }
+                });
+
+            validationService.Setup(s => s.UserExists(It.IsAny<Guid>()))
+                .Returns((Guid id) => Task.FromResult(true));
         }
 
         [Fact]
@@ -76,18 +105,28 @@ namespace Exadel.HEH.Backend.Host.Tests
         public async Task CanGetProfileAsync()
         {
             Data.Add(_user);
-            var result = await _controller.GetProfile();
+            var result = await _controller.GetProfileAsync();
             Assert.NotNull(result);
         }
 
-        //[Fact]
-        //public async Task CanUpdate()
-        //{
-        //    _data.Add(_user);
-        //    _userDto.IsActive = false;
+        [Fact]
+        public async Task CanUpdateStatusAsync()
+        {
+            Data.Add(_user.DeepClone());
+            _user.IsActive = false;
 
-        //    await _controller.UpdateAsync(_userDto);
-        //    Assert.False(_data.Single(x => x.Id == _user.Id).IsActive);
-        //}
+            await _controller.UpdateStatusAsync(_user.Id, _user.IsActive);
+            Assert.False(Data.Single(x => x.Id == _user.Id).IsActive);
+        }
+
+        [Fact]
+        public async Task CanUpdateRoleAsync()
+        {
+            Data.Add(_user.DeepClone());
+            _user.Role = UserRole.Moderator;
+
+            await _controller.UpdateRoleAsync(_user.Id, _user.Role);
+            Assert.Equal(UserRole.Moderator, Data.Single(x => x.Id == _user.Id).Role);
+        }
     }
 }

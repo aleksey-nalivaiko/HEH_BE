@@ -24,9 +24,23 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return Mapper.Map<UserDto>(result);
         }
 
-        public Task<UserDto> GetProfile()
+        public Task<UserDto> GetProfileAsync()
         {
             return GetByIdAsync(_userProvider.GetUserId());
+        }
+
+        public async Task UpdateStatusAsync(Guid id, bool isActive)
+        {
+            var user = await Repository.GetByIdAsync(id);
+            user.IsActive = isActive;
+            await Repository.UpdateAsync(user);
+        }
+
+        public async Task UpdateRoleAsync(Guid id, UserRole role)
+        {
+            var user = await Repository.GetByIdAsync(id);
+            user.Role = role;
+            await Repository.UpdateAsync(user);
         }
     }
 }

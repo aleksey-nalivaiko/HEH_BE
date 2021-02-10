@@ -14,6 +14,10 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddTransient<IValidator<VendorDto>, VendorValidator>();
 
+            services.AddTransient<IValidator<CategoryDto>, CategoryValidator>();
+
+            services.AddTransient<IValidator<TagDto>, TagValidator>();
+
             return services;
         }
     }

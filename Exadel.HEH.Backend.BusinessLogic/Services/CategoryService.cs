@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
-using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
@@ -16,15 +14,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     {
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Tag> _tagRepository;
-        private readonly ICategoryValidationService _validationCategoryService;
         private readonly IMapper _mapper;
 
         public CategoryService(IRepository<Category> categoryRepository,
-            ITagRepository tagRepository,
-            ICategoryValidationService validationCategoryService,
+            IRepository<Tag> tagRepository,
             IMapper mapper)
         {
-            _validationCategoryService = validationCategoryService;
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
             _mapper = mapper;

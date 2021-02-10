@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Services;
-using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Moq;
@@ -23,13 +22,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         public CategoryServiceTests()
         {
-            var tagRepository = new Mock<ITagRepository>();
-            var validationService = new Mock<ICategoryValidationService>();
+            var tagRepository = new Mock<IRepository<Tag>>();
 
             tagRepository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<Tag>)_tagData));
 
-            _service = new CategoryService(Repository.Object, tagRepository.Object, validationService.Object, MapperExtensions.Mapper);
+            _service = new CategoryService(Repository.Object, tagRepository.Object, MapperExtensions.Mapper);
 
             _tagData = new List<Tag>();
 
