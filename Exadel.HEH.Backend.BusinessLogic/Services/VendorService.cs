@@ -57,7 +57,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             InitVendorInfoInDiscounts(vendor);
 
             await _vendorRepository.CreateAsync(_mapper.Map<Vendor>(vendor));
-            if (vendor.Discounts.Any())
+            if (vendor.Discounts != null && vendor.Discounts.Any())
             {
                 await _discountRepository.CreateManyAsync(_mapper.Map<IEnumerable<Discount>>(vendor.Discounts));
             }
@@ -104,7 +104,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         private void InitVendorInfoInDiscounts(VendorDto vendor)
         {
-            vendor.Discounts.ToList().ForEach(d =>
+            vendor.Discounts?.ToList().ForEach(d =>
             {
                 d.VendorId = vendor.Id;
                 d.VendorName = vendor.Name;
@@ -113,13 +113,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         private void InitAddressesIds(VendorDto vendor)
         {
-            vendor.Addresses.ToList().ForEach(
+            vendor.Addresses?.ToList().ForEach(
                 a => a.Id = a.Id == Guid.Empty ? Guid.NewGuid() : a.Id);
         }
 
         private void InitPhonesIds(VendorDto vendor)
         {
-            vendor.Phones.ToList().ForEach(
+            vendor.Phones?.ToList().ForEach(
                 p => p.Id = p.Id == Guid.Empty ? Guid.NewGuid() : p.Id);
         }
     }

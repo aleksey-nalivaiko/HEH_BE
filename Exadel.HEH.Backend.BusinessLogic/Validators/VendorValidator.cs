@@ -52,13 +52,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
             {
                 RuleFor(v => v.Id)
                     .MustAsync(vendorValidationService.VendorNotExistsAsync)
-                    .WithMessage("Vendor with this id already exists.")
-                    .When(v => v.Id != Guid.Empty);
+                    .WithMessage("Vendor with this id already exists.");
 
                 RuleForEach(v => v.Discounts.Select(d => d.Id))
                     .MustAsync(discountValidationService.DiscountNotExists)
                     .WithMessage("Discount with this id already exists.")
-                    .WithName("DiscountId");
+                    .WithName("DiscountId")
+                    .When(v => v.Discounts != null);
             });
         }
     }
