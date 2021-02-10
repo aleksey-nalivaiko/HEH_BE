@@ -84,13 +84,13 @@ namespace Exadel.HEH.Backend.Host.Tests
             Assert.NotEqual(_categoryWithTagsData.Single().Name, _testCategory.Name);
         }
 
-        [Fact]
-        public async Task CanRemoveAsync()
-        {
-            _categoryWithTagsData.Add(_testCategory);
-            await _controller.RemoveAsync(_testCategory.Id);
-            Assert.Empty(_categoryWithTagsData);
-        }
+        //[Fact]
+        //public async Task CanRemoveAsync()
+        //{
+        //    _categoryWithTagsData.Add(_testCategory);
+        //    await _controller.RemoveAsync(_testCategory.Id);
+        //    Assert.Empty(_categoryWithTagsData);
+        //}
 
         private void InitTestData()
         {

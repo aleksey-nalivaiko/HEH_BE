@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
 using Moq;
@@ -21,7 +22,8 @@ namespace Exadel.HEH.Backend.Host.Tests
         public UserControllerTests()
         {
             var userService = new Mock<IUserService>();
-            _controller = new UserController(userService.Object);
+            var validationService = new Mock<IUserValidationService>();
+            _controller = new UserController(userService.Object, validationService.Object);
             _user = new UserDto
             {
                 Id = Guid.NewGuid(),

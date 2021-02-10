@@ -73,13 +73,13 @@ namespace Exadel.HEH.Backend.Host.Tests
             Assert.NotEqual(_tagData.Single().Name, _testTag.Name);
         }
 
-        [Fact]
-        public async Task CanRemoveAsync()
-        {
-            _tagData.Add(_testTag);
-            await _controller.RemoveAsync(_testTag.Id);
-            Assert.Empty(_tagData);
-        }
+        //[Fact]
+        //public async Task CanRemoveAsync()
+        //{
+        //    _tagData.Add(_testTag);
+        //    await _controller.RemoveAsync(_testTag.Id);
+        //    Assert.Empty(_tagData);
+        //}
 
         private void InitTestData()
         {

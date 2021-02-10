@@ -9,9 +9,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
 {
     public class CategoryValidator : AbstractValidator<CategoryDto>
     {
-        public CategoryValidator(ICategoryValidationService categoryValidationService)
+        public CategoryValidator(ICategoryValidationService categoryValidationService,
+             IMethodProvider methodProvider)
         {
-            RuleFor(r => r.Id).NotNull().NotEmpty().WithMessage("Discount do not contain category");
+            var methodType = methodProvider.GetMethodUpperName();
+
+            RuleFor(r => r.Id).NotNull().NotEmpty().WithMessage("Discount do not contain category")
+                .When(dto => methodType == "PUT");
             RuleFor(r => r.Name).MaximumLength(50).NotEmpty().NotNull()
                 .WithMessage("Name should be less the 50 simbols and not empty");
         }
