@@ -57,7 +57,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             InitVendorInfoInDiscounts(vendor);
 
             await _vendorRepository.CreateAsync(_mapper.Map<Vendor>(vendor));
-            await _discountRepository.CreateManyAsync(_mapper.Map<IEnumerable<Discount>>(vendor.Discounts));
+            if (vendor.Discounts.Any())
+            {
+                await _discountRepository.CreateManyAsync(_mapper.Map<IEnumerable<Discount>>(vendor.Discounts));
+            }
         }
 
         public async Task UpdateAsync(VendorDto vendor)
