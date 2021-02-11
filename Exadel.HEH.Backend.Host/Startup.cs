@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
+using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Validators;
 using Exadel.HEH.Backend.Host.Extensions;
 using Exadel.HEH.Backend.Host.Identity;
 using Exadel.HEH.Backend.Host.Infrastructure;
 using Exadel.HEH.Backend.Host.SwaggerFilters;
 using FluentValidation.AspNetCore;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
@@ -123,6 +126,11 @@ namespace Exadel.HEH.Backend.Host
                             .AllowAnyHeader();
                     });
             });
+
+            services.AddHangfire(config =>
+            {
+                config.UseMemoryStorage();
+            });
         }
 
         public void Configure(IApplicationBuilder app, VersionedODataModelBuilder modelBuilder, IWebHostEnvironment env)
@@ -130,11 +138,14 @@ namespace Exadel.HEH.Backend.Host
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseHangfireDashboard();
             }
             else
             {
                 app.UseHttpStatusExceptionHandler();
             }
+
+            app.UseHangfireServer();
 
             app.UseHttpsRedirection();
 
@@ -168,6 +179,7 @@ namespace Exadel.HEH.Backend.Host
             });
 
             SeedIdentityData.InitializeDatabaseAsync(app).Wait();
+            app.ApplicationServices.GetService<SchedulerService>()?.Start();
         }
     }
 }

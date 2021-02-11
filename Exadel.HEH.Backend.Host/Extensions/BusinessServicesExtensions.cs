@@ -10,6 +10,8 @@ namespace Exadel.HEH.Backend.Host.Extensions
         {
             services.AddScoped<IStatisticsService, StatisticsService>();
 
+            services.AddSingleton<SchedulerService>();
+
             return services;
         }
     }
