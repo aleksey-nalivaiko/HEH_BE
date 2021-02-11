@@ -8,7 +8,7 @@
     load("preOrderData.js");
     load("locationData.js");
 
-    let dbName = 'ExadelHEH';
+    dbName = "ExadelHEH";
 
     fillCollections();
 

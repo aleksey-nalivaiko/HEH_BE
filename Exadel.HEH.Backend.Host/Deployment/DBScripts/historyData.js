@@ -1,4 +1,4 @@
-﻿let historyData = [
+﻿historyData = [
     {
         "_id": UUID("7e6c0397-8163-4eaf-b2ab-4e37d09e851a"),
         "userId": UUID("e1544fa5-42ff-4dea-962b-820f7be52fa2"),

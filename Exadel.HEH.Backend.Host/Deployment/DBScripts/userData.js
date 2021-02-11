@@ -1,4 +1,4 @@
-let userData = [
+userData = [
     {
         "_id": UUID("e1544fa5-42ff-4dea-962b-820f7be52fa2"),
         "role": "Moderator",

@@ -1,4 +1,4 @@
-﻿let categoryData = [
+﻿categoryData = [
     {
         "_id": UUID("ab067429-6fbf-4798-92bf-d62012db8f25"),
         "name": "Food"
