@@ -31,6 +31,8 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddScoped<ICategoryValidationService, CategoryValidationService>();
 
+            services.AddScoped<IHistoryService, HistoryService>();
+
             return services;
         }
     }

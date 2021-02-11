@@ -7,6 +7,7 @@ using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Services;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -28,9 +29,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         {
             var vendorRepository = new Mock<IVendorRepository>();
             var discountRepository = new Mock<IDiscountRepository>();
+            var historyService = new Mock<IHistoryService>();
             _mapper = MapperExtensions.Mapper;
 
-            _service = new VendorService(vendorRepository.Object, discountRepository.Object, _mapper);
+            _service = new VendorService(vendorRepository.Object, discountRepository.Object, _mapper, historyService.Object);
 
             _discountsData = new List<Discount>();
 

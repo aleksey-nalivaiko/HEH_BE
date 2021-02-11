@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.DataAccess.Models;
+using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Moq;
 using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
@@ -14,7 +16,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         public HistoryServiceTests()
         {
-            _service = new HistoryService(Repository.Object, Mapper);
+            var userRepository = new Mock<IUserRepository>();
+            var userProvider = new Mock<IUserProvider>();
+
+            _service = new HistoryService(userRepository.Object, Repository.Object, Mapper, userProvider.Object);
             _history = new History
             {
                 Id = Guid.NewGuid(),

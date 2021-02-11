@@ -11,11 +11,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     public class UserService : BaseService<User, UserDto>, IUserService
     {
         private readonly IUserProvider _userProvider;
+        private readonly IHistoryService _historyService;
 
-        public UserService(IUserRepository repository, IMapper mapper, IUserProvider userProvider)
+        public UserService(IUserRepository repository, IMapper mapper, IUserProvider userProvider, IHistoryService historyService)
             : base(repository, mapper)
         {
             _userProvider = userProvider;
+            _historyService = historyService;
         }
 
         public async Task<UserDto> GetByIdAsync(Guid id)
@@ -34,6 +36,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var user = await Repository.GetByIdAsync(id);
             user.IsActive = isActive;
             await Repository.UpdateAsync(user);
+            await _historyService.CreateAsync(UserAction.Edit,
+                "Updated user " + id);
         }
 
         public async Task UpdateRoleAsync(Guid id, UserRole role)
@@ -41,6 +45,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var user = await Repository.GetByIdAsync(id);
             user.Role = role;
             await Repository.UpdateAsync(user);
+            await _historyService.CreateAsync(UserAction.Edit,
+                "Updated user " + id);
         }
     }
 }
