@@ -17,9 +17,9 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public string PromoCode { get; set; }
 
-        public IList<Guid> AddressesIds { get; set; }
+        public IList<int> AddressesIds { get; set; }
 
-        public IList<Guid> PhonesIds { get; set; }
+        public IList<int> PhonesIds { get; set; }
 
         public DateTime StartDate { get; set; }
 

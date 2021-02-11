@@ -11,13 +11,13 @@
         "vendorName": "Mcdonalds",
         "promoCode": "HAMBURGER",
         "addressesIds": [
-            UUID("0a42474c-775f-43f4-8c7d-fd4873217de5"),
-            UUID("cf9e5eb1-5125-45ba-a22b-95d4d3ea121f"),
-            UUID("231780e4-29e5-4572-aef9-24e6830a0f0d")
+            1,
+            2,
+            3
         ],
         "phonesIds": [
-            UUID("75e228dc-ee5b-4d81-bf42-6133c5330774"),
-            UUID("18f71e53-def0-4ae8-841c-75a9e871c347")
+            1,
+            2
         ],
         "startDate": "2021-02-03T18:30:25",
         "endDate": "2021-03-03T18:30:25",
@@ -35,10 +35,10 @@
         "vendorName": "Max Mirnyi Center",
         "promoCode": "Tenis",
         "addressesIds": [
-            UUID("1da47e2f-ca87-4e9f-a905-023b0bc930ab")
+            1
         ],
         "phonesIds": [
-            UUID("0b89bcbc-6b14-48ce-8946-bb093fc853d8")
+            1
         ],
         "startDate": "2021-10-03T18:30:25",
         "endDate": "2021-10-03T18:30:25",
@@ -55,10 +55,10 @@
         "vendorName": "Beautycenter O2",
         "promoCode": "nails",
         "addressesIds": [
-            UUID("e52e7a46-08ad-400d-a475-2cf16a20c360")
+            1
         ],
         "phonesIds": [
-            UUID("be7ef511-a3c6-4904-9d2f-5e5d58687bcb")
+            1
         ],
         "startDate": "2021-10-03T18:30:25",
         "endDate": "2021-10-03T18:30:25",
@@ -75,10 +75,10 @@
         "vendorName": "Dinozavria",
         "promoCode": "DinosorAndI",
         "addressesIds": [
-            UUID("2246d903-fcf2-45ca-8f9e-f9226fbe74c9")
+            1
         ],
         "phonesIds": [
-            UUID("f6fd6b9b-53af-4ca2-a53d-18d551dd2045")
+            1
         ],
         "startDate": "2021-10-03T18:30:25",
         "endDate": "2021-10-03T18:30:25",
@@ -95,12 +95,11 @@
         "vendorName": "Autocenter Citroen",
         "promoCode": "Auto",
         "addressesIds": [
-            UUID("f868212b-bbf3-4a68-a13c-7459b9eeeabb"),
-            UUID("0f45a222-af0a-4536-a88d-8f2b2a027fdd"),
-            UUID("d43680d8-9460-4fbe-ac99-c57f8fe7fdfa")
+            1,
+            2
         ],
         "phonesIds": [
-            UUID("dc9598e2-eb40-4bd7-ac31-1014900e72d8")
+            1
                
         ],
         "startDate": "2021-10-03T18:30:25",
@@ -120,7 +119,7 @@
         "addressesIds": [
         ],
         "phonesIds": [
-            UUID("5071092e-e7b0-491f-813e-8113071015ab")
+            1
         ],
         "startDate": "2021-10-03T18:30:25",
         "endDate": "2021-10-03T18:30:25",
@@ -137,10 +136,10 @@
         "vendorName": "It-academy",
         "promoCode": "FRIEND",
         "addressesIds": [
-            UUID("5fd5796b-a71b-415e-9492-169e16d7502d")
+            1
         ],
         "phonesIds": [
-            UUID("9e5d1d27-3196-4102-818d-8c2c48bc428a")
+            1
         ],
         "startDate": "2021-10-03T18:30:25",
         "endDate": "2021-10-03T18:30:25",

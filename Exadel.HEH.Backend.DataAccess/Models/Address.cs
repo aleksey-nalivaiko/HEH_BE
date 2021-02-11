@@ -4,7 +4,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 {
     public class Address
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public Guid CountryId { get; set; }
 

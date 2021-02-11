@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DTOs\Update\**" />
+    <EmbeddedResource Remove="DTOs\Update\**" />
+    <None Remove="DTOs\Update\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.4.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -16,10 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Exadel.HEH.Backend.DataAccess\Exadel.HEH.Backend.DataAccess.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DTOs\Update\" />
   </ItemGroup>
 
 </Project>
