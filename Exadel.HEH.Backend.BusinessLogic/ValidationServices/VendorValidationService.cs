@@ -63,7 +63,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             CancellationToken token)
         {
             _vendor ??= await _vendorRepository.GetByIdAsync(vendorId);
-            var addressesIds = addresses.Select(a => a.Id).Where(i => i != Guid.Empty).ToList();
+            var addressesIds = addresses.Select(a => a.Id).Where(i => i != 0).ToList();
             return addressesIds.Count == addressesIds.Distinct().Count();
         }
 
@@ -82,7 +82,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             CancellationToken token)
         {
             _vendor ??= await _vendorRepository.GetByIdAsync(vendorId);
-            var phonesIds = phones.Select(a => a.Id).Where(i => i != Guid.Empty).ToList();
+            var phonesIds = phones.Select(a => a.Id).Where(i => i != 0).ToList();
             return phonesIds.Count == phonesIds.Distinct().Count();
         }
 
