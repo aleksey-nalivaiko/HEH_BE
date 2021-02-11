@@ -68,11 +68,23 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 
         public bool AddressesAreFromVendor(VendorDto vendor, IEnumerable<DiscountDto> discounts)
         {
-            var discountAddressesIds = discounts.SelectMany(d => d.AddressesIds).Distinct().ToList();
+            var discountAddressesIds = discounts.SelectMany(d =>
+            {
+                if (d.AddressesIds != null)
+                {
+                    return d.AddressesIds;
+                }
 
-            var vendorAddressesIds = vendor.Addresses.Select(p => p.Id);
+                return new List<int>();
+            }).Distinct().ToList();
 
-            return discountAddressesIds.All(p => vendorAddressesIds.Contains(p));
+            if (vendor.Addresses != null)
+            {
+                var vendorAddressesIds = vendor.Addresses.Select(p => p.Id);
+                return discountAddressesIds.All(p => vendorAddressesIds.Contains(p));
+            }
+
+            return true;
         }
 
         public bool PhonesAreUnique(IEnumerable<int> phonesIds)
@@ -83,11 +95,23 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 
         public bool PhonesAreFromVendor(VendorDto vendor, IEnumerable<DiscountDto> discounts)
         {
-            var discountPhonesIds = discounts.SelectMany(d => d.PhonesIds).Distinct().ToList();
+            var discountPhonesIds = discounts.SelectMany(d =>
+            {
+                if (d.PhonesIds != null)
+                {
+                    return d.PhonesIds;
+                }
 
-            var vendorPhonesIds = vendor.Phones.Select(p => p.Id);
+                return new List<int>();
+            }).Distinct().ToList();
 
-            return discountPhonesIds.All(p => vendorPhonesIds.Contains(p));
+            if (vendor.Phones != null)
+            {
+                var vendorPhonesIds = vendor.Phones.Select(p => p.Id);
+                return discountPhonesIds.All(p => vendorPhonesIds.Contains(p));
+            }
+
+            return true;
         }
 
         private async Task GetVendor(Guid vendorId)
