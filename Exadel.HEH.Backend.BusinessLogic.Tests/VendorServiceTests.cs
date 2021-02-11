@@ -26,10 +26,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         public VendorServiceTests()
         {
+            var vendorRepository = new Mock<IVendorRepository>();
             var discountRepository = new Mock<IDiscountRepository>();
             _mapper = MapperExtensions.Mapper;
 
-            _service = new VendorService(Repository.Object, discountRepository.Object, _mapper);
+            _service = new VendorService(vendorRepository.Object, discountRepository.Object, _mapper);
 
             _discountsData = new List<Discount>();
 
@@ -56,6 +57,32 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 {
                     _discountsData.RemoveAll(d => expression.Compile()(d));
                 })
+                .Returns(Task.CompletedTask);
+
+            vendorRepository.Setup(r => r.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<Vendor>)Data));
+
+            vendorRepository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
+                .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
+
+            vendorRepository.Setup(r => r.CreateAsync(It.IsAny<Vendor>()))
+                .Callback((Vendor item) => { Data.Add(item); })
+                .Returns(Task.CompletedTask);
+
+            vendorRepository.Setup(f => f.UpdateAsync(It.IsAny<Vendor>()))
+                .Callback((Vendor item) =>
+                {
+                    var oldItem = Data.FirstOrDefault(x => x.Id == item.Id);
+                    if (oldItem != null)
+                    {
+                        Data.Remove(oldItem);
+                        Data.Add(item);
+                    }
+                })
+                .Returns(Task.CompletedTask);
+
+            vendorRepository.Setup(r => r.RemoveAsync(It.IsAny<Guid>()))
+                .Callback((Guid id) => { Data.RemoveAll(d => d.Id == id); })
                 .Returns(Task.CompletedTask);
 
             InitTestData();

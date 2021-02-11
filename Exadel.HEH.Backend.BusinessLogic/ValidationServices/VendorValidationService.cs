@@ -12,11 +12,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 {
     public class VendorValidationService : IVendorValidationService
     {
-        private readonly IRepository<Vendor> _vendorRepository;
+        private readonly IVendorRepository _vendorRepository;
         private readonly IDiscountRepository _discountRepository;
         private Vendor _vendor;
 
-        public VendorValidationService(IRepository<Vendor> vendorRepository, IDiscountRepository discountRepository)
+        public VendorValidationService(IVendorRepository vendorRepository, IDiscountRepository discountRepository)
         {
             _vendorRepository = vendorRepository;
             _discountRepository = discountRepository;
