@@ -25,7 +25,9 @@ namespace Exadel.HEH.Backend.Host.Tests
             _data = new List<DiscountExtendedDto>();
             var service = new Mock<IDiscountService>();
             var validationService = new Mock<IDiscountValidationService>();
-            _controller = new DiscountController(service.Object, validationService.Object);
+            var statisticsService = new Mock<IStatisticsService>();
+
+            _controller = new DiscountController(service.Object, validationService.Object, statisticsService.Object);
 
             var searchData = Data;
 
@@ -47,6 +49,9 @@ namespace Exadel.HEH.Backend.Host.Tests
             validationService.Setup(v => v.DiscountExists(It.IsAny<Guid>(), default))
                 .Returns((Guid id, CancellationToken token) =>
                     Task.FromResult(Data.FirstOrDefault(d => d.Id == id) != null));
+            statisticsService.Setup(s => s.IncrementViewsAmountAsync(It.IsAny<Guid>()))
+                .Returns((Guid id) => Task.CompletedTask);
+
             InitTestData();
         }
 
@@ -74,28 +79,18 @@ namespace Exadel.HEH.Backend.Host.Tests
             Assert.NotNull(result);
         }
 
-        //[Fact]
-        //public async Task CanUpdate()
-        //{
-        //    Data.Add(_discount);
-        //    _userDto.IsActive = false;
-
-        //    await _controller.UpdateAsync(_userDto);
-        //    Assert.False(Data.Single(x => x.Id == _discount.Id).IsActive);
-        //}
-
         private void InitTestData()
         {
             _discount = new DiscountDto
             {
                 Id = Guid.NewGuid(),
-                AddressesIds = new List<Guid>
+                AddressesIds = new List<int>
                 {
-                    Guid.NewGuid()
+                    1
                 },
-                PhonesIds = new List<Guid>
+                PhonesIds = new List<int>
                 {
-                    Guid.NewGuid()
+                    1
                 },
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",
@@ -123,12 +118,12 @@ namespace Exadel.HEH.Backend.Host.Tests
                 {
                     new PhoneDto
                     {
-                        Id = Guid.NewGuid(),
+                        Id = 1,
                         Number = "+375441111111"
                     },
                     new PhoneDto
                     {
-                        Id = Guid.NewGuid(),
+                        Id = 1,
                         Number = "+375442222222"
                     }
                 },

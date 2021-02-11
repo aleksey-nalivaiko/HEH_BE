@@ -27,11 +27,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         public VendorServiceTests()
         {
+            var vendorRepository = new Mock<IVendorRepository>();
             var discountRepository = new Mock<IDiscountRepository>();
             var historyService = new Mock<IHistoryService>();
             _mapper = MapperExtensions.Mapper;
 
             _service = new VendorService(Repository.Object, discountRepository.Object, _mapper, historyService.Object);
+            _service = new VendorService(vendorRepository.Object, discountRepository.Object, _mapper);
 
             _discountsData = new List<Discount>();
 
@@ -58,6 +60,32 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 {
                     _discountsData.RemoveAll(d => expression.Compile()(d));
                 })
+                .Returns(Task.CompletedTask);
+
+            vendorRepository.Setup(r => r.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<Vendor>)Data));
+
+            vendorRepository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
+                .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
+
+            vendorRepository.Setup(r => r.CreateAsync(It.IsAny<Vendor>()))
+                .Callback((Vendor item) => { Data.Add(item); })
+                .Returns(Task.CompletedTask);
+
+            vendorRepository.Setup(f => f.UpdateAsync(It.IsAny<Vendor>()))
+                .Callback((Vendor item) =>
+                {
+                    var oldItem = Data.FirstOrDefault(x => x.Id == item.Id);
+                    if (oldItem != null)
+                    {
+                        Data.Remove(oldItem);
+                        Data.Add(item);
+                    }
+                })
+                .Returns(Task.CompletedTask);
+
+            vendorRepository.Setup(r => r.RemoveAsync(It.IsAny<Guid>()))
+                .Callback((Guid id) => { Data.RemoveAll(d => d.Id == id); })
                 .Returns(Task.CompletedTask);
 
             InitTestData();
@@ -167,12 +195,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             {
                 new Phone
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 1,
                     Number = "+375441111111"
                 },
                 new Phone
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 2,
                     Number = "+375442222222"
                 }
             };

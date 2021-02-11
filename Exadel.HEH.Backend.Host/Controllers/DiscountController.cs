@@ -18,12 +18,15 @@ namespace Exadel.HEH.Backend.Host.Controllers
     {
         private readonly IDiscountService _discountService;
         private readonly IDiscountValidationService _discountValidationService;
+        private readonly IStatisticsService _statisticsService;
 
         public DiscountController(IDiscountService discountService,
-            IDiscountValidationService discountValidationService)
+            IDiscountValidationService discountValidationService,
+            IStatisticsService statisticsService)
         {
             _discountService = discountService;
             _discountValidationService = discountValidationService;
+            _statisticsService = statisticsService;
         }
 
         [EnableQuery]
@@ -42,7 +45,11 @@ namespace Exadel.HEH.Backend.Host.Controllers
                 return NotFound();
             }
 
-            return Ok(await _discountService.GetByIdAsync(id));
+            var discount = await _discountService.GetByIdAsync(id);
+
+            await _statisticsService.IncrementViewsAmountAsync(discount.VendorId);
+
+            return Ok(discount);
         }
     }
 }

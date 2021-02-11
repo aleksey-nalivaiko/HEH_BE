@@ -26,25 +26,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 RuleFor(v => v.Addresses)
                     .MustAsync(async (vendor, addresses, cancellation) =>
                         await vendorValidationService.AddressesCanBeRemovedAsync(vendor.Id, addresses, cancellation))
-                    .WithMessage("Address(es) cannot be removed: they are used in discount(s).");
-
-                RuleFor(v => v.Addresses)
-                    .MustAsync(async (vendor, addresses, cancellation) =>
-                        await vendorValidationService.AddressesAreUniqueAsync(vendor.Id, addresses, cancellation))
-                    .WithMessage("There are addresses with same id.");
-
-                RuleFor(v => v.Discounts)
-                    .MustAsync(async (vendor, discounts, cancellation) =>
-                        await vendorValidationService.AddressesAreFromVendorAsync(vendor.Id, discounts, cancellation))
-                    .WithMessage("Vendor does not contain addresses defined in discounts.")
-                    .MustAsync(async (vendor, discounts, cancellation) =>
-                        await vendorValidationService.PhonesAreFromVendorAsync(vendor.Id, discounts, cancellation))
-                    .WithMessage("Vendor does not contain phones defined in discounts.");
-
-                RuleFor(v => v.Phones)
-                    .MustAsync(async (vendor, phones, cancellation) =>
-                        await vendorValidationService.PhonesAreUniqueAsync(vendor.Id, phones, cancellation))
-                    .WithMessage("There are phones with same id.");
+                    .WithMessage("Address(es) cannot be removed: they are used in discount(s).")
+                    .When(v => v.Addresses != null);
             });
 
             When(dto => methodType == "POST", () =>
@@ -59,6 +42,37 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                     .WithName("DiscountId")
                     .When(v => v.Discounts != null);
             });
+
+            RuleFor(v => v.Addresses.Select(a => a.Id))
+                .Must(vendorValidationService.AddressesAreUnique)
+                .WithMessage("There are addresses with same id.")
+                .When(v => v.Addresses != null)
+                .WithName("AddressesIds");
+
+            RuleForEach(v => v.Addresses.Select(a => a.Id))
+                .NotEmpty()
+                .NotNull()
+                .When(v => v.Addresses != null)
+                .WithName("AddressId");
+
+            RuleFor(v => v.Phones.Select(p => p.Id))
+                .Must(vendorValidationService.PhonesAreUnique)
+                .WithMessage("There are phones with same id.")
+                .When(v => v.Phones != null)
+                .WithName("PhonesIds");
+
+            RuleForEach(v => v.Phones.Select(p => p.Id))
+                .NotEmpty()
+                .NotNull()
+                .When(v => v.Phones != null)
+                .WithName("PhoneId");
+
+            RuleFor(v => v.Discounts)
+                .Must(vendorValidationService.AddressesAreFromVendor)
+                .WithMessage("Vendor does not contain addresses defined in discounts.")
+                .Must(vendorValidationService.PhonesAreFromVendor)
+                .WithMessage("Vendor does not contain phones defined in discounts.")
+                .When(v => v.Discounts != null);
         }
     }
 }

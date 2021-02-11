@@ -129,13 +129,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             _discount = new Discount
             {
                 Id = Guid.NewGuid(),
-                AddressesIds = new List<Guid>
+                AddressesIds = new List<int>
                 {
-                    Guid.NewGuid()
+                    1
                 },
-                PhonesIds = new List<Guid>
+
+                PhonesIds = new List<int>
                 {
-                    Guid.NewGuid()
+                    1
                 },
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",

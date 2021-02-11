@@ -12,11 +12,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 {
     public class VendorValidationService : IVendorValidationService
     {
-        private readonly IRepository<Vendor> _vendorRepository;
+        private readonly IVendorRepository _vendorRepository;
         private readonly IDiscountRepository _discountRepository;
         private Vendor _vendor;
 
-        public VendorValidationService(IRepository<Vendor> vendorRepository, IDiscountRepository discountRepository)
+        public VendorValidationService(IVendorRepository vendorRepository, IDiscountRepository discountRepository)
         {
             _vendorRepository = vendorRepository;
             _discountRepository = discountRepository;
@@ -38,7 +38,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 
         public async Task<bool> AddressesCanBeRemovedAsync(Guid vendorId, IEnumerable<AddressDto> addresses, CancellationToken token)
         {
-            _vendor ??= await _vendorRepository.GetByIdAsync(vendorId);
+            await GetVendor(vendorId);
+
             var vendorAddressesIds = _vendor.Addresses.Select(a => a.Id);
             var newAddressesIds = addresses.Select(a => a.Id).ToList();
 
@@ -59,43 +60,58 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return true;
         }
 
-        public async Task<bool> AddressesAreUniqueAsync(Guid vendorId, IEnumerable<AddressDto> addresses,
-            CancellationToken token)
+        public bool AddressesAreUnique(IEnumerable<int> addressesIds)
         {
-            _vendor ??= await _vendorRepository.GetByIdAsync(vendorId);
-            var addressesIds = addresses.Select(a => a.Id).Where(i => i != Guid.Empty).ToList();
-            return addressesIds.Count == addressesIds.Distinct().Count();
+            var addressesIdsList = addressesIds.ToList();
+            return addressesIdsList.Count == addressesIdsList.Distinct().Count();
         }
 
-        public async Task<bool> AddressesAreFromVendorAsync(Guid vendorId, IEnumerable<DiscountDto> discounts, CancellationToken token)
+        public bool AddressesAreFromVendor(VendorDto vendor, IEnumerable<DiscountDto> discounts)
         {
-            _vendor ??= await _vendorRepository.GetByIdAsync(vendorId);
+            var discountAddressesIds = discounts.SelectMany(d =>
+            {
+                if (d.AddressesIds != null)
+                {
+                    return d.AddressesIds;
+                }
 
-            var discountAddressesIds = discounts.SelectMany(d => d.AddressesIds).Distinct().ToList();
+                return new List<int>();
+            }).Distinct().ToList();
 
-            var vendorAddressesIds = _vendor.Addresses.Select(p => p.Id);
+            if (vendor.Addresses != null)
+            {
+                var vendorAddressesIds = vendor.Addresses.Select(p => p.Id);
+                return discountAddressesIds.All(p => vendorAddressesIds.Contains(p));
+            }
 
-            return discountAddressesIds.All(p => vendorAddressesIds.Contains(p));
+            return true;
         }
 
-        public async Task<bool> PhonesAreUniqueAsync(Guid vendorId, IEnumerable<PhoneDto> phones,
-            CancellationToken token)
+        public bool PhonesAreUnique(IEnumerable<int> phonesIds)
         {
-            _vendor ??= await _vendorRepository.GetByIdAsync(vendorId);
-            var phonesIds = phones.Select(a => a.Id).Where(i => i != Guid.Empty).ToList();
-            return phonesIds.Count == phonesIds.Distinct().Count();
+            var phonesIdsList = phonesIds.ToList();
+            return phonesIdsList.Count == phonesIdsList.Distinct().Count();
         }
 
-        public async Task<bool> PhonesAreFromVendorAsync(Guid vendorId, IEnumerable<DiscountDto> discounts,
-            CancellationToken token)
+        public bool PhonesAreFromVendor(VendorDto vendor, IEnumerable<DiscountDto> discounts)
         {
-            _vendor ??= await _vendorRepository.GetByIdAsync(vendorId);
+            var discountPhonesIds = discounts.SelectMany(d =>
+            {
+                if (d.PhonesIds != null)
+                {
+                    return d.PhonesIds;
+                }
 
-            var discountPhonesIds = discounts.SelectMany(d => d.PhonesIds).Distinct().ToList();
+                return new List<int>();
+            }).Distinct().ToList();
 
-            var vendorPhonesIds = _vendor.Phones.Select(p => p.Id);
+            if (vendor.Phones != null)
+            {
+                var vendorPhonesIds = vendor.Phones.Select(p => p.Id);
+                return discountPhonesIds.All(p => vendorPhonesIds.Contains(p));
+            }
 
-            return discountPhonesIds.All(p => vendorPhonesIds.Contains(p));
+            return true;
         }
 
         private async Task GetVendor(Guid vendorId)

@@ -12,13 +12,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class VendorService : BaseService<Vendor, VendorShortDto>, IVendorService
     {
-        private readonly IRepository<Vendor> _vendorRepository;
+        private readonly IVendorRepository _vendorRepository;
         private readonly IDiscountRepository _discountRepository;
         private readonly IMapper _mapper;
         private readonly IHistoryService _historyService;
 
         public VendorService(IRepository<Vendor> vendorRepository,
             IDiscountRepository discountRepository, IMapper mapper, IHistoryService historyService)
+        public VendorService(IVendorRepository vendorRepository,
+            IDiscountRepository discountRepository, IMapper mapper)
             : base(vendorRepository, mapper)
         {
             _vendorRepository = vendorRepository;
@@ -51,9 +53,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task CreateAsync(VendorDto vendor)
         {
-            InitPhonesIds(vendor);
-            InitAddressesIds(vendor);
-
             vendor.Id = vendor.Id == Guid.Empty ? Guid.NewGuid() : vendor.Id;
 
             InitVendorInfoInDiscounts(vendor);
@@ -71,8 +70,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task UpdateAsync(VendorDto vendor)
         {
-            InitPhonesIds(vendor);
-            InitAddressesIds(vendor);
             InitVendorInfoInDiscounts(vendor);
 
             await _vendorRepository.UpdateAsync(_mapper.Map<Vendor>(vendor));
@@ -119,18 +116,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 d.VendorId = vendor.Id;
                 d.VendorName = vendor.Name;
             });
-        }
-
-        private void InitAddressesIds(VendorDto vendor)
-        {
-            vendor.Addresses?.ToList().ForEach(
-                a => a.Id = a.Id == Guid.Empty ? Guid.NewGuid() : a.Id);
-        }
-
-        private void InitPhonesIds(VendorDto vendor)
-        {
-            vendor.Phones?.ToList().ForEach(
-                p => p.Id = p.Id == Guid.Empty ? Guid.NewGuid() : p.Id);
         }
     }
 }
