@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
@@ -35,7 +34,7 @@ namespace Exadel.HEH.Backend.DataAccess
                 .Find(Builders<T>.Filter.Where(expression)).ToListAsync();
         }
 
-        public virtual Task<T> GetByIdAsync<T>(Guid id)
+        public Task<T> GetByIdAsync<T>(Guid id)
             where T : class, IDataModel, new()
         {
             return GetCollection<T>()
@@ -49,7 +48,7 @@ namespace Exadel.HEH.Backend.DataAccess
             return GetCollection<T>().Find(Builders<T>.Filter.Where(expression)).FirstOrDefaultAsync();
         }
 
-        public virtual Task RemoveAsync<T>(Guid id)
+        public Task RemoveAsync<T>(Guid id)
             where T : class, IDataModel, new()
         {
             return GetCollection<T>()
@@ -62,26 +61,26 @@ namespace Exadel.HEH.Backend.DataAccess
             return GetCollection<T>().DeleteManyAsync(Builders<T>.Filter.Where(expression));
         }
 
-        public virtual Task CreateAsync<T>(T item)
+        public Task CreateAsync<T>(T item)
             where T : class, new()
         {
             return GetCollection<T>().InsertOneAsync(item);
         }
 
-        public virtual Task CreateManyAsync<T>(IEnumerable<T> items)
+        public Task CreateManyAsync<T>(IEnumerable<T> items)
             where T : class, new()
         {
             return GetCollection<T>().InsertManyAsync(items);
         }
 
-        public virtual Task UpdateAsync<T>(T item)
+        public Task UpdateAsync<T>(T item)
             where T : class, IDataModel, new()
         {
             return GetCollection<T>()
                 .ReplaceOneAsync(Builders<T>.Filter.Eq(x => x.Id, item.Id), item);
         }
 
-        public virtual Task UpdateManyAsync<T>(IEnumerable<T> items)
+        public Task UpdateManyAsync<T>(IEnumerable<T> items)
             where T : class, IDataModel, new()
         {
             var requests = new List<ReplaceOneModel<T>>();
@@ -101,6 +100,15 @@ namespace Exadel.HEH.Backend.DataAccess
             }
 
             return GetCollection<T>().BulkWriteAsync(requests);
+        }
+
+        public Task UpdateIncrementAsync<T, TField>(Guid id, Expression<Func<T, TField>> field, TField value)
+            where T : class, IDataModel, new()
+        {
+            var filter = Builders<T>.Filter.Eq(x => x.Id, id);
+            var update = Builders<T>.Update.Inc(field, value);
+
+            return GetCollection<T>().FindOneAndUpdateAsync(filter, update);
         }
 
         public async Task<bool> AnyAsync<T>()
