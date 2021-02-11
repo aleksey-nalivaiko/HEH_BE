@@ -1,4 +1,4 @@
-﻿let tagData = [
+﻿tagData = [
     {
         "_id": UUID("d1adffea-945d-44c6-a79d-b935ccec3051"),
         "name": "Pizza",

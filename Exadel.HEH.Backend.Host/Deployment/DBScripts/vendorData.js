@@ -1,4 +1,4 @@
-﻿let vendorData = [
+﻿vendorData = [
     {
         "_id": UUID("e7922459-d83c-4a8d-ba86-6b80e1e55d1d"),
         "name": "Mcdonalds",

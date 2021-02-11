@@ -1,4 +1,4 @@
-﻿let preOrderData = [
+﻿preOrderData = [
     {
         "_id": UUID("11b9c74e-8cce-4243-a140-d25073a5593a"),
         "userId": UUID("89eb0d1b-e235-4a19-b372-27c85c6816bc"),

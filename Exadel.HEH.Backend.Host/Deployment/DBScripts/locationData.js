@@ -1,4 +1,4 @@
-﻿let locationData = [
+﻿locationData = [
     {
         "_id": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
         "country": "Belarus",
