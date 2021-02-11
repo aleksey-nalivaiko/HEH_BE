@@ -14,12 +14,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 
         Task<bool> AddressesCanBeRemovedAsync(Guid vendorId, IEnumerable<AddressDto> addresses, CancellationToken token = default);
 
-        Task<bool> AddressesAreUniqueAsync(Guid vendorId, IEnumerable<AddressDto> addresses, CancellationToken token = default);
+        bool AddressesAreUnique(IEnumerable<int> addressesIds);
 
-        Task<bool> AddressesAreFromVendorAsync(Guid vendorId, IEnumerable<DiscountDto> discounts, CancellationToken token = default);
+        bool AddressesAreFromVendor(VendorDto vendor, IEnumerable<DiscountDto> discounts);
 
-        Task<bool> PhonesAreUniqueAsync(Guid vendorId, IEnumerable<PhoneDto> phones, CancellationToken token = default);
+        bool PhonesAreUnique(IEnumerable<int> phonesIds);
 
-        Task<bool> PhonesAreFromVendorAsync(Guid vendorId, IEnumerable<DiscountDto> discounts, CancellationToken token = default);
+        bool PhonesAreFromVendor(VendorDto vendor, IEnumerable<DiscountDto> discounts);
     }
 }
