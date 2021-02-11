@@ -13,18 +13,22 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IRepository<Tag> _tagRepository;
         private readonly IDiscountRepository _discountRepository;
         private readonly IMapper _mapper;
+        private readonly IHistoryService _historyService;
 
-        public TagService(IRepository<Tag> tagRepository, IDiscountRepository discountRepository, IMapper mapper)
+        public TagService(IRepository<Tag> tagRepository, IDiscountRepository discountRepository, IMapper mapper, IHistoryService historyService)
         {
             _tagRepository = tagRepository;
             _discountRepository = discountRepository;
             _mapper = mapper;
+            _historyService = historyService;
         }
 
         public async Task CreateAsync(TagDto item)
         {
             var result = _mapper.Map<Tag>(item);
             await _tagRepository.CreateAsync(result);
+            await _historyService.CreateAsync(UserAction.Add,
+                "Created tag " + result.Id);
         }
 
         public async Task RemoveAsync(Guid id)
@@ -36,12 +40,17 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 discount.TagsIds.Remove(id);
                 await _discountRepository.UpdateAsync(discount);
             }
+
+            await _historyService.CreateAsync(UserAction.Remove,
+                "Removed tag " + id);
         }
 
         public async Task UpdateAsync(TagDto item)
         {
             var result = _mapper.Map<Tag>(item);
             await _tagRepository.UpdateAsync(result);
+            await _historyService.CreateAsync(UserAction.Edit,
+                "Updated tag " + result.Id);
         }
     }
 }

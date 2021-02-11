@@ -17,6 +17,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Create
 
         public string Description { get; set; }
 
-        public DateTime ActionDateTime { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }

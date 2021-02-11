@@ -11,7 +11,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
         {
             CreateMap<History, HistoryDto>();
             CreateMap<HistoryCreateDto, History>()
-                .ForMember(dest => dest.DateTime, opts => opts.Ignore())
                 .ForMember(dest => dest.Id, opts => opts.Ignore());
         }
     }

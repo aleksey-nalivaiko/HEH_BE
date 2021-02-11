@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
 using Exadel.HEH.Backend.BusinessLogic.Services;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Moq;
@@ -23,7 +24,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var userProvider = new Mock<IUserProvider>();
             var userRepository = new Mock<IUserRepository>();
             var discountRepository = new Mock<IDiscountRepository>();
-            _service = new FavoritesService(userRepository.Object, discountRepository.Object,
+            var historyService = new Mock<IHistoryService>();
+
+            _service = new FavoritesService(userRepository.Object, discountRepository.Object, historyService.Object,
                 Mapper, userProvider.Object);
 
             InitTestData();
