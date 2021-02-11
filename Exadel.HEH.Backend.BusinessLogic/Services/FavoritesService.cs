@@ -17,16 +17,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IDiscountRepository _discountRepository;
         private readonly IMapper _mapper;
         private readonly IUserProvider _userProvider;
-        private readonly IHistoryService _historyService;
 
-        public FavoritesService(IUserRepository userRepository, IDiscountRepository discountRepository, IHistoryService historyService,
+        public FavoritesService(IUserRepository userRepository, IDiscountRepository discountRepository,
             IMapper mapper, IUserProvider userProvider)
         {
             _userRepository = userRepository;
             _discountRepository = discountRepository;
             _mapper = mapper;
             _userProvider = userProvider;
-            _historyService = historyService;
         }
 
         public async Task<IEnumerable<FavoritesDto>> GetAllAsync()
@@ -54,8 +52,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var user = await GetCurrentUser();
             user.Favorites.Add(_mapper.Map<Favorites>(newFavorites));
             await _userRepository.UpdateAsync(user);
-            await _historyService.CreateAsync(UserAction.Add,
-                "Created favorite, discountId: " + newFavorites.DiscountId);
         }
 
         public async Task UpdateAsync(FavoritesCreateUpdateDto newFavorites)
@@ -66,8 +62,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             user.Favorites.Remove(favorites);
             user.Favorites.Add(_mapper.Map<Favorites>(newFavorites));
             await _userRepository.UpdateAsync(user);
-            await _historyService.CreateAsync(UserAction.Edit,
-                "Updated favorite, discountId: " + newFavorites.DiscountId);
         }
 
         public async Task RemoveAsync(Guid discountId)
@@ -77,8 +71,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             user.Favorites.Remove(favorites);
             await _userRepository.UpdateAsync(user);
-            await _historyService.CreateAsync(UserAction.Remove,
-                "Removed favorite, discountId: " + discountId);
         }
 
         public async Task<Dictionary<Guid, bool>> DiscountsAreInFavorites(IEnumerable<Guid> discountsIds)
