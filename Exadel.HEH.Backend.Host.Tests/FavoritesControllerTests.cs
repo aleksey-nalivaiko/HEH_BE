@@ -108,13 +108,13 @@ namespace Exadel.HEH.Backend.Host.Tests
             {
                 Id = Guid.NewGuid(),
                 Note = "Note1",
-                AddressesIds = new List<Guid>
+                AddressesIds = new List<int>
                 {
-                    Guid.NewGuid()
+                    1
                 },
-                PhonesIds = new List<Guid>
+                PhonesIds = new List<int>
                 {
-                    Guid.NewGuid()
+                    1
                 },
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",

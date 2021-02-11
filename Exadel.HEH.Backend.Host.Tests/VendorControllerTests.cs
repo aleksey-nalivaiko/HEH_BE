@@ -129,12 +129,12 @@ namespace Exadel.HEH.Backend.Host.Tests
             {
                 new PhoneDto
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 1,
                     Number = "+375441111111"
                 },
                 new PhoneDto
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 2,
                     Number = "+375442222222"
                 }
             };

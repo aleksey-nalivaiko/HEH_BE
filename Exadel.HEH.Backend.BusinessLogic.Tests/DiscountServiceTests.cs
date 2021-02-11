@@ -85,7 +85,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 {
                     new AddressDto
                     {
-                        Id = Guid.NewGuid(),
+                        Id = 1,
                         CityId = Guid.NewGuid(),
                         CountryId = Guid.NewGuid(),
                         Street = "street"
@@ -95,7 +95,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 {
                     new PhoneDto
                     {
-                        Id = Guid.NewGuid(),
+                        Id = 1,
                         Number = "+375441111111"
                     }
                 }
@@ -104,11 +104,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             _discount = new Discount
             {
                 Id = Guid.NewGuid(),
-                AddressesIds = new List<Guid>
+                AddressesIds = new List<int>
                 {
                     _vendor.Addresses.ElementAt(0).Id
                 },
-                PhonesIds = new List<Guid>
+                PhonesIds = new List<int>
                 {
                     _vendor.Phones.ElementAt(0).Id
                 },
