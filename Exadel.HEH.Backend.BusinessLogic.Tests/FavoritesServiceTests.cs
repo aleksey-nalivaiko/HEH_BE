@@ -24,9 +24,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var userProvider = new Mock<IUserProvider>();
             var userRepository = new Mock<IUserRepository>();
             var discountRepository = new Mock<IDiscountRepository>();
-            var historyService = new Mock<IHistoryService>();
 
-            _service = new FavoritesService(userRepository.Object, discountRepository.Object, historyService.Object,
+            _service = new FavoritesService(userRepository.Object, discountRepository.Object,
                 Mapper, userProvider.Object);
 
             InitTestData();

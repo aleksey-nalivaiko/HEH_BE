@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
@@ -60,6 +61,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             if (vendor.Discounts != null && vendor.Discounts.Any())
             {
                 await _discountRepository.CreateManyAsync(_mapper.Map<IEnumerable<Discount>>(vendor.Discounts));
+
+                foreach (var vendorDiscount in vendor.Discounts)
+                {
+                    await _historyService.CreateAsync(UserAction.Add,
+                        "Created discount " + vendorDiscount.Id);
+                }
             }
 
             await _historyService.CreateAsync(UserAction.Add,
@@ -88,14 +95,30 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             });
 
             await _discountRepository.UpdateManyAsync(discounts);
+
+            discounts.ForEach(x =>
+            {
+                    _historyService.CreateAsync(UserAction.Edit,
+                        "Updated discount " + x.Id);
+            });
+
             await _historyService.CreateAsync(UserAction.Edit,
                 "Updated vendor " + vendor.Id);
         }
 
         public async Task RemoveAsync(Guid id)
         {
+            var discounts = await _discountRepository.Get().Where(x => x.VendorId == id).ToListAsync();
+
             await _vendorRepository.RemoveAsync(id);
             await _discountRepository.RemoveAsync(d => d.VendorId == id);
+
+            discounts.ForEach(x =>
+            {
+                _historyService.CreateAsync(UserAction.Remove,
+                    "Removed discount " + x.Id);
+            });
+
             await _historyService.CreateAsync(UserAction.Remove,
                 "Removed vendor " + id);
         }
