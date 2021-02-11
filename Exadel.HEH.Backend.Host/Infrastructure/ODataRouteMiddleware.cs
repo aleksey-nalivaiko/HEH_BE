@@ -8,7 +8,7 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
     {
         private readonly IDictionary<string, string[]> _config = new Dictionary<string, string[]>
         {
-            ["/odata/Discount"] = new[] { "searchText" },
+            ["/odata/Discount"] = new[] { "searchText" }
         };
 
         private readonly RequestDelegate _next;
@@ -21,14 +21,19 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
         public async Task InvokeAsync(HttpContext context)
         {
             var request = context.Request;
-            if (request.Method == "GET" && request.Path.HasValue &&
-                _config.TryGetValue(request.Path.Value, out var queryParams))
+
+            if (request.Method == "GET" && request.Path.HasValue)
             {
-                foreach (var queryParam in queryParams)
+                request.Path = request.Path.ToString().Replace("/odata/discount", "/odata/Discount");
+
+                if (_config.TryGetValue(request.Path.Value, out var queryParams))
                 {
-                    if (!request.Query.ContainsKey(queryParam))
+                    foreach (var queryParam in queryParams)
                     {
-                        request.QueryString = request.QueryString.Add(QueryString.Create(queryParam, null));
+                        if (!request.Query.ContainsKey(queryParam))
+                        {
+                            request.QueryString = request.QueryString.Add(QueryString.Create(queryParam, null));
+                        }
                     }
                 }
             }
