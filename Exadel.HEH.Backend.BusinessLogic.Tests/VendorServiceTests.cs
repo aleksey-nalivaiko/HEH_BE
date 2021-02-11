@@ -32,8 +32,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var historyService = new Mock<IHistoryService>();
             _mapper = MapperExtensions.Mapper;
 
-            _service = new VendorService(Repository.Object, discountRepository.Object, _mapper, historyService.Object);
-            _service = new VendorService(vendorRepository.Object, discountRepository.Object, _mapper);
+            _service = new VendorService(vendorRepository.Object, discountRepository.Object, _mapper, historyService.Object);
 
             _discountsData = new List<Discount>();
 

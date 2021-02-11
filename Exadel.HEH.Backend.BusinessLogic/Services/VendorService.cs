@@ -17,10 +17,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IMapper _mapper;
         private readonly IHistoryService _historyService;
 
-        public VendorService(IRepository<Vendor> vendorRepository,
-            IDiscountRepository discountRepository, IMapper mapper, IHistoryService historyService)
         public VendorService(IVendorRepository vendorRepository,
-            IDiscountRepository discountRepository, IMapper mapper)
+            IDiscountRepository discountRepository, IMapper mapper, IHistoryService historyService)
             : base(vendorRepository, mapper)
         {
             _vendorRepository = vendorRepository;
