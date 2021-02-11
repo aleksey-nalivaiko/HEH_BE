@@ -74,28 +74,18 @@ namespace Exadel.HEH.Backend.Host.Tests
             Assert.NotNull(result);
         }
 
-        //[Fact]
-        //public async Task CanUpdate()
-        //{
-        //    Data.Add(_discount);
-        //    _userDto.IsActive = false;
-
-        //    await _controller.UpdateAsync(_userDto);
-        //    Assert.False(Data.Single(x => x.Id == _discount.Id).IsActive);
-        //}
-
         private void InitTestData()
         {
             _discount = new DiscountDto
             {
                 Id = Guid.NewGuid(),
-                AddressesIds = new List<Guid>
+                AddressesIds = new List<int>
                 {
-                    Guid.NewGuid()
+                    1
                 },
-                PhonesIds = new List<Guid>
+                PhonesIds = new List<int>
                 {
-                    Guid.NewGuid()
+                    1
                 },
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",
@@ -123,12 +113,12 @@ namespace Exadel.HEH.Backend.Host.Tests
                 {
                     new PhoneDto
                     {
-                        Id = Guid.NewGuid(),
+                        Id = 1,
                         Number = "+375441111111"
                     },
                     new PhoneDto
                     {
-                        Id = Guid.NewGuid(),
+                        Id = 1,
                         Number = "+375442222222"
                     }
                 },

@@ -165,12 +165,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             {
                 new Phone
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 1,
                     Number = "+375441111111"
                 },
                 new Phone
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 2,
                     Number = "+375442222222"
                 }
             };
