@@ -25,7 +25,9 @@ namespace Exadel.HEH.Backend.Host.Tests
             _data = new List<DiscountExtendedDto>();
             var service = new Mock<IDiscountService>();
             var validationService = new Mock<IDiscountValidationService>();
-            _controller = new DiscountController(service.Object, validationService.Object);
+            var statisticsService = new Mock<IStatisticsService>();
+
+            _controller = new DiscountController(service.Object, validationService.Object, statisticsService.Object);
 
             var searchData = Data;
 
@@ -47,6 +49,9 @@ namespace Exadel.HEH.Backend.Host.Tests
             validationService.Setup(v => v.DiscountExists(It.IsAny<Guid>(), default))
                 .Returns((Guid id, CancellationToken token) =>
                     Task.FromResult(Data.FirstOrDefault(d => d.Id == id) != null));
+            statisticsService.Setup(s => s.IncrementViewsAmountAsync(It.IsAny<Guid>()))
+                .Returns((Guid id) => Task.CompletedTask);
+
             InitTestData();
         }
 

@@ -12,11 +12,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class VendorService : BaseService<Vendor, VendorShortDto>, IVendorService
     {
-        private readonly IRepository<Vendor> _vendorRepository;
+        private readonly IVendorRepository _vendorRepository;
         private readonly IDiscountRepository _discountRepository;
         private readonly IMapper _mapper;
 
-        public VendorService(IRepository<Vendor> vendorRepository,
+        public VendorService(IVendorRepository vendorRepository,
             IDiscountRepository discountRepository, IMapper mapper)
             : base(vendorRepository, mapper)
         {

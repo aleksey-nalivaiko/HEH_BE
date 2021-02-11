@@ -20,7 +20,7 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddSingleton<IRepository<PreOrder>, PreOrderRepository>();
 
-            services.AddSingleton<IRepository<Vendor>, VendorRepository>();
+            services.AddSingleton<IVendorRepository, VendorRepository>();
 
             services.AddSingleton<IRepository<Location>, LocationRepository>();
 

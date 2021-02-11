@@ -93,6 +93,7 @@ namespace Exadel.HEH.Backend.Host
             services.AddMethodProvider();
             services.AddRepositories(Configuration);
             services.AddCrudServices();
+            services.AddBusinessServices();
             services.AddValidators();
             services.AddValidationServices();
             services.AddSingleton(MapperExtensions.Mapper);
