@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Update;
 using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
@@ -14,5 +15,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
         Task UpdateStatusAsync(Guid id, bool isActive);
 
         Task UpdateRoleAsync(Guid id, UserRole role);
+
+        Task UpdateNotificationsAsync(NotificationDto notifications);
     }
 }

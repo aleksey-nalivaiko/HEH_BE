@@ -30,7 +30,7 @@ namespace Exadel.HEH.Backend.Host.Tests
             {
                 Id = Guid.NewGuid(),
                 CategoryNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-                CityChangeNotificationIsOn = true,
+                AllNotificationsAreOn = true,
                 Email = "abc@mail.com",
                 Favorites = new List<Favorites>(),
                 HotDiscountsNotificationIsOn = false,

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Update;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -29,6 +30,25 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public Task<UserDto> GetProfileAsync()
         {
             return GetByIdAsync(_userProvider.GetUserId());
+        }
+
+        public async Task UpdateNotificationsAsync(NotificationDto notifications)
+        {
+            var userId = _userProvider.GetUserId();
+            var user = await Repository.GetByIdAsync(userId);
+
+            user.NewVendorNotificationIsOn = notifications.NewVendorNotificationIsOn;
+            user.NewDiscountNotificationIsOn = notifications.NewDiscountNotificationIsOn;
+            user.HotDiscountsNotificationIsOn = notifications.HotDiscountsNotificationIsOn;
+            user.AllNotificationsAreOn = notifications.AllNotificationsAreOn;
+
+            user.TagNotifications = notifications.TagNotifications;
+            user.CategoryNotifications = notifications.CategoryNotifications;
+            user.VendorNotifications = notifications.VendorNotifications;
+
+            await Repository.UpdateAsync(user);
+            await _historyService.CreateAsync(UserAction.Edit,
+                "Updated user " + userId);
         }
 
         public async Task UpdateStatusAsync(Guid id, bool isActive)
