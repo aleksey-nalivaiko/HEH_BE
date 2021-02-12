@@ -112,14 +112,12 @@ namespace Exadel.HEH.Backend.DataAccess
             return GetCollection<T>().FindOneAndUpdateAsync(filter, update);
         }
 
-        public async Task<IEnumerable<T>> SearchAsync<T, TField>(Guid id, Expression<Func<T, TField>> field, TField value)
+        public async Task<IEnumerable<T>> SearchAsync<T>(string path, string query)
             where T : class, IDataModel, new()
         {
-            var pipeline = BsonDocument.Parse("{ $searchBeta: { search: { path: 'foo', query : 'bar' } }}");
+            var pipeline = BsonDocument.Parse($"{{ $searchBeta: {{ search: {{path: '{path}', query : '{query}' }} }} }}");
 
-            var result = await GetCollection<T>().Aggregate<BsonDocument>(new[] { pipeline }).ToListAsync();
-
-            var list = BsonSerializer.Deserialize<List<T>>(result[0]);
+            return await GetCollection<T>().Aggregate<T>(new[] { pipeline }).ToListAsync();
         }
 
         public async Task<bool> AnyAsync<T>()
