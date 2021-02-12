@@ -12,6 +12,8 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddSingleton<SchedulerService>();
 
+            services.AddSingleton<IEmailService, EmailService>();
+
             return services;
         }
     }
