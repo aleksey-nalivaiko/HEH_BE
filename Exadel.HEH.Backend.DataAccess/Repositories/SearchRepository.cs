@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
@@ -11,9 +12,9 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
         {
         }
 
-        public IEnumerable<Search> Search()
+        public Task<IEnumerable<Search>> SearchAsync(string path, string searchText)
         {
-            throw new System.NotImplementedException();
+            return Context.SearchAsync<Search>(path, searchText);
         }
     }
 }

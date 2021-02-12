@@ -7,6 +7,7 @@
     load("tagData.js");
     load("preOrderData.js");
     load("locationData.js");
+    load("searchData.js");
 
     dbName = "ExadelHEH";
 

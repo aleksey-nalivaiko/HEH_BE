@@ -19,45 +19,46 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     public class VendorServiceTests : BaseServiceTests<Vendor>
     {
         private readonly VendorService _service;
-        private readonly List<Discount> _discountsData;
+        private readonly List<DiscountDto> _discountsData;
         private readonly IMapper _mapper;
 
         private Vendor _testVendor;
-        private Discount _testDiscount;
+        private DiscountDto _testDiscount;
 
         public VendorServiceTests()
         {
             var vendorRepository = new Mock<IVendorRepository>();
-            var discountRepository = new Mock<IDiscountRepository>();
+            var discountService = new Mock<IDiscountService>();
             var historyService = new Mock<IHistoryService>();
             _mapper = MapperExtensions.Mapper;
 
-            _service = new VendorService(vendorRepository.Object, discountRepository.Object, _mapper, historyService.Object);
+            _service = new VendorService(vendorRepository.Object, discountService.Object,
+                _mapper, historyService.Object);
 
-            _discountsData = new List<Discount>();
+            _discountsData = new List<DiscountDto>();
 
-            discountRepository.Setup(r => r.Get())
-                .Returns(_discountsData.AsQueryable());
+            discountService.Setup(r => r.GetAsync(default))
+                .Returns(Task.FromResult(_discountsData.AsQueryable()));
 
-            discountRepository.Setup(r => r.CreateManyAsync(It.IsAny<IEnumerable<Discount>>()))
-                .Callback((IEnumerable<Discount> items) =>
+            discountService.Setup(r => r.CreateManyAsync(It.IsAny<IEnumerable<DiscountDto>>()))
+                .Callback((IEnumerable<DiscountDto> items) =>
                 {
                     _discountsData.AddRange(items);
                 })
                 .Returns(Task.CompletedTask);
 
-            discountRepository.Setup(r => r.UpdateManyAsync(It.IsAny<IEnumerable<Discount>>()))
-                .Callback((IEnumerable<Discount> items) =>
+            discountService.Setup(r => r.UpdateManyAsync(It.IsAny<IEnumerable<DiscountDto>>()))
+                .Callback((IEnumerable<DiscountDto> items) =>
                 {
                     _discountsData.Clear();
                     _discountsData.AddRange(items);
                 })
                 .Returns(Task.CompletedTask);
 
-            discountRepository.Setup(r => r.RemoveAsync(It.IsAny<Expression<Func<Discount, bool>>>()))
+            discountService.Setup(r => r.RemoveAsync(It.IsAny<Expression<Func<Discount, bool>>>()))
                 .Callback((Expression<Func<Discount, bool>> expression) =>
                 {
-                    _discountsData.RemoveAll(d => expression.Compile()(d));
+                    _discountsData.RemoveAll(d => expression.Compile()(_mapper.Map<Discount>(d)));
                 })
                 .Returns(Task.CompletedTask);
 
@@ -129,7 +130,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public async Task CanCreateAsync()
         {
             var vendor = _mapper.Map<VendorDto>(_testVendor);
-            vendor.Discounts = _mapper.Map<IEnumerable<DiscountDto>>(new List<Discount> { _testDiscount });
+            vendor.Discounts = new List<DiscountDto> { _testDiscount };
 
             await _service.CreateAsync(vendor);
 
@@ -144,7 +145,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
             _testVendor.Name = "New name";
             var vendor = _mapper.Map<VendorDto>(_testVendor);
-            vendor.Discounts = _mapper.Map<IEnumerable<DiscountDto>>(new List<Discount> { _testDiscount });
+            vendor.Discounts = new List<DiscountDto> { _testDiscount };
 
             await _service.UpdateAsync(vendor);
 
@@ -161,7 +162,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             newDiscount.Id = Guid.NewGuid();
 
             var vendor = _mapper.Map<VendorDto>(_testVendor);
-            vendor.Discounts = _mapper.Map<IEnumerable<DiscountDto>>(new List<Discount> { newDiscount });
+            vendor.Discounts = new List<DiscountDto> { newDiscount };
 
             await _service.UpdateAsync(vendor);
 
@@ -223,7 +224,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 }
             };
 
-            _testDiscount = new Discount
+            _testDiscount = new DiscountDto
             {
                 Id = Guid.NewGuid(),
                 AddressesIds = addresses.Select(a => a.Id).ToList(),

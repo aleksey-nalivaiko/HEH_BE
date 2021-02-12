@@ -13,12 +13,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     public class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<Tag> _tagRepository;
+        private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
         private readonly IHistoryService _historyService;
 
         public CategoryService(IRepository<Category> categoryRepository, IHistoryService historyService,
-            IRepository<Tag> tagRepository,
+            ITagRepository tagRepository,
             IMapper mapper)
         {
             _categoryRepository = categoryRepository;
@@ -44,6 +44,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 });
 
             return await Task.FromResult(categoriesWithTags);
+        }
+
+        public async Task<CategoryDto> GetByIdAsync(Guid id)
+        {
+            var category = await _categoryRepository.GetByIdAsync(id);
+
+            return _mapper.Map<CategoryDto>(category);
         }
 
         public async Task CreateAsync(CategoryDto item)

@@ -113,7 +113,7 @@ namespace Exadel.HEH.Backend.DataAccess
         }
 
         public async Task<IEnumerable<T>> SearchAsync<T>(string path, string query)
-            where T : class, IDataModel, new()
+            where T : class, new()
         {
             var pipeline = BsonDocument.Parse($"{{ $searchBeta: {{ search: {{path: '{path}', query : '{query}' }} }} }}");
 

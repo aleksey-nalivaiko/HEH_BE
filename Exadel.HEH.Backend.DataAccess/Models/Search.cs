@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
@@ -12,8 +13,12 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public string Category { get; set; }
 
-        public string Tag { get; set; }
+        public IList<string> Tags { get; set; }
 
-        public Location Location { get; set; }
+        public IList<string> Countries { get; set; }
+
+        public IList<string> Cities { get; set; }
+
+        public IList<string> Streets { get; set; }
     }
 }

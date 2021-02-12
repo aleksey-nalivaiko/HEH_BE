@@ -43,6 +43,15 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
+        public async Task CanGetByCategoryAsync()
+        {
+            Collection.Add(_tag);
+
+            var result = await _repository.GetByCategoryAsync(_tag.CategoryId);
+            Assert.NotEmpty(result);
+        }
+
+        [Fact]
         public async Task CanUpdate()
         {
             Collection.Add(_tag.DeepClone());

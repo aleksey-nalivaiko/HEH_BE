@@ -86,7 +86,7 @@ namespace Exadel.HEH.Backend.Host.Tests
             _testTag = new TagDto
             {
                 Id = Guid.NewGuid(),
-                Name = "Tag"
+                Name = "Tags"
             };
         }
     }

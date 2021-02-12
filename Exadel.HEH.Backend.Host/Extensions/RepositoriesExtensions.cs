@@ -22,9 +22,9 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddSingleton<IVendorRepository, VendorRepository>();
 
-            services.AddSingleton<IRepository<Location>, LocationRepository>();
+            services.AddSingleton<ILocationRepository, LocationRepository>();
 
-            services.AddSingleton<IRepository<Tag>, TagRepository>();
+            services.AddSingleton<ITagRepository, TagRepository>();
 
             services.AddSingleton<IDiscountRepository, DiscountRepository>();
 

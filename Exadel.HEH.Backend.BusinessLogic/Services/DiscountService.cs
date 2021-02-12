@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
@@ -12,22 +15,28 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     public class DiscountService : IDiscountService
     {
         private readonly IDiscountRepository _discountRepository;
+        private readonly IVendorRepository _vendorRepository;
         private readonly IFavoritesService _favoritesService;
-        private readonly IVendorService _vendorService;
         private readonly IMapper _mapper;
+        private readonly ISearchEventHub _searchEventHub;
         private readonly ISearchService _searchService;
+        private readonly IHistoryService _historyService;
 
         public DiscountService(IDiscountRepository discountRepository,
             IFavoritesService favoritesService,
-            IVendorService vendorService,
+            IVendorRepository vendorRepository,
             IMapper mapper,
-            ISearchService searchService)
+            ISearchEventHub searchEventHub,
+            ISearchService searchService,
+            IHistoryService historyService)
         {
             _discountRepository = discountRepository;
             _favoritesService = favoritesService;
-            _vendorService = vendorService;
+            _vendorRepository = vendorRepository;
             _mapper = mapper;
+            _searchEventHub = searchEventHub;
             _searchService = searchService;
+            _historyService = historyService;
         }
 
         public async Task<IQueryable<DiscountDto>> GetAsync(string searchText)
@@ -59,27 +68,92 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public async Task<DiscountExtendedDto> GetByIdAsync(Guid id)
         {
             var discount = await _discountRepository.GetByIdAsync(id);
-            var vendor = await _vendorService.GetByIdAsync(discount.VendorId);
+            var vendor = await _vendorRepository.GetByIdAsync(discount.VendorId);
 
             var discountDto = _mapper.Map<DiscountExtendedDto>(discount);
 
             discountDto.IsFavorite = await _favoritesService.DiscountIsInFavorites(discountDto.Id);
-            discountDto.Links = vendor.Links;
+            discountDto.Links = _mapper.Map<IEnumerable<LinkDto>>(vendor.Links);
             discountDto.WorkingHours = vendor.WorkingHours;
 
-            discountDto.Addresses = vendor.Addresses.Join(
+            discountDto.Addresses = _mapper.Map<IEnumerable<AddressDto>>(vendor.Addresses.Join(
                 discount.AddressesIds,
                 a => a.Id,
                 i => i,
-                (a, i) => a);
+                (a, i) => a));
 
-            discountDto.Phones = vendor.Phones.Join(
+            discountDto.Phones = _mapper.Map<IEnumerable<PhoneDto>>(vendor.Phones.Join(
                 discount.PhonesIds,
                 p => p.Id,
                 i => i,
-                (p, i) => p);
+                (p, i) => p));
 
             return discountDto;
+        }
+
+        public async Task CreateManyAsync(IEnumerable<DiscountDto> discounts)
+        {
+            var discountsList = discounts.ToList();
+            discountsList.ForEach(GenerateId);
+
+            await _discountRepository.CreateManyAsync(
+                _mapper.Map<IEnumerable<Discount>>(discounts));
+
+            discountsList.ForEach(CreateHistoryAndSearchItems);
+        }
+
+        public async Task UpdateManyAsync(IEnumerable<DiscountDto> discounts)
+        {
+            var allDiscountsIds = _discountRepository.Get().Select(d => d.Id).ToList();
+            var discountsList = discounts.ToList();
+
+            discountsList.Where(d => !allDiscountsIds.Contains(d.Id))
+                .ToList().ForEach(GenerateId);
+
+            await _discountRepository.UpdateManyAsync(
+                _mapper.Map<IEnumerable<Discount>>(discounts));
+
+            foreach (var discount in discountsList)
+            {
+                if (allDiscountsIds.Contains(discount.Id))
+                {
+                    await _historyService.CreateAsync(UserAction.Edit,
+                        "Updated discount " + discount.Id);
+
+                    _searchEventHub.PublishUpdateEvent(discount);
+                }
+                else
+                {
+                    CreateHistoryAndSearchItems(discount);
+                }
+            }
+        }
+
+        public async Task RemoveAsync(Expression<Func<Discount, bool>> expression)
+        {
+            await _discountRepository.RemoveAsync(expression);
+
+            _discountRepository.Get().Where(expression).ToList()
+                .ForEach(d =>
+                {
+                    _searchEventHub.PublishRemoveEvent(d.Id);
+
+                    _historyService.CreateAsync(UserAction.Remove,
+                        "Removed discount " + d.Id);
+                });
+        }
+
+        private void CreateHistoryAndSearchItems(DiscountDto discount)
+        {
+            _historyService.CreateAsync(UserAction.Add,
+                "Created discount " + discount.Id);
+
+            _searchEventHub.PublishCreateEvent(discount);
+        }
+
+        private void GenerateId(DiscountDto discount)
+        {
+            discount.Id = discount.Id == Guid.Empty ? Guid.NewGuid() : discount.Id;
         }
     }
 }
