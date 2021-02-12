@@ -48,6 +48,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             var result = await _historyRepository.GetAllAsync();
 
+            foreach (var history in result)
+            {
+                history.DateTime = history.DateTime.ToLocalTime();
+            }
+
             return _mapper.Map<IEnumerable<HistoryDto>>(result);
         }
 
