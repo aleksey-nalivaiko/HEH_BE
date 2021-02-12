@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
@@ -15,14 +16,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IVendorRepository _vendorRepository;
         private readonly IDiscountRepository _discountRepository;
         private readonly IMapper _mapper;
+        private readonly IHistoryService _historyService;
 
         public VendorService(IVendorRepository vendorRepository,
-            IDiscountRepository discountRepository, IMapper mapper)
+            IDiscountRepository discountRepository, IMapper mapper, IHistoryService historyService)
             : base(vendorRepository, mapper)
         {
             _vendorRepository = vendorRepository;
             _discountRepository = discountRepository;
             _mapper = mapper;
+            _historyService = historyService;
         }
 
         public async Task<IEnumerable<VendorDto>> GetAllDetailedAsync()
@@ -54,10 +57,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             InitVendorInfoInDiscounts(vendor);
 
             await _vendorRepository.CreateAsync(_mapper.Map<Vendor>(vendor));
+
             if (vendor.Discounts != null && vendor.Discounts.Any())
             {
                 await _discountRepository.CreateManyAsync(_mapper.Map<IEnumerable<Discount>>(vendor.Discounts));
+
+                foreach (var vendorDiscount in vendor.Discounts)
+                {
+                    await _historyService.CreateAsync(UserAction.Add,
+                        "Created discount " + vendorDiscount.Id);
+                }
             }
+
+            await _historyService.CreateAsync(UserAction.Add,
+                "Created vendor " + vendor.Id);
         }
 
         public async Task UpdateAsync(VendorDto vendor)
@@ -82,12 +95,32 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             });
 
             await _discountRepository.UpdateManyAsync(discounts);
+
+            discounts.ForEach(x =>
+            {
+                    _historyService.CreateAsync(UserAction.Edit,
+                        "Updated discount " + x.Id);
+            });
+
+            await _historyService.CreateAsync(UserAction.Edit,
+                "Updated vendor " + vendor.Id);
         }
 
         public async Task RemoveAsync(Guid id)
         {
+            var discounts = await _discountRepository.Get().Where(x => x.VendorId == id).ToListAsync();
+
             await _vendorRepository.RemoveAsync(id);
             await _discountRepository.RemoveAsync(d => d.VendorId == id);
+
+            discounts.ForEach(x =>
+            {
+                _historyService.CreateAsync(UserAction.Remove,
+                    "Removed discount " + x.Id);
+            });
+
+            await _historyService.CreateAsync(UserAction.Remove,
+                "Removed vendor " + id);
         }
 
         private VendorDto GetVendorDto(Vendor vendor, IEnumerable<Discount> vendorDiscounts)

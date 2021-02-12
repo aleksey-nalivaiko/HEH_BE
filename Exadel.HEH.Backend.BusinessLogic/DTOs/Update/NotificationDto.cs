@@ -1,23 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Exadel.HEH.Backend.DataAccess.Models;
 
-namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Update
 {
-    public class UserDto
+    public class NotificationDto
     {
-        public Guid Id { get; set; }
-
-        public UserRole Role { get; set; }
-
-        public string Name { get; set; }
-
-        public string Email { get; set; }
-
-        public Address Address { get; set; }
-
-        public bool IsActive { get; set; }
-
         public IList<Guid> CategoryNotifications { get; set; }
 
         public IList<Guid> TagNotifications { get; set; }
@@ -31,9 +18,5 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
         public bool HotDiscountsNotificationIsOn { get; set; }
 
         public bool AllNotificationsAreOn { get; set; }
-
-        public IList<Favorites> Favorites { get; set; }
-
-        public string Img { get; set; }
     }
 }

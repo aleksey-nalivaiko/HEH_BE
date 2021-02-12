@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -21,13 +22,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         {
             var repository = new Mock<IUserRepository>();
             var userProvider = new Mock<IUserProvider>();
+            var historyService = new Mock<IHistoryService>();
 
-            _userService = new UserService(repository.Object, Mapper, userProvider.Object);
+            _userService = new UserService(repository.Object, Mapper, userProvider.Object, historyService.Object);
             _user = new User
             {
                 Id = Guid.NewGuid(),
                 CategoryNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-                CityChangeNotificationIsOn = true,
+                AllNotificationsAreOn = true,
                 Email = "abc@mail.com",
                 Favorites = new List<Favorites>(),
                 HotDiscountsNotificationIsOn = false,
