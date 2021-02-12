@@ -157,7 +157,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             {
                 Id = Guid.NewGuid(),
                 CategoryNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
-                CityChangeNotificationIsOn = true,
+                AllNotificationsAreOn = true,
                 Email = "abc@mail.com",
                 Favorites = new List<Favorites> { _favorites },
                 HotDiscountsNotificationIsOn = false,

@@ -33,7 +33,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public bool HotDiscountsNotificationIsOn { get; set; }
 
-        public bool CityChangeNotificationIsOn { get; set; }
+        public bool AllNotificationsAreOn { get; set; }
 
         public IList<Favorites> Favorites { get; set; }
 
