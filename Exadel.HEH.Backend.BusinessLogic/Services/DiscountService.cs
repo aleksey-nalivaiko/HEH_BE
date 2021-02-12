@@ -15,14 +15,19 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IFavoritesService _favoritesService;
         private readonly IVendorService _vendorService;
         private readonly IMapper _mapper;
+        private readonly ISearchService _searchService;
 
         public DiscountService(IDiscountRepository discountRepository,
-            IFavoritesService favoritesService, IVendorService vendorService, IMapper mapper)
+            IFavoritesService favoritesService,
+            IVendorService vendorService,
+            IMapper mapper,
+            ISearchService searchService)
         {
             _discountRepository = discountRepository;
             _favoritesService = favoritesService;
             _vendorService = vendorService;
             _mapper = mapper;
+            _searchService = searchService;
         }
 
         public async Task<IQueryable<DiscountDto>> GetAsync(string searchText)
@@ -30,9 +35,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var discounts = _discountRepository.Get();
             if (searchText != null)
             {
-                var lowerSearchText = searchText.ToLower();
-                discounts = discounts.Where(d => d.Conditions.ToLower().Contains(lowerSearchText)
-                    || d.VendorName.ToLower().Contains(lowerSearchText));
+                discounts = _searchService.SearchDiscounts(discounts, searchText);
             }
 
             var discountsDto = discounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);
