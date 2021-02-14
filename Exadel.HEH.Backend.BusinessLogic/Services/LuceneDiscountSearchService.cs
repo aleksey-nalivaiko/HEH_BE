@@ -8,11 +8,11 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class LuceneSearchService : ISearchService
+    public class LuceneDiscountSearchService : IDiscountSearchService
     {
         private readonly ISearchRepository _searchRepository;
 
-        public LuceneSearchService(ISearchRepository searchRepository)
+        public LuceneDiscountSearchService(ISearchRepository searchRepository)
         {
             _searchRepository = searchRepository;
         }

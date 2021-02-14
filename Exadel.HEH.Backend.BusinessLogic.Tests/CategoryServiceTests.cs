@@ -23,7 +23,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         public CategoryServiceTests()
         {
-            var tagRepository = new Mock<IRepository<Tag>>();
+            var tagRepository = new Mock<ITagRepository>();
             var historyService = new Mock<IHistoryService>();
 
             tagRepository.Setup(r => r.GetAllAsync())

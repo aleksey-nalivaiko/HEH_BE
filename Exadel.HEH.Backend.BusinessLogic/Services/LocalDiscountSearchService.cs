@@ -4,7 +4,7 @@ using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class LocalSearchService : ISearchService
+    public class LocalDiscountSearchService : IDiscountSearchService
     {
         public IQueryable<Discount> SearchDiscounts(IQueryable<Discount> allDiscounts, string searchText)
         {

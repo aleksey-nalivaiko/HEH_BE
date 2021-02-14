@@ -25,6 +25,7 @@
         fillCollection("Tag", tagData);
         fillCollection("PreOrder", preOrderData);
         fillCollection("Location", locationData);
+        fillCollection("Search", searchData);
     }
 
     function fillCollection(collectionName, data) {

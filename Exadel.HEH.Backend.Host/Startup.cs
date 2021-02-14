@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
@@ -38,7 +39,7 @@ namespace Exadel.HEH.Backend.Host
 
         public IConfiguration Configuration { get; }
 
-        private IWebHostEnvironment Environment { get; set; }
+        private IWebHostEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -184,7 +185,6 @@ namespace Exadel.HEH.Backend.Host
 
             SeedIdentityData.InitializeDatabaseAsync(app).Wait();
             app.ApplicationServices.GetService<SchedulerService>()?.Start();
-            app.ApplicationServices.GetService<ISearchEventSubscriber>()?.Subscribe();
         }
     }
 }

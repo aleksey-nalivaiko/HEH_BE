@@ -33,6 +33,8 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddScoped<IHistoryService, HistoryService>();
 
+            services.AddScoped<ISearchService, SearchService>();
+
             return services;
         }
     }

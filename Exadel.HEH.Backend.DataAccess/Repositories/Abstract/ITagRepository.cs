@@ -7,6 +7,6 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 {
     public interface ITagRepository : IRepository<Tag>
     {
-        Task<IEnumerable<Tag>> GetByCategoryAsync(Guid categoryId);
+        Task<IEnumerable<Tag>> GetByIds(IEnumerable<Guid> ids);
     }
 }
