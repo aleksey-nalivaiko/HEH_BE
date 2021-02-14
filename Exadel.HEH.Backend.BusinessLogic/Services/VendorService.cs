@@ -56,32 +56,37 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             vendor.Id = vendor.Id == Guid.Empty ? Guid.NewGuid() : vendor.Id;
 
-            InitVendorInfoInDiscounts(vendor);
-
             await _vendorRepository.CreateAsync(_mapper.Map<Vendor>(vendor));
 
             await _historyService.CreateAsync(UserAction.Add,
                 "Created vendor " + vendor.Id);
 
-            if (vendor.Discounts != null && vendor.Discounts.Any())
+            if (AnyDiscounts(vendor.Discounts))
             {
+                InitVendorInfoInDiscounts(vendor);
                 await _discountService.CreateManyAsync(vendor.Discounts);
             }
         }
 
         public async Task UpdateAsync(VendorDto vendor)
         {
-            InitVendorInfoInDiscounts(vendor);
             await _vendorRepository.UpdateAsync(_mapper.Map<Vendor>(vendor));
             await _historyService.CreateAsync(UserAction.Edit,
                 "Updated vendor " + vendor.Id);
 
-            var vendorDiscountsIds = vendor.Discounts.Select(d => d.Id).ToList();
+            var vendorDiscountsIds = new List<Guid>();
+
+            if (AnyDiscounts(vendor.Discounts))
+            {
+                InitVendorInfoInDiscounts(vendor);
+                RemoveIncorrectDiscountPhones(vendor);
+                await _discountService.UpdateManyAsync(vendor.Discounts);
+
+                vendorDiscountsIds = vendor.Discounts.Select(d => d.Id).ToList();
+            }
+
             await _discountService.RemoveAsync(d =>
                 d.VendorId == vendor.Id && !vendorDiscountsIds.Contains(d.Id));
-
-            RemoveIncorrectDiscountPhones(vendor);
-            await _discountService.UpdateManyAsync(vendor.Discounts);
         }
 
         public async Task RemoveAsync(Guid id)
@@ -103,7 +108,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         private void InitVendorInfoInDiscounts(VendorDto vendor)
         {
-            vendor.Discounts?.ToList().ForEach(d =>
+            vendor.Discounts.ToList().ForEach(d =>
             {
                 d.VendorId = vendor.Id;
                 d.VendorName = vendor.Name;
@@ -112,13 +117,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         private void RemoveIncorrectDiscountPhones(VendorDto vendor)
         {
-            var vendorPhonesIds = vendor.Phones.Select(p => p.Id).ToList();
+            var vendorPhonesIds = vendor.Phones == null ? new List<int>()
+                : vendor.Phones.Select(p => p.Id).ToList();
+
             vendor.Discounts.ToList().ForEach(d =>
             {
                 var phoneList = d.PhonesIds.ToList();
                 phoneList.RemoveAll(p => !vendorPhonesIds.Contains(p));
                 d.PhonesIds = phoneList;
             });
+        }
+
+        private bool AnyDiscounts(IEnumerable<DiscountDto> discounts)
+        {
+            return discounts != null && discounts.Any();
         }
     }
 }

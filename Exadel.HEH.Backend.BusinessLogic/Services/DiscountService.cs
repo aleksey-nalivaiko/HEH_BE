@@ -7,6 +7,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
@@ -48,11 +49,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             }
 
             var discountsDto = discounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);
-            var discountsDtoList = discountsDto.ToList();
+            var discountsDtoList = await discountsDto.ToListAsync();
 
             var areInFavorites = await _favoritesService.DiscountsAreInFavorites(discountsDtoList.Select(d => d.Id));
 
-            discountsDto = discountsDtoList.ToList().Join(
+            discountsDto = discountsDtoList.Join(
                 areInFavorites,
                 d => d.Id,
                 a => a.Key,
@@ -131,8 +132,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task RemoveAsync(Expression<Func<Discount, bool>> expression)
         {
-            await _discountRepository.RemoveAsync(expression);
-
             _discountRepository.Get().Where(expression).ToList()
                 .ForEach(d =>
                 {
@@ -141,6 +140,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     _historyService.CreateAsync(UserAction.Remove,
                         "Removed discount " + d.Id);
                 });
+
+            await _discountRepository.RemoveAsync(expression);
         }
 
         private void CreateHistoryAndSearchItems(DiscountDto discount)
