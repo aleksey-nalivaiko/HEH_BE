@@ -31,10 +31,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 "discount",
                 "vendor",
                 "category",
-                "location.country",
                 new
                 {
-                    Wildcard = new[] { "tags.*", "location.cities.city" }
+                    Wildcard = new[] { "tags.*", "countries.*", "cities.*", "streets.*" }
                 }
             });
 
