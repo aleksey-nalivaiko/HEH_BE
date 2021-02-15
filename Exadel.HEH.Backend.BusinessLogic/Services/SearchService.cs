@@ -56,7 +56,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task Reindex()
         {
-            await SearchRepository.RemoveAll();
+            await SearchRepository.RemoveAllAsync();
 
             var discounts = await _discountRepository.GetAllAsync();
             var searchList = await GetAllSearch(discounts);

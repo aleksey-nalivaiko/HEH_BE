@@ -10,6 +10,6 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 
         Task CreateManyAsync(IEnumerable<Search> searchList);
 
-        Task RemoveAll();
+        Task RemoveAllAsync();
     }
 }

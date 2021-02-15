@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -24,7 +22,7 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
             return Context.CreateManyAsync(searchList);
         }
 
-        public Task RemoveAll()
+        public Task RemoveAllAsync()
         {
             return Context.RemoveAllAsync<Search>();
         }
