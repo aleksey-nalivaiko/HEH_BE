@@ -27,6 +27,9 @@ namespace Exadel.HEH.Backend.DataAccess
         Task RemoveAsync<T>(Expression<Func<T, bool>> expression)
             where T : class, new();
 
+        Task RemoveAllAsync<T>()
+            where T : class, new();
+
         Task CreateAsync<T>(T item)
             where T : class, new();
 
