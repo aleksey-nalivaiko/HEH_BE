@@ -129,16 +129,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task RemoveAsync(Expression<Func<Discount, bool>> expression)
         {
-            _discountRepository.Get().Where(expression).ToList()
-                .ForEach(d =>
-                {
-                    _searchService.RemoveAsync(d.Id);
+            var discountsToRemove = _discountRepository.Get().Where(expression).ToList();
 
-                    _historyService.CreateAsync(UserAction.Remove,
-                        "Removed discount " + d.Id);
-                });
+            discountsToRemove.ForEach(d =>
+            {
+                _searchService.RemoveAsync(d.Id);
+
+                _historyService.CreateAsync(UserAction.Remove,
+                    "Removed discount " + d.Id);
+            });
 
             await _discountRepository.RemoveAsync(expression);
+
+            var discountsToRemoveIds = discountsToRemove.Select(d => d.Id);
+            await _favoritesService.RemoveManyAsync(discountsToRemoveIds);
         }
 
         private void CreateHistoryAndSearchItems(DiscountDto discount)
