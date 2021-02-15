@@ -6,7 +6,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 {
     public class LocationController : BaseController<LocationDto>
     {
-        public LocationController(IService<LocationDto> service)
+        public LocationController(ILocationService service)
             : base(service)
         {
         }
