@@ -25,7 +25,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                 Country = "CountryName",
                 Cities = new List<CityDto>
                 {
-                    new CityDto()
+                    new CityDto
                     {
                         Id = Guid.NewGuid(),
                         Name = "CityName"
