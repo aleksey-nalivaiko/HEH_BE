@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -40,13 +39,5 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var result = await _service.GetAllAsync();
             Assert.Single(result);
         }
-
-        //[Fact]
-        //public async Task CanCreate()
-        //{
-        //    await _service.CreateAsync(_history);
-        //    var history = Data.FirstOrDefault(x => x.Id == _history.Id);
-        //    Assert.NotNull(history);
-        //}
     }
 }

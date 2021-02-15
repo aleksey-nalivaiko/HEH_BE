@@ -56,8 +56,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             user.VendorNotifications = notifications.VendorNotifications;
 
             await Repository.UpdateAsync(user);
-            await _historyService.CreateAsync(UserAction.Edit,
-                "Updated user " + userId);
         }
 
         public async Task UpdateStatusAsync(Guid id, bool isActive)
