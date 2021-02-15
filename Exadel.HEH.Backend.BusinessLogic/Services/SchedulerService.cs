@@ -25,7 +25,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task SendEmailsAsync()
         {
-            //TODO: Call email service
             await _emailService.SendMailAsync("User@mail.ru", "News from HEH", "Hi! Here you can found some discounts");
             _logger.LogInformation("Emails where send");
         }
