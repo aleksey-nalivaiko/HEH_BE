@@ -3,27 +3,36 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Microsoft.Extensions.Options;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class EmailService : IEmailService
     {
-        // TODO: async / files?
-        public void SendMail(string toEmailAddress, string emailTitle, string emailMsgBody)
+        private readonly EmailOptions _options;
+
+        public EmailService(IOptions<EmailOptions> options)
         {
-            MailAddress fromAddress = new MailAddress("team1.exadel@gmail.com", "Happy exadel hours");
+            _options = options.Value;
+        }
+
+        public async Task SendMailAsync(string toEmailAddress, string emailTitle, string emailMsgBody)
+        {
+            MailAddress fromAddress = new MailAddress(_options.Email, _options.Name);
             MailAddress toAddress = new MailAddress(toEmailAddress);
             MailMessage email = new MailMessage(fromAddress, toAddress);
             email.Subject = emailTitle;
             email.Body = emailMsgBody;
             email.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new NetworkCredential("team1.exadel@gmail.com", "jwlwuqagfjbqcaeu");
+            smtp.Credentials = new NetworkCredential(_options.Email, _options.Password);
             smtp.EnableSsl = true;
             try
             {
-                smtp.Send(email);
+                await smtp.SendMailAsync(email);
             }
             catch (SmtpFailedRecipientsException ex)
             {

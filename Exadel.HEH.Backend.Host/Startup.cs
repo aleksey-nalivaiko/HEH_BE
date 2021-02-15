@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
+using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Validators;
 using Exadel.HEH.Backend.Host.Extensions;
@@ -131,6 +132,8 @@ namespace Exadel.HEH.Backend.Host
             {
                 config.UseMemoryStorage();
             });
+
+            services.Configure<EmailOptions>(Configuration.GetSection(EmailOptions.EmailSettings));
         }
 
         public void Configure(IApplicationBuilder app, VersionedODataModelBuilder modelBuilder, IWebHostEnvironment env)
