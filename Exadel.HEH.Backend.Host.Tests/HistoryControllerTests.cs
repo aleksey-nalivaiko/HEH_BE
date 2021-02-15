@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
+using Moq;
 using Xunit;
 
 namespace Exadel.HEH.Backend.Host.Tests
@@ -15,7 +17,9 @@ namespace Exadel.HEH.Backend.Host.Tests
 
         public HistoryControllerTests()
         {
-            _controller = new HistoryController(Service.Object);
+            var historyService = new Mock<IHistoryService>();
+
+            _controller = new HistoryController(historyService.Object);
             _history = new HistoryDto
             {
                 Id = Guid.NewGuid(),
@@ -27,6 +31,9 @@ namespace Exadel.HEH.Backend.Host.Tests
                 UserName = "Mary",
                 UserRole = UserRole.Moderator
             };
+
+            historyService.Setup(s => s.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<HistoryDto>)Data));
         }
 
         [Fact]
@@ -36,13 +43,5 @@ namespace Exadel.HEH.Backend.Host.Tests
             var result = await _controller.GetAllAsync();
             Assert.Single(result);
         }
-
-        //[Fact]
-        //public async Task CanCreate()
-        //{
-        //    await _controller.CreateAsync(_historyDto);
-        //    var history = _data.FirstOrDefault();
-        //    Assert.NotNull(history);
-        //}
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
@@ -10,7 +11,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class HistoryService : IHistoryService
+    public class HistoryService : BaseService<History, HistoryDto>, IHistoryService
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserProvider _userProvider;
@@ -19,6 +20,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public HistoryService(IUserRepository userRepository, IRepository<History> historyRepository,
             IMapper mapper, IUserProvider userProvider)
+            : base(historyRepository, mapper)
         {
             _userRepository = userRepository;
             _userProvider = userProvider;
@@ -44,16 +46,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _historyRepository.CreateAsync(_mapper.Map<History>(history));
         }
 
-        public async Task<IEnumerable<HistoryDto>> GetAllAsync()
+        public override async Task<IEnumerable<HistoryDto>> GetAllAsync()
         {
-            var result = await _historyRepository.GetAllAsync();
+            var result = (await base.GetAllAsync()).OrderByDescending(h => h.DateTime).ToList();
 
             foreach (var history in result)
             {
                 history.DateTime = history.DateTime.ToLocalTime();
             }
 
-            return _mapper.Map<IEnumerable<HistoryDto>>(result);
+            return result;
         }
 
         private Task<User> GetCurrentUser()

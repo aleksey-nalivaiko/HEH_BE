@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.Host.Controllers;
+using Moq;
 using Xunit;
 
 namespace Exadel.HEH.Backend.Host.Tests
@@ -14,7 +16,9 @@ namespace Exadel.HEH.Backend.Host.Tests
 
         public LocationControllerTests()
         {
-            _controller = new LocationController(Service.Object);
+            var locationService = new Mock<ILocationService>();
+
+            _controller = new LocationController(locationService.Object);
             _location = new LocationDto
             {
                 Id = Guid.NewGuid(),
@@ -28,6 +32,9 @@ namespace Exadel.HEH.Backend.Host.Tests
                     }
                 }
             };
+
+            locationService.Setup(s => s.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<LocationDto>)Data));
         }
 
         [Fact]

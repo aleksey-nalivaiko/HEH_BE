@@ -13,8 +13,6 @@ namespace Exadel.HEH.Backend.Host.Extensions
         {
             services.AddScoped<IUserService, UserService>();
 
-            services.AddScoped<IService<HistoryDto>, HistoryService>();
-
             //services.AddTransient<IService<PreOrder>, PreOrderService>();
 
             services.AddScoped<ILocationService, LocationService>();

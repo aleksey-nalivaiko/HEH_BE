@@ -10,7 +10,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 {
     public class HistoryController : BaseController<HistoryDto>
     {
-        public HistoryController(IService<HistoryDto> service)
+        public HistoryController(IHistoryService service)
             : base(service)
         {
         }
