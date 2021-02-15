@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using Exadel.HEH.Backend.BusinessLogic;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services;
@@ -173,7 +171,7 @@ namespace Exadel.HEH.Backend.Host
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.Filter().Count().OrderBy().Select().Expand();
+                endpoints.Filter().Count().OrderBy().Select().Expand().MaxTop(50);
                 endpoints.MapVersionedODataRoute("odata", "odata", modelBuilder.GetEdmModels());
             });
 
