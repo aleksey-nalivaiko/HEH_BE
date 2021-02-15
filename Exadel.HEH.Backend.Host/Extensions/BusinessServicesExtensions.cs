@@ -17,14 +17,14 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddSingleton<IEmailService, EmailService>();
 
-            if (env.IsDevelopment())
-            {
-                services.AddScoped<IDiscountSearchService, LocalDiscountSearchService>();
-            }
-            else
-            {
-                services.AddScoped<IDiscountSearchService, LuceneDiscountSearchService>();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    services.AddScoped<ISearchService, LocalSearchService>();
+            //}
+            //else
+            //{
+            services.AddScoped<ISearchService, LuceneSearchService>();
+            //}
 
             return services;
         }

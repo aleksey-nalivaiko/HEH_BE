@@ -8,21 +8,21 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class SearchService : ISearchService
+    public abstract class SearchService
     {
-        private readonly ISearchRepository _searchRepository;
+        protected readonly ISearchRepository SearchRepository;
         private readonly IVendorRepository _vendorRepository;
         private readonly ILocationService _locationService;
         private readonly ICategoryService _categoryService;
         private readonly ITagService _tagService;
 
-        public SearchService(ISearchRepository searchRepository,
+        protected SearchService(ISearchRepository searchRepository,
             IVendorRepository vendorRepository,
             ILocationService locationService,
             ICategoryService categoryService,
             ITagService tagService)
         {
-            _searchRepository = searchRepository;
+            SearchRepository = searchRepository;
             _vendorRepository = vendorRepository;
             _locationService = locationService;
             _categoryService = categoryService;
@@ -32,18 +32,18 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public async Task CreateAsync(DiscountDto discount)
         {
             var search = await GetSearch(discount);
-            await _searchRepository.CreateAsync(search);
+            await SearchRepository.CreateAsync(search);
         }
 
         public async Task UpdateAsync(DiscountDto discount)
         {
             var search = await GetSearch(discount);
-            await _searchRepository.UpdateAsync(search);
+            await SearchRepository.UpdateAsync(search);
         }
 
         public Task RemoveAsync(Guid id)
         {
-            return _searchRepository.RemoveAsync(id);
+            return SearchRepository.RemoveAsync(id);
         }
 
         private async Task<Search> GetSearch(DiscountDto discount)
