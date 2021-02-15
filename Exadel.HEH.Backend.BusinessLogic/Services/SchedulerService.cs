@@ -25,7 +25,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public void SendEmails()
         {
             //TODO: Call email service
-            // Example: _emailService.SendMail("User@mail.ru", "News from HEH", "Hi! Here you can found some discounts");
+            // Example: _emailService.SendMail("User@mail.ru", "News from HEH", "Hi! Here you can found some discounts").GetAwaiter();
             _logger.LogInformation("Emails where send");
         }
     }
