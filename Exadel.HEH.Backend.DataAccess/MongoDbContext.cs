@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
@@ -60,6 +59,12 @@ namespace Exadel.HEH.Backend.DataAccess
             where T : class, new()
         {
             return GetCollection<T>().DeleteManyAsync(Builders<T>.Filter.Where(expression));
+        }
+
+        public Task RemoveAllAsync<T>()
+            where T : class, new()
+        {
+            return GetCollection<T>().DeleteManyAsync(Builders<T>.Filter.Empty);
         }
 
         public Task CreateAsync<T>(T item)
