@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Hangfire;
 using Microsoft.Extensions.Logging;
@@ -18,14 +19,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public void Start()
         {
-            RecurringJob.AddOrUpdate("SendEmails", () => SendEmails(),
+            RecurringJob.AddOrUpdate("SendEmails", () => SendEmailsAsync(),
                 Cron.Weekly(DayOfWeek.Friday, 11), TimeZoneInfo.Local);
         }
 
-        public void SendEmails()
+        public async Task SendEmailsAsync()
         {
             //TODO: Call email service
-            // Example: _emailService.SendMail("User@mail.ru", "News from HEH", "Hi! Here you can found some discounts").GetAwaiter();
+            await _emailService.SendMailAsync("User@mail.ru", "News from HEH", "Hi! Here you can found some discounts");
             _logger.LogInformation("Emails where send");
         }
     }

@@ -7,6 +7,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
     public interface IEmailService
     {
-        Task SendMail(string toEmailAddress, string emailTitle, string emailMsgBody);
+        Task SendMailAsync(string toEmailAddress, string emailTitle, string emailMsgBody);
     }
 }

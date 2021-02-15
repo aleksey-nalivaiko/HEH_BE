@@ -19,7 +19,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _options = options.Value;
         }
 
-        public async Task SendMail(string toEmailAddress, string emailTitle, string emailMsgBody)
+        public async Task SendMailAsync(string toEmailAddress, string emailTitle, string emailMsgBody)
         {
             MailAddress fromAddress = new MailAddress(_options.Email, _options.Name);
             MailAddress toAddress = new MailAddress(toEmailAddress);
