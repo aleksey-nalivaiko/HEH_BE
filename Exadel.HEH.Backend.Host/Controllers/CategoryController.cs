@@ -12,7 +12,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = nameof(UserRole.Employee))]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
