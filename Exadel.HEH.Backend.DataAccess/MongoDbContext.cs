@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
@@ -109,6 +110,19 @@ namespace Exadel.HEH.Backend.DataAccess
             var update = Builders<T>.Update.Inc(field, value);
 
             return GetCollection<T>().FindOneAndUpdateAsync(filter, update);
+        }
+
+        public async Task<IEnumerable<T>> SearchAsync<T>(string path, string query)
+            where T : class, new()
+        {
+            var pipeline = new[]
+            {
+                BsonDocument.Parse(
+                    $"{{ $search: {{ \"text\": {{\"path\": {path}, \"query\" : \"{query}\", \"fuzzy\" : {{}} }} }} }}"),
+                BsonDocument.Parse("{ $limit: 1000 }")
+            };
+
+            return await GetCollection<T>().Aggregate<T>(pipeline).ToListAsync();
         }
 
         public async Task<bool> AnyAsync<T>()

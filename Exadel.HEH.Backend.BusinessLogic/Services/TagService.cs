@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
@@ -10,12 +11,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class TagService : ITagService
     {
-        private readonly IRepository<Tag> _tagRepository;
+        private readonly ITagRepository _tagRepository;
         private readonly IDiscountRepository _discountRepository;
         private readonly IMapper _mapper;
         private readonly IHistoryService _historyService;
 
-        public TagService(IRepository<Tag> tagRepository, IDiscountRepository discountRepository, IMapper mapper, IHistoryService historyService)
+        public TagService(ITagRepository tagRepository, IDiscountRepository discountRepository, IMapper mapper, IHistoryService historyService)
         {
             _tagRepository = tagRepository;
             _discountRepository = discountRepository;
@@ -29,6 +30,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _tagRepository.CreateAsync(result);
             await _historyService.CreateAsync(UserAction.Add,
                 "Created tag " + result.Id);
+        }
+
+        public async Task<IEnumerable<TagDto>> GetByIds(IEnumerable<Guid> ids)
+        {
+            var result = await _tagRepository.GetByIds(ids);
+            return _mapper.Map<IEnumerable<TagDto>>(result);
         }
 
         public async Task RemoveAsync(Guid id)

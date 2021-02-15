@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.DataAccess.Models;
+using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Moq;
 using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
@@ -14,7 +16,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         public LocationServiceTests()
         {
-            _service = new LocationService(Repository.Object, Mapper);
+            var locationRepository = new Mock<ILocationRepository>();
+            _service = new LocationService(locationRepository.Object, Mapper);
 
             _location = new Location
             {
@@ -29,6 +32,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                     }
                 }
             };
+
+            locationRepository.Setup(r => r.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<Location>)Data));
         }
 
         [Fact]

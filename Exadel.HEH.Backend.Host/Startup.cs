@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using Exadel.HEH.Backend.BusinessLogic;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services;
@@ -30,12 +32,15 @@ namespace Exadel.HEH.Backend.Host
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
+
+        private IWebHostEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -97,7 +102,7 @@ namespace Exadel.HEH.Backend.Host
             services.AddMethodProvider();
             services.AddRepositories(Configuration);
             services.AddCrudServices();
-            services.AddBusinessServices();
+            services.AddBusinessServices(Environment);
             services.AddValidators();
             services.AddValidationServices();
             services.AddSingleton(MapperExtensions.Mapper);

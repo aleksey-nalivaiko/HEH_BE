@@ -73,6 +73,17 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _userRepository.UpdateAsync(user);
         }
 
+        public async Task RemoveManyAsync(IEnumerable<Guid> discountIds)
+        {
+            var user = await GetCurrentUser();
+
+            var favoritesList = user.Favorites.ToList();
+            favoritesList.RemoveAll(f => discountIds.Contains(f.DiscountId));
+            user.Favorites = favoritesList;
+
+            await _userRepository.UpdateAsync(user);
+        }
+
         public async Task<Dictionary<Guid, bool>> DiscountsAreInFavorites(IEnumerable<Guid> discountsIds)
         {
             var user = await GetCurrentUser();
