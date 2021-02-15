@@ -19,7 +19,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
             Mapper = mapper;
         }
 
-        public async Task<IEnumerable<TDto>> GetAllAsync()
+        public virtual async Task<IEnumerable<TDto>> GetAllAsync()
         {
             var result = await Repository.GetAllAsync();
             return Mapper.Map<IEnumerable<TDto>>(result);

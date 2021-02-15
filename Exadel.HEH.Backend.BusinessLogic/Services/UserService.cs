@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
@@ -19,6 +21,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             _userProvider = userProvider;
             _historyService = historyService;
+        }
+
+        public override async Task<IEnumerable<UserDto>> GetAllAsync()
+        {
+            var allUsers = await base.GetAllAsync();
+
+            return allUsers.Where(u => u.Id != _userProvider.GetUserId());
         }
 
         public async Task<UserDto> GetByIdAsync(Guid id)
