@@ -1,0 +1,35 @@
+{
+  "mappings": {
+    "dynamic": false,
+    "fields": {
+      "category": {
+        "analyzer": "lucene.standard",
+        "type": "string"
+      },
+      "cities": {
+        "analyzer": "lucene.standard",
+        "type": "string"
+      },
+      "countries": {
+        "analyzer": "lucene.standard",
+        "type": "string"
+      },
+      "discount": {
+        "analyzer": "lucene.standard",
+        "type": "string"
+      },
+      "streets": {
+        "analyzer": "lucene.standard",
+        "type": "string"
+      },
+      "tags": {
+        "analyzer": "lucene.standard",
+        "type": "string"
+      },
+      "vendor": {
+        "analyzer": "lucene.standard",
+        "type": "string"
+      }
+    }
+  }
+}

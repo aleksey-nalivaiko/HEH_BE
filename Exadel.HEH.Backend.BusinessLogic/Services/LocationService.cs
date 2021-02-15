@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
@@ -10,11 +9,21 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class LocationService : BaseService<Location, LocationDto>
+    public class LocationService : BaseService<Location, LocationDto>, ILocationService
     {
-        public LocationService(IRepository<Location> repository, IMapper mapper)
-            : base(repository, mapper)
+        private readonly ILocationRepository _locationRepository;
+
+        public LocationService(ILocationRepository locationRepository, IMapper mapper)
+            : base(locationRepository, mapper)
         {
+            _locationRepository = locationRepository;
+        }
+
+        public async Task<IEnumerable<LocationDto>> GetByIdsAsync(IEnumerable<Guid> ids)
+        {
+            var locations = await _locationRepository.GetByIdsAsync(ids);
+
+            return Mapper.Map<IEnumerable<LocationDto>>(locations);
         }
     }
 }

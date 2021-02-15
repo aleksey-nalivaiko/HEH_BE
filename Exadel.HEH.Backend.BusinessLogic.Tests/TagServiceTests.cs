@@ -21,10 +21,35 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         public TagServiceTests()
         {
+            var tagRepository = new Mock<ITagRepository>();
             var discountRepository = new Mock<IDiscountRepository>();
             var historyService = new Mock<IHistoryService>();
 
-            _service = new TagService(Repository.Object, discountRepository.Object, MapperExtensions.Mapper, historyService.Object);
+            _service = new TagService(tagRepository.Object, discountRepository.Object,
+                MapperExtensions.Mapper, historyService.Object);
+
+            tagRepository.Setup(r => r.CreateAsync(It.IsAny<Tag>()))
+                .Callback((Tag item) => { Data.Add(item); })
+                .Returns(Task.CompletedTask);
+
+            tagRepository.Setup(f => f.UpdateAsync(It.IsAny<Tag>()))
+                .Callback((Tag item) =>
+                {
+                    var oldItem = Data.FirstOrDefault(x => x.Id == item.Id);
+                    if (oldItem != null)
+                    {
+                        Data.Remove(oldItem);
+                        Data.Add(item);
+                    }
+                })
+                .Returns(Task.CompletedTask);
+
+            tagRepository.Setup(r => r.RemoveAsync(It.IsAny<Guid>()))
+                .Callback((Guid id) =>
+                {
+                    Data.RemoveAll(x => x.Id == id);
+                })
+                .Returns(Task.CompletedTask);
 
             InitTestData();
         }

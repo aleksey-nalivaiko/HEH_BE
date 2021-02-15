@@ -14,6 +14,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 
         Task RemoveAsync(Guid discountId);
 
+        Task RemoveManyAsync(IEnumerable<Guid> discountIds);
+
         Task<Dictionary<Guid, bool>> DiscountsAreInFavorites(IEnumerable<Guid> discountsIds);
 
         Task<bool> DiscountIsInFavorites(Guid discountId);

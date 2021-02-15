@@ -17,7 +17,7 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             //services.AddTransient<IService<PreOrder>, PreOrderService>();
 
-            services.AddScoped<IService<LocationDto>, LocationService>();
+            services.AddScoped<ILocationService, LocationService>();
 
             services.AddScoped<IVendorService, VendorService>();
 

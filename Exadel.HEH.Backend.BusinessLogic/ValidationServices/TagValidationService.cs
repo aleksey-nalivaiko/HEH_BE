@@ -2,16 +2,15 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
-using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 {
     public class TagValidationService : ITagValidationService
     {
-        private readonly IRepository<Tag> _tagRepository;
+        private readonly ITagRepository _tagRepository;
 
-        public TagValidationService(IRepository<Tag> tagRepository)
+        public TagValidationService(ITagRepository tagRepository)
         {
             _tagRepository = tagRepository;
         }
