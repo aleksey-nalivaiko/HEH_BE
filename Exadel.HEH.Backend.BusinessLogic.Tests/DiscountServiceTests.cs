@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -23,12 +22,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var repository = new Mock<IDiscountRepository>();
             var favoritesService = new Mock<IFavoritesService>();
             var vendorRepository = new Mock<IVendorRepository>();
-            var discountSearchService = new Mock<ISearchService>();
             var searchService = new Mock<ISearchService>();
             var historyService = new Mock<IHistoryService>();
 
             _service = new DiscountService(repository.Object, favoritesService.Object,
-                vendorRepository.Object, Mapper, searchService.Object, discountSearchService.Object, historyService.Object);
+                vendorRepository.Object, Mapper, searchService.Object, historyService.Object);
 
             repository.Setup(r => r.Get())
                 .Returns(() => Data.AsQueryable());
