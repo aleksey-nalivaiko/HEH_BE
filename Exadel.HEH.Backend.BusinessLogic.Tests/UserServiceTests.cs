@@ -74,7 +74,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         {
             Data.Add(_user);
             var result = await _userService.GetAllAsync();
-            Assert.Single(result);
+            Assert.Empty(result);
         }
 
         [Fact]
