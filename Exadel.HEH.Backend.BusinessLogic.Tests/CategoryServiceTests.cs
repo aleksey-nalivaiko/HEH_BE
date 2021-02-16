@@ -23,13 +23,40 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         public CategoryServiceTests()
         {
+            var categoryRepository = new Mock<ICategoryRepository>();
             var tagRepository = new Mock<ITagRepository>();
             var historyService = new Mock<IHistoryService>();
 
             tagRepository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<Tag>)_tagData));
 
-            _service = new CategoryService(Repository.Object, historyService.Object, tagRepository.Object, MapperExtensions.Mapper);
+            categoryRepository.Setup(r => r.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<Category>)Data));
+
+            categoryRepository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
+                .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
+
+            categoryRepository.Setup(r => r.CreateAsync(It.IsAny<Category>()))
+                .Callback((Category item) => { Data.Add(item); })
+                .Returns(Task.CompletedTask);
+
+            categoryRepository.Setup(f => f.UpdateAsync(It.IsAny<Category>()))
+                .Callback((Category item) =>
+                {
+                    var oldItem = Data.FirstOrDefault(x => x.Id == item.Id);
+                    if (oldItem != null)
+                    {
+                        Data.Remove(oldItem);
+                        Data.Add(item);
+                    }
+                })
+                .Returns(Task.CompletedTask);
+
+            categoryRepository.Setup(r => r.RemoveAsync(It.IsAny<Guid>()))
+                .Callback((Guid id) => { Data.RemoveAll(d => d.Id == id); })
+                .Returns(Task.CompletedTask);
+
+            _service = new CategoryService(categoryRepository.Object, historyService.Object, tagRepository.Object, MapperExtensions.Mapper);
 
             _tagData = new List<Tag>();
 

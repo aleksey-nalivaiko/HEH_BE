@@ -1,24 +1,32 @@
 ﻿using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.DataAccess.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = nameof(UserRole.Administrator))]
     public class ServiceController : ControllerBase
     {
-        private readonly ISearchService _searchService;
+        private readonly ISearchService<Discount, DiscountDto> _discountSearchService;
+        private readonly ISearchService<Vendor, VendorDto> _vendorSearchService;
 
-        public ServiceController(ISearchService searchService)
+        public ServiceController(ISearchService<Discount, DiscountDto> discountSearchService,
+            ISearchService<Vendor, VendorDto> vendorSearchService)
         {
-            _searchService = searchService;
+            _discountSearchService = discountSearchService;
+            _vendorSearchService = vendorSearchService;
         }
 
         [HttpPost]
-        public Task Reindex()
+        public async Task ReindexAsync()
         {
-            return _searchService.Reindex();
+            await _discountSearchService.ReindexAsync();
+            await _vendorSearchService.ReindexAsync();
         }
     }
 }
