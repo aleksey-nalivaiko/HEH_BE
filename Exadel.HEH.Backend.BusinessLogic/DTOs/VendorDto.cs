@@ -16,7 +16,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 
         public string Email { get; set; }
 
-        public IEnumerable<DiscountDto> Discounts { get; set; }
+        public IEnumerable<DiscountShortDto> Discounts { get; set; }
 
         public string WorkingHours { get; set; }
     }

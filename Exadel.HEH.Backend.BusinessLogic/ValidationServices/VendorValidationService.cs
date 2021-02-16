@@ -49,9 +49,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             if (addressesToBeRemoved.Any())
             {
                 var discountAddresses = _discountRepository.Get().Where(d => d.VendorId == vendorId)
-                    .SelectMany(d => d.AddressesIds).Distinct().ToList();
+                    .SelectMany(d => d.Addresses).Distinct().ToList();
 
-                if (discountAddresses.Any(a => addressesToBeRemoved.Contains(a)))
+                if (discountAddresses.Any(a => addressesToBeRemoved.Contains(a.Id)))
                 {
                     return false;
                 }
@@ -66,7 +66,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return addressesIdsList.Count == addressesIdsList.Distinct().Count();
         }
 
-        public bool AddressesAreFromVendor(VendorDto vendor, IEnumerable<DiscountDto> discounts)
+        public bool AddressesAreFromVendor(VendorDto vendor, IEnumerable<DiscountShortDto> discounts)
         {
             var discountAddressesIds = discounts.SelectMany(d =>
             {
@@ -93,7 +93,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return phonesIdsList.Count == phonesIdsList.Distinct().Count();
         }
 
-        public bool PhonesAreFromVendor(VendorDto vendor, IEnumerable<DiscountDto> discounts)
+        public bool PhonesAreFromVendor(VendorDto vendor, IEnumerable<DiscountShortDto> discounts)
         {
             var discountPhonesIds = discounts.SelectMany(d =>
             {

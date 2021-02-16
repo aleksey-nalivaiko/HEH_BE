@@ -47,7 +47,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .Must(vendorValidationService.AddressesAreUnique)
                 .WithMessage("There are addresses with same id.")
                 .When(v => v.Addresses != null)
-                .WithName("AddressesIds");
+                .WithName("Addresses");
 
             RuleForEach(v => v.Addresses.Select(a => a.Id))
                 .NotEmpty()

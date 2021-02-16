@@ -31,7 +31,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task<IEnumerable<VendorDto>> GetAllDetailedAsync()
         {
-            var discounts = await _discountService.GetAsync();
+            var discounts = await _discountService.GetAllAsync();
             var vendors = (await _vendorRepository.GetAllAsync()).ToList();
 
             var vendorsWithDiscounts = vendors.GroupJoin(
@@ -46,7 +46,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public async Task<VendorDto> GetByIdAsync(Guid id)
         {
            var vendor = await _vendorRepository.GetByIdAsync(id);
-           var vendorDiscounts = (await _discountService.GetAsync())
+           var vendorDiscounts = (await _discountService.GetAllAsync())
                .Where(d => d.VendorId == id);
 
            return GetVendorDto(vendor, vendorDiscounts);
@@ -64,7 +64,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             if (AnyDiscounts(vendor.Discounts))
             {
                 InitVendorInfoInDiscounts(vendor);
-                await _discountService.CreateManyAsync(vendor.Discounts);
+                var discounts = GetDiscountsFromDto(vendor);
+
+                await _discountService.CreateManyAsync(discounts);
             }
         }
 
@@ -76,17 +78,24 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             var vendorDiscountsIds = new List<Guid>();
 
-            if (AnyDiscounts(vendor.Discounts))
-            {
-                InitVendorInfoInDiscounts(vendor);
-                RemoveIncorrectDiscountPhones(vendor);
-                await _discountService.UpdateManyAsync(vendor.Discounts);
+            var anyDiscounts = AnyDiscounts(vendor.Discounts);
 
+            if (anyDiscounts)
+            {
                 vendorDiscountsIds = vendor.Discounts.Select(d => d.Id).ToList();
             }
 
             await _discountService.RemoveAsync(d =>
                 d.VendorId == vendor.Id && !vendorDiscountsIds.Contains(d.Id));
+
+            if (anyDiscounts)
+            {
+                InitVendorInfoInDiscounts(vendor);
+                RemoveIncorrectDiscountPhones(vendor);
+
+                var discounts = GetDiscountsFromDto(vendor);
+                await _discountService.UpdateManyAsync(discounts);
+            }
         }
 
         public async Task RemoveAsync(Guid id)
@@ -99,7 +108,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _discountService.RemoveAsync(d => d.VendorId == id);
         }
 
-        private VendorDto GetVendorDto(Vendor vendor, IEnumerable<DiscountDto> vendorDiscounts)
+        private VendorDto GetVendorDto(Vendor vendor, IEnumerable<DiscountShortDto> vendorDiscounts)
         {
             var vendorDto = _mapper.Map<VendorDto>(vendor);
             vendorDto.Discounts = vendorDiscounts;
@@ -115,12 +124,33 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             });
         }
 
+        private IEnumerable<Discount> GetDiscountsFromDto(VendorDto vendor)
+        {
+            var discounts = _mapper.Map<IEnumerable<Discount>>(vendor.Discounts);
+
+            discounts = discounts.Join(
+                vendor.Discounts,
+                d => d.Id,
+                dto => dto.Id,
+                (d, dto) =>
+                {
+                    d.Addresses = vendor.Addresses.Join(
+                        dto.AddressesIds,
+                        a => a.Id,
+                        i => i,
+                        (a, i) => _mapper.Map<Address>(a)).ToList();
+                    return d;
+                });
+            return discounts;
+        }
+
         private void RemoveIncorrectDiscountPhones(VendorDto vendor)
         {
             var vendorPhonesIds = vendor.Phones == null ? new List<int>()
-                : vendor.Phones.Select(p => p.Id).ToList();
+                : vendor.Phones.Select(p => p.Id);
 
-            vendor.Discounts.ToList().ForEach(d =>
+            var discounts = vendor.Discounts.ToList();
+            discounts.ForEach(d =>
             {
                 var phoneList = d.PhonesIds.ToList();
                 phoneList.RemoveAll(p => !vendorPhonesIds.Contains(p));
@@ -128,7 +158,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             });
         }
 
-        private bool AnyDiscounts(IEnumerable<DiscountDto> discounts)
+        private bool AnyDiscounts(IEnumerable<DiscountShortDto> discounts)
         {
             return discounts != null && discounts.Any();
         }

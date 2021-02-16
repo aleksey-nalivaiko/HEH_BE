@@ -16,10 +16,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 
         bool AddressesAreUnique(IEnumerable<int> addressesIds);
 
-        bool AddressesAreFromVendor(VendorDto vendor, IEnumerable<DiscountDto> discounts);
+        bool AddressesAreFromVendor(VendorDto vendor, IEnumerable<DiscountShortDto> discounts);
 
         bool PhonesAreUnique(IEnumerable<int> phonesIds);
 
-        bool PhonesAreFromVendor(VendorDto vendor, IEnumerable<DiscountDto> discounts);
+        bool PhonesAreFromVendor(VendorDto vendor, IEnumerable<DiscountShortDto> discounts);
     }
 }

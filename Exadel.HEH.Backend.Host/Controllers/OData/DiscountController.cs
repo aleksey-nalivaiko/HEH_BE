@@ -32,7 +32,7 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
 
         [EnableQuery]
         [ODataRoute]
-        public Task<IQueryable<DiscountDto>> Get([FromQuery] string searchText)
+        public Task<IQueryable<DiscountDto>> GetAsync([FromQuery] string searchText)
         {
             return _discountService.GetAsync(searchText);
         }
