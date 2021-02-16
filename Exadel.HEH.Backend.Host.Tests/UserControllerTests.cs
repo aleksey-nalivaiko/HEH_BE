@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Extensions;
@@ -14,11 +14,11 @@ using Xunit;
 namespace Exadel.HEH.Backend.Host.Tests
 {
     public class UserControllerTests
-        : BaseControllerTests<UserDto>
+        : BaseControllerTests<UserShortDto>
     {
         private readonly UserController _controller;
 
-        private readonly UserDto _user;
+        private readonly UserShortDto _user;
 
         public UserControllerTests()
         {
@@ -31,7 +31,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                 CategoryNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
                 AllNotificationsAreOn = true,
                 Email = "abc@mail.com",
-                Favorites = new List<FavoritesDto>(),
+                Favorites = new List<FavoritesShortDto>(),
                 HotDiscountsNotificationIsOn = false,
                 IsActive = true,
                 Name = "Mary",
@@ -49,9 +49,6 @@ namespace Exadel.HEH.Backend.Host.Tests
             };
 
             userService.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-                .Returns(() => Task.FromResult(Data.Single()));
-
-            userService.Setup(s => s.GetProfileAsync())
                 .Returns(() => Task.FromResult(Data.Single()));
 
             userService.Setup(s => s.UpdateStatusAsync(It.IsAny<Guid>(), It.IsAny<bool>()))
@@ -87,14 +84,6 @@ namespace Exadel.HEH.Backend.Host.Tests
         {
             Data.Add(_user);
             var result = await _controller.GetByIdAsync(_user.Id);
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async Task CanGetProfileAsync()
-        {
-            Data.Add(_user);
-            var result = await _controller.GetProfileAsync();
             Assert.NotNull(result);
         }
 

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.Host.Controllers;
@@ -17,9 +16,9 @@ namespace Exadel.HEH.Backend.Host.Tests
     {
         private readonly FavoritesController _controller;
         private readonly List<FavoritesDto> _data;
-        private readonly List<FavoritesCreateUpdateDto> _dataCreateUpdate;
+        private readonly List<FavoritesShortDto> _dataCreateUpdate;
         private FavoritesDto _favorites;
-        private FavoritesCreateUpdateDto _favoritesCreateUpdate;
+        private FavoritesShortDto _favoritesShort;
 
         public FavoritesControllerTests()
         {
@@ -28,20 +27,20 @@ namespace Exadel.HEH.Backend.Host.Tests
 
             _controller = new FavoritesController(service.Object, validationService.Object);
             _data = new List<FavoritesDto>();
-            _dataCreateUpdate = new List<FavoritesCreateUpdateDto>();
+            _dataCreateUpdate = new List<FavoritesShortDto>();
             InitTestData();
 
             service.Setup(s => s.GetAllAsync()).Returns(Task.FromResult((IEnumerable<FavoritesDto>)_data));
 
-            service.Setup(s => s.CreateAsync(It.IsAny<FavoritesCreateUpdateDto>()))
-                .Callback((FavoritesCreateUpdateDto item) =>
+            service.Setup(s => s.CreateAsync(It.IsAny<FavoritesShortDto>()))
+                .Callback((FavoritesShortDto item) =>
                 {
                     _dataCreateUpdate.Add(item);
                 })
                 .Returns(Task.CompletedTask);
 
-            service.Setup(s => s.UpdateAsync(It.IsAny<FavoritesCreateUpdateDto>()))
-                .Callback((FavoritesCreateUpdateDto item) =>
+            service.Setup(s => s.UpdateAsync(It.IsAny<FavoritesShortDto>()))
+                .Callback((FavoritesShortDto item) =>
                 {
                     var oldItem = _dataCreateUpdate.Single();
                     if (oldItem != null)
@@ -69,7 +68,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         public async Task CanGetAllAsync()
         {
             _data.Add(_favorites);
-            _dataCreateUpdate.Add(_favoritesCreateUpdate);
+            _dataCreateUpdate.Add(_favoritesShort);
             var result = await _controller.GetAllAsync();
             Assert.Single(result);
         }
@@ -77,21 +76,21 @@ namespace Exadel.HEH.Backend.Host.Tests
         [Fact]
         public async Task CanCreateAsync()
         {
-            await _controller.CreateAsync(_favoritesCreateUpdate);
+            await _controller.CreateAsync(_favoritesShort);
             Assert.Single(_dataCreateUpdate);
         }
 
         [Fact]
         public async Task CanUpdateAsync()
         {
-            _dataCreateUpdate.Add(_favoritesCreateUpdate);
-            var newFavorites = new FavoritesCreateUpdateDto
+            _dataCreateUpdate.Add(_favoritesShort);
+            var newFavorites = new FavoritesShortDto
             {
                 DiscountId = _favorites.Id,
                 Note = "New note"
             };
             await _controller.UpdateAsync(newFavorites);
-            Assert.NotEqual(_dataCreateUpdate.Single().Note, _favoritesCreateUpdate.Note);
+            Assert.NotEqual(_dataCreateUpdate.Single().Note, _favoritesShort.Note);
         }
 
         [Fact]
@@ -126,7 +125,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                 EndDate = new DateTime(2021, 1, 25)
             };
 
-            _favoritesCreateUpdate = new FavoritesCreateUpdateDto
+            _favoritesShort = new FavoritesShortDto
             {
                 DiscountId = Guid.NewGuid(),
                 Note = "Note1",

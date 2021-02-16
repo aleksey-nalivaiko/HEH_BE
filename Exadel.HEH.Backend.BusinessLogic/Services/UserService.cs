@@ -3,8 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Update;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -38,15 +37,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return users.ProjectTo<UserShortDto>(_mapper.ConfigurationProvider);
         }
 
-        public async Task<UserDto> GetByIdAsync(Guid id)
+        public async Task<UserShortDto> GetByIdAsync(Guid id)
         {
             var result = await _userRepository.GetByIdAsync(id);
-            return _mapper.Map<UserDto>(result);
+            return _mapper.Map<UserShortDto>(result);
         }
 
-        public Task<UserDto> GetProfileAsync()
+        public async Task<UserDto> GetProfileAsync()
         {
-            return GetByIdAsync(_userProvider.GetUserId());
+            var result = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
+            return _mapper.Map<UserDto>(result);
         }
 
         public async Task UpdateNotificationsAsync(NotificationDto notifications)

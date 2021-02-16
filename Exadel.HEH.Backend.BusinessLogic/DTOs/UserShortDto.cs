@@ -1,7 +1,7 @@
 ﻿using System;
 using Exadel.HEH.Backend.DataAccess.Models;
 
-namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
     public class UserShortDto
     {

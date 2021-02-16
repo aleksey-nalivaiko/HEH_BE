@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services;
-using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Moq;
@@ -70,7 +69,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public async Task CanCreateAsync()
         {
             Data.Add(_user);
-            var newFavorites = new FavoritesCreateUpdateDto
+            var newFavorites = new FavoritesShortDto
             {
                 DiscountId = Guid.NewGuid(),
                 Note = "Note2"
@@ -86,7 +85,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public async Task CanUpdateAsync()
         {
             Data.Add(_user);
-            var newFavorites = new FavoritesCreateUpdateDto
+            var newFavorites = new FavoritesShortDto
             {
                 DiscountId = _favorites.DiscountId,
                 Note = "ChangedNote"

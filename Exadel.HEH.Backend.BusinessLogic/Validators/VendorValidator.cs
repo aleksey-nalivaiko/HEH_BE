@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using FluentValidation;
 
