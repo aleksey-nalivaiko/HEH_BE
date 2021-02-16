@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DTOs\Update\**" />
+    <EmbeddedResource Remove="DTOs\Update\**" />
+    <None Remove="DTOs\Update\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.4.0" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.19" />

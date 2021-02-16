@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Update
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
     public class NotificationDto
     {

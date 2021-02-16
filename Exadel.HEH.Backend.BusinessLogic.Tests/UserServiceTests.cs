@@ -54,8 +54,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             repository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Data.Single()));
 
-            repository.Setup(r => r.GetAllAsync())
-                .Returns(() => Task.FromResult((IEnumerable<User>)Data));
+            repository.Setup(r => r.Get())
+                .Returns(() => Data.AsQueryable());
 
             repository.Setup(f => f.UpdateAsync(It.IsAny<User>()))
                 .Callback((User item) =>
@@ -70,10 +70,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         }
 
         [Fact]
-        public async Task CanGetAllAsync()
+        public void CanGetAllAsync()
         {
             Data.Add(_user);
-            var result = await _userService.GetAllAsync();
+            var result = _userService.Get();
             Assert.Empty(result);
         }
 

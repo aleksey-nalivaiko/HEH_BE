@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
     public class DiscountDto : DiscountBaseDto
     {

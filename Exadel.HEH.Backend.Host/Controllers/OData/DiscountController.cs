@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -11,7 +11,7 @@ using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Exadel.HEH.Backend.Host.Controllers
+namespace Exadel.HEH.Backend.Host.Controllers.OData
 {
     [ODataRoutePrefix("Discount")]
     [ODataAuthorize(Roles = nameof(UserRole.Employee))]

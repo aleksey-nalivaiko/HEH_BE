@@ -1,10 +1,10 @@
-﻿using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
+﻿using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using FluentValidation;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Validators
 {
-    public class FavoritesValidator : AbstractValidator<FavoritesCreateUpdateDto>
+    public class FavoritesValidator : AbstractValidator<FavoritesShortDto>
     {
         public FavoritesValidator(IFavoritesValidationService favoritesValidationService)
         {

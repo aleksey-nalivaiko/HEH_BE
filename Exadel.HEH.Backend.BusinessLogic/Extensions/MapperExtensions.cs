@@ -20,7 +20,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Extensions
                 mc.AddProfile(new PhoneProfile());
                 mc.AddProfile(new LocationProfile());
                 mc.AddProfile(new CityProfile());
+
+                mc.AllowNullDestinationValues = false;
+                mc.AllowNullCollections = false;
             });
+
             mapperConfig.AssertConfigurationIsValid();
 
             Mapper = mapperConfig.CreateMapper();
