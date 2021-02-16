@@ -15,16 +15,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserProvider _userProvider;
-        private readonly IRepository<History> _historyRepository;
+        private readonly IRepository<History> _historyUserRepository;
         private readonly IMapper _mapper;
 
-        public HistoryService(IUserRepository userRepository, IRepository<History> historyRepository,
+        public HistoryService(IUserRepository userRepository, IRepository<History> historyUserRepository,
             IMapper mapper, IUserProvider userProvider)
-            : base(historyRepository, mapper)
+            : base(historyUserRepository, mapper)
         {
             _userRepository = userRepository;
             _userProvider = userProvider;
-            _historyRepository = historyRepository;
+            _historyUserRepository = historyUserRepository;
             _mapper = mapper;
         }
 
@@ -43,7 +43,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 UserRole = user.Role
             };
 
-            await _historyRepository.CreateAsync(_mapper.Map<History>(history));
+            await _historyUserRepository.CreateAsync(_mapper.Map<History>(history));
         }
 
         public override async Task<IEnumerable<HistoryDto>> GetAllAsync()

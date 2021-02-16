@@ -11,17 +11,17 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class LocationService : BaseService<Location, LocationDto>, ILocationService
     {
-        private readonly ILocationRepository _locationRepository;
+        private readonly ILocationRepository _locationUserRepository;
 
-        public LocationService(ILocationRepository locationRepository, IMapper mapper)
-            : base(locationRepository, mapper)
+        public LocationService(ILocationRepository locationUserRepository, IMapper mapper)
+            : base(locationUserRepository, mapper)
         {
-            _locationRepository = locationRepository;
+            _locationUserRepository = locationUserRepository;
         }
 
         public async Task<IEnumerable<LocationDto>> GetByIdsAsync(IEnumerable<Guid> ids)
         {
-            var locations = await _locationRepository.GetByIdsAsync(ids);
+            var locations = await _locationUserRepository.GetByIdsAsync(ids);
 
             return Mapper.Map<IEnumerable<LocationDto>>(locations);
         }

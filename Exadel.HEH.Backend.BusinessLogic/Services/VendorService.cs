@@ -12,18 +12,18 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class VendorService : BaseService<Vendor, VendorShortDto>, IVendorService
     {
-        private readonly IVendorRepository _vendorRepository;
+        private readonly IVendorRepository _vendorUserRepository;
         private readonly IDiscountService _discountService;
         private readonly IMapper _mapper;
         private readonly IHistoryService _historyService;
 
-        public VendorService(IVendorRepository vendorRepository,
+        public VendorService(IVendorRepository vendorUserRepository,
             IDiscountService discountService,
             IMapper mapper,
             IHistoryService historyService)
-            : base(vendorRepository, mapper)
+            : base(vendorUserRepository, mapper)
         {
-            _vendorRepository = vendorRepository;
+            _vendorUserRepository = vendorUserRepository;
             _discountService = discountService;
             _mapper = mapper;
             _historyService = historyService;
@@ -32,7 +32,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public async Task<IEnumerable<VendorDto>> GetAllDetailedAsync()
         {
             var discounts = await _discountService.GetAsync();
-            var vendors = (await _vendorRepository.GetAllAsync()).ToList();
+            var vendors = (await _vendorUserRepository.GetAllAsync()).ToList();
 
             var vendorsWithDiscounts = vendors.GroupJoin(
                 discounts,
@@ -45,7 +45,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task<VendorDto> GetByIdAsync(Guid id)
         {
-           var vendor = await _vendorRepository.GetByIdAsync(id);
+           var vendor = await _vendorUserRepository.GetByIdAsync(id);
            var vendorDiscounts = (await _discountService.GetAsync())
                .Where(d => d.VendorId == id);
 
@@ -56,7 +56,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             vendor.Id = vendor.Id == Guid.Empty ? Guid.NewGuid() : vendor.Id;
 
-            await _vendorRepository.CreateAsync(_mapper.Map<Vendor>(vendor));
+            await _vendorUserRepository.CreateAsync(_mapper.Map<Vendor>(vendor));
 
             await _historyService.CreateAsync(UserAction.Add,
                 "Created vendor " + vendor.Id);
@@ -70,7 +70,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task UpdateAsync(VendorDto vendor)
         {
-            await _vendorRepository.UpdateAsync(_mapper.Map<Vendor>(vendor));
+            await _vendorUserRepository.UpdateAsync(_mapper.Map<Vendor>(vendor));
             await _historyService.CreateAsync(UserAction.Edit,
                 "Updated vendor " + vendor.Id);
 
@@ -91,7 +91,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task RemoveAsync(Guid id)
         {
-            await _vendorRepository.RemoveAsync(id);
+            await _vendorUserRepository.RemoveAsync(id);
 
             await _historyService.CreateAsync(UserAction.Remove,
                 "Removed vendor " + id);

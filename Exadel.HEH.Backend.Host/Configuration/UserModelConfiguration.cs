@@ -5,11 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Configuration
 {
-    public class DiscountModelConfiguration : IModelConfiguration
+    public class UserModelConfiguration : IModelConfiguration
     {
         public void Apply(ODataModelBuilder builder, ApiVersion apiVersion, string? routePrefix)
         {
-            builder.EntitySet<DiscountDto>("Discount");
+            builder.EntitySet<UserShortDto>("User");
+            builder.ComplexType<AddressDto>();
         }
     }
 }

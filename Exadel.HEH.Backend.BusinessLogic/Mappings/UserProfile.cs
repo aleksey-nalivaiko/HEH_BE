@@ -8,6 +8,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
     {
         public UserProfile()
         {
+            CreateMap<User, UserShortDto>();
             CreateMap<User, UserDto>();
         }
     }

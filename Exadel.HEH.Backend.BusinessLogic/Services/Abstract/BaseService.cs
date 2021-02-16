@@ -10,18 +10,18 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
         where T : class, IDataModel, new()
         where TDto : class, new()
     {
-        protected readonly IRepository<T> Repository;
+        protected readonly IRepository<T> UserRepository;
         protected readonly IMapper Mapper;
 
-        protected BaseService(IRepository<T> repository, IMapper mapper)
+        protected BaseService(IRepository<T> userRepository, IMapper mapper)
         {
-            Repository = repository;
+            UserRepository = userRepository;
             Mapper = mapper;
         }
 
         public virtual async Task<IEnumerable<TDto>> GetAllAsync()
         {
-            var result = await Repository.GetAllAsync();
+            var result = await UserRepository.GetAllAsync();
             return Mapper.Map<IEnumerable<TDto>>(result);
         }
     }

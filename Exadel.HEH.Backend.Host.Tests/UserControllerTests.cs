@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
@@ -32,7 +31,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                 CategoryNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
                 AllNotificationsAreOn = true,
                 Email = "abc@mail.com",
-                Favorites = new List<Favorites>(),
+                Favorites = new List<FavoritesDto>(),
                 HotDiscountsNotificationIsOn = false,
                 IsActive = true,
                 Name = "Mary",
@@ -41,15 +40,13 @@ namespace Exadel.HEH.Backend.Host.Tests
                 TagNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
                 VendorNotifications = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() },
                 Role = UserRole.Employee,
-                Address = new Address
+                Address = new AddressDto
                 {
                     CityId = Guid.NewGuid(),
                     CountryId = Guid.NewGuid(),
                     Street = "g"
                 }
             };
-            userService.Setup(s => s.GetAllAsync())
-                .Returns(() => Task.FromResult((IEnumerable<UserDto>)Data));
 
             userService.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns(() => Task.FromResult(Data.Single()));
@@ -83,14 +80,6 @@ namespace Exadel.HEH.Backend.Host.Tests
 
             validationService.Setup(s => s.UserExists(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(true));
-        }
-
-        [Fact]
-        public async Task CanGetAllAsync()
-        {
-            Data.Add(_user);
-            var result = await _controller.GetAllAsync();
-            Assert.Single(result);
         }
 
         [Fact]
