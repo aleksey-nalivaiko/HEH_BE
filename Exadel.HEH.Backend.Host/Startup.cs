@@ -171,7 +171,7 @@ namespace Exadel.HEH.Backend.Host
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.Filter().Count().OrderBy().Select().Expand();
+                endpoints.Filter().Count().OrderBy().Select().Expand().MaxTop(1000);
                 endpoints.MapVersionedODataRoute("odata", "odata", modelBuilder.GetEdmModels());
             });
 

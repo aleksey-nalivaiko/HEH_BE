@@ -3,20 +3,8 @@ using System.Collections.Generic;
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
-    public class UserDto
+    public class UserDto : UserShortDto
     {
-        public Guid Id { get; set; }
-
-        public UserRole Role { get; set; }
-
-        public string Name { get; set; }
-
-        public string Email { get; set; }
-
-        public Address Address { get; set; }
-
-        public bool IsActive { get; set; }
-
         public IList<Guid> CategoryNotifications { get; set; }
 
         public IList<Guid> TagNotifications { get; set; }

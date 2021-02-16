@@ -11,6 +11,12 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
             ["/odata/Discount"] = new[] { "searchText" }
         };
 
+        private readonly IDictionary<string, string> _lowerCaseRoutes = new Dictionary<string, string>
+        {
+            ["/odata/discount"] = "/odata/Discount",
+            ["/odata/user"] = "/odata/User"
+        };
+
         private readonly RequestDelegate _next;
 
         public ODataRouteMiddleware(RequestDelegate next)
@@ -24,7 +30,10 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
 
             if (request.Method == "GET" && request.Path.HasValue)
             {
-                request.Path = request.Path.ToString().Replace("/odata/discount", "/odata/Discount");
+                foreach (var lowerCaseRoute in _lowerCaseRoutes)
+                {
+                    request.Path = request.Path.ToString().Replace(lowerCaseRoute.Key, lowerCaseRoute.Value);
+                }
 
                 if (_config.TryGetValue(request.Path.Value, out var queryParams))
                 {

@@ -9,9 +9,7 @@ namespace Exadel.HEH.Backend.Host.Configuration
     {
         public void Apply(ODataModelBuilder builder, ApiVersion apiVersion, string? routePrefix)
         {
-            builder.EntitySet<DiscountDto>("Discount").EntityType.HasKey(d => d.Id);
-            builder.ComplexType<AddressDto>();
-            builder.ComplexType<PhoneDto>();
+            builder.EntitySet<DiscountDto>("Discount");
         }
     }
 }
