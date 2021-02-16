@@ -65,6 +65,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _historyService.CreateAsync(UserAction.Add,
                 "Created vendor " + vendor.Id);
 
+            await _searchService.CreateAsync(vendor);
+
             if (AnyDiscounts(vendor.Discounts))
             {
                 InitVendorInfoInDiscounts(vendor);
@@ -77,6 +79,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _vendorRepository.UpdateAsync(_mapper.Map<Vendor>(vendor));
             await _historyService.CreateAsync(UserAction.Edit,
                 "Updated vendor " + vendor.Id);
+
+            await _searchService.UpdateAsync(vendor);
 
             var vendorDiscountsIds = new List<Guid>();
 
@@ -99,6 +103,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             await _historyService.CreateAsync(UserAction.Remove,
                 "Removed vendor " + id);
+
+            await _searchService.RemoveAsync(id);
 
             await _discountService.RemoveAsync(d => d.VendorId == id);
         }
