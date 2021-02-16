@@ -19,11 +19,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     public class VendorServiceTests : BaseServiceTests<Vendor>
     {
         private readonly VendorService _service;
-        private readonly List<DiscountDto> _discountsData;
+        private readonly List<DiscountShortDto> _discountsData;
         private readonly IMapper _mapper;
 
         private Vendor _testVendor;
-        private DiscountDto _testDiscount;
+        private DiscountShortDto _testDiscountShort;
 
         public VendorServiceTests()
         {
@@ -35,23 +35,23 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             _service = new VendorService(vendorRepository.Object, discountService.Object,
                 _mapper, historyService.Object);
 
-            _discountsData = new List<DiscountDto>();
+            _discountsData = new List<DiscountShortDto>();
 
-            discountService.Setup(r => r.GetAsync(default))
-                .Returns(Task.FromResult(_discountsData.AsQueryable()));
+            discountService.Setup(r => r.GetAllAsync())
+                .Returns(Task.FromResult((IEnumerable<DiscountShortDto>)_discountsData));
 
-            discountService.Setup(r => r.CreateManyAsync(It.IsAny<IEnumerable<DiscountDto>>()))
-                .Callback((IEnumerable<DiscountDto> items) =>
+            discountService.Setup(r => r.CreateManyAsync(It.IsAny<IEnumerable<Discount>>()))
+                .Callback((IEnumerable<Discount> items) =>
                 {
-                    _discountsData.AddRange(items);
+                    _discountsData.AddRange(_mapper.Map<IEnumerable<DiscountShortDto>>(items));
                 })
                 .Returns(Task.CompletedTask);
 
-            discountService.Setup(r => r.UpdateManyAsync(It.IsAny<IEnumerable<DiscountDto>>()))
-                .Callback((IEnumerable<DiscountDto> items) =>
+            discountService.Setup(r => r.UpdateManyAsync(It.IsAny<IEnumerable<Discount>>()))
+                .Callback((IEnumerable<Discount> items) =>
                 {
                     _discountsData.Clear();
-                    _discountsData.AddRange(items);
+                    _discountsData.AddRange(_mapper.Map<IEnumerable<DiscountShortDto>>(items));
                 })
                 .Returns(Task.CompletedTask);
 
@@ -95,7 +95,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public async Task CanGetAllAsync()
         {
             Data.Add(_testVendor);
-            _discountsData.Add(_testDiscount);
+            _discountsData.Add(_testDiscountShort);
 
             var result = (await _service.GetAllAsync()).ToList();
 
@@ -106,7 +106,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public async Task CanGetAllDetailedAsync()
         {
             Data.Add(_testVendor);
-            _discountsData.Add(_testDiscount);
+            _discountsData.Add(_testDiscountShort);
 
             var result = (await _service.GetAllDetailedAsync()).ToList();
 
@@ -118,7 +118,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public async Task CanGetByIdAsync()
         {
             Data.Add(_testVendor);
-            _discountsData.Add(_testDiscount);
+            _discountsData.Add(_testDiscountShort);
 
             var result = await _service.GetByIdAsync(_testVendor.Id);
 
@@ -130,7 +130,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         public async Task CanCreateAsync()
         {
             var vendor = _mapper.Map<VendorDto>(_testVendor);
-            vendor.Discounts = new List<DiscountDto> { _testDiscount };
+            vendor.Discounts = new List<DiscountShortDto> { _testDiscountShort };
 
             await _service.CreateAsync(vendor);
 
@@ -145,7 +145,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
             _testVendor.Name = "New name";
             var vendor = _mapper.Map<VendorDto>(_testVendor);
-            vendor.Discounts = new List<DiscountDto> { _testDiscount };
+            vendor.Discounts = new List<DiscountShortDto> { _testDiscountShort };
 
             await _service.UpdateAsync(vendor);
 
@@ -158,11 +158,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         {
             Data.Add(_testVendor.DeepClone());
 
-            var newDiscount = _testDiscount.DeepClone();
+            var newDiscount = _testDiscountShort.DeepClone();
             newDiscount.Id = Guid.NewGuid();
 
             var vendor = _mapper.Map<VendorDto>(_testVendor);
-            vendor.Discounts = new List<DiscountDto> { newDiscount };
+            vendor.Discounts = new List<DiscountShortDto> { newDiscount };
 
             await _service.UpdateAsync(vendor);
 
@@ -224,7 +224,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 }
             };
 
-            _testDiscount = new DiscountDto
+            _testDiscountShort = new DiscountShortDto
             {
                 Id = Guid.NewGuid(),
                 AddressesIds = addresses.Select(a => a.Id).ToList(),

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
-using Exadel.HEH.Backend.Host.Controllers;
 using Exadel.HEH.Backend.Host.Controllers.OData;
 using Moq;
 using Xunit;
@@ -17,13 +16,15 @@ namespace Exadel.HEH.Backend.Host.Tests
         : BaseControllerTests<DiscountDto>
     {
         private readonly DiscountController _controller;
-        private readonly List<DiscountExtendedDto> _data;
+        private readonly List<DiscountExtendedDto> _extendedData;
+
         private DiscountDto _discount;
         private DiscountExtendedDto _discountExtended;
 
         public DiscountControllerTests()
         {
-            _data = new List<DiscountExtendedDto>();
+            _extendedData = new List<DiscountExtendedDto>();
+
             var service = new Mock<IDiscountService>();
             var validationService = new Mock<IDiscountValidationService>();
             var statisticsService = new Mock<IStatisticsService>();
@@ -39,13 +40,13 @@ namespace Exadel.HEH.Backend.Host.Tests
                     {
                         var lowerParam = param.ToLower();
                         searchData = Data.Where(d => d.Conditions.ToLower().Contains(lowerParam)
-                                               || d.VendorName.ToLower().Contains(lowerParam)).ToList();
+                                                     || d.VendorName.ToLower().Contains(lowerParam)).ToList();
                     }
                 })
                 .Returns(() => Task.FromResult(searchData.AsQueryable()));
 
             service.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-                .Returns((Guid id) => Task.FromResult(_data.FirstOrDefault(d => d.Id == id)));
+                .Returns((Guid id) => Task.FromResult(_extendedData.FirstOrDefault(d => d.Id == id)));
 
             validationService.Setup(v => v.DiscountExists(It.IsAny<Guid>(), default))
                 .Returns((Guid id, CancellationToken token) =>
@@ -60,7 +61,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         public async Task CanGetAll()
         {
             Data.Add(_discount);
-            var result = await _controller.Get(default);
+            var result = await _controller.GetAsync((string)default);
             Assert.Single(result);
         }
 
@@ -68,14 +69,14 @@ namespace Exadel.HEH.Backend.Host.Tests
         public async Task CanSearch()
         {
             Data.Add(_discount);
-            var result = await _controller.Get("cond");
+            var result = await _controller.GetAsync("cond");
             Assert.Single(result);
         }
 
         [Fact]
         public async Task CanGetById()
         {
-            _data.Add(_discountExtended);
+            _extendedData.Add(_discountExtended);
             var result = await _controller.GetAsync(_discount.Id);
             Assert.NotNull(result);
         }
@@ -85,10 +86,6 @@ namespace Exadel.HEH.Backend.Host.Tests
             _discount = new DiscountDto
             {
                 Id = Guid.NewGuid(),
-                AddressesIds = new List<int>
-                {
-                    1
-                },
                 PhonesIds = new List<int>
                 {
                     1
