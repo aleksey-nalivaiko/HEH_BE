@@ -5,8 +5,8 @@ using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 {
-    public interface ITagRepository : IRepository<Tag>
+    public interface ICategoryRepository : IRepository<Category>
     {
-        Task<IEnumerable<Tag>> GetByIdsAsync(IEnumerable<Guid> ids);
+        Task<IEnumerable<Category>> GetByIdsAsync(IEnumerable<Guid> ids);
     }
 }

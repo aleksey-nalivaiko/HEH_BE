@@ -28,11 +28,15 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddSingleton<IDiscountRepository, DiscountRepository>();
 
-            services.AddSingleton<IRepository<Category>, CategoryRepository>();
+            services.AddSingleton<ICategoryRepository, CategoryRepository>();
 
             services.AddSingleton<IIdentityRepository, IdentityRepository>();
 
-            services.AddSingleton<ISearchRepository, SearchRepository>();
+            services.AddSingleton<ISearchRepository<DiscountSearch>,
+                SearchRepository<DiscountSearch>>();
+
+            services.AddSingleton<ISearchRepository<VendorSearch>,
+                SearchRepository<VendorSearch>>();
 
             return services;
         }

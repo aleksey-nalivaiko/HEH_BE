@@ -7,7 +7,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
     public interface ITagService
     {
-        Task<IEnumerable<TagDto>> GetByIds(IEnumerable<Guid> ids);
+        Task<IEnumerable<TagDto>> GetByIdsAsync(IEnumerable<Guid> ids);
 
         Task RemoveAsync(Guid id);
 

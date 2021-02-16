@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
-using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
-    public interface ISearchService
+    public interface ISearchService<T, TDto>
     {
-        IQueryable<Discount> SearchDiscounts(IQueryable<Discount> allDiscounts, string searchText);
+        IQueryable<T> Search(IQueryable<T> allItems, string searchText);
 
-        Task CreateAsync(DiscountDto discount);
+        Task CreateAsync(TDto item);
 
-        Task UpdateAsync(DiscountDto discount);
+        Task UpdateAsync(TDto item);
 
         Task RemoveAsync(Guid id);
 
-        Task Reindex();
+        Task ReindexAsync();
     }
 }

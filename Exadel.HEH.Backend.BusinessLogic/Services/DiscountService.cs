@@ -19,14 +19,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IVendorRepository _vendorRepository;
         private readonly IFavoritesService _favoritesService;
         private readonly IMapper _mapper;
-        private readonly ISearchService _searchService;
+        private readonly ISearchService<,> _searchService;
         private readonly IHistoryService _historyService;
 
         public DiscountService(IDiscountRepository discountRepository,
             IFavoritesService favoritesService,
             IVendorRepository vendorRepository,
             IMapper mapper,
-            ISearchService searchService,
+            ISearchService<,> searchService,
             IHistoryService historyService)
         {
             _discountRepository = discountRepository;
@@ -42,7 +42,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var discounts = _discountRepository.Get();
             if (searchText != null)
             {
-                discounts = _searchService.SearchDiscounts(discounts, searchText);
+                discounts = _searchService.Search(discounts, searchText);
             }
 
             var discountsDto = discounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);

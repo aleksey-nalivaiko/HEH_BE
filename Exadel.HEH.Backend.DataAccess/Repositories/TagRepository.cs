@@ -14,7 +14,7 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
         {
         }
 
-        public Task<IEnumerable<Tag>> GetByIds(IEnumerable<Guid> ids)
+        public Task<IEnumerable<Tag>> GetByIdsAsync(IEnumerable<Guid> ids)
         {
             return Context.GetAsync<Tag>(t => ids.Contains(t.Id));
         }

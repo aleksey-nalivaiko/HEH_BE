@@ -32,9 +32,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 "Created tag " + result.Id);
         }
 
-        public async Task<IEnumerable<TagDto>> GetByIds(IEnumerable<Guid> ids)
+        public async Task<IEnumerable<TagDto>> GetByIdsAsync(IEnumerable<Guid> ids)
         {
-            var result = await _tagRepository.GetByIds(ids);
+            var result = await _tagRepository.GetByIdsAsync(ids);
             return _mapper.Map<IEnumerable<TagDto>>(result);
         }
 

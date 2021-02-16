@@ -1,14 +1,16 @@
 ﻿using System.Linq;
 using AutoMapper;
+using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class LocalSearchService : SearchService, ISearchService
+    public class LocalDiscountSearchService : DiscountSearchService,
+        ISearchService<Discount, DiscountDto>
     {
-        public LocalSearchService(ISearchRepository searchRepository,
+        public LocalDiscountSearchService(ISearchRepository<DiscountSearch> searchRepository,
             IVendorRepository vendorRepository,
             IDiscountRepository discountRepository,
             ILocationService locationService,
@@ -17,7 +19,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
         }
 
-        public IQueryable<Discount> SearchDiscounts(IQueryable<Discount> allDiscounts, string searchText)
+        public IQueryable<Discount> Search(IQueryable<Discount> allDiscounts, string searchText)
         {
             var lowerSearchText = searchText.ToLower();
             return allDiscounts.Where(d => d.Conditions.ToLower().Contains(lowerSearchText)

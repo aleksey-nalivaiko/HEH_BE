@@ -22,7 +22,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var repository = new Mock<IDiscountRepository>();
             var favoritesService = new Mock<IFavoritesService>();
             var vendorRepository = new Mock<IVendorRepository>();
-            var searchService = new Mock<ISearchService>();
+            var searchService = new Mock<ISearchService<,>>();
             var historyService = new Mock<IHistoryService>();
 
             _service = new DiscountService(repository.Object, favoritesService.Object,

@@ -4,11 +4,12 @@ using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 {
-    public interface ISearchRepository : IRepository<Search>
+    public interface ISearchRepository<TSearchDocument> : IRepository<TSearchDocument>
+        where TSearchDocument : class, IDataModel, new()
     {
-        Task<IEnumerable<Search>> SearchAsync(string path, string searchText);
+        Task<IEnumerable<TSearchDocument>> SearchAsync(string path, string searchText);
 
-        Task CreateManyAsync(IEnumerable<Search> searchList);
+        Task CreateManyAsync(IEnumerable<TSearchDocument> searchList);
 
         Task RemoveAllAsync();
     }
