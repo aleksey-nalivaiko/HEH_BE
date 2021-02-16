@@ -13,7 +13,7 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
 
         private readonly IDictionary<string, string> _lowerCaseRoutes = new Dictionary<string, string>
         {
-            ["/odata/discount"] = "/odata/Discount",
+            ["/odata/discountCreateUpdate"] = "/odata/Discount",
             ["/odata/user"] = "/odata/User"
         };
 

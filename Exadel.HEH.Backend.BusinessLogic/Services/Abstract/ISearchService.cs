@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
@@ -11,9 +9,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
     {
         IQueryable<Discount> SearchDiscounts(IQueryable<Discount> allDiscounts, string searchText);
 
-        Task CreateAsync(DiscountDto discount);
+        Task CreateAsync(Discount discount);
 
-        Task UpdateAsync(DiscountDto discount);
+        Task UpdateAsync(Discount discountShort);
 
         Task RemoveAsync(Guid id);
 

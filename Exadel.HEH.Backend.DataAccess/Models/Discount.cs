@@ -17,7 +17,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public string PromoCode { get; set; }
 
-        public IList<int> AddressesIds { get; set; }
+        public IList<Address> Addresses { get; set; }
 
         public IList<int> PhonesIds { get; set; }
 

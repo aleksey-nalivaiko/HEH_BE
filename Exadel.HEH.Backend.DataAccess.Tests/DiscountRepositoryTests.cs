@@ -82,10 +82,6 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
             _discount = new Discount
             {
                 Id = Guid.NewGuid(),
-                AddressesIds = new List<int>
-                {
-                    1
-                },
                 PhonesIds = new List<int>
                 {
                     2

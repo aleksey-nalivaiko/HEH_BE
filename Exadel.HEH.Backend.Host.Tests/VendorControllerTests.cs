@@ -99,7 +99,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         public async Task CanUpdateAsync()
         {
             Data.Add(_testVendor.DeepClone());
-            _testVendor.Discounts = new List<DiscountDto>();
+            _testVendor.Discounts = new List<DiscountShortDto>();
 
             await _controller.UpdateAsync(_testVendor);
             Assert.Empty(Data.Single().Discounts);
@@ -158,9 +158,9 @@ namespace Exadel.HEH.Backend.Host.Tests
                 }
             };
 
-            _testVendor.Discounts = new List<DiscountDto>
+            _testVendor.Discounts = new List<DiscountShortDto>
             {
-                new DiscountDto
+                new DiscountShortDto
                 {
                     Id = Guid.NewGuid(),
                     AddressesIds = addresses.Select(a => a.Id).ToList(),

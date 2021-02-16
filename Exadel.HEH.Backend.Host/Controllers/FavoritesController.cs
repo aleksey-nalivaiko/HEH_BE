@@ -47,8 +47,8 @@ namespace Exadel.HEH.Backend.Host.Controllers
         [HttpDelete("{discountId:guid}")]
         public async Task<ActionResult> RemoveAsync(Guid discountId)
         {
-            if (await _validationService.ValidateDiscountIdIsExist(discountId)
-                && await _validationService.ValidateUserFavoritesIsExist(discountId))
+            if (await _validationService.DiscountExists(discountId)
+                && await _validationService.UserFavoritesNotExists(discountId))
             {
                 await _favoritesService.RemoveAsync(discountId);
                 return Ok();
