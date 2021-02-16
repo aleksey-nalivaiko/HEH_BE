@@ -10,23 +10,27 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
+    //TODO: call search service
     public class VendorService : BaseService<Vendor, VendorShortDto>, IVendorService
     {
         private readonly IVendorRepository _vendorRepository;
         private readonly IDiscountService _discountService;
         private readonly IMapper _mapper;
         private readonly IHistoryService _historyService;
+        private readonly ISearchService<Vendor, VendorDto> _searchService;
 
         public VendorService(IVendorRepository vendorRepository,
             IDiscountService discountService,
             IMapper mapper,
-            IHistoryService historyService)
+            IHistoryService historyService,
+            ISearchService<Vendor, VendorDto> searchService)
             : base(vendorRepository, mapper)
         {
             _vendorRepository = vendorRepository;
             _discountService = discountService;
             _mapper = mapper;
             _historyService = historyService;
+            _searchService = searchService;
         }
 
         public async Task<IEnumerable<VendorDto>> GetAllDetailedAsync()
