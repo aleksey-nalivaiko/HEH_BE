@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
-    public class VendorShortDto
+    public class CityDto
     {
         public Guid Id { get; set; }
 

@@ -37,7 +37,7 @@ namespace Exadel.HEH.Backend.Host.Identity
                 || user.Role == UserRole.Administrator)
             {
                 roles.Add(nameof(UserRole.Employee));
-                roles.Add(nameof(user.Role));
+                roles.Add(user.Role.ToString());
             }
 
             if (user.Role == UserRole.Administrator)

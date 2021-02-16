@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -15,8 +14,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserProvider _userProvider;
-        private readonly IRepository<History> _historyRepository;
-        private readonly IMapper _mapper;
+        private readonly IRepository<History> _historyUserRepository;
 
         public HistoryService(IUserRepository userRepository, IRepository<History> historyRepository,
             IMapper mapper, IUserProvider userProvider)
@@ -24,15 +22,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             _userRepository = userRepository;
             _userProvider = userProvider;
-            _historyRepository = historyRepository;
-            _mapper = mapper;
+            _historyUserRepository = historyUserRepository;
         }
 
         public async Task CreateAsync(UserAction action, string description)
         {
             var user = await GetCurrentUser();
 
-            var history = new HistoryCreateDto
+            var history = new History
             {
                 Action = action,
                 DateTime = DateTime.Now,
@@ -43,7 +40,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 UserRole = user.Role
             };
 
-            await _historyRepository.CreateAsync(_mapper.Map<History>(history));
+            await _historyUserRepository.CreateAsync(history);
         }
 
         public override async Task<IEnumerable<HistoryDto>> GetAllAsync()

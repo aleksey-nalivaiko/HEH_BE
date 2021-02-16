@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Exadel.HEH.Backend.DataAccess.Models;
 
-namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
     public class UserDto
     {
@@ -32,8 +31,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs.Get
 
         public bool AllNotificationsAreOn { get; set; }
 
-        public IList<Favorites> Favorites { get; set; }
-
-        public string Img { get; set; }
+        public IEnumerable<FavoritesShortDto> Favorites { get; set; }
     }
 }

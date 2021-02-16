@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Create;
-using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -47,14 +46,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return favoritesDto;
         }
 
-        public async Task CreateAsync(FavoritesCreateUpdateDto newFavorites)
+        public async Task CreateAsync(FavoritesShortDto newFavorites)
         {
             var user = await GetCurrentUser();
             user.Favorites.Add(_mapper.Map<Favorites>(newFavorites));
             await _userRepository.UpdateAsync(user);
         }
 
-        public async Task UpdateAsync(FavoritesCreateUpdateDto newFavorites)
+        public async Task UpdateAsync(FavoritesShortDto newFavorites)
         {
             var user = await GetCurrentUser();
             var favorites = user.Favorites.FirstOrDefault(f => f.DiscountId == newFavorites.DiscountId);
