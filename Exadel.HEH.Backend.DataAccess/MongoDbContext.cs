@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
@@ -118,7 +117,7 @@ namespace Exadel.HEH.Backend.DataAccess
             var pipeline = new[]
             {
                 BsonDocument.Parse(
-                    $"{{ $search: {{ \"text\": {{\"path\": {path}, \"query\" : \"{query}\", \"fuzzy\" : {{}} }} }} }}"),
+                    $"{{ $search: {{ \"text\": {{\"path\": {path}, \"query\" : \"{query}\", \"fuzzy\" : {{\"maxEdits\": 1}} }} }} }}"),
                 BsonDocument.Parse("{ $limit: 1000 }")
             };
 
