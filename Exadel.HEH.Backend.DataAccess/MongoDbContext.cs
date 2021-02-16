@@ -61,6 +61,12 @@ namespace Exadel.HEH.Backend.DataAccess
             return GetCollection<T>().DeleteManyAsync(Builders<T>.Filter.Where(expression));
         }
 
+        public Task RemoveAllAsync<T>()
+            where T : class, new()
+        {
+            return GetCollection<T>().DeleteManyAsync(Builders<T>.Filter.Empty);
+        }
+
         public Task CreateAsync<T>(T item)
             where T : class, new()
         {

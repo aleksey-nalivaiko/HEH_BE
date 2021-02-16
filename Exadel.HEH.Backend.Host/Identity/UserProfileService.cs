@@ -26,11 +26,18 @@ namespace Exadel.HEH.Backend.Host.Identity
         {
             var user = await _userRepository.GetByIdAsync(Guid.Parse(context.Subject.GetSubjectId()));
 
-            var roles = new List<string> { user.Role.ToString() };
+            var roles = new List<string>();
 
-            if (user.Role != UserRole.Employee)
+            if (user.Role == UserRole.Employee)
             {
                 roles.Add(nameof(UserRole.Employee));
+            }
+
+            if (user.Role == UserRole.Moderator
+                || user.Role == UserRole.Administrator)
+            {
+                roles.Add(nameof(UserRole.Employee));
+                roles.Add(nameof(user.Role));
             }
 
             if (user.Role == UserRole.Administrator)

@@ -11,8 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class VendorController : BaseController<VendorShortDto>
     {
         private readonly IVendorService _vendorService;

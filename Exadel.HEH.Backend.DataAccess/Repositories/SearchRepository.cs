@@ -16,5 +16,15 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
         {
             return Context.SearchAsync<Search>(path, searchText);
         }
+
+        public Task CreateManyAsync(IEnumerable<Search> searchList)
+        {
+            return Context.CreateManyAsync(searchList);
+        }
+
+        public Task RemoveAllAsync()
+        {
+            return Context.RemoveAllAsync<Search>();
+        }
     }
 }

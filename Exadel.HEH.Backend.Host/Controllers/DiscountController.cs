@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs.Get;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
+using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Infrastructure;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
@@ -13,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Exadel.HEH.Backend.Host.Controllers
 {
     [ODataRoutePrefix("Discount")]
-    [ODataAuthorize]
+    [ODataAuthorize(Roles = nameof(UserRole.Employee))]
     public class DiscountController : ODataController
     {
         private readonly IDiscountService _discountService;
