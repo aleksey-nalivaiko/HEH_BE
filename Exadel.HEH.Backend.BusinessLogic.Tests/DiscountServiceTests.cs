@@ -22,14 +22,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var repository = new Mock<IDiscountRepository>();
             var favoritesService = new Mock<IFavoritesService>();
             var vendorRepository = new Mock<IVendorRepository>();
-            var searchService = new Mock<ISearchService>();
+            var searchService = new Mock<ISearchService<Discount, Discount>>();
             var historyService = new Mock<IHistoryService>();
 
             _service = new DiscountService(repository.Object, favoritesService.Object,
                 vendorRepository.Object, Mapper, searchService.Object, historyService.Object);
 
-            repository.Setup(r => r.Get())
-                .Returns(() => Data.AsQueryable());
+            repository.Setup(r => r.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<Discount>)Data));
 
             repository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
@@ -47,10 +47,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         }
 
         [Fact]
-        public async Task CanGetAsync()
+        public async Task CanGetAllAsync()
         {
             Data.Add(_discount);
-            var result = await _service.GetAsync(null);
+            var result = await _service.GetAllAsync();
             Assert.Single(result);
         }
 

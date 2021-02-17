@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Microsoft.AspNet.OData.Query;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
@@ -16,31 +18,36 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IDiscountService _discountService;
         private readonly IMapper _mapper;
         private readonly IHistoryService _historyService;
+        private readonly ISearchService<VendorSearch, VendorDto> _searchService;
 
         public VendorService(IVendorRepository vendorRepository,
             IDiscountService discountService,
             IMapper mapper,
-            IHistoryService historyService)
+            IHistoryService historyService,
+            ISearchService<VendorSearch, VendorDto> searchService)
             : base(vendorRepository, mapper)
         {
             _vendorRepository = vendorRepository;
             _discountService = discountService;
             _mapper = mapper;
             _historyService = historyService;
+            _searchService = searchService;
         }
 
-        public async Task<IEnumerable<VendorDto>> GetAllDetailedAsync()
+        public IQueryable<VendorSearchDto> Get(ODataQueryOptions<VendorSearchDto> options,
+            string searchText)
         {
-            var discounts = await _discountService.GetAllAsync();
-            var vendors = (await _vendorRepository.GetAllAsync()).ToList();
+            var vendorsSearch = searchText != null ?
+                _searchService.Search(searchText) : _searchService.Search();
 
-            var vendorsWithDiscounts = vendors.GroupJoin(
-                discounts,
-                vendor => vendor.Id,
-                discount => discount.VendorId,
-                GetVendorDto);
+            var vendorsSearchDto = vendorsSearch.ProjectTo<VendorSearchDto>(_mapper.ConfigurationProvider);
 
-            return vendorsWithDiscounts;
+            if (options.Filter != null)
+            {
+                options.ApplyTo(vendorsSearchDto);
+            }
+
+            return vendorsSearchDto;
         }
 
         public async Task<VendorDto> GetByIdAsync(Guid id)
@@ -61,6 +68,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _historyService.CreateAsync(UserAction.Add,
                 "Created vendor " + vendor.Id);
 
+            await _searchService.CreateAsync(vendor);
+
             if (AnyDiscounts(vendor.Discounts))
             {
                 InitVendorInfoInDiscounts(vendor);
@@ -75,6 +84,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _vendorRepository.UpdateAsync(_mapper.Map<Vendor>(vendor));
             await _historyService.CreateAsync(UserAction.Edit,
                 "Updated vendor " + vendor.Id);
+
+            await _searchService.UpdateAsync(vendor);
 
             var vendorDiscountsIds = new List<Guid>();
 
@@ -104,6 +115,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             await _historyService.CreateAsync(UserAction.Remove,
                 "Removed vendor " + id);
+
+            await _searchService.RemoveAsync(id);
 
             await _discountService.RemoveAsync(d => d.VendorId == id);
         }

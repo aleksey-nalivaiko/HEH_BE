@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
@@ -21,13 +20,6 @@ namespace Exadel.HEH.Backend.Host.Controllers
         {
             _vendorService = vendorService;
             _vendorValidationService = vendorValidationService;
-        }
-
-        [HttpGet("detailed")]
-        [Authorize(Roles = nameof(UserRole.Moderator))]
-        public Task<IEnumerable<VendorDto>> GetAllDetailedAsync()
-        {
-            return _vendorService.GetAllDetailedAsync();
         }
 
         [HttpGet("{id:guid}")]

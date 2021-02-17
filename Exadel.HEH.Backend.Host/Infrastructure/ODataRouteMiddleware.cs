@@ -8,13 +8,15 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
     {
         private readonly IDictionary<string, string[]> _config = new Dictionary<string, string[]>
         {
-            ["/odata/Discount"] = new[] { "searchText" }
+            ["/odata/Discount"] = new[] { "searchText" },
+            ["/odata/Vendor"] = new[] { "searchText" }
         };
 
         private readonly IDictionary<string, string> _lowerCaseRoutes = new Dictionary<string, string>
         {
             ["/odata/discountCreateUpdate"] = "/odata/Discount",
-            ["/odata/user"] = "/odata/User"
+            ["/odata/user"] = "/odata/User",
+            ["/odata/vendor"] = "/odata/Vendor"
         };
 
         private readonly RequestDelegate _next;

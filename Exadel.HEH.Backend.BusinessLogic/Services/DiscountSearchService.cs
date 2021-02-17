@@ -8,22 +8,23 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public abstract class SearchService
+    public abstract class DiscountSearchService
     {
-        protected readonly ISearchRepository SearchRepository;
-        private readonly IDiscountRepository _discountRepository;
+        protected readonly ISearchRepository<DiscountSearch> SearchRepository;
+        protected readonly IDiscountRepository DiscountRepository;
+
         private readonly ILocationService _locationService;
         private readonly ICategoryService _categoryService;
         private readonly ITagService _tagService;
 
-        protected SearchService(ISearchRepository searchRepository,
+        protected DiscountSearchService(ISearchRepository<DiscountSearch> searchRepository,
             IDiscountRepository discountRepository,
             ILocationService locationService,
             ICategoryService categoryService,
             ITagService tagService)
         {
             SearchRepository = searchRepository;
-            _discountRepository = discountRepository;
+            DiscountRepository = discountRepository;
             _locationService = locationService;
             _categoryService = categoryService;
             _tagService = tagService;
@@ -46,32 +47,32 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return SearchRepository.RemoveAsync(id);
         }
 
-        public async Task Reindex()
+        public async Task ReindexAsync()
         {
             await SearchRepository.RemoveAllAsync();
 
-            var discounts = await _discountRepository.GetAllAsync();
+            var discounts = await DiscountRepository.GetAllAsync();
             var searchList = await GetAllSearch(discounts);
 
             await SearchRepository.CreateManyAsync(searchList);
         }
 
-        private async Task<IEnumerable<Search>> GetAllSearch(IEnumerable<Discount> discounts)
+        private async Task<IEnumerable<DiscountSearch>> GetAllSearch(IEnumerable<Discount> discounts)
         {
             var searchTasks = discounts.Select(GetSearchAsync);
 
             return await Task.WhenAll(searchTasks);
         }
 
-        private async Task<Search> GetSearchAsync(Discount discount)
+        private async Task<DiscountSearch> GetSearchAsync(Discount discount)
         {
             var discountAddresses = discount.Addresses;
 
-            var countriesIds = discountAddresses.Select(a => a.CountryId);
+            var countriesIds = discountAddresses.Select(a => a.CountryId).Distinct();
             var locations = (await _locationService.GetByIdsAsync(countriesIds)).ToList();
             var countries = locations.Select(location => location.Country).ToList();
 
-            var citiesIds = discountAddresses.Select(a => a.CityId);
+            var citiesIds = discountAddresses.Select(a => a.CityId).Distinct();
             var cities = locations.SelectMany(location =>
                 location.Cities
                     .Where(c => citiesIds.Contains(c.Id))
@@ -80,10 +81,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var streets = discountAddresses.Select(a => a.Street).ToList();
 
             var category = await _categoryService.GetByIdAsync(discount.CategoryId);
-            var tagsNames = (await _tagService.GetByIds(discount.TagsIds))
+            var tagsNames = (await _tagService.GetByIdsAsync(discount.TagsIds))
                 .Select(t => t.Name).ToList();
 
-            var search = new Search
+            var search = new DiscountSearch
             {
                 Id = discount.Id,
                 Discount = discount.Conditions,

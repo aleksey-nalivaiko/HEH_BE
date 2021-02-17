@@ -1,5 +1,7 @@
-﻿using Exadel.HEH.Backend.BusinessLogic.Services;
+﻿using Exadel.HEH.Backend.BusinessLogic.DTOs;
+using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.DataAccess.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,11 +21,13 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             if (env.IsDevelopment())
             {
-                services.AddScoped<ISearchService, LocalSearchService>();
+                services.AddScoped<ISearchService<Discount, Discount>, LocalDiscountSearchService>();
+                services.AddScoped<ISearchService<VendorSearch, VendorDto>, LocalVendorSearchService>();
             }
             else
             {
-                services.AddScoped<ISearchService, LuceneSearchService>();
+                services.AddScoped<ISearchService<Discount, Discount>, LuceneDiscountSearchService>();
+                services.AddScoped<ISearchService<VendorSearch, VendorDto>, LuceneVendorSearchService>();
             }
 
             return services;

@@ -30,10 +30,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var vendorRepository = new Mock<IVendorRepository>();
             var discountService = new Mock<IDiscountService>();
             var historyService = new Mock<IHistoryService>();
+            var searchService = new Mock<ISearchService<VendorSearch, VendorDto>>();
             _mapper = MapperExtensions.Mapper;
 
             _service = new VendorService(vendorRepository.Object, discountService.Object,
-                _mapper, historyService.Object);
+                _mapper, historyService.Object, searchService.Object);
 
             _discountsData = new List<DiscountShortDto>();
 
@@ -100,18 +101,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var result = (await _service.GetAllAsync()).ToList();
 
             Assert.Single(result);
-        }
-
-        [Fact]
-        public async Task CanGetAllDetailedAsync()
-        {
-            Data.Add(_testVendor);
-            _discountsData.Add(_testDiscountShort);
-
-            var result = (await _service.GetAllDetailedAsync()).ToList();
-
-            Assert.Single(result);
-            Assert.Single(result.Single().Discounts);
         }
 
         [Fact]

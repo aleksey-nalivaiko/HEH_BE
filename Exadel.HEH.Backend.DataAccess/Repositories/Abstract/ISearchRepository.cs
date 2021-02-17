@@ -1,14 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 {
-    public interface ISearchRepository : IRepository<Search>
+    public interface ISearchRepository<TDocument> : IRepository<TDocument>
+        where TDocument : class, IDataModel, new()
     {
-        Task<IEnumerable<Search>> SearchAsync(string path, string searchText);
+        IQueryable<TDocument> Get();
 
-        Task CreateManyAsync(IEnumerable<Search> searchList);
+        Task<IEnumerable<TDocument>> SearchAsync(string path, string searchText);
+
+        Task CreateManyAsync(IEnumerable<TDocument> searchList);
 
         Task RemoveAllAsync();
     }

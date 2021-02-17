@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
+using Microsoft.AspNet.OData.Query;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
     public interface IVendorService : IService<VendorShortDto>
     {
-        Task<IEnumerable<VendorDto>> GetAllDetailedAsync();
+        IQueryable<VendorSearchDto> Get(ODataQueryOptions<VendorSearchDto> options, string searchText = default);
 
         Task<VendorDto> GetByIdAsync(Guid id);
 

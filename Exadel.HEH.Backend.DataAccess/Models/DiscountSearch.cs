@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
-    public class Search : IDataModel
+    public class DiscountSearch : IDataModel
     {
         public Guid Id { get; set; }
 

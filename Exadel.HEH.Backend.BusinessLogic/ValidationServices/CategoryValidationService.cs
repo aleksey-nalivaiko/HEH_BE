@@ -2,17 +2,16 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
-using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 {
     public class CategoryValidationService : ICategoryValidationService
     {
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IDiscountRepository _discountRepository;
 
-        public CategoryValidationService(IRepository<Category> categoryRepository,
+        public CategoryValidationService(ICategoryRepository categoryRepository,
             IDiscountRepository discountRepository)
         {
             _categoryRepository = categoryRepository;
