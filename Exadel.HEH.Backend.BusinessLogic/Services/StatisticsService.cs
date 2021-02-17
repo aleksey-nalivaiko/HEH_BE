@@ -14,9 +14,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _discountRepository = discountRepository;
         }
 
-        public Task IncrementViewsAmountAsync(Guid vendorId)
+        public Task IncrementViewsAmountAsync(Guid discountId)
         {
-            return _discountRepository.UpdateIncrementAsync(vendorId, v => v.ViewsAmount, 1);
+            return _discountRepository.UpdateIncrementAsync(discountId, d => d.ViewsAmount, 1);
         }
     }
 }

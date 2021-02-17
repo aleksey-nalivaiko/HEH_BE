@@ -48,7 +48,7 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
 
             var discount = await _discountService.GetByIdAsync(id);
 
-            await _statisticsService.IncrementViewsAmountAsync(discount.VendorId);
+            await _statisticsService.IncrementViewsAmountAsync(id);
 
             return Ok(discount);
         }
