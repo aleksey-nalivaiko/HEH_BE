@@ -14,8 +14,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             IVendorRepository vendorRepository,
             IDiscountRepository discountRepository,
             ILocationService locationService,
-            ICategoryService categoryService, ITagService tagService, IMapper mapper)
-            : base(searchRepository, vendorRepository, discountRepository, locationService, categoryService, tagService, mapper)
+            ICategoryService categoryService, ITagService tagService)
+            : base(searchRepository, discountRepository, locationService, categoryService, tagService)
         {
         }
 

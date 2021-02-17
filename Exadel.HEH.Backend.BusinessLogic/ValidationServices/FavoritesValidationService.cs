@@ -22,13 +22,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             _methodProvider = methodProvider;
         }
 
-        public async Task<bool> ValidateDiscountIdIsExist(Guid discountId, CancellationToken token)
+        public async Task<bool> DiscountExists(Guid discountId, CancellationToken token)
         {
             var result = await _discountRepository.GetByIdAsync(discountId);
             return !(result is null);
         }
 
-        public async Task<bool> ValidateUserFavoritesIsExist(Guid discountId, CancellationToken token)
+        public async Task<bool> UserFavoritesNotExists(Guid discountId, CancellationToken token)
         {
             var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
             var result = user.Favorites.FirstOrDefault(f => f.DiscountId == discountId);

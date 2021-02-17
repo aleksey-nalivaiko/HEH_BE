@@ -55,11 +55,11 @@ namespace Exadel.HEH.Backend.Host.Tests
                 .Callback((Guid id) => { _data.RemoveAll(d => d.Id == id); })
                 .Returns(Task.CompletedTask);
 
-            validationService.Setup(v => v.ValidateDiscountIdIsExist(It.IsAny<Guid>(), default))
+            validationService.Setup(v => v.DiscountExists(It.IsAny<Guid>(), default))
                 .Returns((Guid id, CancellationToken token) =>
                     Task.FromResult(_data.FirstOrDefault(d => d.Id == id) != null));
 
-            validationService.Setup(v => v.ValidateUserFavoritesIsExist(It.IsAny<Guid>(), default))
+            validationService.Setup(v => v.UserFavoritesNotExists(It.IsAny<Guid>(), default))
                 .Returns((Guid id, CancellationToken token) =>
                     Task.FromResult(_data.FirstOrDefault(d => d.Id == id) != null));
         }
@@ -107,10 +107,7 @@ namespace Exadel.HEH.Backend.Host.Tests
             {
                 Id = Guid.NewGuid(),
                 Note = "Note1",
-                AddressesIds = new List<int>
-                {
-                    1
-                },
+                Addresses = new List<AddressDto>(),
                 PhonesIds = new List<int>
                 {
                     1

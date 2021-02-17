@@ -10,10 +10,25 @@
         "vendorId": UUID("e7922459-d83c-4a8d-ba86-6b80e1e55d1d"),
         "vendorName": "Mcdonalds",
         "promoCode": "HAMBURGER",
-        "addressesIds": [
-            1,
-            2,
-            3
+        "addresses": [
+            {
+                "_id": 1,
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
+                "street": "pr. Dzerzhinskogo, 96"
+            },
+            {
+                "_id": 2,
+                "countryId": UUID("56346d81-b0ef-4e57-a18e-0b2ca3f04dd9"),
+                "cityId": UUID("ea88f894-a912-4a65-a823-392f1bbd514b"),
+                "street": "ul. Nemiga, 12B"
+            },
+            {
+                "_id": 3,
+                "countryId": UUID("571ffd86-ae90-4457-b1ec-0ed504076706"),
+                "cityId": UUID("4198a349-0f53-4f48-a5ed-766517a26ef3"),
+                "street": "pr. Nezavisimosti, 23"
+            }
         ],
         "phonesIds": [
             1,
@@ -34,8 +49,13 @@
         "vendorId": UUID("b883835e-4ce3-4134-9811-45a85b6ff113"),
         "vendorName": "Max Mirnyi Center",
         "promoCode": "Tenis",
-        "addressesIds": [
-            1
+        "addresses": [
+            {
+                "_id": 1,
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
+                "street": "ul. Gromova 14"
+            }
         ],
         "phonesIds": [
             1
@@ -54,8 +74,13 @@
         "vendorId": UUID("a81d4813-0ff3-4a2b-b53c-ebec989ae7fc"),
         "vendorName": "Beautycenter O2",
         "promoCode": "nails",
-        "addressesIds": [
-            1
+        "addresses": [
+            {
+                "_id": 1,
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
+                "street": "ul.Zybitskaya 6-32"
+            }
         ],
         "phonesIds": [
             1
@@ -74,8 +99,13 @@
         "vendorId": UUID("91d19b85-6232-4373-b08b-a988d828d27e"),
         "vendorName": "Dinozavria",
         "promoCode": "DinosorAndI",
-        "addressesIds": [
-            1
+        "addresses": [
+            {
+                "_id": 1,
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
+                "street": "ul. Pritytskogo 29"
+            }
         ],
         "phonesIds": [
             1
@@ -94,13 +124,22 @@
         "vendorId": UUID("34654c1a-a2c9-4562-abdd-98e62cbcc6f7"),
         "vendorName": "Autocenter Citroen",
         "promoCode": "Auto",
-        "addressesIds": [
-            1,
-            2
+        "addresses": [
+            {
+                "_id": 1,
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
+                "street": "ul. Kolesnikova 38"
+            },
+            {
+                "_id": 2,
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("c77e4c89-57f5-4204-8899-af47545cca22"),
+                "street": "ul. Kol'tsova 48"
+            }
         ],
         "phonesIds": [
             1
-               
         ],
         "startDate": "2021-10-03T18:30:25",
         "endDate": "2021-10-03T18:30:25",
@@ -116,7 +155,7 @@
         "vendorId": UUID("72ff6421-f6c6-4d55-bf54-f9833723f30f"),
         "vendorName": "Booking",
         "promoCode": "Travel",
-        "addressesIds": [
+        "addresses": [
         ],
         "phonesIds": [
             1
@@ -135,8 +174,13 @@
         "vendorId": UUID("b2f9bca3-bd3a-4fa1-874b-b17025a05873"),
         "vendorName": "It-academy",
         "promoCode": "FRIEND",
-        "addressesIds": [
-            1
+        "addresses": [
+            {
+                "_id": 1,
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
+                "street": "ul. Skryganova 14"
+            }
         ],
         "phonesIds": [
             1

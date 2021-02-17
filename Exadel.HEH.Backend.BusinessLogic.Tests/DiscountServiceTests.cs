@@ -31,6 +31,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
             repository.Setup(r => r.Get())
                 .Returns(() => Data.AsQueryable());
+
             repository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
             InitTestData();
@@ -99,13 +100,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             _discount = new Discount
             {
                 Id = Guid.NewGuid(),
-                AddressesIds = new List<int>
-                {
-                    _vendor.Addresses.ElementAt(0).Id
-                },
                 PhonesIds = new List<int>
                 {
                     _vendor.Phones.ElementAt(0).Id
+                },
+                Addresses = new List<Address>
+                {
+                    _vendor.Addresses.ElementAt(0)
                 },
                 CategoryId = Guid.NewGuid(),
                 Conditions = "Conditions",

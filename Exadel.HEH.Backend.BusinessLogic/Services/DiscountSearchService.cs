@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -18,32 +16,28 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly ILocationService _locationService;
         private readonly ICategoryService _categoryService;
         private readonly ITagService _tagService;
-        private readonly IMapper _mapper;
 
         protected DiscountSearchService(ISearchRepository<DiscountSearch> searchRepository,
             IVendorRepository vendorRepository,
             IDiscountRepository discountRepository,
             ILocationService locationService,
             ICategoryService categoryService,
-            ITagService tagService,
-            IMapper mapper)
+            ITagService tagService)
         {
             SearchRepository = searchRepository;
-            _vendorRepository = vendorRepository;
             _discountRepository = discountRepository;
             _locationService = locationService;
             _categoryService = categoryService;
             _tagService = tagService;
-            _mapper = mapper;
         }
 
-        public async Task CreateAsync(DiscountDto discount)
+        public async Task CreateAsync(Discount discount)
         {
             var search = await GetSearchAsync(discount);
             await SearchRepository.CreateAsync(search);
         }
 
-        public async Task UpdateAsync(DiscountDto discount)
+        public async Task UpdateAsync(Discount discount)
         {
             var search = await GetSearchAsync(discount);
             await SearchRepository.UpdateAsync(search);
@@ -66,18 +60,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         private async Task<IEnumerable<DiscountSearch>> GetAllSearch(IEnumerable<Discount> discounts)
         {
-            var searchTasks = discounts.Select(d => GetSearchAsync(_mapper.Map<DiscountDto>(d)));
+            var searchTasks = discounts.Select(GetSearchAsync);
 
             return await Task.WhenAll(searchTasks);
         }
 
         private async Task<DiscountSearch> GetSearchAsync(DiscountDto discount)
         {
-            var vendorAddresses = (await _vendorRepository.GetByIdAsync(discount.VendorId)).Addresses;
-
-            var discountAddresses = vendorAddresses
-                .Where(a => discount.AddressesIds.Contains(a.Id))
-                .ToList();
+            var discountAddresses = discount.Addresses;
 
             var countriesIds = discountAddresses.Select(a => a.CountryId);
             var locations = (await _locationService.GetByIdsAsync(countriesIds)).ToList();

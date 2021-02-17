@@ -8,10 +8,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
     {
         public FavoritesValidator(IFavoritesValidationService favoritesValidationService)
         {
-            // TODO: remove constant string to enother place
-            RuleFor(f => f.DiscountId).Cascade(CascadeMode.Stop).NotEmpty().NotNull()
-                .MustAsync(favoritesValidationService.ValidateDiscountIdIsExist).WithMessage("This discount id doesn't exists.")
-                .MustAsync(favoritesValidationService.ValidateUserFavoritesIsExist).WithMessage("Such favorites already exists.");
+            RuleFor(f => f.DiscountId)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                .NotNull()
+                .MustAsync(favoritesValidationService.DiscountExists)
+                .WithMessage("Discount with this id doesn't exists.")
+                .MustAsync(favoritesValidationService.UserFavoritesNotExists)
+                .WithMessage("Such favorites already exists.");
+
             RuleFor(f => f.Note).MaximumLength(255);
         }
     }

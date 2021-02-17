@@ -37,6 +37,24 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _historyService = historyService;
         }
 
+        public async Task<IEnumerable<DiscountShortDto>> GetAllAsync()
+        {
+            var discounts = await _discountRepository.GetAllAsync();
+            var discountsDto = _mapper.Map<IEnumerable<DiscountShortDto>>(discounts);
+
+            discountsDto = discountsDto.Join(
+                discounts,
+                dto => dto.Id,
+                d => d.Id,
+                (dto, d) =>
+                {
+                    dto.AddressesIds = d.Addresses.Select(a => a.Id).ToList();
+                    return dto;
+                });
+
+            return discountsDto;
+        }
+
         public async Task<IQueryable<DiscountDto>> GetAsync(string searchText)
         {
             var discounts = _discountRepository.Get();
@@ -74,12 +92,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             discountDto.Links = _mapper.Map<IEnumerable<LinkDto>>(vendor.Links);
             discountDto.WorkingHours = vendor.WorkingHours;
 
-            discountDto.Addresses = _mapper.Map<IEnumerable<AddressDto>>(vendor.Addresses.Join(
-                discount.AddressesIds,
-                a => a.Id,
-                i => i,
-                (a, i) => a));
-
             discountDto.Phones = _mapper.Map<IEnumerable<PhoneDto>>(vendor.Phones.Join(
                 discount.PhonesIds,
                 p => p.Id,
@@ -89,27 +101,26 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return discountDto;
         }
 
-        public async Task CreateManyAsync(IEnumerable<DiscountDto> discounts)
+        public async Task CreateManyAsync(IEnumerable<Discount> discounts)
         {
             var discountsList = discounts.ToList();
             discountsList.ForEach(GenerateId);
 
-            await _discountRepository.CreateManyAsync(
-                _mapper.Map<IEnumerable<Discount>>(discounts));
+            await _discountRepository.CreateManyAsync(discountsList);
 
             discountsList.ForEach(CreateHistoryAndSearchItems);
         }
 
-        public async Task UpdateManyAsync(IEnumerable<DiscountDto> discounts)
+        public async Task UpdateManyAsync(IEnumerable<Discount> discounts)
         {
             var allDiscountsIds = _discountRepository.Get().Select(d => d.Id).ToList();
+
             var discountsList = discounts.ToList();
 
             discountsList.Where(d => !allDiscountsIds.Contains(d.Id))
                 .ToList().ForEach(GenerateId);
 
-            await _discountRepository.UpdateManyAsync(
-                _mapper.Map<IEnumerable<Discount>>(discounts));
+            await _discountRepository.UpdateManyAsync(discountsList);
 
             foreach (var discount in discountsList)
             {
@@ -145,7 +156,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _favoritesService.RemoveManyAsync(discountsToRemoveIds);
         }
 
-        private void CreateHistoryAndSearchItems(DiscountDto discount)
+        private void CreateHistoryAndSearchItems(Discount discount)
         {
             _historyService.CreateAsync(UserAction.Add,
                 "Created discount " + discount.Id);
@@ -153,9 +164,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _searchService.CreateAsync(discount);
         }
 
-        private void GenerateId(DiscountDto discount)
+        private void GenerateId(Discount discount)
         {
-            discount.Id = discount.Id == Guid.Empty ? Guid.NewGuid() : discount.Id;
+            discount.Id = discount.Id == Guid.Empty ?
+                Guid.NewGuid() : discount.Id;
         }
     }
 }
