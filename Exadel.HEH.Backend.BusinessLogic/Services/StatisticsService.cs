@@ -7,16 +7,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class StatisticsService : IStatisticsService
     {
-        private readonly IVendorRepository _vendorRepository;
+        private readonly IDiscountRepository _discountRepository;
 
-        public StatisticsService(IVendorRepository vendorRepository)
+        public StatisticsService(IDiscountRepository discountRepository)
         {
-            _vendorRepository = vendorRepository;
+            _discountRepository = discountRepository;
         }
 
         public Task IncrementViewsAmountAsync(Guid vendorId)
         {
-            return _vendorRepository.UpdateIncrementAsync(vendorId, v => v.ViewsAmount, 1);
+            return _discountRepository.UpdateIncrementAsync(vendorId, v => v.ViewsAmount, 1);
         }
     }
 }

@@ -51,7 +51,6 @@
                 "street": "pr. Nezavisimosti, 23"
             }
         ],
-        "viewsAmount": 7342,
         "email": "info@by.mcd.com",
         "workingHours": "07:00–00:00"
     },
@@ -83,7 +82,6 @@
                 "street": "ul. Gromova 14"
             }
         ],
-        "viewsAmount": 222,
         "email": "maxs.mmta@gmail.com",
         "workingHours": "08:00–23:00"
     },
@@ -115,7 +113,6 @@
                 "street": "ul.Zybitskaya 6-32"
             }
         ],
-        "viewsAmount": 101,
         "email": "nikolya811@gmail.com",
         "workingHours": "09:00–21:00"
     },
@@ -147,7 +144,6 @@
                 "street": "ul. Pritytskogo 29"
             }
         ],
-        "viewsAmount": 162,
         "email": "dinozavria@vek.by",
         "workingHours": "12:00–21:00"
     },
@@ -195,7 +191,6 @@
                 "street": "ul. Lazurnaya 13a"
             }
         ],
-        "viewsAmount": 366,
         "email": "auto_vendor@gmail.com",
         "workingHours": "08:00–20:00"
     },
@@ -217,7 +212,6 @@
         ],
         "addresses": [
         ],
-        "viewsAmount": 167,
         "email": "",
         "workingHours": "day-and-night"
     },
@@ -253,7 +247,6 @@
                 "street": "ul. Skryganova 14"
             }
         ],
-        "viewsAmount": 289,
         "email": "",
         "workingHours": "08:30–19:00"
     }

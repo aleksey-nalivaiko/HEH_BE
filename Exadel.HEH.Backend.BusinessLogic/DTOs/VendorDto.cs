@@ -12,8 +12,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 
         public IEnumerable<AddressDto> Addresses { get; set; }
 
-        public int ViewsAmount { get; set; }
-
         public string Email { get; set; }
 
         public IEnumerable<DiscountShortDto> Discounts { get; set; }

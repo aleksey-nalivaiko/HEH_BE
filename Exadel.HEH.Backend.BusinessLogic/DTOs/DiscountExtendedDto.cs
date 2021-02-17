@@ -11,5 +11,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs
         public IEnumerable<LinkDto> Links { get; set; }
 
         public string WorkingHours { get; set; }
+
+        public bool IsFavorite { get; set; }
     }
 }

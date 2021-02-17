@@ -17,8 +17,6 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public IList<Address> Addresses { get; set; }
 
-        public int ViewsAmount { get; set; }
-
         public string Email { get; set; }
 
         public string WorkingHours { get; set; }

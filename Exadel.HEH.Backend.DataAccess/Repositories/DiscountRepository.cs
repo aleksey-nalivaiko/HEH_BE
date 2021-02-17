@@ -39,5 +39,10 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
         {
             return Context.RemoveAsync(expression);
         }
+
+        public Task UpdateIncrementAsync(Guid id, Expression<Func<Discount, int>> field, int value)
+        {
+            return Context.UpdateIncrementAsync(id, field, value);
+        }
     }
 }

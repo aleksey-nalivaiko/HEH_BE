@@ -21,6 +21,8 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public IList<int> PhonesIds { get; set; }
 
+        public int ViewsAmount { get; set; }
+
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
