@@ -10,7 +10,10 @@ namespace Exadel.HEH.Backend.Host.SwaggerFilters
     public class CountParameterOperationFilter : IOperationFilter
     {
         private const string CountParam = "$count";
-        private readonly List<string> _controllerNames = new List<string> { "Discount", "User", "Vendor", "Statistics" };
+        private readonly List<string> _controllerNames = new List<string>
+        {
+            "Discount", "User", "Vendor", "Statistics", "Favorites"
+        };
 
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {

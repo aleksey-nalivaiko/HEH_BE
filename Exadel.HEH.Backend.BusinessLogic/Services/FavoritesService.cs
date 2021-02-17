@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -13,27 +14,33 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     public class FavoritesService : IFavoritesService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IDiscountRepository _discountRepository;
         private readonly IMapper _mapper;
         private readonly IUserProvider _userProvider;
+        private readonly ISearchService<Discount, Discount> _searchService;
 
-        public FavoritesService(IUserRepository userRepository, IDiscountRepository discountRepository,
-            IMapper mapper, IUserProvider userProvider)
+        public FavoritesService(IUserRepository userRepository,
+            IMapper mapper,
+            IUserProvider userProvider,
+            ISearchService<Discount, Discount> searchService)
         {
             _userRepository = userRepository;
-            _discountRepository = discountRepository;
             _mapper = mapper;
             _userProvider = userProvider;
+            _searchService = searchService;
         }
 
-        public async Task<IEnumerable<FavoritesDto>> GetAllAsync()
+        public async Task<IQueryable<FavoritesDto>> GetAsync(string searchText = default)
         {
             var user = await GetCurrentUser();
-            var discounts = await _discountRepository.GetByIdsAsync(user.Favorites.Select(f => f.DiscountId));
-            var discountsDto = _mapper.Map<IEnumerable<DiscountDto>>(discounts);
-            var favoritesDto = _mapper.Map<IEnumerable<FavoritesDto>>(discountsDto).ToList();
 
-            favoritesDto = favoritesDto.Join(
+            var searchedDiscounts = _searchService.Search(searchText);
+
+            var favoritesIds = user.Favorites.Select(f => f.DiscountId);
+            var discounts = searchedDiscounts.Where(d => favoritesIds.Contains(d.Id));
+
+            var favoritesDto = discounts.ProjectTo<FavoritesDto>(_mapper.ConfigurationProvider);
+
+            favoritesDto = favoritesDto.ToList().Join(
                 user.Favorites,
                 fd => fd.Id,
                 f => f.DiscountId,
@@ -41,7 +48,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 {
                     favDto.Note = fav.Note;
                     return favDto;
-                }).ToList();
+                }).AsQueryable();
 
             return favoritesDto;
         }

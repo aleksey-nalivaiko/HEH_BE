@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
-    public interface IFavoritesService : IService<FavoritesDto>
+    public interface IFavoritesService
     {
+        Task<IQueryable<FavoritesDto>> GetAsync(string searchText = default);
+
         Task CreateAsync(FavoritesShortDto newFavorites);
 
         Task UpdateAsync(FavoritesShortDto newFavorites);

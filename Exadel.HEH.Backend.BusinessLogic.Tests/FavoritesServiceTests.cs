@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Moq;
@@ -23,9 +24,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var userProvider = new Mock<IUserProvider>();
             var userRepository = new Mock<IUserRepository>();
             var discountRepository = new Mock<IDiscountRepository>();
+            var searchService = new Mock<ISearchService<Discount, Discount>>();
 
-            _service = new FavoritesService(userRepository.Object, discountRepository.Object,
-                Mapper, userProvider.Object);
+            _service = new FavoritesService(userRepository.Object, Mapper, userProvider.Object, searchService.Object);
 
             InitTestData();
             userProvider.Setup(p => p.GetUserId()).Returns(_user.Id);
@@ -55,14 +56,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             discountRepository.Setup(s => s.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>()))
                 .Returns((IEnumerable<Guid> ids) =>
                     Task.FromResult((IEnumerable<Discount>)new List<Discount> { _discount }));
-        }
-
-        [Fact]
-        public async Task CanGetAllAsync()
-        {
-            Data.Add(_user);
-            var result = await _service.GetAllAsync();
-            Assert.Single(result);
         }
 
         [Fact]

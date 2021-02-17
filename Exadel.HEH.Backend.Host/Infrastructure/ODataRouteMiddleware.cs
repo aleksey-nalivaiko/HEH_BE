@@ -10,7 +10,8 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
         {
             ["/odata/Discount"] = new[] { "searchText" },
             ["/odata/Vendor"] = new[] { "searchText" },
-            ["/odata/Statistics"] = new[] { "searchText" }
+            ["/odata/Statistics"] = new[] { "searchText" },
+            ["/odata/Favorites"] = new[] { "searchText" }
         };
 
         private readonly IDictionary<string, string> _lowerCaseRoutes = new Dictionary<string, string>
@@ -18,7 +19,8 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
             ["/odata/discountCreateUpdate"] = "/odata/Discount",
             ["/odata/user"] = "/odata/User",
             ["/odata/vendor"] = "/odata/Vendor",
-            ["/odata/statistics"] = "/odata/Statistics"
+            ["/odata/statistics"] = "/odata/Statistics",
+            ["/odata/favorites"] = "/odata/Favorites"
         };
 
         private readonly RequestDelegate _next;
