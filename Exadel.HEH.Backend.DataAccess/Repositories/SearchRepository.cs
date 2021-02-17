@@ -1,32 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class SearchRepository<TSearchDocument> : MongoRepository<TSearchDocument>,
-        ISearchRepository<TSearchDocument>
-        where TSearchDocument : class, IDataModel, new()
+    public class SearchRepository<TDocument> : MongoRepository<TDocument>,
+        ISearchRepository<TDocument>
+        where TDocument : class, IDataModel, new()
     {
         public SearchRepository(IDbContext context)
             : base(context)
         {
         }
 
-        public Task<IEnumerable<TSearchDocument>> SearchAsync(string path, string searchText)
+        public IQueryable<TDocument> Get()
         {
-            return Context.SearchAsync<TSearchDocument>(path, searchText);
+            return Context.GetAll<TDocument>();
         }
 
-        public Task CreateManyAsync(IEnumerable<TSearchDocument> searchList)
+        public Task<IEnumerable<TDocument>> SearchAsync(string path, string searchText)
+        {
+            return Context.SearchAsync<TDocument>(path, searchText);
+        }
+
+        public Task CreateManyAsync(IEnumerable<TDocument> searchList)
         {
             return Context.CreateManyAsync(searchList);
         }
 
         public Task RemoveAllAsync()
         {
-            return Context.RemoveAllAsync<TSearchDocument>();
+            return Context.RemoveAllAsync<TDocument>();
         }
     }
 }

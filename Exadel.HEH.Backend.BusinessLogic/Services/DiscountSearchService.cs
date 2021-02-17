@@ -11,21 +11,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     public abstract class DiscountSearchService
     {
         protected readonly ISearchRepository<DiscountSearch> SearchRepository;
-        private readonly IVendorRepository _vendorRepository;
-        private readonly IDiscountRepository _discountRepository;
+        protected readonly IDiscountRepository DiscountRepository;
+
         private readonly ILocationService _locationService;
         private readonly ICategoryService _categoryService;
         private readonly ITagService _tagService;
 
         protected DiscountSearchService(ISearchRepository<DiscountSearch> searchRepository,
-            IVendorRepository vendorRepository,
             IDiscountRepository discountRepository,
             ILocationService locationService,
             ICategoryService categoryService,
             ITagService tagService)
         {
             SearchRepository = searchRepository;
-            _discountRepository = discountRepository;
+            DiscountRepository = discountRepository;
             _locationService = locationService;
             _categoryService = categoryService;
             _tagService = tagService;
@@ -52,7 +51,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             await SearchRepository.RemoveAllAsync();
 
-            var discounts = await _discountRepository.GetAllAsync();
+            var discounts = await DiscountRepository.GetAllAsync();
             var searchList = await GetAllSearch(discounts);
 
             await SearchRepository.CreateManyAsync(searchList);
@@ -65,15 +64,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return await Task.WhenAll(searchTasks);
         }
 
-        private async Task<DiscountSearch> GetSearchAsync(DiscountDto discount)
+        private async Task<DiscountSearch> GetSearchAsync(Discount discount)
         {
             var discountAddresses = discount.Addresses;
 
-            var countriesIds = discountAddresses.Select(a => a.CountryId);
+            var countriesIds = discountAddresses.Select(a => a.CountryId).Distinct();
             var locations = (await _locationService.GetByIdsAsync(countriesIds)).ToList();
             var countries = locations.Select(location => location.Country).ToList();
 
-            var citiesIds = discountAddresses.Select(a => a.CityId);
+            var citiesIds = discountAddresses.Select(a => a.CityId).Distinct();
             var cities = locations.SelectMany(location =>
                 location.Cities
                     .Where(c => citiesIds.Contains(c.Id))

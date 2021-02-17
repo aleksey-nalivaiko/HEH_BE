@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -11,6 +12,11 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
         public VendorRepository(IDbContext context)
             : base(context)
         {
+        }
+
+        public IQueryable<Vendor> Get()
+        {
+            return Context.GetAll<Vendor>();
         }
 
         public Task UpdateIncrementAsync(Guid id, Expression<Func<Vendor, int>> field, int value)

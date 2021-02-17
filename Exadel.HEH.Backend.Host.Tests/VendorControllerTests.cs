@@ -28,9 +28,6 @@ namespace Exadel.HEH.Backend.Host.Tests
             service.Setup(s => s.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<VendorShortDto>)Data));
 
-            service.Setup(s => s.GetAllDetailedAsync())
-                .Returns(() => Task.FromResult((IEnumerable<VendorDto>)Data));
-
             service.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
 
@@ -69,15 +66,6 @@ namespace Exadel.HEH.Backend.Host.Tests
             Data.Add(_testVendor);
             var result = await _controller.GetAllAsync();
             Assert.Single(result);
-        }
-
-        [Fact]
-        public async Task CanGetAllDetailedAsync()
-        {
-            Data.Add(_testVendor);
-            var result = (await _controller.GetAllDetailedAsync()).ToList();
-            Assert.Single(result);
-            Assert.Single(result.Single().Discounts);
         }
 
         [Fact]

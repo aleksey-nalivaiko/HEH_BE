@@ -7,21 +7,27 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class LocalVendorSearchService : VendorSearchService, ISearchService<Vendor, VendorDto>
+    public class LocalVendorSearchService : VendorSearchService,
+        ISearchService<VendorSearch, VendorDto>
     {
         public LocalVendorSearchService(ISearchRepository<VendorSearch> searchRepository,
             IVendorRepository vendorRepository,
             IDiscountRepository discountRepository,
             ILocationService locationService,
-            ICategoryService categoryService, ITagService tagService, IMapper mapper)
-            : base(searchRepository, vendorRepository, discountRepository, locationService, categoryService, tagService, mapper)
+            ICategoryService categoryService,
+            ITagService tagService,
+            IMapper mapper)
+            : base(searchRepository, vendorRepository, discountRepository,
+                locationService, categoryService, tagService, mapper)
         {
         }
 
-        public IQueryable<Vendor> Search(IQueryable<Vendor> allVendors, string searchText)
+        public IQueryable<VendorSearch> Search(string searchText)
         {
-            var lowerSearchText = searchText.ToLower();
-            return allVendors.Where(v => v.Name.ToLower().Contains(lowerSearchText));
+            var allVendors = SearchRepository.Get();
+
+            return searchText != null ?
+                allVendors.Where(v => v.Vendor.ToLower().Contains(searchText.ToLower())) : allVendors;
         }
     }
 }

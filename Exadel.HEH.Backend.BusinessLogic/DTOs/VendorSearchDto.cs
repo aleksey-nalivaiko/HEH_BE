@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Exadel.HEH.Backend.DataAccess.Models
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
-    public class VendorSearch : IDataModel
+    public class VendorSearchDto
     {
         public Guid Id { get; set; }
 
@@ -25,6 +25,6 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public IList<Guid> TagIds { get; set; }
 
-        public IList<Address> Addresses { get; set; }
+        public IEnumerable<AddressDto> Addresses { get; set; }
     }
 }

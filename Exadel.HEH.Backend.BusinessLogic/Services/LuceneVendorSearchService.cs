@@ -10,31 +10,23 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class LuceneVendorSearchService : VendorSearchService, ISearchService<Vendor, VendorDto>
+    public class LuceneVendorSearchService : VendorSearchService,
+        ISearchService<VendorSearch, VendorDto>
     {
+        private readonly string _searchPath;
+
         public LuceneVendorSearchService(
             ISearchRepository<VendorSearch> searchRepository,
             IVendorRepository vendorRepository,
             IDiscountRepository discountRepository,
             ILocationService locationService,
-            ICategoryService categoryService, ITagService tagService, IMapper mapper)
+            ICategoryService categoryService,
+            ITagService tagService,
+            IMapper mapper)
             : base(searchRepository, vendorRepository, discountRepository, locationService,
                 categoryService, tagService, mapper)
         {
-        }
-
-        public IQueryable<Vendor> Search(IQueryable<Vendor> allVendors, string searchText)
-        {
-            var searchResults = GetSearchResults(searchText).Result;
-            var searchResultsIds = searchResults.Select(s => s.Id).ToList();
-
-            return allVendors.Where(d => searchResultsIds.Contains(d.Id)).AsEnumerable()
-                .OrderBy(d => searchResultsIds.IndexOf(d.Id)).AsQueryable();
-        }
-
-        private async Task<IEnumerable<VendorSearch>> GetSearchResults(string searchText)
-        {
-            var path = JsonSerializer.Serialize(new object[]
+            _searchPath = JsonSerializer.Serialize(new object[]
             {
                 nameof(VendorSearch.Vendor).ToLower(),
                 nameof(VendorSearch.Discounts).ToLower(),
@@ -44,8 +36,17 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 nameof(VendorSearch.Cities).ToLower(),
                 nameof(VendorSearch.Streets).ToLower()
             });
+        }
 
-            return await SearchRepository.SearchAsync(path, searchText);
+        public IQueryable<VendorSearch> Search(string searchText)
+        {
+            return searchText != null ?
+                GetSearchResultsAsync(searchText).Result.AsQueryable() : SearchRepository.Get();
+        }
+
+        private async Task<IEnumerable<VendorSearch>> GetSearchResultsAsync(string searchText)
+        {
+            return await SearchRepository.SearchAsync(_searchPath, searchText);
         }
     }
 }

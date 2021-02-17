@@ -3,27 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Microsoft.AspNet.OData.Query;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    //TODO: call search service
     public class VendorService : BaseService<Vendor, VendorShortDto>, IVendorService
     {
         private readonly IVendorRepository _vendorRepository;
         private readonly IDiscountService _discountService;
         private readonly IMapper _mapper;
         private readonly IHistoryService _historyService;
-        private readonly ISearchService<Vendor, VendorDto> _searchService;
+        private readonly ISearchService<VendorSearch, VendorDto> _searchService;
 
         public VendorService(IVendorRepository vendorRepository,
             IDiscountService discountService,
             IMapper mapper,
             IHistoryService historyService,
-            ISearchService<Vendor, VendorDto> searchService)
+            ISearchService<VendorSearch, VendorDto> searchService)
             : base(vendorRepository, mapper)
         {
             _vendorRepository = vendorRepository;
@@ -33,18 +34,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _searchService = searchService;
         }
 
-        public async Task<IEnumerable<VendorDto>> GetAllDetailedAsync()
+        public IQueryable<VendorSearchDto> Get(ODataQueryOptions<VendorSearchDto> options,
+            string searchText)
         {
-            var discounts = await _discountService.GetAllAsync();
-            var vendors = (await _vendorRepository.GetAllAsync()).ToList();
+            var vendorsSearch = searchText != null ?
+                _searchService.Search(searchText) : _searchService.Search();
 
-            var vendorsWithDiscounts = vendors.GroupJoin(
-                discounts,
-                vendor => vendor.Id,
-                discount => discount.VendorId,
-                GetVendorDto);
+            var vendorsSearchDto = vendorsSearch.ProjectTo<VendorSearchDto>(_mapper.ConfigurationProvider);
 
-            return vendorsWithDiscounts;
+            if (options.Filter != null)
+            {
+                options.ApplyTo(vendorsSearchDto);
+            }
+
+            return vendorsSearchDto;
         }
 
         public async Task<VendorDto> GetByIdAsync(Guid id)

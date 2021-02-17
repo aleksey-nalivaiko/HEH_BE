@@ -21,13 +21,13 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             if (env.IsDevelopment())
             {
-                services.AddScoped<ISearchService<Discount, DiscountDto>, LocalDiscountSearchService>();
-                services.AddScoped<ISearchService<Vendor, VendorDto>, LocalVendorSearchService>();
+                services.AddScoped<ISearchService<Discount, Discount>, LocalDiscountSearchService>();
+                services.AddScoped<ISearchService<VendorSearch, VendorDto>, LocalVendorSearchService>();
             }
             else
             {
-                services.AddScoped<ISearchService<Discount, DiscountDto>, LuceneDiscountSearchService>();
-                services.AddScoped<ISearchService<Vendor, VendorDto>, LuceneVendorSearchService>();
+                services.AddScoped<ISearchService<Discount, Discount>, LuceneDiscountSearchService>();
+                services.AddScoped<ISearchService<VendorSearch, VendorDto>, LuceneVendorSearchService>();
             }
 
             return services;

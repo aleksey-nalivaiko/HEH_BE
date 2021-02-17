@@ -61,18 +61,18 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var vendors = await _vendorRepository.GetAllAsync();
             var allDiscounts = await _discountRepository.GetAllAsync();
 
-            var vendorsDtos = vendors.GroupJoin(
+            var vendorsDto = vendors.GroupJoin(
                 allDiscounts,
                 vendor => vendor.Id,
                 discount => discount.VendorId,
                 (vendor, discounts) =>
                 {
                     var vendorDto = _mapper.Map<VendorDto>(vendor);
-                    vendorDto.Discounts = _mapper.Map<IEnumerable<DiscountDto>>(discounts);
+                    vendorDto.Discounts = _mapper.Map<IEnumerable<DiscountShortDto>>(discounts);
                     return vendorDto;
                 });
 
-            var searchList = await GetAllSearch(vendorsDtos);
+            var searchList = await GetAllSearch(vendorsDto);
 
             await SearchRepository.CreateManyAsync(searchList);
         }
@@ -86,8 +86,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         private async Task<VendorSearch> GetSearchAsync(VendorDto vendor)
         {
-            var countriesIds = vendor.Addresses.Select(a => a.CountryId);
-            var citiesIds = vendor.Addresses.Select(a => a.CityId);
+            var countriesIds = vendor.Addresses.Select(a => a.CountryId).Distinct().ToList();
+            var citiesIds = vendor.Addresses.Select(a => a.CityId).Distinct().ToList();
             var streets = vendor.Addresses.Select(a => a.Street).ToList();
 
             var locations = (await _locationService.GetByIdsAsync(countriesIds)).ToList();
@@ -98,11 +98,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             var discounts = vendor.Discounts.ToList();
 
-            var categoriesNames = (await _categoryService.GetByIdsAsync(discounts.Select(c => c.CategoryId)))
+            var categoriesIds = discounts.Select(c => c.CategoryId).Distinct().ToList();
+            var categoriesNames = (await _categoryService.GetByIdsAsync(categoriesIds))
                 .Select(c => c.Name)
                 .ToList();
 
-            var tagsNames = (await _tagService.GetByIdsAsync(discounts.SelectMany(d => d.TagsIds)))
+            var tagsIds = discounts.SelectMany(d => d.TagsIds).Distinct().ToList();
+            var tagsNames = (await _tagService.GetByIdsAsync(tagsIds))
                 .Select(t => t.Name)
                 .ToList();
 
@@ -115,7 +117,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 Tags = tagsNames,
                 Countries = countries,
                 Cities = cities,
-                Streets = streets
+                Streets = streets,
+                CategoryIds = categoriesIds,
+                TagIds = tagsIds,
+                Addresses = _mapper.Map<IEnumerable<Address>>(vendor.Addresses).ToList()
             };
             return search;
         }
