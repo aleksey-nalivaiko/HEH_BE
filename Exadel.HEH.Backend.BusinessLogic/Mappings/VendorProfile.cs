@@ -17,7 +17,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
             CreateMap<Link, LinkDto>()
                 .ReverseMap();
 
-            CreateMap<VendorSearch, VendorSearchDto>();
+            CreateMap<VendorSearch, VendorSearchDto>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Vendor));
         }
     }
 }
