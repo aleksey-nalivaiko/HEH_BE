@@ -139,21 +139,21 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         private IEnumerable<Discount> GetDiscountsFromDto(VendorDto vendor)
         {
-            var discounts = _mapper.Map<IEnumerable<Discount>>(vendor.Discounts);
+            var discounts = new List<Discount>();
 
-            discounts = discounts.Join(
-                vendor.Discounts,
-                d => d.Id,
-                dto => dto.Id,
-                (d, dto) =>
-                {
-                    d.Addresses = vendor.Addresses.Join(
-                        dto.AddressesIds,
-                        a => a.Id,
-                        i => i,
-                        (a, i) => _mapper.Map<Address>(a)).ToList();
-                    return d;
-                });
+            foreach (var vendorDiscount in vendor.Discounts)
+            {
+                var discount = _mapper.Map<Discount>(vendorDiscount);
+
+                discount.Addresses = vendor.Addresses.Join(
+                    vendorDiscount.AddressesIds,
+                    a => a.Id,
+                    i => i,
+                    (a, i) => _mapper.Map<Address>(a)).ToList();
+
+                discounts.Add(discount);
+            }
+
             return discounts;
         }
 
