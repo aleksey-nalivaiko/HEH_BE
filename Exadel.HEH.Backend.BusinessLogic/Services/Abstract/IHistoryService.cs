@@ -5,7 +5,7 @@ using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
-    public interface IHistoryService : IService<HistoryDto>
+    public interface IHistoryService
     {
         Task CreateAsync(UserAction action, string description);
 

@@ -20,7 +20,8 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
             ["/odata/user"] = "/odata/User",
             ["/odata/vendor"] = "/odata/Vendor",
             ["/odata/statistics"] = "/odata/Statistics",
-            ["/odata/favorites"] = "/odata/Favorites"
+            ["/odata/favorites"] = "/odata/Favorites",
+            ["/odata/history"] = "/odata/History"
         };
 
         private readonly RequestDelegate _next;

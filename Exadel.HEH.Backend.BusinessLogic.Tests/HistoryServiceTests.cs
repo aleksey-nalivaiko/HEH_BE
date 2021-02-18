@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
+using System.Linq;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -21,7 +20,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var userProvider = new Mock<IUserProvider>();
             var historyRepository = new Mock<IHistoryRepository>();
 
-            _service = new HistoryService(userRepository.Object, Repository.Object, historyRepository.Object, MapperExtensions.Mapper, userProvider.Object);
+            _service = new HistoryService(userRepository.Object, historyRepository.Object, MapperExtensions.Mapper, userProvider.Object);
             _history = new History
             {
                 Id = Guid.NewGuid(),
@@ -33,13 +32,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 UserName = "Mary",
                 UserRole = UserRole.Moderator
             };
+
+            historyRepository.Setup(r => r.Get()).Returns(Data.AsQueryable());
         }
 
         [Fact]
-        public async Task CanGetAll()
+        public void CanGetAll()
         {
             Data.Add(_history);
-            var result = await _service.GetAllAsync();
+            var result = _service.Get();
             Assert.Single(result);
         }
     }

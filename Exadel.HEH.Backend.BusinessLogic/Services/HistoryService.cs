@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -11,21 +10,21 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class HistoryService : BaseService<History, HistoryDto>, IHistoryService
+    public class HistoryService : IHistoryService
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserProvider _userProvider;
-        private readonly IRepository<History> _historyRepository;
-        private readonly IHistoryRepository _historyRepo;
+        private readonly IHistoryRepository _historyRepository;
+        private readonly IMapper _mapper;
 
-        public HistoryService(IUserRepository userRepository, IRepository<History> historyRepository, IHistoryRepository historyRepo,
+        public HistoryService(IUserRepository userRepository, IHistoryRepository historyRepository,
             IMapper mapper, IUserProvider userProvider)
-            : base(historyRepository, mapper)
         {
-            _historyRepo = historyRepo;
+            _historyRepository = historyRepository;
             _userRepository = userRepository;
             _userProvider = userProvider;
             _historyRepository = historyRepository;
+            _mapper = mapper;
         }
 
         public async Task CreateAsync(UserAction action, string description)
@@ -48,21 +47,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public IQueryable<HistoryDto> Get()
         {
-            var history = _historyRepo.Get();
+            var history = _historyRepository.Get().OrderByDescending(h => h.DateTime);
 
-            return history.ProjectTo<HistoryDto>(Mapper.ConfigurationProvider);
-        }
-
-        public override async Task<IEnumerable<HistoryDto>> GetAllAsync()
-        {
-            var result = (await base.GetAllAsync()).OrderByDescending(h => h.DateTime).ToList();
-
-            foreach (var history in result)
-            {
-                history.DateTime = history.DateTime.ToLocalTime();
-            }
-
-            return result;
+            return history.ProjectTo<HistoryDto>(_mapper.ConfigurationProvider);
         }
 
         private Task<User> GetCurrentUser()
