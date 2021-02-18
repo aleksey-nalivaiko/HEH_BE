@@ -1,17 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
-using Exadel.HEH.Backend.Host.Controllers.Abstract;
 using Exadel.HEH.Backend.Host.Infrastructure;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNet.OData.Routing;
-using Microsoft.AspNetCore.Authorization;
 
-namespace Exadel.HEH.Backend.Host.Controllers
+namespace Exadel.HEH.Backend.Host.Controllers.OData
 {
     [ODataRoutePrefix("History")]
     [ODataAuthorize(Roles = nameof(UserRole.Administrator))]

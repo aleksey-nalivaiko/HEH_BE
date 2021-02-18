@@ -34,17 +34,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             });
         }
 
-        public IQueryable<Discount> Search(string searchText)
+        public async Task<IQueryable<Discount>> SearchAsync(string searchText)
         {
             var allDiscounts = DiscountRepository.Get();
 
             if (searchText != null)
             {
-                var searchResults = GetSearchResultsAsync(searchText).Result;
+                var searchResults = await GetSearchResultsAsync(searchText);
                 var searchResultsIds = searchResults.Select(s => s.Id).ToList();
 
-                return allDiscounts.Where(d => searchResultsIds.Contains(d.Id)).AsEnumerable()
-                    .OrderBy(d => searchResultsIds.IndexOf(d.Id)).AsQueryable();
+                var sortedByScore = allDiscounts/*.AsEnumerable()*/
+                    .Where(d => searchResultsIds.Contains(d.Id))
+                   /* .OrderBy(d => searchResultsIds.IndexOf(d.Id))*/;
+
+                return sortedByScore/*.AsQueryable()*/;
             }
 
             return allDiscounts;

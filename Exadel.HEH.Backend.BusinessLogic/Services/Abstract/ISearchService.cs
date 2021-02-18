@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
-    public interface ISearchService<out T, in TCreateUpdate>
+    public interface ISearchService<T, in TCreateUpdate>
     {
-        IQueryable<T> Search(string searchText = default);
+        Task<IQueryable<T>> SearchAsync(string searchText = default);
 
         Task CreateAsync(TCreateUpdate item);
 

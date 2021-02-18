@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -17,7 +18,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
         }
 
-        public IQueryable<Discount> Search(string searchText)
+        public Task<IQueryable<Discount>> SearchAsync(string searchText)
         {
             var allDiscounts = DiscountRepository.Get();
 
@@ -25,11 +26,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             {
                 var lowerSearchText = searchText.ToLower();
 
-                return allDiscounts.Where(d => d.Conditions.ToLower().Contains(lowerSearchText)
-                                               || d.VendorName.ToLower().Contains(lowerSearchText));
+                return Task.FromResult(allDiscounts
+                    .Where(d => d.Conditions.ToLower().Contains(lowerSearchText)
+                                || d.VendorName.ToLower().Contains(lowerSearchText)));
             }
 
-            return allDiscounts;
+            return Task.FromResult(allDiscounts);
         }
     }
 }

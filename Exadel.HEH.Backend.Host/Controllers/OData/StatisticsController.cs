@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -23,9 +24,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
 
         [EnableQuery(HandleNullPropagation = HandleNullPropagationOption.False)]
         [ODataRoute]
-        public IQueryable<DiscountStatisticsDto> Get([FromQuery] string searchText)
+        public Task<IQueryable<DiscountStatisticsDto>> GetAsync([FromQuery] string searchText)
         {
-            return _discountService.GetStatistics(searchText);
+            return _discountService.GetStatisticsAsync(searchText);
         }
     }
 }

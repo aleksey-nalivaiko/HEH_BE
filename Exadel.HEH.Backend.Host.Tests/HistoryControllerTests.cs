@@ -3,7 +3,7 @@ using System.Linq;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
-using Exadel.HEH.Backend.Host.Controllers;
+using Exadel.HEH.Backend.Host.Controllers.OData;
 using Moq;
 using Xunit;
 

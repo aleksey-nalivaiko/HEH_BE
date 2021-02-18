@@ -8,7 +8,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
     public interface IVendorService : IService<VendorShortDto>
     {
-        IQueryable<VendorSearchDto> Get(ODataQueryOptions<VendorSearchDto> options, string searchText = default);
+        Task<IQueryable<VendorSearchDto>> GetAsync(ODataQueryOptions<VendorSearchDto> options, string searchText = default);
 
         Task<VendorDto> GetByIdAsync(Guid id);
 

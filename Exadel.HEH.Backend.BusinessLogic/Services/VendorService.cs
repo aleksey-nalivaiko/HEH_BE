@@ -34,11 +34,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _searchService = searchService;
         }
 
-        public IQueryable<VendorSearchDto> Get(ODataQueryOptions<VendorSearchDto> options,
+        public async Task<IQueryable<VendorSearchDto>> GetAsync(ODataQueryOptions<VendorSearchDto> options,
             string searchText)
         {
-            var vendorsSearch = searchText != null ?
-                _searchService.Search(searchText) : _searchService.Search();
+            var vendorsSearch = await (searchText != null ?
+                _searchService.SearchAsync(searchText) : _searchService.SearchAsync());
 
             var vendorsSearchDto = vendorsSearch.ProjectTo<VendorSearchDto>(_mapper.ConfigurationProvider);
 

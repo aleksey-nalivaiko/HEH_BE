@@ -38,10 +38,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             });
         }
 
-        public IQueryable<VendorSearch> Search(string searchText)
+        public async Task<IQueryable<VendorSearch>> SearchAsync(string searchText)
         {
             return searchText != null ?
-                GetSearchResultsAsync(searchText).Result.AsQueryable() : SearchRepository.Get();
+                (await GetSearchResultsAsync(searchText)).AsQueryable() : SearchRepository.Get();
         }
 
         private async Task<IEnumerable<VendorSearch>> GetSearchResultsAsync(string searchText)

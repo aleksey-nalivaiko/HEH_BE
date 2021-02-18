@@ -34,7 +34,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             var user = await GetCurrentUser();
 
-            var searchedDiscounts = _searchService.Search(searchText);
+            var searchedDiscounts = await _searchService.SearchAsync(searchText);
 
             var favoritesIds = user.Favorites.Select(f => f.DiscountId);
             var discounts = searchedDiscounts.Where(d => favoritesIds.Contains(d.Id));
