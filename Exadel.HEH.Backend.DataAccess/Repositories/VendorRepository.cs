@@ -4,7 +4,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class VendorRepository : MongoRepository<Vendor>, IVendorRepository
+    public class VendorRepository : BaseRepository<Vendor>, IVendorRepository
     {
         public VendorRepository(IDbContext context)
             : base(context)

@@ -8,7 +8,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class SearchRepository<TDocument> : MongoRepository<TDocument>,
+    public class SearchRepository<TDocument> : BaseRepository<TDocument>,
         ISearchRepository<TDocument>
         where TDocument : class, IDataModel, new()
     {

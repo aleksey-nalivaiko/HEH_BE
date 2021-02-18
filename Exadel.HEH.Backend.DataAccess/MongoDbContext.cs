@@ -130,12 +130,13 @@ namespace Exadel.HEH.Backend.DataAccess
             return await GetCollection<T>().Aggregate<T>(pipeline).ToListAsync();
         }
 
-        public async Task<IEnumerable<User>> AnyIn(IEnumerable<Guid> tags,
-            IEnumerable<Guid> categories,
-            IEnumerable<Guid> vendors)
+        public async Task<IEnumerable<T>> AnyInAsync<T, TField>(
+            Expression<Func<T, TField>> field,
+            IEnumerable<TField> )
         {
-            var filter = Builders<User>.Filter.AnyIn(u => u.CategoryNotifications, categories)
-                | Builders<User>.Filter.AnyIn(u => u.TagNotifications, tags);
+            var filter = Builders<T>.Filter.AnyIn(field, categories)
+                | Builders<User>.Filter.AnyIn(u => u.TagNotifications, tags)
+                | Builders<User>.Filter.AnyIn(u => u.VendorNotifications, vendors);
             return await GetCollection<User>()
                 .Find(filter).ToListAsync();
         }

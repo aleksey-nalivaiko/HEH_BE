@@ -7,7 +7,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class LocationRepository : MongoRepository<Location>, ILocationRepository
+    public class LocationRepository : BaseRepository<Location>, ILocationRepository
     {
         public LocationRepository(IDbContext context)
             : base(context)

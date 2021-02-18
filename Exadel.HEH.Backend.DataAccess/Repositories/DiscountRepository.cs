@@ -8,7 +8,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class DiscountRepository : MongoRepository<Discount>, IDiscountRepository
+    public class DiscountRepository : BaseRepository<Discount>, IDiscountRepository
     {
         public DiscountRepository(IDbContext context)
             : base(context)
