@@ -96,8 +96,7 @@ namespace Exadel.HEH.Backend.Host
             services.AddOdataSwaggerSupport();
 
             services.AddHttpContextAccessor();
-            services.AddUserProvider();
-            services.AddMethodProvider();
+            services.AddProviders();
             services.AddRepositories(Configuration);
             services.AddCrudServices();
             services.AddBusinessServices(Environment);
