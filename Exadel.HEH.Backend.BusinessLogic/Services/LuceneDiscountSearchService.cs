@@ -34,7 +34,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             });
         }
 
-        public async Task<IQueryable<Discount>> SearchAsync(string searchText)
+        public async Task<IEnumerable<Discount>> SearchAsync(string searchText)
         {
             var allDiscounts = DiscountRepository.Get();
 
@@ -43,11 +43,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 var searchResults = await GetSearchResultsAsync(searchText);
                 var searchResultsIds = searchResults.Select(s => s.Id).ToList();
 
-                var sortedByScore = allDiscounts/*.AsEnumerable()*/
+                return allDiscounts
                     .Where(d => searchResultsIds.Contains(d.Id))
-                   /* .OrderBy(d => searchResultsIds.IndexOf(d.Id))*/;
-
-                return sortedByScore/*.AsQueryable()*/;
+                    .AsEnumerable()
+                    .OrderBy(d => searchResultsIds.IndexOf(d.Id));
             }
 
             return allDiscounts;

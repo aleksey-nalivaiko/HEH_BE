@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -40,7 +39,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var vendorsSearch = await (searchText != null ?
                 _searchService.SearchAsync(searchText) : _searchService.SearchAsync());
 
-            var vendorsSearchDto = vendorsSearch.ProjectTo<VendorSearchDto>(_mapper.ConfigurationProvider);
+            var vendorsSearchDto = _mapper.Map<IEnumerable<VendorSearchDto>>(vendorsSearch)
+                .AsQueryable();
 
             if (options.Filter != null)
             {

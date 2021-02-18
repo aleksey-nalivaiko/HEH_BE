@@ -11,6 +11,8 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
     {
         IQueryable<Discount> Get();
 
+        Task<IEnumerable<Discount>> GetAsync(Expression<Func<Discount, bool>> expression);
+
         Task<IEnumerable<Discount>> GetByIdsAsync(IEnumerable<Guid> ids);
 
         Task CreateManyAsync(IEnumerable<Discount> discounts);

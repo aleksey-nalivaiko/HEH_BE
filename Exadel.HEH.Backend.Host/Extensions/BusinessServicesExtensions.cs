@@ -19,16 +19,16 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddSingleton<IEmailService, EmailService>();
 
-            //if (env.IsDevelopment())
-            //{
-            //    services.AddScoped<ISearchService<Discount, Discount>, LocalDiscountSearchService>();
-            //    services.AddScoped<ISearchService<VendorSearch, VendorDto>, LocalVendorSearchService>();
-            //}
-            //else
-            //{
-            services.AddScoped<ISearchService<Discount, Discount>, LuceneDiscountSearchService>();
-            services.AddScoped<ISearchService<VendorSearch, VendorDto>, LuceneVendorSearchService>();
-            //}
+            if (env.IsDevelopment())
+            {
+                services.AddScoped<ISearchService<Discount, Discount>, LocalDiscountSearchService>();
+                services.AddScoped<ISearchService<VendorSearch, VendorDto>, LocalVendorSearchService>();
+            }
+            else
+            {
+                services.AddScoped<ISearchService<Discount, Discount>, LuceneDiscountSearchService>();
+                services.AddScoped<ISearchService<VendorSearch, VendorDto>, LuceneVendorSearchService>();
+            }
 
             return services;
         }

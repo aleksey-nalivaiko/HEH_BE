@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -62,12 +61,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             var discounts = await _searchService.SearchAsync(searchText);
 
-            var discountsDto = discounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);
+            var discountsDto = _mapper.Map<IEnumerable<DiscountDto>>(discounts);
             var discountsDtoList = discountsDto.ToList();
 
-            var areInFavorites = await _favoritesService.DiscountsAreInFavorites(discountsDtoList.Select(d => d.Id));
+            var areInFavorites = await _favoritesService.DiscountsAreInFavorites(
+                discountsDtoList.Select(d => d.Id));
 
-            discountsDto = discountsDtoList.Join(
+            var discountsQueryable = discountsDtoList.Join(
                 areInFavorites,
                 d => d.Id,
                 a => a.Key,
@@ -77,15 +77,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     return discount;
                 }).AsQueryable();
 
-            return discountsDto;
+            return discountsQueryable;
         }
 
         public async Task<IQueryable<DiscountStatisticsDto>> GetStatisticsAsync(string searchText)
         {
             var discounts = await _searchService.SearchAsync(searchText);
-            var discountsDto = discounts.ProjectTo<DiscountStatisticsDto>(_mapper.ConfigurationProvider);
+            var discountsDto = _mapper.Map<IEnumerable<DiscountStatisticsDto>>(discounts);
 
-            return discountsDto;
+            return discountsDto.AsQueryable();
         }
 
         public async Task<DiscountExtendedDto> GetByIdAsync(Guid id)

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
@@ -23,12 +24,18 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
         }
 
-        public Task<IQueryable<VendorSearch>> SearchAsync(string searchText)
+        public Task<IEnumerable<VendorSearch>> SearchAsync(string searchText)
         {
-            var allVendors = SearchRepository.Get();
+            if (searchText != null)
+            {
+                var allVendors = SearchRepository.Get();
 
-            return Task.FromResult(searchText != null ?
-                allVendors.Where(v => v.Vendor.ToLower().Contains(searchText.ToLower())) : allVendors);
+                return Task.FromResult(allVendors.Where(v =>
+                    v.Vendor.ToLower().Contains(searchText.ToLower()))
+                    .AsEnumerable());
+            }
+
+            return SearchRepository.GetAllAsync();
         }
     }
 }

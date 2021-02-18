@@ -20,6 +20,11 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
             return Context.GetAll<Discount>();
         }
 
+        public Task<IEnumerable<Discount>> GetAsync(Expression<Func<Discount, bool>> expression)
+        {
+            return Context.GetAsync(expression);
+        }
+
         public Task<IEnumerable<Discount>> GetByIdsAsync(IEnumerable<Guid> ids)
         {
             return Context.GetAsync<Discount>(d => ids.Contains(d.Id));
