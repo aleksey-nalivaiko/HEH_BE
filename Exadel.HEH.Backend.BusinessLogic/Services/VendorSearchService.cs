@@ -86,32 +86,58 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         private async Task<VendorSearch> GetSearchAsync(VendorDto vendor)
         {
-            var countriesIds = vendor.Addresses.Select(a => a.CountryId).Distinct().ToList();
-            var citiesIds = vendor.Addresses.Select(a => a.CityId).Distinct().ToList();
-            var streets = vendor.Addresses.Select(a => a.Street).ToList();
+            var countries = new List<string>();
+            var cities = new List<string>();
+            var streets = new List<string>();
 
-            var locations = (await _locationService.GetByIdsAsync(countriesIds)).ToList();
-            var countries = locations.Select(location => location.Country).ToList();
-            var cities = locations.SelectMany(location => location.Cities
-                .Where(c => citiesIds.Contains(c.Id))
-                .Select(c => c.Name)).ToList();
+            if (vendor.Addresses != null && vendor.Addresses.Any())
+            {
+                var countriesIds = vendor.Addresses.Select(a => a.CountryId)
+                    .Distinct()
+                    .ToList();
+                var citiesIds = vendor.Addresses.Select(a => a.CityId)
+                    .Distinct()
+                    .ToList();
+                streets = vendor.Addresses.Select(a => a.Street).ToList();
 
-            var discounts = vendor.Discounts.ToList();
+                var locations = (await _locationService.GetByIdsAsync(countriesIds)).ToList();
+                countries = locations.Select(location => location.Country).ToList();
+                cities = locations.SelectMany(location => location.Cities
+                        .Where(c => citiesIds.Contains(c.Id))
+                        .Select(c => c.Name))
+                    .ToList();
+            }
 
-            var categoriesIds = discounts.Select(c => c.CategoryId).Distinct().ToList();
-            var categoriesNames = (await _categoryService.GetByIdsAsync(categoriesIds))
-                .Select(c => c.Name)
-                .ToList();
+            var categoriesIds = new List<Guid>();
+            var categoriesNames = new List<string>();
+            var tagsIds = new List<Guid>();
+            var tagsNames = new List<string>();
+            var conditions = new List<string>();
 
-            var tagsIds = discounts.SelectMany(d => d.TagsIds).Distinct().ToList();
-            var tagsNames = (await _tagService.GetByIdsAsync(tagsIds))
-                .Select(t => t.Name)
-                .ToList();
+            if (vendor.Discounts != null && vendor.Discounts.Any())
+            {
+                var discounts = vendor.Discounts.ToList();
+                conditions = discounts.Select(d => d.Conditions).ToList();
+
+                categoriesIds = discounts.Select(c => c.CategoryId)
+                    .Distinct()
+                    .ToList();
+                categoriesNames = (await _categoryService.GetByIdsAsync(categoriesIds))
+                    .Select(c => c.Name)
+                    .ToList();
+
+                tagsIds = discounts.SelectMany(d => d.TagsIds ?? new List<Guid>())
+                    .Distinct()
+                    .ToList();
+                tagsNames = (await _tagService.GetByIdsAsync(tagsIds))
+                    .Select(t => t.Name)
+                    .ToList();
+            }
 
             var search = new VendorSearch
             {
                 Id = vendor.Id,
-                Discounts = discounts.Select(d => d.Conditions).ToList(),
+                Discounts = conditions,
                 Vendor = vendor.Name,
                 Categories = categoriesNames,
                 Tags = tagsNames,

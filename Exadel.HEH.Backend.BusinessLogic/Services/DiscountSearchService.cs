@@ -66,23 +66,36 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         private async Task<DiscountSearch> GetSearchAsync(Discount discount)
         {
-            var discountAddresses = discount.Addresses;
+            var countries = new List<string>();
+            var cities = new List<string>();
+            var streets = new List<string>();
 
-            var countriesIds = discountAddresses.Select(a => a.CountryId).Distinct();
-            var locations = (await _locationService.GetByIdsAsync(countriesIds)).ToList();
-            var countries = locations.Select(location => location.Country).ToList();
+            if (discount.Addresses != null && discount.Addresses.Any())
+            {
+                var discountAddresses = discount.Addresses;
 
-            var citiesIds = discountAddresses.Select(a => a.CityId).Distinct();
-            var cities = locations.SelectMany(location =>
-                location.Cities
-                    .Where(c => citiesIds.Contains(c.Id))
-                    .Select(c => c.Name)).ToList();
+                var countriesIds = discountAddresses.Select(a => a.CountryId).Distinct();
+                var locations = (await _locationService.GetByIdsAsync(countriesIds)).ToList();
+                countries = locations.Select(location => location.Country).ToList();
 
-            var streets = discountAddresses.Select(a => a.Street).ToList();
+                var citiesIds = discountAddresses.Select(a => a.CityId).Distinct();
+                cities = locations.SelectMany(location =>
+                    location.Cities
+                        .Where(c => citiesIds.Contains(c.Id))
+                        .Select(c => c.Name)).ToList();
+
+                streets = discountAddresses.Select(a => a.Street).ToList();
+            }
 
             var category = await _categoryService.GetByIdAsync(discount.CategoryId);
-            var tagsNames = (await _tagService.GetByIdsAsync(discount.TagsIds))
-                .Select(t => t.Name).ToList();
+
+            var tagsNames = new List<string>();
+
+            if (discount.TagsIds != null && discount.TagsIds.Any())
+            {
+                tagsNames = (await _tagService.GetByIdsAsync(discount.TagsIds))
+                    .Select(t => t.Name).ToList();
+            }
 
             var search = new DiscountSearch
             {

@@ -147,11 +147,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             {
                 var discount = _mapper.Map<Discount>(vendorDiscount);
 
-                discount.Addresses = vendor.Addresses.Join(
-                    vendorDiscount.AddressesIds,
-                    a => a.Id,
-                    i => i,
-                    (a, i) => _mapper.Map<Address>(a)).ToList();
+                if (vendorDiscount.AddressesIds != null
+                    && vendorDiscount.AddressesIds.Any())
+                {
+                    discount.Addresses = vendor.Addresses.Join(
+                        vendorDiscount.AddressesIds,
+                        a => a.Id,
+                        i => i,
+                        (a, i) => _mapper.Map<Address>(a)).ToList();
+                }
 
                 discounts.Add(discount);
             }
@@ -167,9 +171,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var discounts = vendor.Discounts.ToList();
             discounts.ForEach(d =>
             {
-                var phoneList = d.PhonesIds.ToList();
-                phoneList.RemoveAll(p => !vendorPhonesIds.Contains(p));
-                d.PhonesIds = phoneList;
+                if (d.PhonesIds != null && d.PhonesIds.Any())
+                {
+                    var phoneList = d.PhonesIds.ToList();
+                    phoneList.RemoveAll(p => !vendorPhonesIds.Contains(p));
+                    d.PhonesIds = phoneList;
+                }
             });
         }
 
