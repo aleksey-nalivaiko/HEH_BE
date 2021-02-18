@@ -200,7 +200,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 Name = "Vendor",
                 Email = "v@gmail.com",
                 Mailing = true,
-                ViewsAmount = 100,
                 Addresses = addresses,
                 Phones = phonesIds,
                 Links = new List<Link>

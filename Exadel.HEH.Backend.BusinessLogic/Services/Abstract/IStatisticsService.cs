@@ -5,6 +5,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
     public interface IStatisticsService
     {
-        Task IncrementViewsAmountAsync(Guid vendorId);
+        Task IncrementViewsAmountAsync(Guid discountId);
     }
 }

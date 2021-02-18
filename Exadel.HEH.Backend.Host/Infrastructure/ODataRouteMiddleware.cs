@@ -9,14 +9,16 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
         private readonly IDictionary<string, string[]> _config = new Dictionary<string, string[]>
         {
             ["/odata/Discount"] = new[] { "searchText" },
-            ["/odata/Vendor"] = new[] { "searchText" }
+            ["/odata/Vendor"] = new[] { "searchText" },
+            ["/odata/Statistics"] = new[] { "searchText" }
         };
 
         private readonly IDictionary<string, string> _lowerCaseRoutes = new Dictionary<string, string>
         {
             ["/odata/discountCreateUpdate"] = "/odata/Discount",
             ["/odata/user"] = "/odata/User",
-            ["/odata/vendor"] = "/odata/Vendor"
+            ["/odata/vendor"] = "/odata/Vendor",
+            ["/odata/statistics"] = "/odata/Statistics"
         };
 
         private readonly RequestDelegate _next;
@@ -34,7 +36,13 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
             {
                 foreach (var lowerCaseRoute in _lowerCaseRoutes)
                 {
-                    request.Path = request.Path.ToString().Replace(lowerCaseRoute.Key, lowerCaseRoute.Value);
+                    var requestString = request.Path.ToString();
+
+                    if (requestString.Contains(lowerCaseRoute.Key))
+                    {
+                        request.Path = requestString.Replace(lowerCaseRoute.Key, lowerCaseRoute.Value);
+                        break;
+                    }
                 }
 
                 if (_config.TryGetValue(request.Path.Value, out var queryParams))

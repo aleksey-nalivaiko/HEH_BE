@@ -77,6 +77,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return discountsDto;
         }
 
+        public IQueryable<DiscountStatisticsDto> GetStatistics(string searchText)
+        {
+            var discounts = _searchService.Search(searchText);
+            var discountsDto = discounts.ProjectTo<DiscountStatisticsDto>(_mapper.ConfigurationProvider);
+
+            return discountsDto;
+        }
+
         public async Task<DiscountExtendedDto> GetByIdAsync(Guid id)
         {
             var discount = await _discountRepository.GetByIdAsync(id);

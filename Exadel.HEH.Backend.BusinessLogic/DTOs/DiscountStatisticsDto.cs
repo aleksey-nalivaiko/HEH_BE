@@ -2,12 +2,12 @@
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
-    public class DiscountDto : DiscountBaseDto
+    public class DiscountStatisticsDto : DiscountBaseDto
     {
         public IEnumerable<AddressDto> Addresses { get; set; }
 
         public IList<int> PhonesIds { get; set; }
 
-        public virtual bool IsFavorite { get; set; }
+        public int ViewsAmount { get; set; }
     }
 }

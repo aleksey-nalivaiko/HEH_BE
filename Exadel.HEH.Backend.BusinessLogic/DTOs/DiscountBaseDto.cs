@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
-    public class DiscountBaseDto
+    public abstract class DiscountBaseDto
     {
         public Guid Id { get; set; }
 
@@ -22,7 +22,5 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs
         public DateTime EndDate { get; set; }
 
         public Guid CategoryId { get; set; }
-
-        public virtual bool IsFavorite { get; set; }
     }
 }
