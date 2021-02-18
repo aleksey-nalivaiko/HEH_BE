@@ -83,13 +83,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             Assert.Equal("NewTagName", Data.Single(x => x.Id == _testTag.Id).Name);
         }
 
-        [Fact]
-        public async Task CanRemoveAsync()
-        {
-            Data.Add(_testTag);
-            await _service.RemoveAsync(_testTag.Id);
-            Assert.Empty(Data);
-        }
+        //[Fact]
+        //public async Task CanRemoveAsync()
+        //{
+        //    Data.Add(_testTag);
+        //    await _service.RemoveAsync(_testTag.Id);
+        //    Assert.Empty(Data);
+        //}
 
         private void InitTestData()
         {
