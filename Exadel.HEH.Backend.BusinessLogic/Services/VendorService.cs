@@ -66,7 +66,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _vendorRepository.CreateAsync(_mapper.Map<Vendor>(vendor));
 
             await _historyService.CreateAsync(UserAction.Add,
-                "Created vendor " + vendor.Id);
+                "Created vendor " + vendor.Name);
 
             await _searchService.CreateAsync(vendor);
 
@@ -83,7 +83,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             await _vendorRepository.UpdateAsync(_mapper.Map<Vendor>(vendor));
             await _historyService.CreateAsync(UserAction.Edit,
-                "Updated vendor " + vendor.Id);
+                "Updated vendor " + vendor.Name);
 
             await _searchService.UpdateAsync(vendor);
 
@@ -111,10 +111,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task RemoveAsync(Guid id)
         {
+            var vendor = await _vendorRepository.GetByIdAsync(id);
+
             await _vendorRepository.RemoveAsync(id);
 
             await _historyService.CreateAsync(UserAction.Remove,
-                "Removed vendor " + id);
+                "Removed vendor " + vendor.Name);
 
             await _searchService.RemoveAsync(id);
 

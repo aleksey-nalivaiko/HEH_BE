@@ -32,6 +32,8 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddSingleton<IIdentityRepository, IdentityRepository>();
 
+            services.AddSingleton<IHistoryRepository, HistoryRepository>();
+
             services.AddSingleton<ISearchRepository<DiscountSearch>,
                 SearchRepository<DiscountSearch>>();
 

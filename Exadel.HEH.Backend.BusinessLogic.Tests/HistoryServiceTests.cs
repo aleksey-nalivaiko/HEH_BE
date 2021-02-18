@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AutoMapper;
+using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -17,8 +19,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         {
             var userRepository = new Mock<IUserRepository>();
             var userProvider = new Mock<IUserProvider>();
+            var historyRepository = new Mock<IHistoryRepository>();
 
-            _service = new HistoryService(userRepository.Object, Repository.Object, Mapper, userProvider.Object);
+            _service = new HistoryService(userRepository.Object, Repository.Object, historyRepository.Object, MapperExtensions.Mapper, userProvider.Object);
             _history = new History
             {
                 Id = Guid.NewGuid(),

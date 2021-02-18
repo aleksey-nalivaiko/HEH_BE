@@ -64,14 +64,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var result = _mapper.Map<Category>(item);
             await _categoryRepository.CreateAsync(result);
             await _historyService.CreateAsync(UserAction.Add,
-                "Created category " + result.Id);
+                "Created category " + result.Name);
         }
 
         public async Task RemoveAsync(Guid id)
         {
+            var category = _categoryRepository.GetByIdAsync(id);
+
             await _categoryRepository.RemoveAsync(id);
             await _historyService.CreateAsync(UserAction.Remove,
-                "Removed category " + id);
+                "Removed category " + category.Result.Name);
         }
 
         public async Task UpdateAsync(CategoryDto item)
@@ -79,7 +81,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var result = _mapper.Map<Category>(item);
             await _categoryRepository.UpdateAsync(result);
             await _historyService.CreateAsync(UserAction.Edit,
-                "Updated category " + result.Id);
+                "Updated category " + result.Name);
         }
     }
 }
