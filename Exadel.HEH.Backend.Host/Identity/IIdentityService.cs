@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
+namespace Exadel.HEH.Backend.Host.Identity
 {
     public interface IIdentityService
     {

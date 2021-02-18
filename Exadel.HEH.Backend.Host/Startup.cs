@@ -111,6 +111,8 @@ namespace Exadel.HEH.Backend.Host
                 .AddUsers()
                 .AddDeveloperSigningCredential();
 
+            services.AddIdentityService();
+
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(options =>
                 {
