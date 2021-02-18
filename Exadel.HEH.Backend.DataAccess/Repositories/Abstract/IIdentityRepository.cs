@@ -22,7 +22,7 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
         Task CreateAsync<TDocument>(TDocument item)
             where TDocument : class, new();
 
-        Task<bool> AnyAsync<T>()
+        Task RemoveAllAsync<T>()
             where T : class, new();
     }
 }

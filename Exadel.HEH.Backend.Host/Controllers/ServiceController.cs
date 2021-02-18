@@ -2,6 +2,7 @@
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
+using Exadel.HEH.Backend.Host.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
@@ -12,19 +13,28 @@ namespace Exadel.HEH.Backend.Host.Controllers
     {
         private readonly ISearchService<Discount, Discount> _discountSearchService;
         private readonly ISearchService<VendorSearch, VendorDto> _vendorSearchService;
+        private readonly IIdentityService _identityService;
 
         public ServiceController(ISearchService<Discount, Discount> discountSearchService,
-            ISearchService<VendorSearch, VendorDto> vendorSearchService)
+            ISearchService<VendorSearch, VendorDto> vendorSearchService,
+            IIdentityService identityService)
         {
             _discountSearchService = discountSearchService;
             _vendorSearchService = vendorSearchService;
+            _identityService = identityService;
         }
 
-        [HttpPost]
+        [HttpPost("reindex")]
         public async Task ReindexAsync()
         {
             await _discountSearchService.ReindexAsync();
             await _vendorSearchService.ReindexAsync();
+        }
+
+        [HttpPost("initialize")]
+        public async Task InitializeAsync()
+        {
+            await _identityService.InitializeAsync();
         }
     }
 }

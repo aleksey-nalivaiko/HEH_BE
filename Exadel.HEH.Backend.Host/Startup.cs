@@ -96,8 +96,7 @@ namespace Exadel.HEH.Backend.Host
             services.AddOdataSwaggerSupport();
 
             services.AddHttpContextAccessor();
-            services.AddUserProvider();
-            services.AddMethodProvider();
+            services.AddProviders();
             services.AddRepositories(Configuration);
             services.AddCrudServices();
             services.AddBusinessServices(Environment);
@@ -111,6 +110,8 @@ namespace Exadel.HEH.Backend.Host
                 .AddPersistedGrants()
                 .AddUsers()
                 .AddDeveloperSigningCredential();
+
+            services.AddIdentityService();
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(options =>
@@ -184,7 +185,6 @@ namespace Exadel.HEH.Backend.Host
                 options.RoutePrefix = string.Empty;
             });
 
-            SeedIdentityData.InitializeDatabaseAsync(app).Wait();
             app.ApplicationServices.GetService<SchedulerService>()?.Start();
         }
     }

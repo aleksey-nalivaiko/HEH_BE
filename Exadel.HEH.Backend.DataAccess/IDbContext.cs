@@ -47,8 +47,5 @@ namespace Exadel.HEH.Backend.DataAccess
 
         Task<IEnumerable<T>> SearchAsync<T>(string path, string query)
             where T : class, new();
-
-        Task<bool> AnyAsync<T>()
-            where T : class, new();
     }
 }
