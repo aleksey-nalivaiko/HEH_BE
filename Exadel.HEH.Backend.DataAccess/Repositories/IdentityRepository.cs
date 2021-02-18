@@ -22,10 +22,10 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
             return _context.CreateAsync(item);
         }
 
-        public Task<bool> AnyAsync<TDocument>()
-            where TDocument : class, new()
+        public Task RemoveAllAsync<T>()
+            where T : class, new()
         {
-            return _context.AnyAsync<TDocument>();
+            return _context.RemoveAllAsync<T>();
         }
 
         public Task RemoveAsync<TDocument>(Expression<Func<TDocument, bool>> expression)

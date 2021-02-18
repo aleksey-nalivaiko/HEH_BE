@@ -183,7 +183,6 @@ namespace Exadel.HEH.Backend.Host
                 options.RoutePrefix = string.Empty;
             });
 
-            SeedIdentityData.InitializeDatabaseAsync(app).Wait();
             app.ApplicationServices.GetService<SchedulerService>()?.Start();
         }
     }

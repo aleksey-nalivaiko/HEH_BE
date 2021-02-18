@@ -130,13 +130,6 @@ namespace Exadel.HEH.Backend.DataAccess
             return await GetCollection<T>().Aggregate<T>(pipeline).ToListAsync();
         }
 
-        public async Task<bool> AnyAsync<T>()
-            where T : class, new()
-        {
-            var totalCount = await GetCollection<T>().CountDocumentsAsync(Builders<T>.Filter.Empty);
-            return totalCount > 0;
-        }
-
         private IMongoCollection<T> GetCollection<T>()
         {
             return _database.GetCollection<T>(typeof(T).Name);
