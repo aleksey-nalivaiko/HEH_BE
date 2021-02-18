@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Exadel.HEH.Backend.BusinessLogic.Providers;
 using Microsoft.AspNetCore.Http;
 
@@ -13,10 +14,11 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public DateTimeOffset GetDateTimeOffset()
+        public int GetDateTimeOffset()
         {
-            //TODO: get offset from _httpContextAccessor
-            throw new NotImplementedException();
+            var offset = int.Parse(_httpContextAccessor.HttpContext.Request.Query["offset"]);
+
+            return offset;
         }
     }
 }
