@@ -123,7 +123,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 if (allDiscountsIds.Contains(discount.Id))
                 {
                     await _historyService.CreateAsync(UserAction.Edit,
-                        "Updated discount " + discount.Id);
+                        "Updated discount " + discount.Conditions);
 
                     await _searchService.UpdateAsync(discount);
                 }
@@ -143,7 +143,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 _searchService.RemoveAsync(d.Id);
 
                 _historyService.CreateAsync(UserAction.Remove,
-                    "Removed discount " + d.Id);
+                    "Removed discount " + d.Conditions);
             });
 
             await _discountRepository.RemoveAsync(expression);
@@ -155,7 +155,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private void CreateHistoryAndSearchItems(Discount discount)
         {
             _historyService.CreateAsync(UserAction.Add,
-                "Created discount " + discount.Id);
+                "Created discount " + discount.Conditions);
 
             _searchService.CreateAsync(discount);
         }

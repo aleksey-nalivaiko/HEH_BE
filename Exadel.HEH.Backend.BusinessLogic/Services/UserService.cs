@@ -72,7 +72,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             user.IsActive = isActive;
             await _userRepository.UpdateAsync(user);
             await _historyService.CreateAsync(UserAction.Edit,
-                "Updated user " + id);
+                "Updated user " + user.Name + " status");
         }
 
         public async Task UpdateRoleAsync(Guid id, UserRole role)
@@ -81,7 +81,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             user.Role = role;
             await _userRepository.UpdateAsync(user);
             await _historyService.CreateAsync(UserAction.Edit,
-                "Updated user " + id);
+                "Updated user " + user.Name + " role");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var result = _mapper.Map<Tag>(item);
             await _tagRepository.CreateAsync(result);
             await _historyService.CreateAsync(UserAction.Add,
-                "Created tag " + result.Id);
+                "Created tag " + result.Name);
         }
 
         public async Task<IEnumerable<TagDto>> GetByIdsAsync(IEnumerable<Guid> ids)
@@ -40,6 +40,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task RemoveAsync(Guid id)
         {
+            var tag = _tagRepository.GetByIdAsync(id);
+
             await _tagRepository.RemoveAsync(id);
             var discounts = await _discountRepository.GetAllAsync();
             foreach (var discount in discounts)
@@ -49,7 +51,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             }
 
             await _historyService.CreateAsync(UserAction.Remove,
-                "Removed tag " + id);
+                "Removed tag " + tag.Result.Name);
         }
 
         public async Task UpdateAsync(TagDto item)
@@ -57,7 +59,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var result = _mapper.Map<Tag>(item);
             await _tagRepository.UpdateAsync(result);
             await _historyService.CreateAsync(UserAction.Edit,
-                "Updated tag " + result.Id);
+                "Updated tag " + result.Name);
         }
     }
 }
