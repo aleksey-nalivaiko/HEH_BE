@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -48,6 +49,27 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             var result = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
             return _mapper.Map<UserDto>(result);
+        }
+
+        public Task<IEnumerable<string>> GetEmailsForNotificationsAsync(
+            IEnumerable<Guid> categoryIds,
+            IEnumerable<Guid> tagIds,
+            IEnumerable<Guid> vendorIds)
+        {
+            var allUsers = _userRepository.Get();
+            var result = new List<string>();
+
+            foreach (var user in allUsers)
+            {
+                if (user.CategoryNotifications.Intersect(categoryIds).Any()
+                    || user.TagNotifications.Intersect(tagIds).Any()
+                    || user.VendorNotifications.Intersect(vendorIds).Any())
+                {
+                    result.Add(user.Email);
+                }
+            }
+
+            return result;
         }
 
         public async Task UpdateNotificationsAsync(NotificationDto notifications)

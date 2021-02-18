@@ -137,7 +137,8 @@ namespace Exadel.HEH.Backend.Host
                 config.UseMemoryStorage();
             });
 
-            services.Configure<EmailOptions>(Configuration.GetSection(EmailOptions.EmailSettings));
+            services.Configure<EmailOptions>(Configuration.GetSection("Email"));
+            services.Configure<NotificationOptions>(Configuration.GetSection("Notification"));
         }
 
         public void Configure(IApplicationBuilder app, VersionedODataModelBuilder modelBuilder, IWebHostEnvironment env)
@@ -185,7 +186,7 @@ namespace Exadel.HEH.Backend.Host
                 options.RoutePrefix = string.Empty;
             });
 
-            app.ApplicationServices.GetService<SchedulerService>()?.Start();
+            app.ApplicationServices.GetService<NotificationService>()?.Start();
         }
     }
 }

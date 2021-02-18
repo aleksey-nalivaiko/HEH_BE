@@ -130,6 +130,16 @@ namespace Exadel.HEH.Backend.DataAccess
             return await GetCollection<T>().Aggregate<T>(pipeline).ToListAsync();
         }
 
+        public async Task<IEnumerable<User>> AnyIn(IEnumerable<Guid> tags,
+            IEnumerable<Guid> categories,
+            IEnumerable<Guid> vendors)
+        {
+            var filter = Builders<User>.Filter.AnyIn(u => u.CategoryNotifications, categories)
+                | Builders<User>.Filter.AnyIn(u => u.TagNotifications, tags);
+            return await GetCollection<User>()
+                .Find(filter).ToListAsync();
+        }
+
         private IMongoCollection<T> GetCollection<T>()
         {
             return _database.GetCollection<T>(typeof(T).Name);
