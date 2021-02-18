@@ -14,8 +14,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
 
             CreateMap<FavoritesShortDto, Favorites>().ReverseMap();
 
-            CreateMap<DiscountDto, FavoritesDto>()
-                .ForMember(f => f.Note, opt => opt.Ignore());
+            CreateMap<Discount, FavoritesDto>()
+                .ForMember(f => f.Note, opt => opt.Ignore())
+                .ForMember(f => f.IsFavorite, opt => opt.Ignore());
         }
     }
 }

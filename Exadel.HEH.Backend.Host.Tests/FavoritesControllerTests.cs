@@ -30,8 +30,6 @@ namespace Exadel.HEH.Backend.Host.Tests
             _dataCreateUpdate = new List<FavoritesShortDto>();
             InitTestData();
 
-            service.Setup(s => s.GetAllAsync()).Returns(Task.FromResult((IEnumerable<FavoritesDto>)_data));
-
             service.Setup(s => s.CreateAsync(It.IsAny<FavoritesShortDto>()))
                 .Callback((FavoritesShortDto item) =>
                 {
@@ -62,15 +60,6 @@ namespace Exadel.HEH.Backend.Host.Tests
             validationService.Setup(v => v.UserFavoritesNotExists(It.IsAny<Guid>(), default))
                 .Returns((Guid id, CancellationToken token) =>
                     Task.FromResult(_data.FirstOrDefault(d => d.Id == id) != null));
-        }
-
-        [Fact]
-        public async Task CanGetAllAsync()
-        {
-            _data.Add(_favorites);
-            _dataCreateUpdate.Add(_favoritesShort);
-            var result = await _controller.GetAllAsync();
-            Assert.Single(result);
         }
 
         [Fact]
