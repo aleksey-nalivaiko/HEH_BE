@@ -11,5 +11,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
             string searchText = default, DateTime startDate = default, DateTime endDate = default);
 
         Task IncrementViewsAmountAsync(Guid discountId);
+
+        Task RemoveAsync(Guid discountId);
     }
 }

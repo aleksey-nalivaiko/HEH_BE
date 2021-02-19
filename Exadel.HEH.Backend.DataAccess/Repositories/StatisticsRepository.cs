@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -16,9 +14,15 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
         {
         }
 
-        public Task UpdateIncrementAsync(Guid id, Expression<Func<Statistics, int>> field, int value)
+        public Task<bool> StatisticsExists(Expression<Func<Statistics, bool>> expression)
         {
-            return Context.UpdateIncrementAsync(id, field, value);
+            return Context.ExistsAsync(expression);
+        }
+
+        public Task UpdateIncrementAsync(Expression<Func<Statistics, bool>> expression,
+            Expression<Func<Statistics, int>> field, int value)
+        {
+            return Context.UpdateIncrementAsync(expression, field, value);
         }
 
         public Task<IEnumerable<Statistics>> GetInWhereAsync(
@@ -34,6 +38,11 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
             }
 
             return Context.GetInAndWhereAsync(field, discountIds);
+        }
+
+        public Task RemoveAsync(Expression<Func<Statistics, bool>> expression)
+        {
+            return Context.RemoveAsync(expression);
         }
     }
 }

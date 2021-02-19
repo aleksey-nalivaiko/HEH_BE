@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
@@ -46,9 +47,31 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     }).AsQueryable();
         }
 
-        public Task IncrementViewsAmountAsync(Guid discountId)
+        public async Task IncrementViewsAmountAsync(Guid discountId)
         {
-            return _statisticsRepository.UpdateIncrementAsync(discountId, d => d.ViewsAmount, 1);
+            var dateNow = DateTime.UtcNow.Date;
+
+            Expression<Func<Statistics, bool>> expression = s => s.DiscountId == discountId
+                                                                 && s.DateTime == dateNow;
+
+            if (await _statisticsRepository.StatisticsExists(expression))
+            {
+                await _statisticsRepository.UpdateIncrementAsync(expression, d => d.ViewsAmount, 1);
+            }
+            else
+            {
+                await _statisticsRepository.CreateAsync(new Statistics
+                {
+                    DiscountId = discountId,
+                    DateTime = dateNow,
+                    ViewsAmount = 1
+                });
+            }
+        }
+
+        public Task RemoveAsync(Guid discountId)
+        {
+            return _statisticsRepository.RemoveAsync(s => s.DiscountId == discountId);
         }
     }
 }

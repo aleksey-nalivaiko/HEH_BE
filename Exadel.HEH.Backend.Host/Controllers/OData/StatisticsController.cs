@@ -26,9 +26,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
         [EnableQuery(HandleNullPropagation = HandleNullPropagationOption.False)]
         [ODataRoute]
         public Task<IQueryable<DiscountStatisticsDto>> GetAsync([FromQuery] string searchText,
-            [FromQuery] DateTime startDate, [FromQuery] DateTime endDate, [FromQuery] int offset)
+            [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
         {
-            return _statisticsService.GetStatisticsAsync(searchText, startDate, endDate, offset);
+            return _statisticsService.GetStatisticsAsync(searchText, startDate, endDate);
         }
     }
 }
