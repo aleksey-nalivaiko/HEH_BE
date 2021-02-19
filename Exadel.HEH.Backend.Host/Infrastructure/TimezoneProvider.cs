@@ -16,9 +16,9 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
 
         public int GetDateTimeOffset()
         {
-            var offset = int.Parse(_httpContextAccessor.HttpContext.Request.Query["offset"]);
+            var offset = _httpContextAccessor.HttpContext.Request.Query["offset"];
 
-            return offset;
+            return offset.Count == 0 ? 0 : int.Parse(offset);
         }
     }
 }
