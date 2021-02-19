@@ -80,14 +80,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return discountsQueryable;
         }
 
-        public async Task<IQueryable<DiscountStatisticsDto>> GetStatisticsAsync(string searchText)
-        {
-            var discounts = await _searchService.SearchAsync(searchText);
-            var discountsDto = _mapper.Map<IEnumerable<DiscountStatisticsDto>>(discounts);
-
-            return discountsDto.AsQueryable();
-        }
-
         public async Task<DiscountExtendedDto> GetByIdAsync(Guid id)
         {
             var discount = await _discountRepository.GetByIdAsync(id);
