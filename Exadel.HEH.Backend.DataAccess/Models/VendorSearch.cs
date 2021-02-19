@@ -21,9 +21,9 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public IList<string> Streets { get; set; }
 
-        public IList<Guid> CategoryIds { get; set; }
+        public IList<Guid> CategoriesIds { get; set; }
 
-        public IList<Guid> TagIds { get; set; }
+        public IList<Guid> TagsIds { get; set; }
 
         public IList<Address> Addresses { get; set; }
     }
