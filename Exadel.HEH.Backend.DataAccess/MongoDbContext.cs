@@ -130,23 +130,25 @@ namespace Exadel.HEH.Backend.DataAccess
             return await GetCollection<T>().Aggregate<T>(pipeline).ToListAsync();
         }
 
-        public Task<int> SumAsync<T, TField>(
+        public async Task<IEnumerable<T>> GetInAndWhereAsync<T, TField>(
             Expression<Func<T, TField>> field,
-            Func<T, int> resultField,
+            IEnumerable<TField> inValues,
             Expression<Func<T, bool>> expression)
             where T : class, new()
         {
-            var aggregation = GetCollection<T>().Aggregate();
+            var filter = Builders<T>.Filter.Empty;
+
+            if (inValues != null)
+            {
+                filter &= Builders<T>.Filter.In(field, inValues);
+            }
 
             if (expression != null)
             {
-                var filter = Builders<T>.Filter.Where(expression);
-                aggregation = aggregation.Match(filter);
+                filter &= Builders<T>.Filter.Where(expression);
             }
 
-            return aggregation
-                .Group(field, g => g.Sum(resultField))
-                .FirstOrDefaultAsync();
+            return await GetCollection<T>().Find(filter).ToListAsync();
         }
 
         private IMongoCollection<T> GetCollection<T>()

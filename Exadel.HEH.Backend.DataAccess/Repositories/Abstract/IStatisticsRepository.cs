@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 {
-    //TODO: Change to statistics
-    public interface IStatisticsRepository : IRepository<Discount>
+    public interface IStatisticsRepository : IRepository<Statistics>
     {
-        Task UpdateIncrementAsync(Guid id, Expression<Func<Discount, int>> field, int value);
+        Task UpdateIncrementAsync(Guid id, Expression<Func<Statistics, int>> field, int value);
 
-        Task<int> SumAsync();
+        Task<IEnumerable<Statistics>> GetInWhereAsync(Expression<Func<Statistics, Guid>> field,
+            IEnumerable<Guid> discountIds = default,
+            DateTime startDate = default,
+            DateTime endDate = default);
     }
 }

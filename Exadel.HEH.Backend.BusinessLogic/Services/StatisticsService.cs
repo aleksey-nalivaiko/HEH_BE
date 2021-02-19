@@ -31,11 +31,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             var discounts = await _searchService.SearchAsync(searchText);
 
-            var viewsAmount = _stati
-
             var discountsDto = _mapper.Map<IEnumerable<DiscountStatisticsDto>>(discounts);
 
-            return discountsDto.AsQueryable();
+            var discountViewsAmounts = await _statisticsRepository.GetInWhereAsync(
+                s => s.DiscountId, discounts.Select(d => d.Id), startDate, endDate);
+
+            return discountsDto.GroupJoin(
+                    discountViewsAmounts,
+                    d => d.Id,
+                    s => s.DiscountId,
+                    (d, statistics) =>
+                    {
+                        d.ViewsAmount = statistics.Sum(s => s.ViewsAmount);
+                        return d;
+                    }).AsQueryable();
         }
 
         public Task IncrementViewsAmountAsync(Guid discountId)
