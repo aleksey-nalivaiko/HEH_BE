@@ -108,10 +108,11 @@ namespace Exadel.HEH.Backend.DataAccess
             return GetCollection<T>().BulkWriteAsync(requests);
         }
 
-        public Task UpdateIncrementAsync<T, TField>(Guid id, Expression<Func<T, TField>> field, TField value)
-            where T : class, IDataModel, new()
+        public Task UpdateIncrementAsync<T, TField>(Expression<Func<T, bool>> expression,
+            Expression<Func<T, TField>> field, TField value)
+            where T : class, new()
         {
-            var filter = Builders<T>.Filter.Eq(x => x.Id, id);
+            var filter = Builders<T>.Filter.Where(expression);
             var update = Builders<T>.Update.Inc(field, value);
 
             return GetCollection<T>().FindOneAndUpdateAsync(filter, update);
@@ -128,6 +129,34 @@ namespace Exadel.HEH.Backend.DataAccess
             };
 
             return await GetCollection<T>().Aggregate<T>(pipeline).ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetInAndWhereAsync<T, TField>(
+            Expression<Func<T, TField>> field,
+            IEnumerable<TField> inValues,
+            Expression<Func<T, bool>> expression)
+            where T : class, new()
+        {
+            var filter = Builders<T>.Filter.Empty;
+
+            if (inValues != null)
+            {
+                filter &= Builders<T>.Filter.In(field, inValues);
+            }
+
+            if (expression != null)
+            {
+                filter &= Builders<T>.Filter.Where(expression);
+            }
+
+            return await GetCollection<T>().Find(filter).ToListAsync();
+        }
+
+        public Task<bool> ExistsAsync<T>(Expression<Func<T, bool>> expression)
+            where T : class, new()
+        {
+            return GetCollection<T>()
+                .Find(Builders<T>.Filter.Where(expression)).AnyAsync();
         }
 
         private IMongoCollection<T> GetCollection<T>()

@@ -24,9 +24,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var vendorRepository = new Mock<IVendorRepository>();
             var searchService = new Mock<ISearchService<Discount, Discount>>();
             var historyService = new Mock<IHistoryService>();
+            var statisticsService = new Mock<IStatisticsService>();
 
             _service = new DiscountService(repository.Object, favoritesService.Object,
-                vendorRepository.Object, Mapper, searchService.Object, historyService.Object);
+                vendorRepository.Object, Mapper, searchService.Object, historyService.Object, statisticsService.Object);
 
             repository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<Discount>)Data));

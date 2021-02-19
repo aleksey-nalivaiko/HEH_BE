@@ -16,7 +16,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Mappings
             CreateMap<Discount, DiscountDto>()
                 .ForMember(dest => dest.IsFavorite, opts => opts.Ignore());
 
-            CreateMap<Discount, DiscountStatisticsDto>();
+            CreateMap<Discount, DiscountStatisticsDto>()
+                .ForMember(dest => dest.ViewsAmount, opts => opts.Ignore());
 
             CreateMap<Discount, DiscountExtendedDto>()
                 .ForMember(dest => dest.IsFavorite, opts => opts.Ignore())

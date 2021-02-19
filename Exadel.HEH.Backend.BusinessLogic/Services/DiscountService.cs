@@ -19,13 +19,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IMapper _mapper;
         private readonly ISearchService<Discount, Discount> _searchService;
         private readonly IHistoryService _historyService;
+        private readonly IStatisticsService _statisticsService;
 
         public DiscountService(IDiscountRepository discountRepository,
             IFavoritesService favoritesService,
             IVendorRepository vendorRepository,
             IMapper mapper,
             ISearchService<Discount, Discount> searchService,
-            IHistoryService historyService)
+            IHistoryService historyService,
+            IStatisticsService statisticsService)
         {
             _discountRepository = discountRepository;
             _favoritesService = favoritesService;
@@ -33,6 +35,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _mapper = mapper;
             _searchService = searchService;
             _historyService = historyService;
+            _statisticsService = statisticsService;
         }
 
         public async Task<IEnumerable<DiscountShortDto>> GetAllAsync()
@@ -78,14 +81,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 }).AsQueryable();
 
             return discountsQueryable;
-        }
-
-        public async Task<IQueryable<DiscountStatisticsDto>> GetStatisticsAsync(string searchText)
-        {
-            var discounts = await _searchService.SearchAsync(searchText);
-            var discountsDto = _mapper.Map<IEnumerable<DiscountStatisticsDto>>(discounts);
-
-            return discountsDto.AsQueryable();
         }
 
         public async Task<DiscountExtendedDto> GetByIdAsync(Guid id)
@@ -155,6 +150,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
                 _historyService.CreateAsync(UserAction.Remove,
                     "Removed discount " + d.Conditions);
+
+                _statisticsService.RemoveAsync(d.Id);
             });
 
             await _discountRepository.RemoveAsync(expression);

@@ -12,8 +12,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
     {
         Task<IQueryable<DiscountDto>> GetAsync(string searchText = default);
 
-        Task<IQueryable<DiscountStatisticsDto>> GetStatisticsAsync(string searchText = default);
-
         Task<DiscountExtendedDto> GetByIdAsync(Guid id);
 
         Task CreateManyAsync(IEnumerable<Discount> discounts);

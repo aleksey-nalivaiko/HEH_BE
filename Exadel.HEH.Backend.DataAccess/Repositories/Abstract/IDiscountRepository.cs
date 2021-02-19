@@ -20,7 +20,5 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
         Task UpdateManyAsync(IEnumerable<Discount> discounts);
 
         Task RemoveAsync(Expression<Func<Discount, bool>> expression);
-
-        Task UpdateIncrementAsync(Guid id, Expression<Func<Discount, int>> field, int value);
     }
 }

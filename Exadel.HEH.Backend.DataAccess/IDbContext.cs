@@ -42,10 +42,20 @@ namespace Exadel.HEH.Backend.DataAccess
         Task UpdateManyAsync<T>(IEnumerable<T> items)
             where T : class, IDataModel, new();
 
-        Task UpdateIncrementAsync<T, TField>(Guid id, Expression<Func<T, TField>> field, TField value)
-            where T : class, IDataModel, new();
+        Task UpdateIncrementAsync<T, TField>(Expression<Func<T, bool>> expression,
+            Expression<Func<T, TField>> field, TField value)
+            where T : class, new();
 
         Task<IEnumerable<T>> SearchAsync<T>(string path, string query)
+            where T : class, new();
+
+        Task<IEnumerable<T>> GetInAndWhereAsync<T, TField>(
+            Expression<Func<T, TField>> field = default,
+            IEnumerable<TField> inValues = default,
+            Expression<Func<T, bool>> expression = default)
+            where T : class, new();
+
+        Task<bool> ExistsAsync<T>(Expression<Func<T, bool>> expression)
             where T : class, new();
     }
 }

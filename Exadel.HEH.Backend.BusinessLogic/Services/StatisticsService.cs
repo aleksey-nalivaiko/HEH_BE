@@ -1,22 +1,77 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AutoMapper;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class StatisticsService : IStatisticsService
     {
-        private readonly IDiscountRepository _discountRepository;
+        private readonly IStatisticsRepository _statisticsRepository;
+        private readonly IMapper _mapper;
+        private readonly ISearchService<Discount, Discount> _searchService;
 
-        public StatisticsService(IDiscountRepository discountRepository)
+        public StatisticsService(IStatisticsRepository statisticsRepository,
+            IMapper mapper,
+            ISearchService<Discount, Discount> searchService)
         {
-            _discountRepository = discountRepository;
+            _statisticsRepository = statisticsRepository;
+            _mapper = mapper;
+            _searchService = searchService;
         }
 
-        public Task IncrementViewsAmountAsync(Guid discountId)
+        public async Task<IQueryable<DiscountStatisticsDto>> GetStatisticsAsync(
+            string searchText, DateTime startDate, DateTime endDate)
         {
-            return _discountRepository.UpdateIncrementAsync(discountId, d => d.ViewsAmount, 1);
+            var discounts = await _searchService.SearchAsync(searchText);
+
+            var discountsDto = _mapper.Map<IEnumerable<DiscountStatisticsDto>>(discounts);
+
+            var discountViewsAmounts = await _statisticsRepository.GetInWhereAsync(
+                s => s.DiscountId, discounts.Select(d => d.Id), startDate, endDate);
+
+            return discountsDto.GroupJoin(
+                    discountViewsAmounts,
+                    d => d.Id,
+                    s => s.DiscountId,
+                    (d, statistics) =>
+                    {
+                        d.ViewsAmount = statistics.Sum(s => s.ViewsAmount);
+                        return d;
+                    }).AsQueryable();
+        }
+
+        public async Task IncrementViewsAmountAsync(Guid discountId)
+        {
+            var dateNow = DateTime.UtcNow.Date;
+
+            Expression<Func<Statistics, bool>> expression = s => s.DiscountId == discountId
+                                                                 && s.DateTime == dateNow;
+
+            if (await _statisticsRepository.StatisticsExists(expression))
+            {
+                await _statisticsRepository.UpdateIncrementAsync(expression, d => d.ViewsAmount, 1);
+            }
+            else
+            {
+                await _statisticsRepository.CreateAsync(new Statistics
+                {
+                    DiscountId = discountId,
+                    DateTime = dateNow,
+                    ViewsAmount = 1
+                });
+            }
+        }
+
+        public Task RemoveAsync(Guid discountId)
+        {
+            return _statisticsRepository.RemoveAsync(s => s.DiscountId == discountId);
         }
     }
 }
