@@ -7,7 +7,6 @@ using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
-using Microsoft.OData.Edm;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
