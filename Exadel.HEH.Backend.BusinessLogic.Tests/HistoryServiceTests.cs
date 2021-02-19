@@ -20,10 +20,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var userRepository = new Mock<IUserRepository>();
             var userProvider = new Mock<IUserProvider>();
             var historyRepository = new Mock<IHistoryRepository>();
-            var timezoneProvider = new Mock<ITimezoneProvider>();
 
             _service = new HistoryService(userRepository.Object, historyRepository.Object,
-                MapperExtensions.Mapper, userProvider.Object, timezoneProvider.Object);
+                MapperExtensions.Mapper, userProvider.Object);
             _history = new History
             {
                 Id = Guid.NewGuid(),
@@ -39,12 +38,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             historyRepository.Setup(r => r.Get()).Returns(Data.AsQueryable());
         }
 
-        //[Fact]
-        //public void CanGetAll()
-        //{
-        //    Data.Add(_history);
-        //    var result = _service.Get();
-        //    Assert.Single(result);
-        //}
+        [Fact]
+        public void CanGetAll()
+        {
+            Data.Add(_history);
+            var result = _service.GetAllAsync().IsCompletedSuccessfully;
+            Assert.True(result);
+        }
     }
 }

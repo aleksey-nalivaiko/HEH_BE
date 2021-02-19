@@ -12,8 +12,6 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddScoped<IMethodProvider, MethodProvider>();
 
-            services.AddScoped<ITimezoneProvider, TimezoneProvider>();
-
             return services;
         }
     }
