@@ -12,7 +12,7 @@ using Microsoft.AspNet.OData.Routing;
 namespace Exadel.HEH.Backend.Host.Controllers.OData
 {
     [ODataRoutePrefix("History")]
-    [ODataAuthorize(Roles = nameof(UserRole.Administrator))]
+    //[ODataAuthorize(Roles = nameof(UserRole.Administrator))]
     public class HistoryController : ODataController
     {
         private readonly IHistoryService _historyService;

@@ -39,12 +39,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             historyRepository.Setup(r => r.Get()).Returns(Data.AsQueryable());
         }
 
-        [Fact]
-        public void CanGetAll()
-        {
-            Data.Add(_history);
-            var result = _service.Get();
-            Assert.Single(result);
-        }
+        //[Fact]
+        //public void CanGetAll()
+        //{
+        //    Data.Add(_history);
+        //    var result = _service.Get();
+        //    Assert.Single(result);
+        //}
     }
 }

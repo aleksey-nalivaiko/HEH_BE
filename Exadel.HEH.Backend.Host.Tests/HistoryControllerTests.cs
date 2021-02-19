@@ -31,16 +31,16 @@ namespace Exadel.HEH.Backend.Host.Tests
                 UserRole = UserRole.Moderator
             };
 
-            historyService.Setup(s => s.Get())
-                .Returns(() => Data.AsQueryable());
+            //historyService.Setup(s => s.Get())
+            //    .Returns(() => Data.AsQueryable());
         }
 
-        [Fact]
-        public void CanGetAll()
-        {
-            Data.Add(_history);
-            var result = _controller.Get();
-            Assert.Single(result);
-        }
+        //[Fact]
+        //public void CanGetAll()
+        //{
+        //    Data.Add(_history);
+        //    var result = _controller.Get();
+        //    Assert.Single(result);
+        //}
     }
 }
