@@ -11,6 +11,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
     {
         Task CreateAsync(UserAction action, string description);
 
-        Task<IEnumerable<HistoryDto>> GetAllAsync(ODataQueryOptions<HistoryDto> options);
+        Task<IQueryable<HistoryDto>> GetAllAsync();
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -31,16 +33,17 @@ namespace Exadel.HEH.Backend.Host.Tests
                 UserRole = UserRole.Moderator
             };
 
-            //historyService.Setup(s => s.Get())
-            //    .Returns(() => Data.AsQueryable());
+            historyService.Setup(s => s.GetAllAsync())
+                .ReturnsAsync(new List<HistoryDto> { _history }.AsQueryable);
         }
 
-        //[Fact]
-        //public void CanGetAll()
-        //{
-        //    Data.Add(_history);
-        //    var result = _controller.Get();
-        //    Assert.Single(result);
-        //}
+        [Fact]
+        public async Task CanGetAll()
+        {
+            Data.Add(_history);
+            var result = await _controller.Get();
+            Assert.Single(result);
+            Assert.Equal(result.First(), _history);
+        }
     }
 }

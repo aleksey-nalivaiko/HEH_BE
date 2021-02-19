@@ -20,16 +20,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IUserProvider _userProvider;
         private readonly IHistoryRepository _historyRepository;
         private readonly IMapper _mapper;
-        private readonly ITimezoneProvider _timezoneProvider;
 
         public HistoryService(IUserRepository userRepository, IHistoryRepository historyRepository,
-            IMapper mapper, IUserProvider userProvider, ITimezoneProvider timezoneProvider)
+            IMapper mapper, IUserProvider userProvider)
         {
             _historyRepository = historyRepository;
             _userRepository = userRepository;
             _userProvider = userProvider;
             _mapper = mapper;
-            _timezoneProvider = timezoneProvider;
         }
 
         public async Task CreateAsync(UserAction action, string description)
@@ -50,32 +48,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _historyRepository.CreateAsync(history);
         }
 
-        public Task<IEnumerable<HistoryDto>> GetAllAsync(ODataQueryOptions<HistoryDto> options)
+        public Task<IQueryable<HistoryDto>> GetAllAsync()
         {
-            var offset = _timezoneProvider.GetDateTimeOffset();
+            var history = _historyRepository.Get().OrderByDescending(h => h.DateTime);
 
-            var historyQueryable = options.ApplyTo(_historyRepository.Get().OrderByDescending(h => h.DateTime).Select(x => new HistoryDto
-            {
-                Id = x.Id,
-                UserId = x.UserId,
-                UserEmail = x.UserEmail,
-                UserName = x.UserName,
-                UserRole = x.UserRole,
-                DateTime = x.DateTime,
-                Action = x.Action,
-                Description = x.Description
-            }));
-
-            IEnumerable<HistoryDto> history = new List<HistoryDto>();
-
-            history = _mapper.Map(historyQueryable, history);
-
-            foreach (var historyDto in history)
-            {
-                historyDto.DateTime = historyDto.DateTime.ToUniversalTime().AddMinutes(offset);
-            }
-
-            return Task.FromResult(history);
+            return Task.FromResult(_mapper.ProjectTo<HistoryDto>(history));
         }
 
         private Task<User> GetCurrentUser()
