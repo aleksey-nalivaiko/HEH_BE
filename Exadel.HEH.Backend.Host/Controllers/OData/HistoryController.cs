@@ -12,7 +12,7 @@ using Microsoft.AspNet.OData.Routing;
 namespace Exadel.HEH.Backend.Host.Controllers.OData
 {
     [ODataRoutePrefix("History")]
-    //[ODataAuthorize(Roles = nameof(UserRole.Administrator))]
+    [ODataAuthorize(Roles = nameof(UserRole.Administrator))]
     public class HistoryController : ODataController
     {
         private readonly IHistoryService _historyService;
@@ -24,7 +24,7 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
 
         [EnableQuery(HandleNullPropagation = HandleNullPropagationOption.False)]
         [ODataRoute]
-        public async Task<IEnumerable<HistoryDto>> Get(ODataQueryOptions<HistoryDto> options, [FromODataUri]int offset = 0)
+        public async Task<IEnumerable<HistoryDto>> Get(ODataQueryOptions<HistoryDto> options, [FromODataUri]int offset = 1)
         {
             return await _historyService.GetAllAsync(options);
         }
