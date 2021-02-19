@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -22,9 +25,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
 
         [EnableQuery(HandleNullPropagation = HandleNullPropagationOption.False)]
         [ODataRoute]
-        public IQueryable<HistoryDto> Get()
+        public async Task<IEnumerable<HistoryDto>> Get(ODataQueryOptions<HistoryDto> options, [FromODataUri]int offset = 0)
         {
-            return _historyService.Get();
+            return await _historyService.GetAllAsync(options);
         }
     }
 }
