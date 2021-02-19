@@ -144,8 +144,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 Countries = countries,
                 Cities = cities,
                 Streets = streets,
-                CategoryIds = categoriesIds,
-                TagIds = tagsIds,
+                CategoriesIds = categoriesIds,
+                TagsIds = tagsIds,
                 Addresses = _mapper.Map<IEnumerable<Address>>(vendor.Addresses).ToList()
             };
             return search;

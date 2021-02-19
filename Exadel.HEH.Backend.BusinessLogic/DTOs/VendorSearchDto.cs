@@ -9,9 +9,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 
         public string Name { get; set; }
 
-        public IList<Guid> CategoryIds { get; set; }
+        public IList<Guid> CategoriesIds { get; set; }
 
-        public IList<Guid> TagIds { get; set; }
+        public IList<Guid> TagsIds { get; set; }
 
         public IEnumerable<AddressDto> Addresses { get; set; }
     }
