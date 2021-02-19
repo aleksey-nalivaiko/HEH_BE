@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -10,7 +12,7 @@ using Microsoft.AspNet.OData.Routing;
 namespace Exadel.HEH.Backend.Host.Controllers.OData
 {
     [ODataRoutePrefix("History")]
-    [ODataAuthorize(Roles = nameof(UserRole.Administrator))]
+    //[ODataAuthorize(Roles = nameof(UserRole.Administrator))]
     public class HistoryController : ODataController
     {
         private readonly IHistoryService _historyService;
@@ -22,9 +24,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
 
         [EnableQuery(HandleNullPropagation = HandleNullPropagationOption.False)]
         [ODataRoute]
-        public IQueryable<HistoryDto> Get()
+        public async Task<IEnumerable<HistoryDto>> Get(ODataQueryOptions<HistoryDto> options, [FromODataUri]int offset = 0)
         {
-            return _historyService.Get();
+            return await _historyService.GetAllAsync(options);
         }
     }
 }

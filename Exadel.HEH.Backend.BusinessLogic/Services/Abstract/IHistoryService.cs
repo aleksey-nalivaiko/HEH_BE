@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.DataAccess.Models;
+using Microsoft.AspNet.OData.Query;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
@@ -9,6 +11,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
     {
         Task CreateAsync(UserAction action, string description);
 
-        IQueryable<HistoryDto> Get();
+        Task<IEnumerable<HistoryDto>> GetAllAsync(ODataQueryOptions<HistoryDto> options);
     }
 }
