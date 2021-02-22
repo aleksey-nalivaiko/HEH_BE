@@ -12,11 +12,11 @@ namespace Exadel.HEH.Backend.Host.Controllers
     public class ServiceController : ControllerBase
     {
         private readonly ISearchService<Discount, Discount> _discountSearchService;
-        private readonly ISearchService<VendorSearch, VendorDto> _vendorSearchService;
+        private readonly IVendorSearchService _vendorSearchService;
         private readonly IIdentityService _identityService;
 
         public ServiceController(ISearchService<Discount, Discount> discountSearchService,
-            ISearchService<VendorSearch, VendorDto> vendorSearchService,
+            IVendorSearchService vendorSearchService,
             IIdentityService identityService)
         {
             _discountSearchService = discountSearchService;
