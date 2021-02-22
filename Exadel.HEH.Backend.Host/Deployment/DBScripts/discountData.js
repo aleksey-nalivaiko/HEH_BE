@@ -34,8 +34,8 @@
             1,
             2
         ],
-        "startDate": new Date("2021-01-03"),
-        "endDate": new Date("2021-07-03"),
+        "startDate": new Date("2021-03-01"),
+        "endDate": new Date("2021-03-07"),
         "categoryId": UUID("ab067429-6fbf-4798-92bf-d62012db8f25")
     },
     {
@@ -60,8 +60,8 @@
         "phonesIds": [
             1
         ],
-        "startDate": new Date("2021-10-03"),
-        "endDate": new Date("2021-15-03"),
+        "startDate": new Date("2021-03-15"),
+        "endDate": new Date("2021-03-16"),
         "categoryId": UUID("751dc6e4-603b-477f-91dc-97c09d13d96a")
     },
     {
@@ -85,8 +85,8 @@
         "phonesIds": [
             1
         ],
-        "startDate": new Date("2021-27-02"),
-        "endDate": new Date("2021-28-02"),
+        "startDate": new Date("2021-02-27"),
+        "endDate": new Date("2021-02-28"),
         "categoryId": UUID("11f8463a-827f-4873-8550-62e0ee03b369")
     },
     {
@@ -110,8 +110,8 @@
         "phonesIds": [
             1
         ],
-        "startDate": new Date("2021-05-02"),
-        "endDate": new Date("2021-10-03"),
+        "startDate": new Date("2021-02-05"),
+        "endDate": new Date("2021-03-10"),
         "categoryId": UUID("8f411964-f934-4302-bdd0-db2fc2a549e7")
     },
     {
@@ -141,8 +141,8 @@
         "phonesIds": [
             1
         ],
-        "startDate": new Date("2021-17-02"),
-        "endDate": new Date("2021-20-02"),
+        "startDate": new Date("2021-02-17"),
+        "endDate": new Date("2021-02-20"),
         "categoryId": UUID("1c22cbf6-9692-4207-83e3-8d51a6bbd8be")
     },
     {
@@ -160,8 +160,8 @@
         "phonesIds": [
             1
         ],
-        "startDate": new Date("2021-20-02"),
-        "endDate": new Date("2021-10-03"),
+        "startDate": new Date("2021-02-10"),
+        "endDate": new Date("2021-03-10"),
         "categoryId": UUID("97c8c966-634a-4a3a-b87b-89d2d31587d3")
     },
     {
@@ -185,8 +185,8 @@
         "phonesIds": [
             1
         ],
-        "startDate": new Date("2021-10-03"),
-        "endDate": new Date("2021-20-03"),
+        "startDate": new Date("2021-03-19"),
+        "endDate": new Date("2021-03-20"),
         "categoryId": UUID("66490a95-4e19-4cea-9c60-a12031bd330c")
     }
 ]

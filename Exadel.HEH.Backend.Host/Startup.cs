@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.Validators;
 using Exadel.HEH.Backend.Host.Extensions;
 using Exadel.HEH.Backend.Host.Identity;
@@ -148,7 +149,6 @@ namespace Exadel.HEH.Backend.Host
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseHangfireDashboard();
             }
             else
             {
@@ -156,6 +156,7 @@ namespace Exadel.HEH.Backend.Host
             }
 
             app.UseHangfireServer();
+            app.UseHangfireDashboard();
 
             app.UseHttpsRedirection();
 
@@ -189,7 +190,7 @@ namespace Exadel.HEH.Backend.Host
                 options.RoutePrefix = string.Empty;
             });
 
-            app.ApplicationServices.GetService<NotificationService>()?.Start();
+            app.ApplicationServices.GetService<INotificationScheduler>()?.StartJobs();
         }
     }
 }

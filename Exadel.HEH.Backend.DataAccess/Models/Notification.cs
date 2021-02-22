@@ -1,9 +1,8 @@
 ﻿using System;
-using Exadel.HEH.Backend.DataAccess.Models;
 
-namespace Exadel.HEH.Backend.BusinessLogic.DTOs
+namespace Exadel.HEH.Backend.DataAccess.Models
 {
-    public class NotificationDto
+    public class Notification : IDataModel
     {
         public Guid Id { get; set; }
 
@@ -16,5 +15,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs
         public DateTime Date { get; set; }
 
         public bool IsRead { get; set; }
+
+        public Guid SubjectId { get; set; }
+
+        public Guid UserId { get; set; }
     }
 }

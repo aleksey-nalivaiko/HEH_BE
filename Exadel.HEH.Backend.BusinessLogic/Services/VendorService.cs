@@ -17,13 +17,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IDiscountService _discountService;
         private readonly IMapper _mapper;
         private readonly IHistoryService _historyService;
-        private readonly ISearchService<VendorSearch, VendorDto> _searchService;
+        private readonly IVendorSearchService _searchService;
+        private readonly INotificationService _notificationService;
 
         public VendorService(IVendorRepository vendorRepository,
             IDiscountService discountService,
             IMapper mapper,
             IHistoryService historyService,
-            ISearchService<VendorSearch, VendorDto> searchService)
+            IVendorSearchService searchService,
+            INotificationService notificationService)
             : base(vendorRepository, mapper)
         {
             _vendorRepository = vendorRepository;
@@ -31,6 +33,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _mapper = mapper;
             _historyService = historyService;
             _searchService = searchService;
+            _notificationService = notificationService;
         }
 
         public async Task<IQueryable<VendorSearchDto>> GetAsync(ODataQueryOptions<VendorSearchDto> options,
@@ -69,6 +72,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 "Created vendor " + vendor.Name);
 
             await _searchService.CreateAsync(vendor);
+
+            await _notificationService.CreateVendorNotificationsAsync(vendor.Id);
 
             if (AnyDiscounts(vendor.Discounts))
             {
@@ -121,6 +126,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _searchService.RemoveAsync(id);
 
             await _discountService.RemoveAsync(d => d.VendorId == id);
+
+            await _notificationService.RemoveVendorNotificationsAsync(id);
         }
 
         private VendorDto GetVendorDto(Vendor vendor, IEnumerable<DiscountShortDto> vendorDiscounts)

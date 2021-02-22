@@ -77,7 +77,7 @@ namespace Exadel.HEH.Backend.Host.Tests
         //public async Task CanRemoveAsync()
         //{
         //    _tagData.Add(_testTag);
-        //    await _controller.RemoveAsync(_testTag.Id);
+        //    await _controller.RemoveByDiscountAsync(_testTag.Id);
         //    Assert.Empty(_tagData);
         //}
 

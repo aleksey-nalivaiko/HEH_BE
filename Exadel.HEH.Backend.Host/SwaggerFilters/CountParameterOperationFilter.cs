@@ -12,7 +12,7 @@ namespace Exadel.HEH.Backend.Host.SwaggerFilters
         private const string CountParam = "$count";
         private readonly List<string> _controllerNames = new List<string>
         {
-            "Discount", "User", "Vendor", "Statistics", "Favorites", "History"
+            "Discount", "User", "Vendor", "Statistics", "Favorites", "History", "Notification"
         };
 
         public void Apply(OpenApiOperation operation, OperationFilterContext context)

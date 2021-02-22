@@ -87,7 +87,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         //public async Task CanRemoveAsync()
         //{
         //    Data.Add(_testTag);
-        //    await _service.RemoveAsync(_testTag.Id);
+        //    await _service.RemoveByDiscountAsync(_testTag.Id);
         //    Assert.Empty(Data);
         //}
 

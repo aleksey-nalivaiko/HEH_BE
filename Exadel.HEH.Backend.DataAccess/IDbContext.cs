@@ -49,6 +49,18 @@ namespace Exadel.HEH.Backend.DataAccess
         Task<IEnumerable<T>> SearchAsync<T>(string path, string query)
             where T : class, new();
 
+        Task<IEnumerable<T>> GetAnyInAndWhereAsync<T, TField>(
+            Expression<Func<T, IEnumerable<TField>>> field,
+            IEnumerable<TField> inValues,
+            Expression<Func<T, bool>> expression = default)
+            where T : class, new();
+
+        Task<IEnumerable<T>> GetAnyEqAndWhereAsync<T, TField>(
+            Expression<Func<T, IEnumerable<TField>>> field,
+            TField value,
+            Expression<Func<T, bool>> expression = default)
+            where T : class, new();
+
         Task<IEnumerable<T>> GetInAndWhereAsync<T, TField>(
             Expression<Func<T, TField>> field = default,
             IEnumerable<TField> inValues = default,

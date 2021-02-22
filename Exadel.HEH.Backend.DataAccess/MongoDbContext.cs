@@ -131,6 +131,30 @@ namespace Exadel.HEH.Backend.DataAccess
             return await GetCollection<T>().Aggregate<T>(pipeline).ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAnyInAndWhereAsync<T, TField>(
+            Expression<Func<T, IEnumerable<TField>>> field,
+            IEnumerable<TField> inValues,
+            Expression<Func<T, bool>> expression)
+            where T : class, new()
+        {
+            var filter = Builders<T>.Filter.Where(expression)
+                         & Builders<T>.Filter.AnyIn(field, inValues);
+
+            return await GetCollection<T>().Find(filter).ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAnyEqAndWhereAsync<T, TField>(
+            Expression<Func<T, IEnumerable<TField>>> field,
+            TField value,
+            Expression<Func<T, bool>> expression)
+            where T : class, new()
+        {
+            var filter = Builders<T>.Filter.Where(expression)
+                         & Builders<T>.Filter.AnyEq(field, value);
+
+            return await GetCollection<T>().Find(filter).ToListAsync();
+        }
+
         public async Task<IEnumerable<T>> GetInAndWhereAsync<T, TField>(
             Expression<Func<T, TField>> field,
             IEnumerable<TField> inValues,

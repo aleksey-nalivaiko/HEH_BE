@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
-using MongoDB.Driver;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 {
@@ -13,6 +13,14 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 
         Task<User> GetByEmail(string email);
 
-        Task<IEnumerable<User>> GetWithSubscriptionsAsync(IEnumerable<Guid> subscriptions);
+        Task<IEnumerable<User>> GetWithSubscriptionsAsync(
+            Expression<Func<User, IEnumerable<Guid>>> inField,
+            Expression<Func<User, bool>> expression,
+            IEnumerable<Guid> subscriptions);
+
+        Task<IEnumerable<User>> GetWithSubscriptionAsync(
+            Expression<Func<User, IEnumerable<Guid>>> inField,
+            Expression<Func<User, bool>> expression,
+            Guid subscription);
     }
 }

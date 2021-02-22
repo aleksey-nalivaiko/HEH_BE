@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
@@ -24,6 +25,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         private readonly IMapper _mapper;
         private readonly NotificationOptions _notificationOptions;
+        private readonly INotificationService _notificationService;
 
         public DiscountService(IDiscountRepository discountRepository,
             IFavoritesService favoritesService,
@@ -31,8 +33,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             IMapper mapper,
             ISearchService<Discount, Discount> searchService,
             IHistoryService historyService,
-            IStatisticsService statisticsService)
-            IOptions<NotificationOptions> notificationOptions)
+            IStatisticsService statisticsService,
+            IOptions<NotificationOptions> notificationOptions,
+            INotificationService notificationService)
         {
             _discountRepository = discountRepository;
             _favoritesService = favoritesService;
@@ -43,6 +46,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             _mapper = mapper;
             _notificationOptions = notificationOptions.Value;
+            _notificationService = notificationService;
         }
 
         public async Task<IEnumerable<DiscountShortDto>> GetAllAsync()
@@ -112,9 +116,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public IQueryable<DiscountDto> GetHot()
         {
+            var nowDate = DateTime.UtcNow.Date;
+
+            var supposedEndDate = nowDate.AddDays(nowDate.DayOfWeek == DayOfWeek.Friday ?
+                    _notificationOptions.HotDiscountWeekendDaysLeft : _notificationOptions.HotDiscountDaysLeft);
+
             var hotDiscounts = _discountRepository.Get()
-                .Where(d => d.EndDate.Day - DateTime.UtcNow.Day <=
-                            _notificationOptions.HotDiscountDaysLeft);
+                .Where(d => d.EndDate < supposedEndDate);
 
             return hotDiscounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);
         }
@@ -126,7 +134,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             await _discountRepository.CreateManyAsync(discountsList);
 
-            discountsList.ForEach(CreateHistoryAndSearchItems);
+            discountsList.ForEach(CreateHistorySearchNotificationItems);
         }
 
         public async Task UpdateManyAsync(IEnumerable<Discount> discounts)
@@ -151,7 +159,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 }
                 else
                 {
-                    CreateHistoryAndSearchItems(discount);
+                    CreateHistorySearchNotificationItems(discount);
                 }
             }
         }
@@ -168,6 +176,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     "Removed discount " + d.Conditions);
 
                 _statisticsService.RemoveAsync(d.Id);
+
+                _notificationService.RemoveDiscountNotificationsAsync(d.Id);
             });
 
             await _discountRepository.RemoveAsync(expression);
@@ -176,12 +186,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _favoritesService.RemoveManyAsync(discountsToRemoveIds);
         }
 
-        private void CreateHistoryAndSearchItems(Discount discount)
+        private void CreateHistorySearchNotificationItems(Discount discount)
         {
             _historyService.CreateAsync(UserAction.Add,
                 "Created discount " + discount.Conditions);
 
             _searchService.CreateAsync(discount);
+
+            _notificationService.CreateDiscountNotificationsAsync(discount);
         }
 
         private void GenerateId(Discount discount)

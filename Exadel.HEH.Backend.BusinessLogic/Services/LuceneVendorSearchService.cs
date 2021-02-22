@@ -3,15 +3,13 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
-using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    public class LuceneVendorSearchService : VendorSearchService,
-        ISearchService<VendorSearch, VendorDto>
+    public class LuceneVendorSearchService : VendorSearchService, IVendorSearchService
     {
         private readonly string _searchPath;
 

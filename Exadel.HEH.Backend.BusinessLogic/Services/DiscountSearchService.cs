@@ -52,12 +52,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await SearchRepository.RemoveAllAsync();
 
             var discounts = await DiscountRepository.GetAllAsync();
-            var searchList = await GetAllSearch(discounts);
+            var searchList = await GetAllSearchAsync(discounts);
 
             await SearchRepository.CreateManyAsync(searchList);
         }
 
-        private async Task<IEnumerable<DiscountSearch>> GetAllSearch(IEnumerable<Discount> discounts)
+        private async Task<IEnumerable<DiscountSearch>> GetAllSearchAsync(IEnumerable<Discount> discounts)
         {
             var searchTasks = discounts.Select(GetSearchAsync);
 
