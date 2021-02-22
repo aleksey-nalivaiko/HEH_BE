@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
@@ -25,9 +27,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var searchService = new Mock<ISearchService<Discount, Discount>>();
             var historyService = new Mock<IHistoryService>();
             var statisticsService = new Mock<IStatisticsService>();
+            var notificationOptions = new Mock<IOptions<NotificationOptions>>();
+            var notificationManager = new Mock<INotificationService>();
 
             _service = new DiscountService(repository.Object, favoritesService.Object,
-                vendorRepository.Object, Mapper, searchService.Object, historyService.Object, statisticsService.Object);
+                vendorRepository.Object, Mapper, searchService.Object,
+                historyService.Object, statisticsService.Object, notificationOptions.Object,
+                notificationManager.Object);
 
             repository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<Discount>)Data));

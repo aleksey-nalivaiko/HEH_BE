@@ -4,10 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
+using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Microsoft.Extensions.Options;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
@@ -16,10 +19,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IDiscountRepository _discountRepository;
         private readonly IVendorRepository _vendorRepository;
         private readonly IFavoritesService _favoritesService;
-        private readonly IMapper _mapper;
         private readonly ISearchService<Discount, Discount> _searchService;
         private readonly IHistoryService _historyService;
         private readonly IStatisticsService _statisticsService;
+
+        private readonly IMapper _mapper;
+        private readonly NotificationOptions _notificationOptions;
+        private readonly INotificationService _notificationService;
 
         public DiscountService(IDiscountRepository discountRepository,
             IFavoritesService favoritesService,
@@ -27,15 +33,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             IMapper mapper,
             ISearchService<Discount, Discount> searchService,
             IHistoryService historyService,
-            IStatisticsService statisticsService)
+            IStatisticsService statisticsService,
+            IOptions<NotificationOptions> notificationOptions,
+            INotificationService notificationService)
         {
             _discountRepository = discountRepository;
             _favoritesService = favoritesService;
             _vendorRepository = vendorRepository;
-            _mapper = mapper;
             _searchService = searchService;
             _historyService = historyService;
             _statisticsService = statisticsService;
+
+            _mapper = mapper;
+            _notificationOptions = notificationOptions.Value;
+            _notificationService = notificationService;
         }
 
         public async Task<IEnumerable<DiscountShortDto>> GetAllAsync()
@@ -103,6 +114,19 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return discountDto;
         }
 
+        public IQueryable<DiscountDto> GetHot()
+        {
+            var nowDate = DateTime.UtcNow.Date;
+
+            var supposedEndDate = nowDate.AddDays(nowDate.DayOfWeek == DayOfWeek.Friday ?
+                    _notificationOptions.HotDiscountWeekendDaysLeft : _notificationOptions.HotDiscountDaysLeft);
+
+            var hotDiscounts = _discountRepository.Get()
+                .Where(d => d.EndDate < supposedEndDate);
+
+            return hotDiscounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);
+        }
+
         public async Task CreateManyAsync(IEnumerable<Discount> discounts)
         {
             var discountsList = discounts.ToList();
@@ -110,7 +134,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             await _discountRepository.CreateManyAsync(discountsList);
 
-            discountsList.ForEach(CreateHistoryAndSearchItems);
+            discountsList.ForEach(CreateHistorySearchNotificationItems);
         }
 
         public async Task UpdateManyAsync(IEnumerable<Discount> discounts)
@@ -135,7 +159,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 }
                 else
                 {
-                    CreateHistoryAndSearchItems(discount);
+                    CreateHistorySearchNotificationItems(discount);
                 }
             }
         }
@@ -152,6 +176,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     "Removed discount " + d.Conditions);
 
                 _statisticsService.RemoveAsync(d.Id);
+
+                _notificationService.RemoveDiscountNotificationsAsync(d.Id);
             });
 
             await _discountRepository.RemoveAsync(expression);
@@ -160,12 +186,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _favoritesService.RemoveManyAsync(discountsToRemoveIds);
         }
 
-        private void CreateHistoryAndSearchItems(Discount discount)
+        private void CreateHistorySearchNotificationItems(Discount discount)
         {
             _historyService.CreateAsync(UserAction.Add,
                 "Created discount " + discount.Conditions);
 
             _searchService.CreateAsync(discount);
+
+            _notificationService.CreateDiscountNotificationsAsync(discount);
         }
 
         private void GenerateId(Discount discount)

@@ -4,7 +4,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class HistoryRepository : MongoRepository<History>, IHistoryRepository
+    public class HistoryRepository : BaseRepository<History>, IHistoryRepository
     {
         public HistoryRepository(IDbContext context)
             : base(context)

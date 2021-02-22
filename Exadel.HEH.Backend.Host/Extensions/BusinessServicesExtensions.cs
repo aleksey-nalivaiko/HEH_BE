@@ -15,19 +15,21 @@ namespace Exadel.HEH.Backend.Host.Extensions
         {
             services.AddScoped<IStatisticsService, StatisticsService>();
 
-            services.AddSingleton<SchedulerService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
             services.AddSingleton<IEmailService, EmailService>();
+
+            services.AddSingleton<INotificationScheduler, NotificationScheduler>();
 
             if (env.IsDevelopment())
             {
                 services.AddScoped<ISearchService<Discount, Discount>, LocalDiscountSearchService>();
-                services.AddScoped<ISearchService<VendorSearch, VendorDto>, LocalVendorSearchService>();
+                services.AddScoped<IVendorSearchService, LocalVendorSearchService>();
             }
             else
             {
                 services.AddScoped<ISearchService<Discount, Discount>, LuceneDiscountSearchService>();
-                services.AddScoped<ISearchService<VendorSearch, VendorDto>, LuceneVendorSearchService>();
+                services.AddScoped<IVendorSearchService, LuceneVendorSearchService>();
             }
 
             return services;

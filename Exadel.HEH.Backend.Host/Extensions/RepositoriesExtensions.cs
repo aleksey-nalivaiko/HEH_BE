@@ -16,8 +16,6 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddSingleton<IUserRepository, UserRepository>();
 
-            services.AddSingleton<IRepository<PreOrder>, PreOrderRepository>();
-
             services.AddSingleton<IVendorRepository, VendorRepository>();
 
             services.AddSingleton<ILocationRepository, LocationRepository>();
@@ -39,6 +37,8 @@ namespace Exadel.HEH.Backend.Host.Extensions
                 SearchRepository<VendorSearch>>();
 
             services.AddSingleton<IStatisticsRepository, StatisticsRepository>();
+
+            services.AddSingleton<INotificationRepository, NotificationRepository>();
 
             return services;
         }

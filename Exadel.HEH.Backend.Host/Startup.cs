@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.Validators;
 using Exadel.HEH.Backend.Host.Extensions;
 using Exadel.HEH.Backend.Host.Identity;
@@ -139,7 +140,8 @@ namespace Exadel.HEH.Backend.Host
                 config.UseMemoryStorage();
             });
 
-            services.Configure<EmailOptions>(Configuration.GetSection(EmailOptions.EmailSettings));
+            services.Configure<EmailOptions>(Configuration.GetSection("Email"));
+            services.Configure<NotificationOptions>(Configuration.GetSection("Notification"));
         }
 
         public void Configure(IApplicationBuilder app, VersionedODataModelBuilder modelBuilder, IWebHostEnvironment env)
@@ -147,7 +149,6 @@ namespace Exadel.HEH.Backend.Host
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseHangfireDashboard();
             }
             else
             {
@@ -155,6 +156,7 @@ namespace Exadel.HEH.Backend.Host
             }
 
             app.UseHangfireServer();
+            app.UseHangfireDashboard();
 
             app.UseHttpsRedirection();
 
@@ -188,7 +190,7 @@ namespace Exadel.HEH.Backend.Host
                 options.RoutePrefix = string.Empty;
             });
 
-            app.ApplicationServices.GetService<SchedulerService>()?.Start();
+            app.ApplicationServices.GetService<INotificationScheduler>()?.StartJobs();
         }
     }
 }

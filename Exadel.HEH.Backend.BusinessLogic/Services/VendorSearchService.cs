@@ -37,6 +37,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _mapper = mapper;
         }
 
+        public Task<VendorSearch> GetByIdAsync(Guid id)
+        {
+            return SearchRepository.GetByIdAsync(id);
+        }
+
         public async Task CreateAsync(VendorDto vendor)
         {
             var search = await GetSearchAsync(vendor);
@@ -72,12 +77,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     return vendorDto;
                 });
 
-            var searchList = await GetAllSearch(vendorsDto);
+            var searchList = await GetAllSearchAsync(vendorsDto);
 
             await SearchRepository.CreateManyAsync(searchList);
         }
 
-        private async Task<IEnumerable<VendorSearch>> GetAllSearch(IEnumerable<VendorDto> vendors)
+        private async Task<IEnumerable<VendorSearch>> GetAllSearchAsync(IEnumerable<VendorDto> vendors)
         {
             var searchTasks = vendors.Select(GetSearchAsync);
 

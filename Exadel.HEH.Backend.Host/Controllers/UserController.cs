@@ -42,9 +42,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpPut("profile")]
-        public Task UpdateNotificationsAsync(NotificationDto notifications)
+        public Task UpdateNotificationsAsync(UserNotificationDto userNotifications)
         {
-            return _userService.UpdateNotificationsAsync(notifications);
+            return _userService.UpdateNotificationsAsync(userNotifications);
         }
 
         [HttpPut("{id:guid}/{isActive:bool}")]

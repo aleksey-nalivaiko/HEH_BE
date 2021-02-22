@@ -8,6 +8,7 @@
     load("preOrderData.js");
     load("locationData.js");
     load("statisticsData.js");
+    load("notificationData.js");
 
     dbName = "ExadelHEH";
 
@@ -26,6 +27,7 @@
         fillCollection("PreOrder", preOrderData);
         fillCollection("Location", locationData);
         fillCollection("Statistics", statisticsData);
+        fillCollection("Notification", notificationData);
     }
 
     function fillCollection(collectionName, data) {

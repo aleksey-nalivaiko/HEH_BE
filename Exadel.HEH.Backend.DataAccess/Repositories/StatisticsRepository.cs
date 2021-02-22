@@ -7,7 +7,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class StatisticsRepository : MongoRepository<Statistics>, IStatisticsRepository
+    public class StatisticsRepository : BaseRepository<Statistics>, IStatisticsRepository
     {
         public StatisticsRepository(IDbContext context)
             : base(context)

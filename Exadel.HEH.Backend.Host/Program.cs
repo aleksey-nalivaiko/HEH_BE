@@ -27,7 +27,7 @@ namespace Exadel.HEH.Backend.Host
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Start failed.");
+                Log.Fatal(ex, "StartJobs failed.");
             }
             finally
             {
