@@ -6,12 +6,12 @@ using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 {
-    public abstract class MongoRepository<TDocument> : IRepository<TDocument>
+    public abstract class BaseRepository<TDocument> : IRepository<TDocument>
         where TDocument : class, IDataModel, new()
     {
         protected readonly IDbContext Context;
 
-        protected MongoRepository(IDbContext context)
+        protected BaseRepository(IDbContext context)
         {
             Context = context;
         }

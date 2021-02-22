@@ -7,7 +7,7 @@ using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
 namespace Exadel.HEH.Backend.DataAccess.Repositories
 {
-    public class TagRepository : MongoRepository<Tag>, ITagRepository
+    public class TagRepository : BaseRepository<Tag>, ITagRepository
     {
         public TagRepository(IDbContext context)
             : base(context)

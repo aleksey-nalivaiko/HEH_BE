@@ -5,9 +5,11 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
+using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Microsoft.Extensions.Options;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
@@ -16,10 +18,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly IDiscountRepository _discountRepository;
         private readonly IVendorRepository _vendorRepository;
         private readonly IFavoritesService _favoritesService;
-        private readonly IMapper _mapper;
         private readonly ISearchService<Discount, Discount> _searchService;
         private readonly IHistoryService _historyService;
         private readonly IStatisticsService _statisticsService;
+
+        private readonly IMapper _mapper;
+        private readonly NotificationOptions _notificationOptions;
 
         public DiscountService(IDiscountRepository discountRepository,
             IFavoritesService favoritesService,
@@ -28,14 +32,17 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             ISearchService<Discount, Discount> searchService,
             IHistoryService historyService,
             IStatisticsService statisticsService)
+            IOptions<NotificationOptions> notificationOptions)
         {
             _discountRepository = discountRepository;
             _favoritesService = favoritesService;
             _vendorRepository = vendorRepository;
-            _mapper = mapper;
             _searchService = searchService;
             _historyService = historyService;
             _statisticsService = statisticsService;
+
+            _mapper = mapper;
+            _notificationOptions = notificationOptions.Value;
         }
 
         public async Task<IEnumerable<DiscountShortDto>> GetAllAsync()
@@ -101,6 +108,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 (p, i) => p));
 
             return discountDto;
+        }
+
+        public IQueryable<DiscountDto> GetHot()
+        {
+            var hotDiscounts = _discountRepository.Get()
+                .Where(d => d.EndDate.Day - DateTime.UtcNow.Day <=
+                            _notificationOptions.HotDiscountDaysLeft);
+
+            return hotDiscounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);
         }
 
         public async Task CreateManyAsync(IEnumerable<Discount> discounts)

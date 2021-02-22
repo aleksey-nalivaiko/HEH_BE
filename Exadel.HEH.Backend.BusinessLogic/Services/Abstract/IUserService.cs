@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
@@ -13,6 +14,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
         Task<UserShortDto> GetByIdAsync(Guid id);
 
         Task<UserDto> GetProfileAsync();
+
+        Task<IEnumerable<string>> GetEmailsForNotificationsAsync(
+            IEnumerable<Guid> categoryIds,
+            IEnumerable<Guid> tagIds,
+            IEnumerable<Guid> vendorIds);
 
         Task UpdateStatusAsync(Guid id, bool isActive);
 
