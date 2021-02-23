@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
@@ -8,6 +9,7 @@ using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 {
@@ -156,6 +158,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             var vendor = _vendorRepository.Get().FirstOrDefault(x => x.Name == vendorName);
 
             return Task.FromResult(vendor is null);
+        }
+
+        public Task<bool> PhonesAreValid(string phone, CancellationToken token)
+        {
+            var regex = new Regex(@"^[\+][3][7][5][0-9]{9}");
+
+            MatchCollection match = regex.Matches(phone);
+
+            if (match.Count == 0)
+            {
+                return Task.FromResult(false);
+            }
+
+            return Task.FromResult(true);
         }
 
         private async Task GetVendor(Guid vendorId)

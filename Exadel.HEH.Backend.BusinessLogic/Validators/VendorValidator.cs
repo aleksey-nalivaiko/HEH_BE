@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data;
+using System.Linq;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Providers;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
@@ -64,6 +65,22 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                             cancellation))
                     .WithMessage("Provided combination of country/city doesn't exist");
             });
+
+            RuleForEach(v => v.Phones.Select(p => p.Number))
+                .Cascade(CascadeMode.Stop)
+                .NotNull()
+                .NotEmpty()
+                .MustAsync(async (phones, cancellation) =>
+                    await vendorValidationService.PhonesAreValid(phones, cancellation))
+                .WithName("PhoneNumber")
+                .WithMessage("Enter valid phone");
+
+            RuleFor(v => v.Email)
+                .Cascade(CascadeMode.Stop)
+                .NotNull()
+                .NotEmpty()
+                .EmailAddress()
+                .WithMessage("Enter valid email");
 
             RuleFor(v => v.Name)
                 .Cascade(CascadeMode.Stop)

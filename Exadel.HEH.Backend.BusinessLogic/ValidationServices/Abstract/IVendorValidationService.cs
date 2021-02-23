@@ -27,5 +27,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
             CancellationToken cancellationToken = default);
 
         Task<bool> VendorNameExists(string vendorName, CancellationToken token);
+
+        Task<bool> PhonesAreValid(string phones, CancellationToken token);
     }
 }
