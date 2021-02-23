@@ -1,9 +1,15 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.DataAccess.Models;
 using Microsoft.Extensions.Options;
+using Mustache;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
@@ -36,6 +42,28 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 EnableSsl = true
             };
             await smtpClient.SendMailAsync(email);
+        }
+
+        public string CompleteHotNotificationMessage(
+            Notification notification,
+            string userName)
+        {
+            var compiler = new FormatCompiler();
+
+            //TODO: realPath
+            using var streamReader = new StreamReader(
+                @".\Path\To\My\File.Mustache", Encoding.UTF8);
+
+            var generator = compiler.Compile(streamReader.ReadToEnd());
+
+            return generator.Render("Bob");
+        }
+
+        private class EmailBody
+        {
+            private string userName;
+
+            private List<Notification> notifications;
         }
     }
 }

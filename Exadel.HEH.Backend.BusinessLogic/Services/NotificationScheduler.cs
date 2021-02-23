@@ -36,6 +36,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             RecurringJob.AddOrUpdate("HotNotifications", () => SendHotNotificationsAsync(),
                 "0 1 * * 1-5");
 
+            //TODO: weekly count of not read
             //RecurringJob.AddOrUpdate("SendEmails", () => SendEmailsAsync(),
             //    Cron.Weekly(DayOfWeek.Friday, 11));
         }
@@ -46,29 +47,33 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             if (notifications.Any())
             {
-                await _notificationRepository.CreateManyAsync(notifications);
+                await _notificationRepository.CreateManyAsync(
+                    notifications.Select(t => t.notification));
 
                 _logger.LogInformation("Hot notifications were created.");
 
-                await _emailService.SendEmailAsync("<email>",
-                    "News from HEH", "Hi! Here you can found some discounts");
+                await SendEmailsAsync(notifications);
 
                 _logger.LogInformation("Emails with hot notifications where send.");
             }
         }
 
-        public async Task SendEmailsAsync()
+        public Task SendEmailsAsync(List<(Notification notification, User user)> notifications)
         {
-            //TODO: change email
-            await _emailService.SendEmailAsync("<email>",
-                "News from HEH", "Hi! Here you can found some discounts");
+            var emailTasks = new List<Task>();
 
-            _logger.LogInformation("Emails where send");
+            foreach (var notification in notifications)
+            {
+                emailTasks.Add(_emailService.SendEmailAsync(notification.user.Email,
+                    "Hot discounts in HEH", "Hi! Here you can found some discounts"));
+            }
+
+            return Task.WhenAll(emailTasks);
         }
 
-        public async Task<List<Notification>> GetHotNotificationsAsync()
+        private async Task<List<(Notification notification, User user)>> GetHotNotificationsAsync()
         {
-            var notifications = new List<Notification>();
+            var notifications = new List<(Notification notification, User user)>();
 
             using var scope = _serviceScopeFactory.CreateScope();
 
@@ -101,7 +106,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                             UserId = user.Id
                         };
 
-                        notifications.Add(notification);
+                        notifications.Add((notification, user));
                     }
                 }
             }
