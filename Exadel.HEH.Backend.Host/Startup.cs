@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Options;
-using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.Validators;
 using Exadel.HEH.Backend.Host.Extensions;
@@ -156,7 +153,13 @@ namespace Exadel.HEH.Backend.Host
             }
 
             app.UseHangfireServer();
-            app.UseHangfireDashboard();
+            app.UseHangfireDashboard(options: new DashboardOptions
+            {
+                Authorization = new[]
+                {
+                    new HangfireAuthorizationFilter()
+                }
+            });
 
             app.UseHttpsRedirection();
 
