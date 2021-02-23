@@ -86,12 +86,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 
                 return discountAddressesIds.All(id => vendorAddressesIds.Contains(id));
             }
-            else
+
+            if (discountAddressesIds.Any())
             {
-                if (discountAddressesIds.Any())
-                {
-                    return false;
-                }
+                return false;
             }
 
             return true;
