@@ -21,7 +21,7 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             _favoritesService = favoritesService;
         }
 
-        [EnableQuery]
+        [EnableQuery(EnsureStableOrdering = false)]
         [ODataRoute]
         public Task<IQueryable<FavoritesDto>> GetAsync([FromQuery] string searchText)
         {
