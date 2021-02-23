@@ -30,7 +30,7 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             _statisticsService = statisticsService;
         }
 
-        [EnableQuery]
+        [EnableQuery(EnsureStableOrdering = false)]
         [ODataRoute]
         public Task<IQueryable<DiscountDto>> GetAsync([FromQuery] string searchText)
         {

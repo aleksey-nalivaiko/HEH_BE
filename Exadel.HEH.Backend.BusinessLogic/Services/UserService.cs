@@ -35,7 +35,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public IQueryable<UserShortDto> Get()
         {
             var currentUserId = _userProvider.GetUserId();
-            var users = _userRepository.Get().Where(u => u.Id != currentUserId);
+
+            var users = _userRepository.Get().ToList()
+                .Where(u => u.Id != currentUserId).AsQueryable();
 
             return users.ProjectTo<UserShortDto>(_mapper.ConfigurationProvider);
         }

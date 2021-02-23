@@ -21,7 +21,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             _historyService = historyService;
         }
 
-        [EnableQuery(HandleNullPropagation = HandleNullPropagationOption.False)]
+        [EnableQuery(
+            HandleNullPropagation = HandleNullPropagationOption.False,
+            EnsureStableOrdering = false)]
         [ODataRoute]
         public async Task<IQueryable<HistoryDto>> Get()
         {

@@ -20,7 +20,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             _notificationService = notificationService;
         }
 
-        [EnableQuery(HandleNullPropagation = HandleNullPropagationOption.False)]
+        [EnableQuery(
+            HandleNullPropagation = HandleNullPropagationOption.False,
+            EnsureStableOrdering = false)]
         [ODataRoute]
         public IQueryable<NotificationDto> GetAsync()
         {
