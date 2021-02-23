@@ -42,6 +42,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return users.ProjectTo<UserShortDto>(_mapper.ConfigurationProvider);
         }
 
+        public IQueryable<User> Get(Expression<Func<User, bool>> expression)
+        {
+            return _userRepository.Get().Where(expression);
+        }
+
         public async Task<UserShortDto> GetByIdAsync(Guid id)
         {
             var result = await _userRepository.GetByIdAsync(id);
@@ -54,39 +59,34 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return _mapper.Map<UserDto>(result);
         }
 
-        public async Task<IEnumerable<Guid>> GetUsersWithNotificationsAsync(
+        public async Task<IEnumerable<User>> GetUsersWithNotificationsAsync(
             Guid categoryId,
             IEnumerable<Guid> tagIds,
             Guid vendorId,
             Expression<Func<User, bool>> expression)
         {
-            var userIds = new List<Guid>();
+            var users = new List<User>();
 
             await Task.WhenAll(
-                GetWithSubscriptionsAsync(u => u.CategoryNotifications, expression, categoryId, userIds),
-                GetWithSubscriptionsAsync(u => u.TagNotifications, expression, tagIds, userIds),
-                GetWithSubscriptionsAsync(u => u.VendorNotifications, expression, vendorId, userIds));
+                GetWithSubscriptionsAsync(u => u.CategoryNotifications, expression, categoryId, users),
+                GetWithSubscriptionsAsync(u => u.TagNotifications, expression, tagIds, users),
+                GetWithSubscriptionsAsync(u => u.VendorNotifications, expression, vendorId, users));
 
-            return userIds.Distinct();
+            return users.Distinct();
         }
 
-        public async Task<IEnumerable<Guid>> GetUsersWithNotificationsAsync(
+        public async Task<IEnumerable<User>> GetUsersWithNotificationsAsync(
             IEnumerable<Guid> categoryIds,
             IEnumerable<Guid> tagIds,
             Expression<Func<User, bool>> expression)
         {
-            var userIds = new List<Guid>();
+            var users = new List<User>();
 
             await Task.WhenAll(
-                GetWithSubscriptionsAsync(u => u.CategoryNotifications, expression, categoryIds, userIds),
-                GetWithSubscriptionsAsync(u => u.TagNotifications, expression, tagIds, userIds));
+                GetWithSubscriptionsAsync(u => u.CategoryNotifications, expression, categoryIds, users),
+                GetWithSubscriptionsAsync(u => u.TagNotifications, expression, tagIds, users));
 
-            return userIds.Distinct();
-        }
-
-        public IQueryable<Guid> GetUsersIds(Expression<Func<User, bool>> expression)
-        {
-            return _userRepository.Get().Where(expression).Select(u => u.Id);
+            return users.Distinct();
         }
 
         public async Task UpdateNotificationsAsync(UserNotificationDto userNotifications)
@@ -128,33 +128,22 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             Expression<Func<User, IEnumerable<Guid>>> inField,
             Expression<Func<User, bool>> expression,
             Guid value,
-            List<Guid> userIds)
+            List<User> users)
         {
-            var users = await _userRepository.GetWithSubscriptionAsync(
-                inField, expression, value);
-
-            FillIdsList(users, userIds);
+            users.AddRange(
+                await _userRepository.GetWithSubscriptionAsync(
+                    inField, expression, value));
         }
 
         private async Task GetWithSubscriptionsAsync(
             Expression<Func<User, IEnumerable<Guid>>> inField,
             Expression<Func<User, bool>> expression,
             IEnumerable<Guid> inValues,
-            List<Guid> userIds)
+            List<User> users)
         {
-            var users = await _userRepository.GetWithSubscriptionsAsync(
-                inField, expression, inValues);
-
-            FillIdsList(users, userIds);
-        }
-
-        private void FillIdsList(IEnumerable<User> users, List<Guid> userIds)
-        {
-            var usersList = users.ToList();
-            if (usersList.Any())
-            {
-                userIds.AddRange(usersList.Select(u => u.Id));
-            }
+            users.AddRange(
+                await _userRepository.GetWithSubscriptionsAsync(
+                    inField, expression, inValues));
         }
     }
 }
