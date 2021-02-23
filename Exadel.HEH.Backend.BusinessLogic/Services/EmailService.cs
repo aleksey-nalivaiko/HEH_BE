@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
@@ -27,11 +26,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var fromAddress = new MailAddress(_options.Email, _options.Name);
             var toAddress = new MailAddress(address);
 
+            //TODO: return html
             using var email = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
-                Body = messageBody,
-                IsBodyHtml = true
+                Body = messageBody /*,
+                IsBodyHtml = true*/
             };
 
             using var smtpClient = new SmtpClient
@@ -44,26 +44,42 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await smtpClient.SendMailAsync(email);
         }
 
-        public string CompleteHotNotificationMessage(
-            Notification notification,
+        public string CompleteHotNotificationsMessage(
+            IEnumerable<Notification> notifications,
             string userName)
+        {
+            //TODO: realPath
+            var generator = GetGenerator(@"Pth/jj");
+
+            return generator.Render(new
+            {
+                UserName = userName,
+                Notifications = notifications
+            });
+        }
+
+        public string CompleteNotificationsCountMessage(
+            int count,
+            string userName)
+        {
+            //TODO: realPath
+            var generator = GetGenerator(@"Pth/jj");
+
+            return generator.Render(new
+            {
+                UserName = userName,
+                Count = count
+            });
+        }
+
+        private Generator GetGenerator(string path)
         {
             var compiler = new FormatCompiler();
 
-            //TODO: realPath
-            using var streamReader = new StreamReader(
-                @".\Path\To\My\File.Mustache", Encoding.UTF8);
+            using var streamReader = new StreamReader(path, Encoding.UTF8);
 
             var generator = compiler.Compile(streamReader.ReadToEnd());
-
-            return generator.Render("Bob");
-        }
-
-        private class EmailBody
-        {
-            private string userName;
-
-            private List<Notification> notifications;
+            return generator;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
@@ -7,8 +8,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
     {
         Task SendEmailAsync(string address, string subject, string messageBody);
 
-        string CompleteHotNotificationMessage(
-            Notification notification,
+        string CompleteHotNotificationsMessage(
+            IEnumerable<Notification> notifications,
+            string userName);
+
+        string CompleteNotificationsCountMessage(
+            int count,
             string userName);
     }
 }
