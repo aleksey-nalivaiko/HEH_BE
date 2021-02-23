@@ -18,8 +18,7 @@ namespace Exadel.HEH.Backend.Host.Identity
                     AllowedScopes = new[]
                     {
                         "heh_api"
-                    },
-                    AccessTokenLifetime = 3600 * 24
+                    }
                 }
             };
         }
