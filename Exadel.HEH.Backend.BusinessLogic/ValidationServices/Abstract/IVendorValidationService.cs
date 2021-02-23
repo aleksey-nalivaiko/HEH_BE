@@ -12,7 +12,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 
         Task<bool> VendorNotExistsAsync(Guid vendorId, CancellationToken token = default);
 
-        Task<bool> AddressesCanBeRemovedAsync(Guid vendorId, IEnumerable<AddressDto> addresses, CancellationToken token = default);
+        Task<bool> AddressesCanBeRemovedAsync(Guid vendorId,
+            IEnumerable<AddressDto> addresses,
+            CancellationToken token = default);
 
         bool AddressesAreUnique(IEnumerable<int> addressesIds);
 
@@ -20,6 +22,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 
         bool PhonesAreUnique(IEnumerable<int> phonesIds);
 
-        bool PhonesAreFromVendor(VendorDto vendor, IEnumerable<DiscountShortDto> discounts);
+        Task<bool> PhonesAreFromVendorAsync(VendorDto vendor,
+            IEnumerable<DiscountShortDto> discounts,
+            CancellationToken cancellationToken = default);
     }
 }
