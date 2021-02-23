@@ -74,19 +74,19 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             Expression<Func<User, bool>> expression = u =>
                 u.IsActive && u.AllNotificationsAreOn && u.NewVendorNotificationIsOn;
 
-            var userIds = (!vendor.CategoriesIds.Any() && !vendor.TagsIds.Any()
-                ? _userService.GetUsersIds(expression)
+            var users = (!vendor.CategoriesIds.Any() && !vendor.TagsIds.Any()
+                ? _userService.Get(expression)
                 : await _userService.GetUsersWithNotificationsAsync(
                     vendor.CategoriesIds,
                     vendor.TagsIds,
                     expression))
                 .ToList();
 
-            if (userIds.Any())
+            if (users.Any())
             {
                 var notifications = new List<Notification>();
 
-                foreach (var userId in userIds)
+                foreach (var user in users)
                 {
                     var notification = new Notification
                     {
@@ -96,7 +96,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                         SubjectId = vendor.Id,
                         Date = DateTime.UtcNow,
                         IsRead = false,
-                        UserId = userId
+                        UserId = user.Id
                     };
                     notifications.Add(notification);
                 }
@@ -109,18 +109,18 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task CreateDiscountNotificationsAsync(Discount discount)
         {
-            var userIds = (await _userService.GetUsersWithNotificationsAsync(
+            var users = (await _userService.GetUsersWithNotificationsAsync(
                     discount.CategoryId,
                     discount.TagsIds,
                     discount.VendorId,
                     u => u.IsActive && u.AllNotificationsAreOn && u.NewDiscountNotificationIsOn))
                 .ToList();
 
-            if (userIds.Any())
+            if (users.Any())
             {
                 var notifications = new List<Notification>();
 
-                foreach (var userId in userIds)
+                foreach (var user in users)
                 {
                     var notification = new Notification
                     {
@@ -130,7 +130,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                         SubjectId = discount.Id,
                         Date = DateTime.UtcNow,
                         IsRead = false,
-                        UserId = userId
+                        UserId = user.Id
                     };
 
                     notifications.Add(notification);

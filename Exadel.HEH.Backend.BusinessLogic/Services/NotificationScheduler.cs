@@ -33,11 +33,28 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public void StartJobs()
         {
-            RecurringJob.AddOrUpdate("HotNotifications", () => CreateHotNotificationsAsync(),
+            RecurringJob.AddOrUpdate("HotNotifications", () => SendHotNotificationsAsync(),
                 "0 1 * * 1-5");
 
             //RecurringJob.AddOrUpdate("SendEmails", () => SendEmailsAsync(),
             //    Cron.Weekly(DayOfWeek.Friday, 11));
+        }
+
+        public async Task SendHotNotificationsAsync()
+        {
+            var notifications = await GetHotNotificationsAsync();
+
+            if (notifications.Any())
+            {
+                await _notificationRepository.CreateManyAsync(notifications);
+
+                _logger.LogInformation("Hot notifications were created.");
+
+                await _emailService.SendEmailAsync("<email>",
+                    "News from HEH", "Hi! Here you can found some discounts");
+
+                _logger.LogInformation("Emails with hot notifications where send.");
+            }
         }
 
         public async Task SendEmailsAsync()
@@ -49,8 +66,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _logger.LogInformation("Emails where send");
         }
 
-        public async Task CreateHotNotificationsAsync()
+        public async Task<List<Notification>> GetHotNotificationsAsync()
         {
+            var notifications = new List<Notification>();
+
             using var scope = _serviceScopeFactory.CreateScope();
 
             var discountService = scope.ServiceProvider.GetService<IDiscountService>();
@@ -62,39 +81,32 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
                 foreach (var discount in discounts)
                 {
-                    var userIds = (await userService.GetUsersWithNotificationsAsync(
+                    var users = (await userService.GetUsersWithNotificationsAsync(
                             discount.CategoryId,
                             discount.TagsIds,
                             discount.VendorId,
                             u => u.IsActive && u.AllNotificationsAreOn && u.HotDiscountsNotificationIsOn))
                         .ToList();
 
-                    if (userIds.Any())
+                    foreach (var user in users)
                     {
-                        var notifications = new List<Notification>();
-
-                        foreach (var userId in userIds)
+                        var notification = new Notification
                         {
-                            var notification = new Notification
-                            {
-                                Title = $"Hot discount from {discount.VendorName}!",
-                                Message = "We have a hot discount for you. Take your last chance to use it!",
-                                Type = NotificationType.Hot,
-                                SubjectId = discount.Id,
-                                Date = DateTime.UtcNow,
-                                IsRead = false,
-                                UserId = userId
-                            };
+                            Title = $"Hot discount from {discount.VendorName}!",
+                            Message = "We have a hot discount for you. Take your last chance to use it!",
+                            Type = NotificationType.Hot,
+                            SubjectId = discount.Id,
+                            Date = DateTime.UtcNow,
+                            IsRead = false,
+                            UserId = user.Id
+                        };
 
-                            notifications.Add(notification);
-                        }
-
-                        await _notificationRepository.CreateManyAsync(notifications);
+                        notifications.Add(notification);
                     }
                 }
-
-                _logger.LogInformation("Hot notifications were sent to users");
             }
+
+            return notifications;
         }
     }
 }
