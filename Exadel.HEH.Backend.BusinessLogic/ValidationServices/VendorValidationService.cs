@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
+using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
@@ -148,6 +149,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             }
 
             return true;
+        }
+
+        public Task<bool> VendorNameExists(string vendorName, CancellationToken token)
+        {
+            var vendor = _vendorRepository.Get().FirstOrDefault(x => x.Name == vendorName);
+
+            return Task.FromResult(vendor is null);
         }
 
         private async Task GetVendor(Guid vendorId)

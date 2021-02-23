@@ -25,5 +25,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
         Task<bool> PhonesAreFromVendorAsync(VendorDto vendor,
             IEnumerable<DiscountShortDto> discounts,
             CancellationToken cancellationToken = default);
+
+        Task<bool> VendorNameExists(string vendorName, CancellationToken token);
     }
 }

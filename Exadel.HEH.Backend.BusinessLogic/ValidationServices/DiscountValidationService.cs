@@ -13,11 +13,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
     public class DiscountValidationService : IDiscountValidationService
     {
         private readonly IDiscountRepository _discountRepository;
+        private readonly ILocationRepository _locationRepository;
         private Discount _discount;
 
-        public DiscountValidationService(IDiscountRepository discountRepository)
+        public DiscountValidationService(IDiscountRepository discountRepository, ILocationRepository locationRepository)
         {
             _discountRepository = discountRepository;
+            _locationRepository = locationRepository;
         }
 
         public async Task<bool> DiscountExists(Guid discountId, CancellationToken token)
@@ -50,6 +52,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             var vendorAddressesIds = vendor.SelectMany(m => m.Addresses.Select(x => x.Id)).Distinct().ToList();
 
             return vendorAddressesIds.All(p => discountAddressesIds.Contains(p));
+        }
+
+        public async Task<bool> AddressesExist(Guid countryId, Guid cityId, CancellationToken token)
+        {
+            var country = await _locationRepository.GetByIdAsync(countryId);
+
+            if (country is null)
+            {
+                return false;
+            }
+
+            var city = country.Cities.Where(x => x.Id == cityId).ToList();
+
+            return city.Count != 0;
         }
     }
 }

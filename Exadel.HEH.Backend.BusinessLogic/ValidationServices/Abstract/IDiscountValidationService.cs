@@ -16,5 +16,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
             CancellationToken token);
 
         Task<bool> AddressesAreFromVendorAsync(Guid discountId, IEnumerable<VendorDto> vendor, CancellationToken token);
+
+        Task<bool> AddressesExist(Guid countryId, Guid cityId, CancellationToken token);
     }
 }

@@ -25,6 +25,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                     .MustAsync(vendorValidationService.VendorExistsAsync)
                     .WithMessage("Vendor with this id doesn't exists.");
 
+                RuleForEach(v => v.Addresses)
+                    .MustAsync(async (adresses, cancellation) =>
+                        await discountValidationService.AddressesExist(adresses.CountryId, adresses.CityId,
+                            cancellation))
+                    .WithMessage("Provided combination of country/city doesn't exist");
+
                 RuleFor(v => v.Addresses)
                     .MustAsync(async (vendor, addresses, cancellation) =>
                         await vendorValidationService.AddressesCanBeRemovedAsync(vendor.Id, addresses, cancellation))
@@ -51,7 +57,21 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                     .WithMessage("Discount with this id already exists.")
                     .WithName("DiscountId")
                     .When(v => v.Discounts != null);
+
+                RuleForEach(v => v.Addresses)
+                    .MustAsync(async (adresses, cancellation) =>
+                        await discountValidationService.AddressesExist(adresses.CountryId, adresses.CityId,
+                            cancellation))
+                    .WithMessage("Provided combination of country/city doesn't exist");
             });
+
+            RuleFor(v => v.Name)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                .NotNull()
+                .MustAsync(vendorValidationService.VendorNameExists)
+                .WithName("VendorName")
+                .WithMessage("Such vendor name already exists");
 
             RuleFor(v => v.Addresses.Select(a => a.Id))
                 .Must(vendorValidationService.AddressesAreUnique)
@@ -90,21 +110,21 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(255)
-                .WithMessage("Discount condition can't be more then 255 simbols and can't be empty")
+                .WithMessage("Discount condition can't be more than 255 symbols")
                 .WithName("Conditions");
 
             RuleForEach(v => v.Discounts.Select(d => d.PromoCode))
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(50)
-                .WithMessage("Discount promoCode can't be more then 50 simbols and can't be empty")
+                .WithMessage("Discount promoCode can't be more than 50 symbols")
                 .WithName("Promocode");
 
-            RuleForEach(v => v.Discounts.Select(d => d.VendorName))
+            RuleFor(v => v.Name)
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(50)
-                .WithMessage("Discount vendorName can't be more then 50 simbols and can't be empty")
+                .WithMessage("VendorName can't be more than 50 symbols")
                 .WithName("VendorName");
 
             RuleForEach(v => v.Discounts.Select(d => d.CategoryId))
