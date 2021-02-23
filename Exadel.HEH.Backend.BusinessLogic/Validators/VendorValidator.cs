@@ -12,13 +12,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
             IDiscountValidationService discountValidationService,
             IMethodProvider methodProvider)
         {
-            CascadeMode = CascadeMode.Stop;
-
             var methodType = methodProvider.GetMethodUpperName();
 
             When(dto => methodType == "PUT", () =>
             {
                 RuleFor(v => v.Id)
+                    .Cascade(CascadeMode.Stop)
                     .NotNull()
                     .NotEmpty()
                     .MustAsync(vendorValidationService.VendorExistsAsync)
@@ -51,6 +50,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .WithName("Addresses");
 
             RuleForEach(v => v.Addresses.Select(a => a.Id))
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .NotNull()
                 .When(v => v.Addresses != null)
@@ -60,9 +60,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .Must(vendorValidationService.PhonesAreUnique)
                 .WithMessage("There are phones with same id.")
                 .When(v => v.Phones != null)
-                .WithName("PhonesIds");
+                .WithName("Phones");
 
             RuleForEach(v => v.Phones.Select(p => p.Id))
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .NotNull()
                 .When(v => v.Phones != null)
@@ -71,7 +72,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
             RuleFor(v => v.Discounts)
                 .Must(vendorValidationService.AddressesAreFromVendor)
                 .WithMessage("Vendor does not contain addresses defined in discounts.")
-                .Must(vendorValidationService.PhonesAreFromVendor)
+                .MustAsync(vendorValidationService.PhonesAreFromVendorAsync)
                 .WithMessage("Vendor does not contain phones defined in discounts.")
                 .When(v => v.Discounts != null);
         }

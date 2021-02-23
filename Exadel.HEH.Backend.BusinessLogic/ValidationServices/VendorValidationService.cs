@@ -69,19 +69,29 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
         public bool AddressesAreFromVendor(VendorDto vendor, IEnumerable<DiscountShortDto> discounts)
         {
             var discountAddressesIds = discounts.SelectMany(d =>
-            {
-                if (d.AddressesIds != null)
                 {
-                    return d.AddressesIds;
-                }
+                    if (d.AddressesIds != null)
+                    {
+                        return d.AddressesIds;
+                    }
 
-                return new List<int>();
-            }).Distinct().ToList();
+                    return new List<int>();
+                })
+                .Distinct()
+                .ToList();
 
             if (vendor.Addresses != null)
             {
                 var vendorAddressesIds = vendor.Addresses.Select(p => p.Id);
-                return discountAddressesIds.All(p => vendorAddressesIds.Contains(p));
+
+                return discountAddressesIds.All(id => vendorAddressesIds.Contains(id));
+            }
+            else
+            {
+                if (discountAddressesIds.Any())
+                {
+                    return false;
+                }
             }
 
             return true;
@@ -93,22 +103,50 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return phonesIdsList.Count == phonesIdsList.Distinct().Count();
         }
 
-        public bool PhonesAreFromVendor(VendorDto vendor, IEnumerable<DiscountShortDto> discounts)
+        public async Task<bool> PhonesAreFromVendorAsync(VendorDto vendor,
+            IEnumerable<DiscountShortDto> discounts, CancellationToken cancellationToken)
         {
             var discountPhonesIds = discounts.SelectMany(d =>
-            {
-                if (d.PhonesIds != null)
                 {
-                    return d.PhonesIds;
-                }
+                    if (d.PhonesIds != null)
+                    {
+                        return d.PhonesIds;
+                    }
 
-                return new List<int>();
-            }).Distinct().ToList();
+                    return new List<int>();
+                })
+                .Distinct()
+                .ToList();
 
             if (vendor.Phones != null)
             {
-                var vendorPhonesIds = vendor.Phones.Select(p => p.Id);
-                return discountPhonesIds.All(p => vendorPhonesIds.Contains(p));
+                var newPhonesIds = vendor.Phones.Select(a => a.Id).ToList();
+
+                if (vendor.Id != Guid.Empty)
+                {
+                    await GetVendor(vendor.Id);
+                    var vendorPhonesIds = _vendor.Phones.Select(a => a.Id);
+
+                    var phonesToBeRemoved = vendorPhonesIds
+                        .Where(p => !newPhonesIds.Contains(p)).ToList();
+
+                    if (phonesToBeRemoved.Any())
+                    {
+                        return discountPhonesIds.All(p => newPhonesIds.Contains(p)
+                                                          || phonesToBeRemoved.Contains(p));
+                    }
+                }
+                else
+                {
+                    return discountPhonesIds.All(p => newPhonesIds.Contains(p));
+                }
+            }
+            else
+            {
+                if (discountPhonesIds.Any() && vendor.Id == Guid.Empty)
+                {
+                    return false;
+                }
             }
 
             return true;
