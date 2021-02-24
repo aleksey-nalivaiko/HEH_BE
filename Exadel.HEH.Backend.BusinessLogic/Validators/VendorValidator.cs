@@ -16,10 +16,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
         {
             var methodType = methodProvider.GetMethodUpperName();
 
+            CascadeMode = CascadeMode.Stop;
+
             When(dto => methodType == "PUT", () =>
             {
                 RuleFor(v => v.Id)
-                    .Cascade(CascadeMode.Stop)
                     .NotNull()
                     .NotEmpty()
                     .MustAsync(vendorValidationService.VendorExistsAsync)
@@ -36,8 +37,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                     .NotEmpty()
                     .MustAsync(discountValidationService.DiscountExists)
                     .WithMessage("Discount with this id doesn't exists.")
-                    .WithName("Discounts")
+                    .WithName("DiscountId")
                     .When(v => v.Discounts != null);
+
+                RuleFor(v => v.Name)
+                    .MustAsync(async (vendor, name, cancellation) =>
+                        await vendorValidationService.VendorNameChangedAndNotExists(vendor.Id, name, cancellation))
+                    .WithMessage("Such vendor name already exists.");
             });
 
             When(dto => methodType == "POST", () =>
@@ -49,43 +55,42 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 RuleForEach(v => v.Discounts.Select(d => d.Id))
                     .MustAsync(discountValidationService.DiscountNotExists)
                     .WithMessage("Discount with this id already exists.")
-                    .WithName("Discounts")
+                    .WithName("DiscountId")
                     .When(v => v.Discounts != null);
+
+                RuleFor(v => v.Name)
+                    .MustAsync(vendorValidationService.VendorNameExists)
+                    .WithMessage("Such vendor name already exists");
             });
 
             RuleFor(v => v.Name)
-                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .NotNull()
-                .MaximumLength(50)
-                .MustAsync(vendorValidationService.VendorNameExists)
-                .WithMessage("Such vendor name already exists");
+                .MaximumLength(50);
 
             RuleFor(v => v.Addresses.Select(a => a.Id))
                 .Must(vendorValidationService.AddressesAreUnique)
                 .WithMessage("There are addresses with same id.")
                 .When(v => v.Addresses != null)
-                .WithName("Addresses");
+                .WithName("AddressId");
 
             RuleForEach(v => v.Addresses.Select(a => a.Id))
-                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .NotNull()
                 .When(v => v.Addresses != null)
-                .WithName("Addresses");
+                .WithName("AddressId");
 
             RuleFor(v => v.Phones.Select(p => p.Id))
                 .Must(vendorValidationService.PhonesAreUnique)
                 .WithMessage("There are phones with same id.")
                 .When(v => v.Phones != null)
-                .WithName("Phones");
+                .WithName("PhoneId");
 
             RuleForEach(v => v.Phones.Select(p => p.Id))
-                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .NotNull()
                 .When(v => v.Phones != null)
-                .WithName("Phones");
+                .WithName("PhoneId");
 
             RuleFor(v => v.Discounts)
                 .Must(vendorValidationService.AddressesAreFromVendor)
@@ -103,7 +108,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .When(v => v.Discounts != null);
 
             RuleForEach(v => v.Discounts.Select(d => d.PromoCode))
-                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(50)
@@ -111,17 +115,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .When(v => v.Discounts != null);
 
             RuleForEach(v => v.Discounts.Select(d => d.CategoryId))
-                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()
                 .MustAsync(categoryValidationService.CategoryExistsAsync)
-                .WithMessage("Category doesn't exist")
+                .WithMessage("Category doesn't exist.")
                 .WithName("Category")
                 .When(v => v.Discounts != null);
 
             RuleForEach(v => v.Discounts.Select(d => d.TagsIds))
                 .MustAsync(tagValidationService.TagsExistsAsync)
-                .WithMessage("Some of provided tags don't exist")
+                .WithMessage("Some of provided tags don't exist.")
                 .WithName("Tags")
                 .When(v => v.Discounts != null);
 
@@ -129,7 +132,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .MustAsync(async (addresses, cancellation) =>
                     await discountValidationService.AddressesExist(addresses.CountryId, addresses.CityId,
                         cancellation))
-                .WithMessage("Provided combination of country/city doesn't exist")
+                .WithMessage("Provided combination of country/city doesn't exist.")
                 .When(v => v.Addresses != null);
         }
     }
