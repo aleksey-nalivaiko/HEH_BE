@@ -13,5 +13,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
         Task<bool> CategoryIdNotExistsAsync(Guid categoryId, CancellationToken token = default);
 
         Task<bool> CategoryNameNotExistsAsync(string category, CancellationToken token = default);
+
+        Task<bool> CategoryNameChangedAndNotExistsAsync(Guid categoryId, string category, CancellationToken token = default);
     }
 }

@@ -14,5 +14,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
         Task<bool> TagsExistsAsync(IList<Guid> tags, CancellationToken token = default);
 
         Task<bool> TagNameNotExistsAsync(string tag, CancellationToken token = default);
+
+        Task<bool> TagNameChangedAndNotExistsAsync(Guid tagId, string tag, CancellationToken token = default);
     }
 }
