@@ -60,6 +60,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .NotNull()
                 .MaximumLength(50);
 
+            RuleFor(v => v.Email)
+                .NotEmpty()
+                .NotNull()
+                .EmailAddress();
+
+            RuleFor(v => v.WorkingHours)
+                .Matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
+
             RuleFor(v => v.Phones.Select(p => p.Id))
                 .Must(vendorValidationService.PhonesAreUnique)
                 .WithMessage("There are phones with same id.")
