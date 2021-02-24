@@ -29,5 +29,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
         Task<bool> VendorNameExists(string vendorName, CancellationToken token);
 
         Task<bool> VendorNameChangedAndNotExists(Guid vendorId, string vendorName, CancellationToken token);
+
+        Task<bool> AddressExists(Guid countryId, Guid cityId, CancellationToken token);
     }
 }

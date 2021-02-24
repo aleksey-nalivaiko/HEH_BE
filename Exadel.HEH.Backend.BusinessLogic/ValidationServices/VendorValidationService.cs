@@ -14,12 +14,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
     {
         private readonly IVendorRepository _vendorRepository;
         private readonly IDiscountRepository _discountRepository;
+        private readonly ILocationRepository _locationRepository;
         private Vendor _vendor;
 
-        public VendorValidationService(IVendorRepository vendorRepository, IDiscountRepository discountRepository)
+        public VendorValidationService(IVendorRepository vendorRepository, IDiscountRepository discountRepository,
+            ILocationRepository locationRepository)
         {
             _vendorRepository = vendorRepository;
             _discountRepository = discountRepository;
+            _locationRepository = locationRepository;
         }
 
         public async Task<bool> VendorExistsAsync(Guid vendorId, CancellationToken token)
@@ -170,6 +173,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             }
 
             return !_vendorRepository.Get().Any(x => x.Name == vendorName);
+        }
+
+        public async Task<bool> AddressExists(Guid countryId, Guid cityId, CancellationToken token)
+        {
+            var country = await _locationRepository.GetByIdAsync(countryId);
+
+            if (country is null)
+            {
+                return false;
+            }
+
+            var city = country.Cities.Where(x => x.Id == cityId).ToList();
+
+            return city.Count != 0;
         }
 
         private async Task GetVendor(Guid vendorId)

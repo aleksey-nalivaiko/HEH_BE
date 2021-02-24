@@ -9,7 +9,5 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
         Task<bool> DiscountExists(Guid discountId, CancellationToken token = default);
 
         Task<bool> DiscountNotExists(Guid discountId, CancellationToken token = default);
-
-        Task<bool> AddressesExist(Guid countryId, Guid cityId, CancellationToken token);
     }
 }
