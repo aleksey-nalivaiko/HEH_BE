@@ -157,6 +157,18 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return Task.FromResult(vendor is null);
         }
 
+        public async Task<bool> VendorNameChangedAndNotExists(Guid vendorId, string vendorName, CancellationToken token)
+        {
+            await GetVendor(vendorId);
+
+            if (_vendor.Name == vendorName)
+            {
+                return true;
+            }
+
+            return !_vendorRepository.Get().Any(x => x.Name == vendorName);
+        }
+
         private async Task GetVendor(Guid vendorId)
         {
             _vendor ??= await _vendorRepository.GetByIdAsync(vendorId);

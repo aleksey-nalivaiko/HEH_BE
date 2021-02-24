@@ -31,11 +31,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
         {
             if (tags != null && tags.Any())
             {
-                var existsTags = await _tagRepository.GetAllAsync();
+                var allTags = (await _tagRepository.GetAllAsync())
+                    .Select(t => t.Id);
 
-                var existsTagsIds = existsTags.Select(item => item.Id).ToList();
-
-                return existsTagsIds.All(tags.Contains);
+                return tags.All(allTags.Contains);
             }
 
             return true;
