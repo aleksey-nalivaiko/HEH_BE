@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
@@ -40,9 +41,17 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return await _categoryRepository.GetByIdAsync(categoryId) != null;
         }
 
-        public async Task<bool> CategoryNotExistsAsync(Guid categoryId, CancellationToken token = default)
+        public async Task<bool> CategoryIdNotExistsAsync(Guid categoryId, CancellationToken token = default)
         {
             return await _categoryRepository.GetByIdAsync(categoryId) is null;
+        }
+
+        public async Task<bool> CategoryNameNotExistsAsync(string category,
+            CancellationToken token = default)
+        {
+            var categories = await _categoryRepository.GetAsync(c => c.Name == category);
+
+            return !categories.Any();
         }
     }
 }

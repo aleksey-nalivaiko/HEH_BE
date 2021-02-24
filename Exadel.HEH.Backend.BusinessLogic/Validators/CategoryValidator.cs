@@ -22,14 +22,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .When(dto => methodType == "PUT");
 
             RuleFor(r => r.Id)
-                .MustAsync(categoryValidationService.CategoryNotExistsAsync)
+                .MustAsync(categoryValidationService.CategoryIdNotExistsAsync)
                 .WithMessage("Category with this id already exists.")
                 .When(dto => methodType == "POST");
 
             RuleFor(r => r.Name)
                 .NotNull()
                 .NotEmpty()
-                .MaximumLength(50);
+                .MaximumLength(50)
+                .MustAsync(categoryValidationService.CategoryNameNotExistsAsync)
+                .WithMessage("Category with this name already exists.");
         }
     }
 }
