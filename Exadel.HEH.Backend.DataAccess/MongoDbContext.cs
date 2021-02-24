@@ -121,11 +121,17 @@ namespace Exadel.HEH.Backend.DataAccess
         public async Task<IEnumerable<T>> SearchAsync<T>(string path, string query)
             where T : class, new()
         {
+            var pathItems = path.Trim('[', ']', ' ').Split(',');
+            var project = pathItems.Aggregate(string.Empty,
+                (current, pathItem) => current + $"{pathItem}: 1,");
+
             var pipeline = new[]
             {
                 BsonDocument.Parse(
                     $"{{ $search: {{ \"text\": {{\"path\": {path}, \"query\" : \"{query}\", \"fuzzy\" : {{\"maxEdits\": 1}} }} }} }}"),
-                BsonDocument.Parse("{ $limit: 1000 }")
+                BsonDocument.Parse("{ $limit: 1000 }"),
+                BsonDocument.Parse($"{{ $project: {{ {project} score: {{ $meta: \"searchScore\"}} }} }}"),
+                BsonDocument.Parse("{ $match: { \"score\": {$gt: 0} } }")
             };
 
             return await GetCollection<T>().Aggregate<T>(pipeline).ToListAsync();
