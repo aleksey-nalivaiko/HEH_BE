@@ -29,11 +29,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 
         public async Task<bool> TagsExistsAsync(IList<Guid> tags, CancellationToken token = default)
         {
-            var existsTags = await _tagRepository.GetAllAsync();
+            if (tags != null && tags.Any())
+            {
+                var existsTags = await _tagRepository.GetAllAsync();
 
-            var existsTagsIds = existsTags.Select(item => item.Id).ToList();
+                var existsTagsIds = existsTags.Select(item => item.Id).ToList();
 
-            return existsTagsIds.All(tags.Contains);
+                return existsTagsIds.All(tags.Contains);
+            }
+
+            return true;
         }
 
         public async Task<bool> TagNameNotExistsAsync(string tag, CancellationToken token = default)

@@ -25,12 +25,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                     .MustAsync(vendorValidationService.VendorExistsAsync)
                     .WithMessage("Vendor with this id doesn't exists.");
 
-                RuleForEach(v => v.Addresses)
-                    .MustAsync(async (adresses, cancellation) =>
-                        await discountValidationService.AddressesExist(adresses.CountryId, adresses.CityId,
-                            cancellation))
-                    .WithMessage("Provided combination of country/city doesn't exist");
-
                 RuleFor(v => v.Addresses)
                     .MustAsync(async (vendor, addresses, cancellation) =>
                         await vendorValidationService.AddressesCanBeRemovedAsync(vendor.Id, addresses, cancellation))
@@ -42,7 +36,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                     .NotEmpty()
                     .MustAsync(discountValidationService.DiscountExists)
                     .WithMessage("Discount with this id doesn't exists.")
-                    .WithName("DiscountId")
+                    .WithName("Discounts")
                     .When(v => v.Discounts != null);
             });
 
@@ -55,22 +49,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 RuleForEach(v => v.Discounts.Select(d => d.Id))
                     .MustAsync(discountValidationService.DiscountNotExists)
                     .WithMessage("Discount with this id already exists.")
-                    .WithName("DiscountId")
+                    .WithName("Discounts")
                     .When(v => v.Discounts != null);
-
-                RuleForEach(v => v.Addresses)
-                    .MustAsync(async (adresses, cancellation) =>
-                        await discountValidationService.AddressesExist(adresses.CountryId, adresses.CityId,
-                            cancellation))
-                    .WithMessage("Provided combination of country/city doesn't exist");
             });
 
             RuleFor(v => v.Name)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .NotNull()
+                .MaximumLength(50)
                 .MustAsync(vendorValidationService.VendorNameExists)
-                .WithName("VendorName")
                 .WithMessage("Such vendor name already exists");
 
             RuleFor(v => v.Addresses.Select(a => a.Id))
@@ -84,7 +72,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .NotEmpty()
                 .NotNull()
                 .When(v => v.Addresses != null)
-                .WithName("AddressId");
+                .WithName("Addresses");
 
             RuleFor(v => v.Phones.Select(p => p.Id))
                 .Must(vendorValidationService.PhonesAreUnique)
@@ -97,7 +85,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .NotEmpty()
                 .NotNull()
                 .When(v => v.Phones != null)
-                .WithName("PhoneId");
+                .WithName("Phones");
 
             RuleFor(v => v.Discounts)
                 .Must(vendorValidationService.AddressesAreFromVendor)
@@ -107,35 +95,42 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .When(v => v.Discounts != null);
 
             RuleForEach(v => v.Discounts.Select(d => d.Conditions))
+                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(255)
-                .WithMessage("Discount condition can't be more than 255 symbols")
-                .WithName("Conditions");
+                .WithName("Conditions")
+                .When(v => v.Discounts != null);
 
             RuleForEach(v => v.Discounts.Select(d => d.PromoCode))
+                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(50)
-                .WithMessage("Discount promoCode can't be more than 50 symbols")
-                .WithName("Promocode");
-
-            RuleFor(v => v.Name)
-                .NotNull()
-                .NotEmpty()
-                .MaximumLength(50)
-                .WithMessage("VendorName can't be more than 50 symbols")
-                .WithName("VendorName");
+                .WithName("Promocode")
+                .When(v => v.Discounts != null);
 
             RuleForEach(v => v.Discounts.Select(d => d.CategoryId))
+                .Cascade(CascadeMode.Stop)
+                .NotNull()
+                .NotEmpty()
                 .MustAsync(categoryValidationService.CategoryExistsAsync)
-                .WithMessage("Some of provided categories don't exist")
-                .WithName("CategoryId");
+                .WithMessage("Category doesn't exist")
+                .WithName("Category")
+                .When(v => v.Discounts != null);
 
             RuleForEach(v => v.Discounts.Select(d => d.TagsIds))
                 .MustAsync(tagValidationService.TagsExistsAsync)
                 .WithMessage("Some of provided tags don't exist")
-                .WithName("TagsIds");
+                .WithName("Tags")
+                .When(v => v.Discounts != null);
+
+            RuleForEach(v => v.Addresses)
+                .MustAsync(async (addresses, cancellation) =>
+                    await discountValidationService.AddressesExist(addresses.CountryId, addresses.CityId,
+                        cancellation))
+                .WithMessage("Provided combination of country/city doesn't exist")
+                .When(v => v.Addresses != null);
         }
     }
 }

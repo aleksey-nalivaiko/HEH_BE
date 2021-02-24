@@ -17,7 +17,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .MustAsync(favoritesValidationService.UserFavoritesNotExists)
                 .WithMessage("Such favorites already exists.");
 
-            RuleFor(f => f.Note).MaximumLength(255);
+            RuleFor(f => f.Note)
+                .MaximumLength(255);
         }
     }
 }
