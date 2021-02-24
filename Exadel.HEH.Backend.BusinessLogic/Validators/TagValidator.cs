@@ -30,9 +30,18 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
             RuleFor(r => r.Name)
                 .NotNull()
                 .NotEmpty()
-                .MaximumLength(50)
+                .MaximumLength(50);
+
+            RuleFor(r => r.Name)
                 .MustAsync(tagValidationService.TagNameNotExistsAsync)
-                .WithMessage("Tag with this name already exists.");
+                .WithMessage("Tag with this name already exists.")
+                .When(dto => methodType == "POST");
+
+            RuleFor(r => r.Name)
+                .MustAsync(async (tag, name, cancellation) =>
+                    await tagValidationService.TagNameChangedAndNotExistsAsync(tag.Id, name, cancellation))
+                .WithMessage("Tag with this name already exists.")
+                .When(dto => methodType == "PUT");
 
             RuleFor(r => r.CategoryId)
                 .NotNull()

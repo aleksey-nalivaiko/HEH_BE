@@ -46,8 +46,26 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return await _categoryRepository.GetByIdAsync(categoryId) is null;
         }
 
-        public async Task<bool> CategoryNameNotExistsAsync(string category,
+        public Task<bool> CategoryNameNotExistsAsync(string category,
             CancellationToken token = default)
+        {
+            return CategoryNameExistsAsync(category);
+        }
+
+        public async Task<bool> CategoryNameChangedAndNotExistsAsync(Guid categoryId, string category,
+            CancellationToken token = default)
+        {
+            var currentCategory = await _categoryRepository.GetByIdAsync(categoryId);
+
+            if (currentCategory.Name == category)
+            {
+                return true;
+            }
+
+            return await CategoryNameExistsAsync(category);
+        }
+
+        private async Task<bool> CategoryNameExistsAsync(string category)
         {
             var categories = await _categoryRepository.GetAsync(c => c.Name == category);
 

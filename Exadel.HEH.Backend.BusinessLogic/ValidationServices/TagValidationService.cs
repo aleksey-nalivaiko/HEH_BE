@@ -40,7 +40,25 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return true;
         }
 
-        public async Task<bool> TagNameNotExistsAsync(string tag, CancellationToken token = default)
+        public Task<bool> TagNameNotExistsAsync(string tag, CancellationToken token = default)
+        {
+            return TagNameExistsAsync(tag);
+        }
+
+        public async Task<bool> TagNameChangedAndNotExistsAsync(Guid tagId, string tag,
+            CancellationToken token = default)
+        {
+            var currentTag = await _tagRepository.GetByIdAsync(tagId);
+
+            if (currentTag.Name == tag)
+            {
+                return true;
+            }
+
+            return await TagNameExistsAsync(tag);
+        }
+
+        private async Task<bool> TagNameExistsAsync(string tag)
         {
             var tags = await _tagRepository.GetAsync(t => t.Name == tag);
 
