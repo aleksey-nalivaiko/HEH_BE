@@ -60,18 +60,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .NotNull()
                 .MaximumLength(50);
 
-            RuleFor(v => v.Addresses.Select(a => a.Id))
-                .Must(vendorValidationService.AddressesAreUnique)
-                .WithMessage("There are addresses with same id.")
-                .When(v => v.Addresses != null)
-                .WithName("AddressId");
-
-            RuleForEach(v => v.Addresses.Select(a => a.Id))
-                .NotEmpty()
-                .NotNull()
-                .When(v => v.Addresses != null)
-                .WithName("AddressId");
-
             RuleFor(v => v.Phones.Select(p => p.Id))
                 .Must(vendorValidationService.PhonesAreUnique)
                 .WithMessage("There are phones with same id.")
@@ -126,6 +114,25 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                         cancellation))
                 .WithMessage("Provided combination of country/city doesn't exist.")
                 .When(v => v.Addresses != null);
+
+            RuleFor(v => v.Addresses.Select(a => a.Id))
+                .Must(vendorValidationService.AddressesAreUnique)
+                .WithMessage("There are addresses with same id.")
+                .When(v => v.Addresses != null)
+                .WithName("AddressId");
+
+            RuleForEach(v => v.Addresses.Select(a => a.Id))
+                .NotEmpty()
+                .NotNull()
+                .When(v => v.Addresses != null)
+                .WithName("AddressId");
+
+            RuleForEach(v => v.Addresses.Select(a => a.Street))
+                .NotEmpty()
+                .NotNull()
+                .MaximumLength(50)
+                .When(v => v.Addresses != null)
+                .WithName("Street");
         }
     }
 }
