@@ -32,14 +32,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                     .WithMessage("Address(es) cannot be removed: they are used in discount(s).")
                     .When(v => v.Addresses != null);
 
-                RuleForEach(v => v.Discounts.Select(d => d.Id))
-                    .NotNull()
-                    .NotEmpty()
-                    .MustAsync(discountValidationService.DiscountExists)
-                    .WithMessage("Discount with this id doesn't exists.")
-                    .WithName("DiscountId")
-                    .When(v => v.Discounts != null);
-
                 RuleFor(v => v.Name)
                     .MustAsync(async (vendor, name, cancellation) =>
                         await vendorValidationService.VendorNameChangedAndNotExists(vendor.Id, name, cancellation))

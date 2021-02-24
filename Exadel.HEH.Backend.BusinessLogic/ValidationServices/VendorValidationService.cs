@@ -123,15 +123,18 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
                 if (vendor.Id != Guid.Empty)
                 {
                     await GetVendor(vendor.Id);
-                    var vendorPhonesIds = _vendor.Phones.Select(a => a.Id);
-
-                    var phonesToBeRemoved = vendorPhonesIds
-                        .Where(p => !newPhonesIds.Contains(p)).ToList();
-
-                    if (phonesToBeRemoved.Any())
+                    if (_vendor != null)
                     {
-                        return discountPhonesIds.All(p => newPhonesIds.Contains(p)
-                                                          || phonesToBeRemoved.Contains(p));
+                        var vendorPhonesIds = _vendor.Phones.Select(a => a.Id);
+
+                        var phonesToBeRemoved = vendorPhonesIds
+                            .Where(p => !newPhonesIds.Contains(p)).ToList();
+
+                        if (phonesToBeRemoved.Any())
+                        {
+                            return discountPhonesIds.All(p => newPhonesIds.Contains(p)
+                                                              || phonesToBeRemoved.Contains(p));
+                        }
                     }
                 }
                 else
