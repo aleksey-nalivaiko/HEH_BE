@@ -17,6 +17,8 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddTransient<IValidator<TagDto>, TagValidator>();
 
+            services.AddTransient<IValidator<UserNotificationDto>, NotificationValidator>();
+
             return services;
         }
     }
