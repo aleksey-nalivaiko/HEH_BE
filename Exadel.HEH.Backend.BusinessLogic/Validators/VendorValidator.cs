@@ -110,7 +110,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
 
             RuleForEach(v => v.Addresses)
                 .MustAsync(async (addresses, cancellation) =>
-                    await discountValidationService.AddressesExist(addresses.CountryId, addresses.CityId,
+                    await vendorValidationService.AddressExists(addresses.CountryId, addresses.CityId,
                         cancellation))
                 .WithMessage("Provided combination of country/city doesn't exist.")
                 .When(v => v.Addresses != null);
