@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
@@ -69,11 +70,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task RemoveAsync(Guid id)
         {
-            var category = _categoryRepository.GetByIdAsync(id);
-
+            var category = await _categoryRepository.GetByIdAsync(id);
             await _categoryRepository.RemoveAsync(id);
             await _historyService.CreateAsync(UserAction.Remove,
-                "Removed category " + category.Result.Name);
+                "Removed category " + category.Name);
+
+            Expression<Func<Tag, bool>> expression = t => t.CategoryId == id;
+            var tags = await _tagRepository.GetAsync(expression);
+            await _tagRepository.RemoveAsync(expression);
+
+            foreach (var tag in tags)
+            {
+                await _historyService.CreateAsync(UserAction.Remove,
+                    "Removed tag " + tag.Name);
+            }
         }
 
         public async Task UpdateAsync(CategoryDto item)

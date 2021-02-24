@@ -22,7 +22,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return await _tagRepository.GetByIdAsync(tagId) != null;
         }
 
-        public async Task<bool> TagNotExistsAsync(Guid tagId, CancellationToken token = default)
+        public async Task<bool> TagIdNotExistsAsync(Guid tagId, CancellationToken token = default)
         {
             return await _tagRepository.GetByIdAsync(tagId) is null;
         }
@@ -34,6 +34,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             var existsTagsIds = existsTags.Select(item => item.Id).ToList();
 
             return existsTagsIds.All(tags.Contains);
+        }
+
+        public async Task<bool> TagNameNotExistsAsync(string tag, CancellationToken token = default)
+        {
+            var tags = await _tagRepository.GetAsync(t => t.Name == tag);
+
+            return !tags.Any();
         }
     }
 }
