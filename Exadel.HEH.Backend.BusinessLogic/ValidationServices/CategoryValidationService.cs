@@ -22,16 +22,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
         public async Task<bool> CategoryNotInDiscountsAsync(Guid id)
         {
             var discounts = await _discountRepository.GetAllAsync();
-            var anyDiscountWithCategory = false;
-
-            foreach (var discount in discounts)
-            {
-                if (discount.CategoryId == id)
-                {
-                    anyDiscountWithCategory = true;
-                    break;
-                }
-            }
+            var anyDiscountWithCategory = discounts.Any(discount => discount.CategoryId == id);
 
             return !anyDiscountWithCategory;
         }

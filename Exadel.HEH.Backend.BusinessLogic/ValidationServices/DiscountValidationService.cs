@@ -10,7 +10,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
     {
         private readonly IDiscountRepository _discountRepository;
 
-        public DiscountValidationService(IDiscountRepository discountRepository, ILocationRepository locationRepository)
+        public DiscountValidationService(IDiscountRepository discountRepository)
         {
             _discountRepository = discountRepository;
         }
