@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
@@ -13,7 +12,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 
         public IEnumerable<AddressDto> Addresses { get; set; }
 
-        [EmailAddress]
         public string Email { get; set; }
 
         public IEnumerable<DiscountShortDto> Discounts { get; set; }

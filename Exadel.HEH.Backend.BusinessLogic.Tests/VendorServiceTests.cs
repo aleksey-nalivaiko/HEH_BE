@@ -31,12 +31,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var discountService = new Mock<IDiscountService>();
             var historyService = new Mock<IHistoryService>();
             var searchService = new Mock<IVendorSearchService>();
-            var notificationManager = new Mock<INotificationService>();
+            var notificationService = new Mock<INotificationService>();
+            var userService = new Mock<IUserService>();
 
             _mapper = MapperExtensions.Mapper;
 
             _service = new VendorService(vendorRepository.Object, discountService.Object,
-                _mapper, historyService.Object, searchService.Object, notificationManager.Object);
+                _mapper, historyService.Object, searchService.Object, notificationService.Object,
+                userService.Object);
 
             _discountsData = new List<DiscountShortDto>();
 

@@ -14,23 +14,26 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly ITagRepository _tagRepository;
+        private readonly ITagService _tagService;
         private readonly IMapper _mapper;
         private readonly IHistoryService _historyService;
+        private readonly IUserService _userService;
 
         public CategoryService(ICategoryRepository categoryRepository, IHistoryService historyService,
-            ITagRepository tagRepository,
-            IMapper mapper)
+            ITagService tagService,
+            IMapper mapper,
+            IUserService userService)
         {
             _categoryRepository = categoryRepository;
-            _tagRepository = tagRepository;
+            _tagService = tagService;
             _mapper = mapper;
             _historyService = historyService;
+            _userService = userService;
         }
 
         public async Task<IEnumerable<CategoryDto>> GetCategoriesWithTagsAsync()
         {
-            var tags = (await _tagRepository.GetAllAsync()).ToList();
+            var tags = (await _tagService.GetAllAsync()).ToList();
             var categories = (await _categoryRepository.GetAllAsync()).ToList();
 
             var categoriesWithTags = categories.GroupJoin(
@@ -74,16 +77,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _categoryRepository.RemoveAsync(id);
             await _historyService.CreateAsync(UserAction.Remove,
                 "Removed category " + category.Name);
+            await _userService.RemoveCategorySubscriptionsAsync(id);
 
-            Expression<Func<Tag, bool>> expression = t => t.CategoryId == id;
-            var tags = await _tagRepository.GetAsync(expression);
-            await _tagRepository.RemoveAsync(expression);
-
-            foreach (var tag in tags)
-            {
-                await _historyService.CreateAsync(UserAction.Remove,
-                    "Removed tag " + tag.Name);
-            }
+            await _tagService.RemoveByCategoryAsync(id);
         }
 
         public async Task UpdateAsync(CategoryDto item)

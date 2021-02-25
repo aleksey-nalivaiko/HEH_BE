@@ -16,19 +16,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     public class CategoryServiceTests : BaseServiceTests<Category>
     {
         private readonly CategoryService _service;
-        private readonly List<Tag> _tagData;
+        private readonly List<TagDto> _tagData;
         private List<Category> _testCategories;
-        private List<Tag> _testTags;
+        private List<TagDto> _testTags;
         private Category _testCategory;
 
         public CategoryServiceTests()
         {
             var categoryRepository = new Mock<ICategoryRepository>();
-            var tagRepository = new Mock<ITagRepository>();
+            var tagService = new Mock<ITagService>();
             var historyService = new Mock<IHistoryService>();
+            var userService = new Mock<IUserService>();
 
-            tagRepository.Setup(r => r.GetAllAsync())
-                .Returns(() => Task.FromResult((IEnumerable<Tag>)_tagData));
+            tagService.Setup(s => s.GetAllAsync())
+                .Returns(() => Task.FromResult((IEnumerable<TagDto>)_tagData));
 
             categoryRepository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<Category>)Data));
@@ -56,9 +57,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 .Callback((Guid id) => { Data.RemoveAll(d => d.Id == id); })
                 .Returns(Task.CompletedTask);
 
-            _service = new CategoryService(categoryRepository.Object, historyService.Object, tagRepository.Object, MapperExtensions.Mapper);
+            _service = new CategoryService(categoryRepository.Object, historyService.Object, tagService.Object, MapperExtensions.Mapper,
+                userService.Object);
 
-            _tagData = new List<Tag>();
+            _tagData = new List<TagDto>();
 
             InitTestData();
         }
@@ -131,21 +133,21 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                     Name = "Category2"
                 }
             };
-            _testTags = new List<Tag>
+            _testTags = new List<TagDto>
             {
-                new Tag
+                new TagDto
                 {
                     Id = Guid.NewGuid(),
                     Name = "Tag1",
                     CategoryId = _testCategories[0].Id
                 },
-                new Tag
+                new TagDto
                 {
                     Id = Guid.NewGuid(),
                     Name = "Tag2",
                     CategoryId = _testCategories[0].Id
                 },
-                new Tag
+                new TagDto
                 {
                     Id = Guid.NewGuid(),
                     Name = "Tag3",
