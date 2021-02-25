@@ -5,8 +5,10 @@ using Exadel.HEH.Backend.BusinessLogic.DTOs;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 {
-    public interface ITagService
+    public interface ITagService : IService<TagDto>
     {
+        Task RemoveByCategoryAsync(Guid categoryId);
+
         Task<IEnumerable<TagDto>> GetByIdsAsync(IEnumerable<Guid> ids);
 
         Task RemoveAsync(Guid id);

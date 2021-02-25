@@ -24,9 +24,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var tagRepository = new Mock<ITagRepository>();
             var discountRepository = new Mock<IDiscountRepository>();
             var historyService = new Mock<IHistoryService>();
+            var userService = new Mock<IUserService>();
 
             _service = new TagService(tagRepository.Object, discountRepository.Object,
-                MapperExtensions.Mapper, historyService.Object);
+                MapperExtensions.Mapper, historyService.Object, userService.Object);
 
             tagRepository.Setup(r => r.CreateAsync(It.IsAny<Tag>()))
                 .Callback((Tag item) => { Data.Add(item); })

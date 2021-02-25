@@ -143,8 +143,12 @@ namespace Exadel.HEH.Backend.DataAccess
             Expression<Func<T, bool>> expression)
             where T : class, new()
         {
-            var filter = Builders<T>.Filter.Where(expression)
-                         & Builders<T>.Filter.AnyIn(field, inValues);
+            var filter = Builders<T>.Filter.AnyIn(field, inValues);
+
+            if (expression != null)
+            {
+                filter &= Builders<T>.Filter.Where(expression);
+            }
 
             return await GetCollection<T>().Find(filter).ToListAsync();
         }
@@ -155,8 +159,12 @@ namespace Exadel.HEH.Backend.DataAccess
             Expression<Func<T, bool>> expression)
             where T : class, new()
         {
-            var filter = Builders<T>.Filter.Where(expression)
-                         & Builders<T>.Filter.AnyEq(field, value);
+            var filter = Builders<T>.Filter.AnyEq(field, value);
+
+            if (expression != null)
+            {
+                filter &= Builders<T>.Filter.Where(expression);
+            }
 
             return await GetCollection<T>().Find(filter).ToListAsync();
         }

@@ -60,8 +60,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .NotNull()
                 .MaximumLength(50);
 
+            RuleFor(v => v.Email)
+                .EmailAddress()
+                .When(v => !string.IsNullOrEmpty(v.Email));
+
             RuleFor(v => v.WorkingHours)
-                .Matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
+                .Matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+                .When(v => !string.IsNullOrEmpty(v.WorkingHours));
 
             RuleFor(v => v.Phones.Select(p => p.Id))
                 .Must(vendorValidationService.PhonesAreUnique)
