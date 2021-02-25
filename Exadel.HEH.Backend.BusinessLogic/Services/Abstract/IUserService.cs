@@ -34,5 +34,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
         Task UpdateRoleAsync(Guid id, UserRole role);
 
         Task UpdateNotificationsAsync(UserNotificationDto userNotifications);
+
+        Task RemoveVendorSubscriptionsAsync(Guid vendorId);
+
+        Task RemoveCategorySubscriptionsAsync(Guid categoryId);
+
+        Task RemoveTagSubscriptionsAsync(Guid tagId);
     }
 }

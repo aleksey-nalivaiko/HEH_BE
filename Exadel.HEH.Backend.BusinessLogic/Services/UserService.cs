@@ -106,6 +106,60 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             await _userRepository.UpdateAsync(user);
         }
 
+        public async Task RemoveVendorSubscriptionsAsync(Guid vendorId)
+        {
+            var users = (await _userRepository.GetWithSubscriptionAsync(
+                u => u.VendorNotifications, vendorId)).ToList();
+
+            if (users.Any())
+            {
+                foreach (var user in users)
+                {
+                    var vendorNotifications = user.VendorNotifications.ToList();
+                    vendorNotifications.RemoveAll(v => v == vendorId);
+                    user.VendorNotifications = vendorNotifications;
+                }
+
+                await _userRepository.UpdateManyAsync(users);
+            }
+        }
+
+        public async Task RemoveCategorySubscriptionsAsync(Guid categoryId)
+        {
+            var users = (await _userRepository.GetWithSubscriptionAsync(
+                u => u.CategoryNotifications, categoryId)).ToList();
+
+            if (users.Any())
+            {
+                foreach (var user in users)
+                {
+                    var categoryNotifications = user.CategoryNotifications.ToList();
+                    categoryNotifications.RemoveAll(c => c == categoryId);
+                    user.CategoryNotifications = categoryNotifications;
+                }
+
+                await _userRepository.UpdateManyAsync(users);
+            }
+        }
+
+        public async Task RemoveTagSubscriptionsAsync(Guid tagId)
+        {
+            var users = (await _userRepository.GetWithSubscriptionAsync(
+                u => u.TagNotifications, tagId)).ToList();
+
+            if (users.Any())
+            {
+                foreach (var user in users)
+                {
+                    var tagNotifications = user.TagNotifications.ToList();
+                    tagNotifications.RemoveAll(t => t == tagId);
+                    user.TagNotifications = tagNotifications;
+                }
+
+                await _userRepository.UpdateManyAsync(users);
+            }
+        }
+
         public async Task UpdateStatusAsync(Guid id, bool isActive)
         {
             var user = await _userRepository.GetByIdAsync(id);
@@ -132,7 +186,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             users.AddRange(
                 await _userRepository.GetWithSubscriptionAsync(
-                    inField, expression, value));
+                    inField, value, expression));
         }
 
         private async Task GetWithSubscriptionsAsync(
@@ -143,7 +197,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         {
             users.AddRange(
                 await _userRepository.GetWithSubscriptionsAsync(
-                    inField, expression, inValues));
+                    inField, inValues, expression));
         }
     }
 }

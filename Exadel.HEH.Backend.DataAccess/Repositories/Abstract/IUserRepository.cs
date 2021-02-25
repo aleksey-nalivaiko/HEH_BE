@@ -15,12 +15,14 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 
         Task<IEnumerable<User>> GetWithSubscriptionsAsync(
             Expression<Func<User, IEnumerable<Guid>>> inField,
-            Expression<Func<User, bool>> expression,
-            IEnumerable<Guid> subscriptions);
+            IEnumerable<Guid> subscriptions,
+            Expression<Func<User, bool>> expression = default);
 
         Task<IEnumerable<User>> GetWithSubscriptionAsync(
             Expression<Func<User, IEnumerable<Guid>>> inField,
-            Expression<Func<User, bool>> expression,
-            Guid subscription);
+            Guid subscription,
+            Expression<Func<User, bool>> expression = default);
+
+        Task UpdateManyAsync(IEnumerable<User> users);
     }
 }

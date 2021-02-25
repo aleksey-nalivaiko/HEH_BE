@@ -28,18 +28,23 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
 
         public Task<IEnumerable<User>> GetWithSubscriptionsAsync(
             Expression<Func<User, IEnumerable<Guid>>> inField,
-            Expression<Func<User, bool>> expression,
-            IEnumerable<Guid> subscriptions)
+            IEnumerable<Guid> subscriptions,
+            Expression<Func<User, bool>> expression)
         {
             return Context.GetAnyInAndWhereAsync(inField, subscriptions, expression);
         }
 
         public Task<IEnumerable<User>> GetWithSubscriptionAsync(
             Expression<Func<User, IEnumerable<Guid>>> inField,
-            Expression<Func<User, bool>> expression,
-            Guid subscription)
+            Guid subscription,
+            Expression<Func<User, bool>> expression)
         {
             return Context.GetAnyEqAndWhereAsync(inField, subscription, expression);
+        }
+
+        public Task UpdateManyAsync(IEnumerable<User> users)
+        {
+            return Context.UpdateManyAsync(users);
         }
     }
 }
