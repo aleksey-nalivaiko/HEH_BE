@@ -2,10 +2,10 @@
     {
         "_id": UUID("7e6c0397-8163-4eaf-b2ab-4e37d09e851a"),
         "userId": UUID("e1544fa5-42ff-4dea-962b-820f7be52fa2"),
-        "userRole": "Moderator",
+        "userRole": "Administrator",
         "userName": "Liza",
-        "userEmail": "user.liza@mail.com",
-        "address": {
+        "userEmail": "liza.pavliv@gmail.com",
+        "userAddress": {
             "_id": 1,
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
             "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
@@ -21,7 +21,7 @@
         "userRole": "Administrator",
         "userName": "Natasha",
         "userEmail": "savostyuk@gmail.com",
-        "address": {
+        "userAddress": {
             "_id": 1,
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
             "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
@@ -37,7 +37,7 @@
         "userRole": "Moderator",
         "userName": "Ivan",
         "userEmail": "distor6on@yandex.ru",
-        "address": {
+        "userAddress": {
             "_id": 1,
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
             "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
@@ -53,7 +53,7 @@
         "userRole": "Moderator",
         "userName": "Ivan",
         "userEmail": "distor6on@yandex.ru",
-        "address": {
+        "userAddress": {
             "_id": 1,
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
             "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
@@ -69,7 +69,7 @@
         "userRole": "Moderator",
         "userName": "Ivan",
         "userEmail": "distor6on@yandex.ru",
-        "address": {
+        "userAddress": {
             "_id": 1,
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
             "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
