@@ -79,6 +79,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 : await _userService.GetUsersWithNotificationsAsync(
                     vendor.CategoriesIds,
                     vendor.TagsIds,
+                    vendor.Addresses,
                     expression))
                 .ToList();
 
@@ -113,6 +114,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     discount.CategoryId,
                     discount.TagsIds,
                     discount.VendorId,
+                    discount.Addresses,
                     u => u.IsActive && u.AllNotificationsAreOn && u.NewDiscountNotificationIsOn))
                 .ToList();
 

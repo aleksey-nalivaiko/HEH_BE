@@ -56,6 +56,34 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return vendorsSearchDto;
         }
 
+        public async Task<IEnumerable<VendorShortDto>> GetAllFromLocationAsync()
+        {
+            var user = await _userService.GetProfileAsync();
+
+            var vendors = await _vendorRepository.GetAllAsync();
+
+            var result = new List<Vendor>();
+
+            foreach (var vendor in vendors)
+            {
+                var countryCities = vendor.Addresses
+                    .GroupBy(a => a.CountryId)
+                    .Select(g =>
+                        new KeyValuePair<Guid, IEnumerable<Guid>>(
+                            g.Key, g.Select(a => a.CityId)))
+                    .ToDictionary(a => a.Key, a => a.Value);
+
+                if (countryCities.ContainsKey(user.Address.CountryId) && (!countryCities.Any()
+                                                                          || countryCities[user.Address.CountryId]
+                                                                              .Contains(user.Address.CityId)))
+                {
+                    result.Add(vendor);
+                }
+            }
+
+            return _mapper.Map<IEnumerable<VendorShortDto>>(result);
+        }
+
         public async Task<VendorDto> GetByIdAsync(Guid id)
         {
            var vendor = await _vendorRepository.GetByIdAsync(id);

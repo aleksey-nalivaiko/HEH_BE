@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -18,17 +19,20 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly ILogger<NotificationScheduler> _logger;
+        private readonly IMapper _mapper;
 
         public NotificationScheduler(
             IEmailService emailService,
             IServiceScopeFactory serviceScopeFactory,
             INotificationRepository notificationRepository,
-            ILogger<NotificationScheduler> logger)
+            ILogger<NotificationScheduler> logger,
+            IMapper mapper)
         {
             _emailService = emailService;
             _notificationRepository = notificationRepository;
             _serviceScopeFactory = serviceScopeFactory;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public void StartJobs()
@@ -136,6 +140,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                             discount.CategoryId,
                             discount.TagsIds,
                             discount.VendorId,
+                            _mapper.Map<IList<Address>>(discount.Addresses),
                             u => u.IsActive && u.AllNotificationsAreOn && u.HotDiscountsNotificationIsOn))
                         .ToList();
 
