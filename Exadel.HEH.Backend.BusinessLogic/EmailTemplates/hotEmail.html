@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,400italic" rel="stylesheet" type="text/css"/>
+    <style>
+        body {
+            font: 400 24px/30px Montserrat;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .header {
+            background-color: #227CAC;
+            width: 100%;
+            height: 60px;
+            color: white;
+            text-align: center;
+            font: 900 24px/60px Montserrat;
+        }
+
+        p {
+            font: 17px/26px Montserrat;
+            text-align: center;
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            padding-top: 10px;
+            font: 700 16px/16px Montserrat;
+
+        }
+
+        a:hover, button:hover {
+            cursor: pointer !important;
+        }
+
+        button {
+            display: block;
+            margin: 0 auto;
+            background-color: #227CAC;
+            border: none;
+            color: white;
+            font: 700 16px/16px Montserrat;
+        }
+
+        button, button:focus, button:active {
+            outline: none !important;
+        }
+
+        .button-contact:hover {
+            opacity: 0.8;
+        }
+
+    </style>
+</head>
+<body>
+<table style="width: 100%">
+    <tr>
+        <td>
+            <img style="margin: 10px auto"
+                 src="https://lh3.googleusercontent.com/d/1o97zH0HLnvpUO5Q5oF8Kxx-vS1ib47qZ=s300" width="291">
+        </td>
+    </tr>
+    <tr class="header">
+        <td>
+            Hot sales
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p style="margin-top: 5px">Hi, {{UserName}}!</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p style="margin-top: 5px; font-family: Montserrat !important">Don't miss! Some discounts are ending soon.</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p style="margin-top: 5px; font-family: 'Montserrat' !important">So sit back, relax and check this day&#8217;s hot sales.</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img style="margin: 10px auto 20px auto"
+                 src="https://lh3.googleusercontent.com/d/12-iu5wmahZslAgr2wpyBiBA4KDhpM-wu=s280" width="280">
+        </td>
+    </tr>
+</table>
+{{#each Notifications}}
+<table style="width: 100%;">
+    <tr>
+        <td>
+            <p style="color: #227CAC; font: 900 24px/24px Montserrat;">{{Title}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>{{Message}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>Expiration date: <span style=" display:inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  max-width: 8.8ch;
+  vertical-align: bottom;">{{Date}}</span></p>
+        </td>
+    </tr>
+</table>
+<hr style="width: 30%; color: gray;">
+{{/each}}
+<table style="width: 100%">
+    <tr>
+        <td colspan="2">
+            <a href="http://www.example.com" target="_blank">
+                <button style="height: 55px; width: 150px">Read more</button>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p style="color: #1c1c1c; font-size: 12px">Exadel, Inc</p>
+            <p>
+                <a href="http://www.example.com" target="_blank"
+                   style="text-decoration: underline; color: #1c1c1c; font-size: 12px; font-weight: 400; width: 100%">Preferences</a>
+            </p>
+        </td>
+        <td style="width: 40%">
+            <a href="https://www.facebook.com/exadelinc/" target="_blank"
+               style="display: block; text-decoration: none; color: white">
+                <button class="button-contact"
+                        style="border-radius: 2px;color: #ffffff;display: inline-block;font-size: 11px;font-weight: bold;line-height: 19px;text-align: left;text-decoration: none;border-style: solid;border-width: 4px 7px 3px 4px;mso-border-width-alt: 4px 8px 8px 8px;background-color: gray;border-color: gray;mso-border-color-alt: gray;">
+                    &nbsp;<img
+                        style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
+                        src="https://i9.createsend1.com/static/eb/master/13-the-blueprint-3/images/fblike-icon@2x.png"
+                        width="16" height="16" border="0" alt=""/>
+                    <span style="font-size: 11px;mso-text-raise: 3px;">Facebook</span>
+                </button>
+            </a>
+            <a href="https://twitter.com/exadel" target="_blank"
+               style="display: block; text-decoration: none; color: white">
+                <button class="button-contact"
+                        style="border-radius: 2px;color: #ffffff;display: inline-block;font-size: 11px;font-weight: bold;line-height: 19px;text-align: left;text-decoration: none;border-style: solid;border-width: 4px 7px 3px 4px;mso-border-width-alt: 4px 8px 8px 8px;background-color: gray;border-color: gray;mso-border-color-alt: gray;">
+                    &nbsp;<img
+                        style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
+                        src="https://i10.createsend1.com/static/eb/master/13-the-blueprint-3/images/tweet-icon@2x.png"
+                        width="16" height="16" border="0" alt=""/>
+                    <span style="font-size: 11px;mso-text-raise: 3px;">Twitter</span>
+                </button>
+            </a>
+            <a href="https://www.linkedin.com/company/exadel/" target="_blank"
+               style="display: block; text-decoration: none; color: white">
+                <button class="button-contact"
+                        style="border-radius: 2px;color: #ffffff;display: inline-block;font-size: 11px;font-weight: bold;line-height: 19px;text-align: left;text-decoration: none;border-style: solid;border-width: 4px 7px 3px 4px;mso-border-width-alt: 4px 8px 8px 8px;background-color: gray;border-color: gray;mso-border-color-alt: gray;">
+                    &nbsp;<img
+                        style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
+                        src="https://i1.createsend1.com/static/eb/master/13-the-blueprint-3/images/lishare-icon@2x.png"
+                        width="16" height="16" border="0" alt=""/>
+                    <span style="font-size: 11px;mso-text-raise: 3px;">LinkedIn</span>
+                </button>
+            </a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

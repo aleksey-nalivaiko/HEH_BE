@@ -91,7 +91,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     var notification = new Notification
                     {
                         Title = $"New vendor: {vendor.Vendor}!",
-                        Message = "New vendor added. You might be interested: check detailed info.",
+                        Message = $"New vendor {vendor.Vendor} added. You might be interested: check detailed info.",
                         Type = NotificationType.Vendor,
                         SubjectId = vendor.Id,
                         Date = DateTime.UtcNow,
@@ -125,7 +125,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     var notification = new Notification
                     {
                         Title = $"New discount from {discount.VendorName}!",
-                        Message = "New discount added. You might be interested: check detailed info.",
+                        Message = $"New discount added: {discount.Conditions}. You might be interested: check detailed info.",
                         Type = NotificationType.Discount,
                         SubjectId = discount.Id,
                         Date = DateTime.UtcNow,
