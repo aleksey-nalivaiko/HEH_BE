@@ -1,5 +1,4 @@
 ﻿using System;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
@@ -15,7 +14,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public string UserEmail { get; set; }
 
-        public Address Address { get; set; }
+        public Address UserAddress { get; set; }
 
         public UserAction Action { get; set; }
 
