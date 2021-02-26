@@ -114,7 +114,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return discountDto;
         }
 
-        public IQueryable<DiscountDto> GetHot()
+        public IQueryable<Discount> GetHot()
         {
             var nowDate = DateTime.UtcNow.Date;
 
@@ -124,7 +124,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var hotDiscounts = _discountRepository.Get()
                 .Where(d => d.EndDate >= nowDate && d.EndDate < supposedEndDate);
 
-            return hotDiscounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);
+            return hotDiscounts;
         }
 
         public async Task CreateManyAsync(IEnumerable<Discount> discounts)
