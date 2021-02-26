@@ -26,21 +26,22 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var fromAddress = new MailAddress(_options.Email, _options.Name);
             var toAddress = new MailAddress(address);
 
-            //TODO: return html
             using var email = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
-                Body = messageBody /*,
-                IsBodyHtml = true*/
+                Body = messageBody,
+                IsBodyHtml = true
             };
 
             using var smtpClient = new SmtpClient
             {
                 Host = "smtp.gmail.com",
                 Port = 587,
+                UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(_options.Email, _options.Password),
                 EnableSsl = true
             };
+
             await smtpClient.SendMailAsync(email);
         }
 
@@ -48,8 +49,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             IEnumerable<Notification> notifications,
             string userName)
         {
-            //TODO: realPath
-            var generator = GetGenerator(@"Pth/jj");
+            var generator = GetGenerator(@"..\Exadel.HEH.Backend.BusinessLogic\EmailTemplates\hotEmail.html");
 
             return generator.Render(new
             {
@@ -62,8 +62,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             int count,
             string userName)
         {
-            //TODO: realPath
-            var generator = GetGenerator(@"Pth/jj");
+            var generator = GetGenerator(@"..\Exadel.HEH.Backend.BusinessLogic\EmailTemplates\countEmail.html");
 
             return generator.Render(new
             {
