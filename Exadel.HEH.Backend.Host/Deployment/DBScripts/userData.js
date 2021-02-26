@@ -48,7 +48,7 @@ userData = [
             "_id": 1,
             "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
             "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
-            "street": "ul. Pritytskogo 156"
+            "street": "ul. Pritytskogo 151"
         },
         "isActive": true,
         "categoryNotifications": [
