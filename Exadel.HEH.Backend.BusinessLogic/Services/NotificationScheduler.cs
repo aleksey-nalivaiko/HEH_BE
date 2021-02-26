@@ -61,7 +61,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
                 await SendHotNotificationEmailsAsync(allUserNotifications);
 
-                _logger.LogInformation("Emails with hot notifications where send.");
+                _logger.LogInformation("Emails with hot notifications were sent.");
             }
         }
 
@@ -79,7 +79,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
                 await SendNotificationsCountEmailAsync(userNotificationsCount);
 
-                _logger.LogInformation("Emails with notifications count where send.");
+                _logger.LogInformation("Emails with notifications count were sent.");
             }
         }
 
