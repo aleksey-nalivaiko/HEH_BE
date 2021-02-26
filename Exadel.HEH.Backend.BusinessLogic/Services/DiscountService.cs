@@ -122,7 +122,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     _notificationOptions.HotDiscountWeekendDaysLeft : _notificationOptions.HotDiscountDaysLeft);
 
             var hotDiscounts = _discountRepository.Get()
-                .Where(d => d.EndDate < supposedEndDate);
+                .Where(d => d.EndDate >= nowDate && d.EndDate < supposedEndDate);
 
             return hotDiscounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);
         }

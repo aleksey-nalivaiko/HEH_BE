@@ -83,7 +83,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             }
         }
 
-        //TODO: return html
         private Task SendHotNotificationEmailsAsync(IDictionary<(string, string), IEnumerable<Notification>> notifications)
         {
             var emailTasks = new List<Task>();
@@ -94,15 +93,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     _emailService.SendEmailAsync(
                         userEmail,
                         "Hot discounts from HEH",
-                        $"{userName}:\n{string.Join('\n', userNotifications.Select(n => n.Message))}"));
-                /*_emailService.CompleteHotNotificationsMessage(
-                    userNotifications, userName)));*/
+                        _emailService.CompleteHotNotificationsMessage(
+                            userNotifications, userName)));
             }
 
             return Task.WhenAll(emailTasks);
         }
 
-        //TODO: return html
         private Task SendNotificationsCountEmailAsync(IDictionary<(string, string), int> notificationsCount)
         {
             var emailTasks = new List<Task>();
@@ -113,9 +110,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                     _emailService.SendEmailAsync(
                         userEmail,
                         "Notifications from HEH",
-                        $"{userName}:\n {count}"));
-                /*_emailService.CompleteNotificationsCountMessage(
-                    count, userName)));*/
+                        _emailService.CompleteNotificationsCountMessage(
+                            count, userName)));
             }
 
             return Task.WhenAll(emailTasks);
@@ -148,7 +144,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                         var notification = new Notification
                         {
                             Title = $"Hot discount from {discount.VendorName}!",
-                            Message = "We have a hot discount for you. Take your last chance to use it!",
+                            Message = $"We have a hot discount for you: {discount.Conditions}. Take your last chance to use it!",
                             Type = NotificationType.Hot,
                             SubjectId = discount.Id,
                             Date = DateTime.UtcNow,
