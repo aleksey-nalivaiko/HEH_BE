@@ -14,6 +14,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class EmailService : IEmailService
     {
+        private const string EmailTemplatesPath = "EmailTemplates";
         private readonly EmailOptions _options;
 
         public EmailService(IOptions<EmailOptions> options)
@@ -49,7 +50,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             IEnumerable<Notification> notifications,
             string userName)
         {
-            var generator = GetGenerator(@"..\Exadel.HEH.Backend.BusinessLogic\EmailTemplates\hotEmail.html");
+            var generator = GetGenerator("hotEmail.html");
 
             return generator.Render(new
             {
@@ -62,7 +63,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             int count,
             string userName)
         {
-            var generator = GetGenerator(@"..\Exadel.HEH.Backend.BusinessLogic\EmailTemplates\countEmail.html");
+            var generator = GetGenerator("countEmail.html");
 
             return generator.Render(new
             {
@@ -71,8 +72,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             });
         }
 
-        private Generator GetGenerator(string path)
+        private Generator GetGenerator(string fileName)
         {
+            var path = Path.Combine(EmailTemplatesPath, fileName);
+
             var compiler = new FormatCompiler();
 
             using var streamReader = new StreamReader(path, Encoding.UTF8);
