@@ -15,6 +15,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 
         public string UserEmail { get; set; }
 
+        public AddressDto UserAddress { get; set; }
+
         public UserAction Action { get; set; }
 
         public string Description { get; set; }

@@ -23,7 +23,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public DateTime StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public Guid CategoryId { get; set; }
     }

@@ -38,7 +38,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 UserId = user.Id,
                 UserEmail = user.Email,
                 UserName = user.Name,
-                UserRole = user.Role
+                UserRole = user.Role,
+                UserAddress = user.Address
             };
 
             await _historyRepository.CreateAsync(history);
