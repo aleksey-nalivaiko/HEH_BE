@@ -15,6 +15,8 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public string UserEmail { get; set; }
 
+        public Address Address { get; set; }
+
         public UserAction Action { get; set; }
 
         public string Description { get; set; }

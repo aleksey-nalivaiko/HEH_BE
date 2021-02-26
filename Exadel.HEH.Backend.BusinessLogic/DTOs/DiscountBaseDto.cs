@@ -19,7 +19,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 
         public DateTime StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public Guid CategoryId { get; set; }
     }
