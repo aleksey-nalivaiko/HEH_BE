@@ -62,14 +62,24 @@
         .button-contact {
             width: 100px;
             height: 28px;
+            color: white !important;
             background-color: gray;
             text-align: center;
             vertical-align: center;
             border-radius: 2px;
         }
+        .button-contact-href{
+            color: white !important;
+        }
 
         .button-contact:hover {
             opacity: 0.8;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .button-read, .header, .button-contact-href {
+                color: white !important;
+            }
         }
 
     </style>
@@ -104,8 +114,8 @@
     </tr>
     <tr>
         <td>
-            <img style="margin: 10px auto 20px auto"
-                 src="https://lh3.googleusercontent.com/d/12-iu5wmahZslAgr2wpyBiBA4KDhpM-wu=s280" width="280">
+            <img style="margin: 10px auto 20px auto; opacity:0.7"
+                 src="https://lh3.googleusercontent.com/d/1EYSeyG5a94ua4itN1TxgiMLo43DoD0IY=s280" width="280">
         </td>
     </tr>
 </table>
@@ -148,8 +158,9 @@
         </td>
         <td rowspan="6"></td>
         <td class= "button-contact">
-            <a href="https://www.facebook.com/exadelinc/" target="_blank"
-               style="display: block; text-decoration: none; color: white; padding: 0">
+            <a class= "button-contact-href"
+                href="https://www.facebook.com/exadelinc/" target="_blank"
+               style="display: block; text-decoration: none; padding: 0">
                 <img
                     style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
                     src="https://i9.createsend1.com/static/eb/master/13-the-blueprint-3/images/fblike-icon@2x.png"
@@ -164,8 +175,9 @@
     </tr>
     <tr>
         <td class= "button-contact">
-            <a href="https://twitter.com/exadel" target="_blank"
-               style="display: block; text-decoration: none; color: white; padding: 0 20px 0 0">
+            <a class= "button-contact-href"
+               href="https://twitter.com/exadel" target="_blank"
+               style="display: block; text-decoration: none; padding: 0 20px 0 0">
                 &nbsp;<img
                 style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
                 src="https://i10.createsend1.com/static/eb/master/13-the-blueprint-3/images/tweet-icon@2x.png"
@@ -179,8 +191,9 @@
     </tr>
     <tr>
         <td class= "button-contact">
-            <a href="https://www.linkedin.com/company/exadel/" target="_blank"
-               style="display: block; text-decoration: none; color: white; padding: 0 10px 0 0">
+            <a class= "button-contact-href"
+               href="https://www.linkedin.com/company/exadel/" target="_blank"
+               style="display: block; text-decoration: none; padding: 0 10px 0 0">
                 &nbsp;<img
                 style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
                 src="https://i1.createsend1.com/static/eb/master/13-the-blueprint-3/images/lishare-icon@2x.png"
