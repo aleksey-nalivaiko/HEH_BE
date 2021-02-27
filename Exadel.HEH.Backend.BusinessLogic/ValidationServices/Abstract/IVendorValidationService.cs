@@ -16,7 +16,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
             IEnumerable<AddressDto> addresses,
             CancellationToken token = default);
 
-        bool AddressesAreUnique(IEnumerable<int> addressesIds);
+        bool AddressesIdsAreUnique(IEnumerable<int> addressesIds);
+
+        bool AddressesAreUnique(IEnumerable<AddressDto> addresses);
 
         bool AddressesAreFromVendor(VendorDto vendor, IEnumerable<DiscountShortDto> discounts);
 
@@ -30,7 +32,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 
         Task<bool> VendorNameChangedAndNotExists(Guid vendorId, string vendorName, CancellationToken token);
 
-        Task<bool> AddressExists(Guid countryId, Guid cityId, CancellationToken token);
+        Task<bool> AddressExists(Guid countryId, Guid? cityId, CancellationToken token);
 
         Task<bool> VendorFromLocationAsync(Guid vendorId, CancellationToken token);
     }

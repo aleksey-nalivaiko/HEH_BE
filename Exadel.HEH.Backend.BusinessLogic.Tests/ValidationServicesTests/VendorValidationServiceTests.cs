@@ -87,7 +87,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
         {
             var addressesIds = new List<int> { 1, 2, 3, 4 };
             var phonesIds = new List<int> { 1, 1, 2, 3, 4 };
-            Assert.True(await Task.FromResult(_validationService.AddressesAreUnique(addressesIds)));
+            Assert.True(await Task.FromResult(_validationService.AddressesIdsAreUnique(addressesIds)));
             Assert.False(await Task.FromResult(_validationService.PhonesAreUnique(phonesIds)));
         }
 

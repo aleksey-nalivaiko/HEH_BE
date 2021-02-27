@@ -66,39 +66,31 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return true;
         }
 
-        public bool AddressesAreUnique(IEnumerable<int> addressesIds)
+        public bool AddressesIdsAreUnique(IEnumerable<int> addressesIds)
         {
             var addressesIdsList = addressesIds.ToList();
             return addressesIdsList.Count == addressesIdsList.Distinct().Count();
         }
 
+        public bool AddressesAreUnique(IEnumerable<AddressDto> addresses)
+        {
+            var addressesList = addresses.ToList();
+
+            return addressesList.Count == addressesList
+                .GroupBy(a => new { a.CountryId, a.CityId, a.Street })
+                .Select(g => g)
+                .Count();
+        }
+
         public bool AddressesAreFromVendor(VendorDto vendor, IEnumerable<DiscountShortDto> discounts)
         {
-            var discountAddressesIds = discounts.SelectMany(d =>
-                {
-                    if (d.AddressesIds != null)
-                    {
-                        return d.AddressesIds;
-                    }
-
-                    return new List<int>();
-                })
+            var discountAddressesIds = discounts.SelectMany(d => d.AddressesIds)
                 .Distinct()
                 .ToList();
 
-            if (vendor.Addresses != null)
-            {
-                var vendorAddressesIds = vendor.Addresses.Select(p => p.Id);
+            var vendorAddressesIds = vendor.Addresses.Select(p => p.Id);
 
-                return discountAddressesIds.All(id => vendorAddressesIds.Contains(id));
-            }
-
-            if (discountAddressesIds.Any())
-            {
-                return false;
-            }
-
-            return true;
+            return discountAddressesIds.All(id => vendorAddressesIds.Contains(id));
         }
 
         public bool PhonesAreUnique(IEnumerable<int> phonesIds)
@@ -178,7 +170,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return !_vendorRepository.Get().Any(x => x.Name == vendorName);
         }
 
-        public async Task<bool> AddressExists(Guid countryId, Guid cityId, CancellationToken token)
+        public async Task<bool> AddressExists(Guid countryId, Guid? cityId, CancellationToken token)
         {
             var country = await _locationRepository.GetByIdAsync(countryId);
 
@@ -187,9 +179,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
                 return false;
             }
 
-            var city = country.Cities.Where(x => x.Id == cityId).ToList();
+            if (cityId is null)
+            {
+                return true;
+            }
 
-            return city.Count != 0;
+            var cities = country.Cities.Where(x => x.Id == cityId).ToList();
+
+            return cities.Count != 0;
         }
 
         public async Task<bool> VendorFromLocationAsync(Guid vendorId, CancellationToken token)
@@ -201,11 +198,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             var countryCities = vendor.Addresses
                 .GroupBy(a => a.CountryId)
                 .Select(g =>
-                    new KeyValuePair<Guid, IEnumerable<Guid>>(
-                        g.Key, g.Select(a => a.CityId)))
+                    new KeyValuePair<Guid, IEnumerable<Guid?>>(
+                        g.Key, g.Select(a => a.CityId).Where(i => i.HasValue)))
                 .ToDictionary(a => a.Key, a => a.Value);
 
-            return countryCities.ContainsKey(user.Address.CountryId) && (!countryCities.Any()
+            return countryCities.ContainsKey(user.Address.CountryId) && (!countryCities[user.Address.CountryId].Any()
                                                                          || countryCities[user.Address.CountryId]
                                                                              .Contains(user.Address.CityId));
         }

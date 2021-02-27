@@ -207,15 +207,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var countryCities = addresses
                 .GroupBy(a => a.CountryId)
                 .Select(g =>
-                    new KeyValuePair<Guid, IEnumerable<Guid>>(
-                        g.Key, g.Select(a => a.CityId)))
+                    new KeyValuePair<Guid, IEnumerable<Guid?>>(
+                        g.Key, g.Select(a => a.CityId).Where(i => i.HasValue)))
                 .ToDictionary(a => a.Key, a => a.Value);
 
             return users
                 .GroupBy(u => u.Id)
                 .Select(g => g.First())
                 .Where(u => countryCities.ContainsKey(u.Address.CountryId)
-                            && (!countryCities.Any()
+                            && (!countryCities[u.Address.CountryId].Any()
                                 || countryCities[u.Address.CountryId].Contains(u.Address.CityId)));
         }
     }

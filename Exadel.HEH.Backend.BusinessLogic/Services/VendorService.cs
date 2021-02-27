@@ -69,11 +69,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 var countryCities = vendor.Addresses
                     .GroupBy(a => a.CountryId)
                     .Select(g =>
-                        new KeyValuePair<Guid, IEnumerable<Guid>>(
-                            g.Key, g.Select(a => a.CityId)))
+                        new KeyValuePair<Guid, IEnumerable<Guid?>>(
+                            g.Key, g.Select(a => a.CityId).Where(i => i.HasValue)))
                     .ToDictionary(a => a.Key, a => a.Value);
 
-                if (countryCities.ContainsKey(user.Address.CountryId) && (!countryCities.Any()
+                if (countryCities.ContainsKey(user.Address.CountryId) && (!countryCities[user.Address.CountryId].Any()
                                                                           || countryCities[user.Address.CountryId]
                                                                               .Contains(user.Address.CityId)))
                 {
