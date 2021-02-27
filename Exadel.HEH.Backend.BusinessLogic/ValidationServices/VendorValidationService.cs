@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
+using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -15,14 +16,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
         private readonly IVendorRepository _vendorRepository;
         private readonly IDiscountRepository _discountRepository;
         private readonly ILocationRepository _locationRepository;
+        private readonly IUserService _userService;
         private Vendor _vendor;
 
         public VendorValidationService(IVendorRepository vendorRepository, IDiscountRepository discountRepository,
-            ILocationRepository locationRepository)
+            ILocationRepository locationRepository, IUserService userService)
         {
             _vendorRepository = vendorRepository;
             _discountRepository = discountRepository;
             _locationRepository = locationRepository;
+            _userService = userService;
         }
 
         public async Task<bool> VendorExistsAsync(Guid vendorId, CancellationToken token)
@@ -187,6 +190,24 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             var city = country.Cities.Where(x => x.Id == cityId).ToList();
 
             return city.Count != 0;
+        }
+
+        public async Task<bool> VendorFromLocationAsync(Guid vendorId, CancellationToken token)
+        {
+            var user = await _userService.GetProfileAsync();
+
+            var vendor = await _vendorRepository.GetByIdAsync(vendorId);
+
+            var countryCities = vendor.Addresses
+                .GroupBy(a => a.CountryId)
+                .Select(g =>
+                    new KeyValuePair<Guid, IEnumerable<Guid>>(
+                        g.Key, g.Select(a => a.CityId)))
+                .ToDictionary(a => a.Key, a => a.Value);
+
+            return countryCities.ContainsKey(user.Address.CountryId) && (!countryCities.Any()
+                                                                         || countryCities[user.Address.CountryId]
+                                                                             .Contains(user.Address.CityId));
         }
 
         private async Task GetVendor(Guid vendorId)

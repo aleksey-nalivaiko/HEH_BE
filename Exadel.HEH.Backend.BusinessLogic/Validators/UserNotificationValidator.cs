@@ -24,6 +24,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
             RuleForEach(n => n.VendorNotifications)
                 .MustAsync(vendorValidationService.VendorExistsAsync)
                 .WithMessage("Some of vendors don't exist")
+                .MustAsync(vendorValidationService.VendorFromLocationAsync)
+                .WithMessage("Some of vendors are not from user location")
                 .When(n => n.VendorNotifications != null);
         }
     }
