@@ -134,8 +134,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
             var discount = new DiscountShortDto { AddressesIds = new List<int> { 1 } };
             Assert.True(await Task.FromResult(_validationService.AddressesAreFromVendor(_mapper.Map<VendorDto>(_vendor),
                 new List<DiscountShortDto> { discount })));
-            Assert.False(await Task.FromResult(
-                    _validationService.AddressesAreFromVendor(new VendorDto(), new List<DiscountShortDto> { discount })));
+
+            discount.AddressesIds = new List<int> { 2 };
+
+            Assert.False(await Task.FromResult(_validationService.AddressesAreFromVendor(_mapper.Map<VendorDto>(_vendor), new List<DiscountShortDto> { discount })));
         }
 
         [Fact]
