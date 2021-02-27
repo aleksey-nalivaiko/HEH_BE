@@ -14,16 +14,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
     public class VendorValidationService : IVendorValidationService
     {
         private readonly IVendorRepository _vendorRepository;
-        private readonly IDiscountRepository _discountRepository;
         private readonly ILocationRepository _locationRepository;
         private readonly IUserService _userService;
         private Vendor _vendor;
 
-        public VendorValidationService(IVendorRepository vendorRepository, IDiscountRepository discountRepository,
+        public VendorValidationService(IVendorRepository vendorRepository,
             ILocationRepository locationRepository, IUserService userService)
         {
             _vendorRepository = vendorRepository;
-            _discountRepository = discountRepository;
             _locationRepository = locationRepository;
             _userService = userService;
         }
@@ -42,22 +40,24 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return _vendor is null;
         }
 
-        public async Task<bool> AddressesCanBeRemovedAsync(Guid vendorId, IEnumerable<AddressDto> addresses, CancellationToken token)
+        public async Task<bool> AddressesCanBeRemovedAsync(VendorDto vendor, CancellationToken token)
         {
-            await GetVendor(vendorId);
+            await GetVendor(vendor.Id);
 
             var vendorAddressesIds = _vendor.Addresses.Select(a => a.Id);
-            var newAddressesIds = addresses.Select(a => a.Id).ToList();
+            var newAddressesIds = vendor.Addresses.Select(a => a.Id).ToList();
 
             var addressesToBeRemoved = vendorAddressesIds
                 .Where(a => !newAddressesIds.Contains(a)).ToList();
 
             if (addressesToBeRemoved.Any())
             {
-                var discountAddresses = _discountRepository.Get().Where(d => d.VendorId == vendorId)
-                    .SelectMany(d => d.Addresses).Distinct().ToList();
+                var discountAddresses = vendor.Discounts
+                    .SelectMany(d => d.AddressesIds)
+                    .Distinct()
+                    .ToList();
 
-                if (discountAddresses.Any(a => addressesToBeRemoved.Contains(a.Id)))
+                if (discountAddresses.Any(a => addressesToBeRemoved.Contains(a)))
                 {
                     return false;
                 }

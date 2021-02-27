@@ -12,8 +12,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 
         Task<bool> VendorNotExistsAsync(Guid vendorId, CancellationToken token = default);
 
-        Task<bool> AddressesCanBeRemovedAsync(Guid vendorId,
-            IEnumerable<AddressDto> addresses,
+        Task<bool> AddressesCanBeRemovedAsync(VendorDto vendor,
             CancellationToken token = default);
 
         bool AddressesIdsAreUnique(IEnumerable<int> addressesIds);

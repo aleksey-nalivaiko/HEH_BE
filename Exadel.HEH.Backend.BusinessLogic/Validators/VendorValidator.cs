@@ -109,12 +109,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
 
             RuleFor(v => v.Addresses)
                 .Must(vendorValidationService.AddressesAreUnique)
-                .WithMessage("There are some addresses.")
+                .WithMessage("There are same addresses.")
                 .WithName("Address");
 
             RuleFor(v => v.Addresses)
                 .MustAsync(async (vendor, addresses, cancellation) =>
-                    await vendorValidationService.AddressesCanBeRemovedAsync(vendor.Id, addresses, cancellation))
+                    await vendorValidationService.AddressesCanBeRemovedAsync(vendor, cancellation))
                 .WithMessage("Address(es) cannot be removed: they are used in discount(s).")
                 .When(dto => methodType == "PUT");
 

@@ -35,19 +35,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
         {
             _mapper = MapperExtensions.Mapper;
             var vendorRepository = new Mock<IVendorRepository>();
-            var discountRepository = new Mock<IDiscountRepository>();
             var locationRepository = new Mock<ILocationRepository>();
             var userService = new Mock<IUserService>();
 
             _vendorData = new List<Vendor>();
-            var discountData = new List<Discount>();
             var locationData = new List<Location>();
             var userData = new List<UserDto>();
 
             InitializeData();
 
             _vendorData.Add(_vendor);
-            discountData.Add(_discount);
             locationData.Add(_location);
             userData.Add(_user);
 
@@ -57,9 +54,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
             vendorRepository.Setup(r => r.Get())
                 .Returns(() => _vendorData.AsQueryable());
 
-            discountRepository.Setup(r => r.Get())
-                .Returns(() => discountData.AsQueryable());
-
             locationRepository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(locationData.FirstOrDefault(l => l.Id == id)));
 
@@ -67,7 +61,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
                 .Returns(Task.FromResult(userData.FirstOrDefault()));
 
             _validationService = new VendorValidationService(
-                vendorRepository.Object, discountRepository.Object, locationRepository.Object, userService.Object);
+                vendorRepository.Object, locationRepository.Object, userService.Object);
         }
 
         [Fact]
@@ -122,10 +116,27 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
         [Fact]
         public async Task CanValidateAddressesCanBeRemoved()
         {
-            Assert.True(await _validationService.AddressesCanBeRemovedAsync(_vendor.Id,
-                new List<AddressDto> { _mapper.Map<AddressDto>(_address) }, CancellationToken.None));
-            Assert.False(await _validationService.AddressesCanBeRemovedAsync(_vendor.Id,
-                new List<AddressDto> { _mapper.Map<AddressDto>(_address2) }, CancellationToken.None));
+            var vendor = _vendor.DeepClone();
+            vendor.Addresses = new List<Address>
+            {
+                _address2
+            };
+
+            var vendorDto = _mapper.Map<VendorDto>(vendor);
+
+            var discountDto = _mapper.Map<DiscountShortDto>(_discount);
+            discountDto.AddressesIds = new List<int> { 2 };
+
+            vendorDto.Discounts = new List<DiscountShortDto> { discountDto };
+
+            Assert.True(await _validationService.AddressesCanBeRemovedAsync(
+                vendorDto, CancellationToken.None));
+
+            discountDto.AddressesIds = new List<int> { 1 };
+            vendorDto.Discounts = new List<DiscountShortDto> { discountDto };
+
+            Assert.False(await _validationService.AddressesCanBeRemovedAsync(
+                vendorDto, CancellationToken.None));
         }
 
         [Fact]
