@@ -80,7 +80,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
 
             RuleForEach(v => v.Addresses)
                 .NotNull()
-                .NotEmpty();
+                .NotEmpty()
+                .Must(vendorValidationService.StreetWithCity)
+                .WithMessage("Street cannot be set without a city.");
 
             RuleForEach(v => v.Addresses.Select(a => a.Id))
                 .NotEmpty()

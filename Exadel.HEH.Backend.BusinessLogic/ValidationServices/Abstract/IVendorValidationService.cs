@@ -21,6 +21,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
 
         bool AddressesAreFromVendor(VendorDto vendor, IEnumerable<DiscountShortDto> discounts);
 
+        bool StreetWithCity(AddressDto address);
+
         bool PhonesAreUnique(IEnumerable<int> phonesIds);
 
         Task<bool> PhonesAreFromVendorAsync(VendorDto vendor,

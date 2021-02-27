@@ -93,6 +93,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return discountAddressesIds.All(id => vendorAddressesIds.Contains(id));
         }
 
+        public bool StreetWithCity(AddressDto address)
+        {
+            if (string.IsNullOrEmpty(address.Street))
+            {
+                return true;
+            }
+
+            return address.CityId.HasValue;
+        }
+
         public bool PhonesAreUnique(IEnumerable<int> phonesIds)
         {
             var phonesIdsList = phonesIds.ToList();
