@@ -6,7 +6,8 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,400italic" rel="stylesheet" type="text/css"/>
     <style>
         body {
-            font: 400 24px/30px Montserrat;
+            font: 400 24px/30px Montserrat !important;
+            font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif !important;
         }
 
         img {
@@ -18,39 +19,53 @@
             background-color: #227CAC;
             width: 100%;
             height: 60px;
-            color: white;
+            color: white !important;
             text-align: center;
-            font: 900 24px/60px Montserrat;
+            font: 900 24px/60px Montserrat !important;
+            font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif !important;
         }
 
         p {
-            font: 17px/26px Montserrat;
+            font: 17px/26px Montserrat !important;
+            font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif !important;
             text-align: center;
             margin: 0;
+            color: black;
         }
 
         a {
             text-decoration: none;
             padding-top: 10px;
-            font: 700 16px/16px Montserrat;
-
+            font: 700 16px/16px Montserrat !important;
+            font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif !important;
         }
 
-        a:hover, button:hover {
+        a:hover, .button-read:hover {
             cursor: pointer !important;
         }
 
-        button {
-            display: block;
-            margin: 0 auto;
+        .button-read {
+            width: 150px;
+            height: 55px;
             background-color: #227CAC;
-            border: none;
             color: white;
-            font: 700 16px/16px Montserrat;
+            font: 700 16px/16px Montserrat !important;
+            font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif !important;
         }
 
-        button, button:focus, button:active {
-            outline: none !important;
+        .button-read span{
+            color: white;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .button-contact {
+            width: 100px;
+            height: 28px;
+            background-color: gray;
+            text-align: center;
+            vertical-align: center;
+            border-radius: 2px;
         }
 
         .button-contact:hover {
@@ -64,11 +79,11 @@
     <tr>
         <td>
             <img style="margin: 10px auto"
-                 src="https://lh3.googleusercontent.com/d/1o97zH0HLnvpUO5Q5oF8Kxx-vS1ib47qZ=s300" width="291">
+                 src="https://lh3.googleusercontent.com/d/1mAKUeDHwm7rh_hHNGiQDeVNytfjBBGXF=s300" width="291">
         </td>
     </tr>
     <tr class="header">
-        <td>
+        <td  style="color: white">
             Hot sales
         </td>
     </tr>
@@ -79,12 +94,12 @@
     </tr>
     <tr>
         <td>
-            <p style="margin-top: 5px; font-family: Montserrat !important">Don't miss! Some discounts are ending soon.</p>
+            <p style="margin-top: 5px">Don't miss! Some discounts are ending soon.</p>
         </td>
     </tr>
     <tr>
         <td>
-            <p style="margin-top: 5px; font-family: 'Montserrat' !important">So sit back, relax and check this day&#8217;s hot sales.</p>
+            <p style="margin-top: 5px">So sit back, relax and check this day&#8217;s hot sales.</p>
         </td>
     </tr>
     <tr>
@@ -98,7 +113,7 @@
 <table style="width: 100%;">
     <tr>
         <td>
-            <p style="color: #227CAC; font: 900 24px/24px Montserrat;">{{Title}}</p>
+            <p style="margin-bottom: 3px; color: #227CAC; font: 900 24px/26px Montserrat !important; font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif !important;">{{Title}}</p>
         </td>
     </tr>
     <tr>
@@ -106,70 +121,76 @@
             <p>{{Message}}</p>
         </td>
     </tr>
-    <tr>
-        <td>
-            <p>Expiration date: <span style=" display:inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: clip;
-  max-width: 8.8ch;
-  vertical-align: bottom;">{{Date}}</span></p>
-        </td>
-    </tr>
 </table>
 <hr style="width: 30%; color: gray;">
 {{/each}}
 <table style="width: 100%">
     <tr>
-        <td colspan="2">
-            <a href="http://www.example.com" target="_blank">
-                <button style="height: 55px; width: 150px">Read more</button>
+        <td></td>
+        <td class="button-read" style="text-align: center; border-radius: 2px">
+            <a href="http://www.example.com" target="_blank" style="text-align: center; margin: auto">
+                <span style="">Read more</span>
+            </a>
+        </td>
+        <td></td>
+    </tr>
+</table>
+
+<table  class="contact-table" style="width: 100%; margin: 20px auto">
+    <tr>
+        <td rowspan="6"></td>
+        <td rowspan="6" style="width: 100px">
+            <p style="color: #1c1c1c; font-size: 12px !important;">Exadel, Inc</p>
+            <p>
+                <a href="http://www.example.com" target="_blank"
+                   style="text-decoration: underline; color: #1c1c1c; font-size: 12px !important; font-weight: 400 !important; width: 100%">Preferences</a>
+            </p>
+        </td>
+        <td rowspan="6"></td>
+        <td class= "button-contact">
+            <a href="https://www.facebook.com/exadelinc/" target="_blank"
+               style="display: block; text-decoration: none; color: white; padding: 0">
+                <img
+                    style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
+                    src="https://i9.createsend1.com/static/eb/master/13-the-blueprint-3/images/fblike-icon@2x.png"
+                    width="16" height="16" border="0" alt=""/>
+                <span style="font-size: 11px;mso-text-raise: 3px;">Facebook</span>
+            </a>
+        </td>
+        <td rowspan="6"></td>
+    </tr>
+    <tr>
+        <td style="height: 5px"></td>
+    </tr>
+    <tr>
+        <td class= "button-contact">
+            <a href="https://twitter.com/exadel" target="_blank"
+               style="display: block; text-decoration: none; color: white; padding: 0 20px 0 0">
+                &nbsp;<img
+                style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
+                src="https://i10.createsend1.com/static/eb/master/13-the-blueprint-3/images/tweet-icon@2x.png"
+                width="16" height="16" border="0" alt=""/>
+                <span style="font-size: 11px;mso-text-raise: 3px;">Twitter</span>
             </a>
         </td>
     </tr>
     <tr>
-        <td>
-            <p style="color: #1c1c1c; font-size: 12px">Exadel, Inc</p>
-            <p>
-                <a href="http://www.example.com" target="_blank"
-                   style="text-decoration: underline; color: #1c1c1c; font-size: 12px; font-weight: 400; width: 100%">Preferences</a>
-            </p>
-        </td>
-        <td style="width: 40%">
-            <a href="https://www.facebook.com/exadelinc/" target="_blank"
-               style="display: block; text-decoration: none; color: white">
-                <button class="button-contact"
-                        style="border-radius: 2px;color: #ffffff;display: inline-block;font-size: 11px;font-weight: bold;line-height: 19px;text-align: left;text-decoration: none;border-style: solid;border-width: 4px 7px 3px 4px;mso-border-width-alt: 4px 8px 8px 8px;background-color: gray;border-color: gray;mso-border-color-alt: gray;">
-                    &nbsp;<img
-                        style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
-                        src="https://i9.createsend1.com/static/eb/master/13-the-blueprint-3/images/fblike-icon@2x.png"
-                        width="16" height="16" border="0" alt=""/>
-                    <span style="font-size: 11px;mso-text-raise: 3px;">Facebook</span>
-                </button>
-            </a>
-            <a href="https://twitter.com/exadel" target="_blank"
-               style="display: block; text-decoration: none; color: white">
-                <button class="button-contact"
-                        style="border-radius: 2px;color: #ffffff;display: inline-block;font-size: 11px;font-weight: bold;line-height: 19px;text-align: left;text-decoration: none;border-style: solid;border-width: 4px 7px 3px 4px;mso-border-width-alt: 4px 8px 8px 8px;background-color: gray;border-color: gray;mso-border-color-alt: gray;">
-                    &nbsp;<img
-                        style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
-                        src="https://i10.createsend1.com/static/eb/master/13-the-blueprint-3/images/tweet-icon@2x.png"
-                        width="16" height="16" border="0" alt=""/>
-                    <span style="font-size: 11px;mso-text-raise: 3px;">Twitter</span>
-                </button>
-            </a>
+        <td  style="height: 5px"></td>
+    </tr>
+    <tr>
+        <td class= "button-contact">
             <a href="https://www.linkedin.com/company/exadel/" target="_blank"
-               style="display: block; text-decoration: none; color: white">
-                <button class="button-contact"
-                        style="border-radius: 2px;color: #ffffff;display: inline-block;font-size: 11px;font-weight: bold;line-height: 19px;text-align: left;text-decoration: none;border-style: solid;border-width: 4px 7px 3px 4px;mso-border-width-alt: 4px 8px 8px 8px;background-color: gray;border-color: gray;mso-border-color-alt: gray;">
-                    &nbsp;<img
-                        style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
-                        src="https://i1.createsend1.com/static/eb/master/13-the-blueprint-3/images/lishare-icon@2x.png"
-                        width="16" height="16" border="0" alt=""/>
-                    <span style="font-size: 11px;mso-text-raise: 3px;">LinkedIn</span>
-                </button>
+               style="display: block; text-decoration: none; color: white; padding: 0 10px 0 0">
+                &nbsp;<img
+                style="border: 0;display: inline-block;margin-right: 2px;vertical-align: -3px;"
+                src="https://i1.createsend1.com/static/eb/master/13-the-blueprint-3/images/lishare-icon@2x.png"
+                width="16" height="16" border="0" alt=""/>
+                <span style="font-size: 11px;mso-text-raise: 3px;">LinkedIn</span>
             </a>
         </td>
+    </tr>
+    <tr>
+        <td  style="height: 5px"></td>
     </tr>
 </table>
 </body>
