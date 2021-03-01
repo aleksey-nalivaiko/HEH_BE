@@ -37,6 +37,6 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public IList<Favorites> Favorites { get; set; }
 
-        public string Img { get; set; }
+        public string Photo { get; set; }
     }
 }
