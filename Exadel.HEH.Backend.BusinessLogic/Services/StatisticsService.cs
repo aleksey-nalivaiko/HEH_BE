@@ -8,6 +8,7 @@ using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Microsoft.AspNet.OData.Query;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
@@ -27,6 +28,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         }
 
         public async Task<IQueryable<DiscountStatisticsDto>> GetStatisticsAsync(
+            ODataQueryOptions<DiscountStatisticsDto> options,
             string searchText, DateTime startDate, DateTime endDate)
         {
             var discounts = await _searchService.SearchAsync(searchText);
@@ -36,7 +38,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var discountViewsAmounts = await _statisticsRepository.GetInWhereAsync(
                 s => s.DiscountId, discounts.Select(d => d.Id), startDate, endDate);
 
-            return discountsDto.GroupJoin(
+            var discountsQueryable = discountsDto.GroupJoin(
                     discountViewsAmounts,
                     d => d.Id,
                     s => s.DiscountId,
@@ -45,6 +47,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                         d.ViewsAmount = statistics.Sum(s => s.ViewsAmount);
                         return d;
                     }).AsQueryable();
+
+            if (options.Filter != null)
+            {
+                options.ApplyTo(discountsQueryable);
+            }
+
+            return discountsQueryable;
         }
 
         public async Task IncrementViewsAmountAsync(Guid discountId)

@@ -34,16 +34,17 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             EnsureStableOrdering = false)]
         [ODataRoute]
         public Task<IQueryable<DiscountStatisticsDto>> GetAsync([FromQuery] string searchText,
-            [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+            [FromQuery] DateTime startDate, [FromQuery] DateTime endDate,
+            ODataQueryOptions<DiscountStatisticsDto> options)
         {
-            return _statisticsService.GetStatisticsAsync(searchText, startDate, endDate);
+            return _statisticsService.GetStatisticsAsync(options, searchText, startDate, endDate);
         }
 
-        public async Task<FileResult> GetExcelFile(ODataQueryOptions<DiscountStatisticsDto> options)
+        public async Task<FileResult> GetExcelFile([FromQuery] string searchText,
+            [FromQuery] DateTime startDate, [FromQuery] DateTime endDate,
+            ODataQueryOptions<DiscountStatisticsDto> options)
         {
-            var statistics = await _statisticsService.GetStatisticsAsync();
-
-            var stream = await _exportService.GetFileAsync(statistics);
+            var stream = await _exportService.GetFileAsync(options, searchText, startDate, endDate);
 
             return File(stream, FileType, FileName);
         }
