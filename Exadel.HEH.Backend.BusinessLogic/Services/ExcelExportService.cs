@@ -18,26 +18,31 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private const string FileName = "Statistics.xlsx";
         private const string SheetName = "Statistics";
 
+        private readonly IStatisticsService _statisticsService;
         private readonly ICategoryService _categoryService;
         private readonly ITagService _tagService;
         private readonly IVendorService _vendorService;
         private readonly ILocationService _locationService;
 
         public ExcelExportService(
-
+            IStatisticsService statisticsService,
             ICategoryService categoryService,
             ITagService tagService,
             IVendorService vendorService,
             ILocationService locationService)
         {
+            _statisticsService = statisticsService;
             _categoryService = categoryService;
             _tagService = tagService;
             _vendorService = vendorService;
             _locationService = locationService;
         }
 
-        public async Task<MemoryStream> GetFileAsync(ODataQueryOptions<DiscountStatisticsDto> options)
+        public async Task<MemoryStream> GetFileAsync(ODataQueryOptions<DiscountStatisticsDto> options,
+            string searchText = default, DateTime startDate = default, DateTime endDate = default)
         {
+            var statistics = await _statisticsService.GetStatisticsAsync(options, searchText, startDate, endDate);
+
             await using var fileStream = File.OpenRead(Path.Combine(ExcelTemplatesPath, FileName));
             var memoryStream = new MemoryStream();
             await fileStream.CopyToAsync(memoryStream);

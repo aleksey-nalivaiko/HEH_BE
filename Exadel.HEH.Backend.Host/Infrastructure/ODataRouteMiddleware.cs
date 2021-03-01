@@ -11,6 +11,7 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
             ["/odata/Discount"] = new[] { "searchText" },
             ["/odata/Vendor"] = new[] { "searchText" },
             ["/odata/Statistics"] = new[] { "searchText", "startDate", "endDate" },
+            ["/odata/Statistics/GetExcelFile"] = new[] { "searchText", "startDate", "endDate" },
             ["/odata/Favorites"] = new[] { "searchText" }
         };
 
@@ -20,6 +21,7 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
             ["/odata/user"] = "/odata/User",
             ["/odata/vendor"] = "/odata/Vendor",
             ["/odata/statistics"] = "/odata/Statistics",
+            ["/odata/statistics/getExcelFile"] = "/odata/Statistics/GetExcelFile",
             ["/odata/favorites"] = "/odata/Favorites",
             ["/odata/history"] = "/odata/History",
             ["/odata/notification"] = "/odata/Notification"
