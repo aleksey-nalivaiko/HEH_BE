@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
@@ -16,11 +17,16 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
     [ODataAuthorize(Roles = nameof(UserRole.Administrator))]
     public class StatisticsController : ODataController
     {
-        private readonly IStatisticsService _statisticsService;
+        private const string FileName = "Statistics.xlsx";
+        private const string FileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-        public StatisticsController(IStatisticsService statisticsService)
+        private readonly IStatisticsService _statisticsService;
+        private readonly IExportService _exportService;
+
+        public StatisticsController(IStatisticsService statisticsService, IExportService exportService)
         {
             _statisticsService = statisticsService;
+            _exportService = exportService;
         }
 
         [EnableQuery(
@@ -28,9 +34,20 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             EnsureStableOrdering = false)]
         [ODataRoute]
         public Task<IQueryable<DiscountStatisticsDto>> GetAsync([FromQuery] string searchText,
-            [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+            [FromQuery] DateTime startDate, [FromQuery] DateTime endDate,
+            ODataQueryOptions<DiscountStatisticsDto> options)
         {
-            return _statisticsService.GetStatisticsAsync(searchText, startDate, endDate);
+            return _statisticsService.GetStatisticsAsync(options, searchText, startDate, endDate);
+        }
+
+        [HttpGet]
+        public async Task<FileResult> Excel([FromQuery] string searchText,
+            [FromQuery] DateTime startDate, [FromQuery] DateTime endDate,
+            ODataQueryOptions<DiscountStatisticsDto> options)
+        {
+            var stream = await _exportService.GetFileAsync(options, searchText, startDate, endDate);
+
+            return File(stream, FileType, FileName);
         }
     }
 }
