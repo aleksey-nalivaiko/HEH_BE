@@ -13,7 +13,7 @@ namespace Exadel.HEH.Backend.Host.Configuration
             builder.EntitySet<DiscountStatisticsDto>("Statistics");
 
             builder.EntityType<DiscountStatisticsDto>().Collection
-                .Function("GetExcelFile")
+                .Function("Excel")
                 .Returns<Task<FileResult>>();
         }
     }

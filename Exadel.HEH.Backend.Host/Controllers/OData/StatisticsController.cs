@@ -40,7 +40,8 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             return _statisticsService.GetStatisticsAsync(options, searchText, startDate, endDate);
         }
 
-        public async Task<FileResult> GetExcelFile([FromQuery] string searchText,
+        [HttpGet]
+        public async Task<FileResult> Excel([FromQuery] string searchText,
             [FromQuery] DateTime startDate, [FromQuery] DateTime endDate,
             ODataQueryOptions<DiscountStatisticsDto> options)
         {
