@@ -35,6 +35,13 @@
     <None Update="EmailTemplates\hotEmail.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="ExcelTemplates\Statistics.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ExcelTemplates\" />
   </ItemGroup>
 
 </Project>

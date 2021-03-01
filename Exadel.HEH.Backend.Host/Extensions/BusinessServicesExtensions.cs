@@ -32,6 +32,8 @@ namespace Exadel.HEH.Backend.Host.Extensions
                 services.AddScoped<IVendorSearchService, LuceneVendorSearchService>();
             }
 
+            services.AddScoped<IExportService, ExcelExportService>();
+
             return services;
         }
     }
