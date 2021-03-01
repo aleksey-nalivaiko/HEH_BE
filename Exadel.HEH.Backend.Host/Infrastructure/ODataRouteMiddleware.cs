@@ -11,17 +11,17 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
             ["/odata/Discount"] = new[] { "searchText" },
             ["/odata/Vendor"] = new[] { "searchText" },
             ["/odata/Statistics"] = new[] { "searchText", "startDate", "endDate" },
-            ["/odata/Statistics/GetExcelFile"] = new[] { "searchText", "startDate", "endDate" },
+            ["/odata/Statistics/Excel"] = new[] { "searchText", "startDate", "endDate" },
             ["/odata/Favorites"] = new[] { "searchText" }
         };
 
         private readonly IDictionary<string, string> _lowerCaseRoutes = new Dictionary<string, string>
         {
-            ["/odata/discountCreateUpdate"] = "/odata/Discount",
+            ["/odata/discount"] = "/odata/Discount",
             ["/odata/user"] = "/odata/User",
             ["/odata/vendor"] = "/odata/Vendor",
             ["/odata/statistics"] = "/odata/Statistics",
-            ["/odata/statistics/getExcelFile"] = "/odata/Statistics/GetExcelFile",
+            ["/odata/statistics/excel"] = "/odata/Statistics/Excel",
             ["/odata/favorites"] = "/odata/Favorites",
             ["/odata/history"] = "/odata/History",
             ["/odata/notification"] = "/odata/Notification"
@@ -40,15 +40,9 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
 
             if (request.Method == "GET" && request.Path.HasValue)
             {
-                foreach (var lowerCaseRoute in _lowerCaseRoutes)
+                if (_lowerCaseRoutes.TryGetValue(request.Path.Value, out var lowerCaseRoute))
                 {
-                    var requestString = request.Path.ToString();
-
-                    if (requestString.Contains(lowerCaseRoute.Key))
-                    {
-                        request.Path = requestString.Replace(lowerCaseRoute.Key, lowerCaseRoute.Value);
-                        break;
-                    }
+                    request.Path = request.Path.Value.Replace(request.Path.Value, lowerCaseRoute);
                 }
 
                 if (_config.TryGetValue(request.Path.Value, out var queryParams))
