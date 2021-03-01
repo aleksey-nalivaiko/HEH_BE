@@ -136,6 +136,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                             discount.CategoryId,
                             discount.TagsIds,
                             discount.VendorId,
+                            discount.Addresses,
                             u => u.IsActive && u.AllNotificationsAreOn && u.HotDiscountsNotificationIsOn))
                         .ToList();
 
@@ -144,7 +145,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                         var notification = new Notification
                         {
                             Title = $"Hot discount from {discount.VendorName}!",
-                            Message = $"We have a hot discount for you: {discount.Conditions}. Take your last chance to use it!",
+                            Message = $"We have a hot discount for you: {discount.Conditions}. " +
+                                      $"Last day you can use it: {discount.EndDate:dd.MM.yyyy}",
                             Type = NotificationType.Hot,
                             SubjectId = discount.Id,
                             Date = DateTime.UtcNow,

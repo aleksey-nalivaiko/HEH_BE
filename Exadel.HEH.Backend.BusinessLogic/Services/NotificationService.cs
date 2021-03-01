@@ -48,16 +48,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return _mapper.ProjectTo<NotificationDto>(notifications);
         }
 
-        public async Task<NotificationDto> GetByIdAsync(Guid id)
-        {
-            var notification = await _notificationRepository.GetByIdAsync(id);
-            notification.IsRead = true;
-
-            await _notificationRepository.UpdateAsync(notification);
-
-            return _mapper.Map<NotificationDto>(notification);
-        }
-
         public async Task<int> GetNotReadCountAsync()
         {
             var userId = _userProvider.GetUserId();
@@ -79,6 +69,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 : await _userService.GetUsersWithNotificationsAsync(
                     vendor.CategoriesIds,
                     vendor.TagsIds,
+                    vendor.Addresses,
                     expression))
                 .ToList();
 
@@ -107,12 +98,33 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             }
         }
 
+        public async Task UpdateIsReadAsync(Guid id)
+        {
+            var notification = await _notificationRepository.GetByIdAsync(id);
+            notification.IsRead = true;
+
+            await _notificationRepository.UpdateAsync(notification);
+        }
+
+        public async Task UpdateAreReadAsync()
+        {
+            var userId = _userProvider.GetUserId();
+
+            var notifications = (await _notificationRepository.GetAsync(
+                    n => n.UserId == userId && !n.IsRead)).ToList();
+
+            notifications.ForEach(n => n.IsRead = true);
+
+            await _notificationRepository.UpdateManyAsync(notifications);
+        }
+
         public async Task CreateDiscountNotificationsAsync(Discount discount)
         {
             var users = (await _userService.GetUsersWithNotificationsAsync(
                     discount.CategoryId,
                     discount.TagsIds,
                     discount.VendorId,
+                    discount.Addresses,
                     u => u.IsActive && u.AllNotificationsAreOn && u.NewDiscountNotificationIsOn))
                 .ToList();
 

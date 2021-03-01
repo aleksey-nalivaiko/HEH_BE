@@ -8,7 +8,7 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public Guid CountryId { get; set; }
 
-        public Guid CityId { get; set; }
+        public Guid? CityId { get; set; }
 
         public string Street { get; set; }
     }

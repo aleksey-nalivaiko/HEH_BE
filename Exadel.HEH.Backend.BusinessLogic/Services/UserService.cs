@@ -63,6 +63,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             Guid categoryId,
             IEnumerable<Guid> tagIds,
             Guid vendorId,
+            IList<Address> discountAddresses,
             Expression<Func<User, bool>> expression)
         {
             var users = new List<User>();
@@ -72,12 +73,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 GetWithSubscriptionsAsync(u => u.TagNotifications, expression, tagIds, users),
                 GetWithSubscriptionsAsync(u => u.VendorNotifications, expression, vendorId, users));
 
-            return users.Distinct();
+            return FilterUsers(discountAddresses, users);
         }
 
         public async Task<IEnumerable<User>> GetUsersWithNotificationsAsync(
             IEnumerable<Guid> categoryIds,
             IEnumerable<Guid> tagIds,
+            IList<Address> vendorAddresses,
             Expression<Func<User, bool>> expression)
         {
             var users = new List<User>();
@@ -86,7 +88,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 GetWithSubscriptionsAsync(u => u.CategoryNotifications, expression, categoryIds, users),
                 GetWithSubscriptionsAsync(u => u.TagNotifications, expression, tagIds, users));
 
-            return users.Distinct();
+            return FilterUsers(vendorAddresses, users);
         }
 
         public async Task UpdateNotificationsAsync(UserNotificationDto userNotifications)
@@ -198,6 +200,23 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             users.AddRange(
                 await _userRepository.GetWithSubscriptionsAsync(
                     inField, inValues, expression));
+        }
+
+        private IEnumerable<User> FilterUsers(IList<Address> addresses, IEnumerable<User> users)
+        {
+            var countryCities = addresses
+                .GroupBy(a => a.CountryId)
+                .Select(g =>
+                    new KeyValuePair<Guid, IEnumerable<Guid?>>(
+                        g.Key, g.Select(a => a.CityId).Where(i => i.HasValue)))
+                .ToDictionary(a => a.Key, a => a.Value);
+
+            return users
+                .GroupBy(u => u.Id)
+                .Select(g => g.First())
+                .Where(u => countryCities.ContainsKey(u.Address.CountryId)
+                            && (!countryCities[u.Address.CountryId].Any()
+                                || countryCities[u.Address.CountryId].Contains(u.Address.CityId)));
         }
     }
 }

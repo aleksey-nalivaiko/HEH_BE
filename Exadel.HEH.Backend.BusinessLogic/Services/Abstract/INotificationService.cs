@@ -12,11 +12,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 
         Task<int> GetNotReadCountAsync();
 
-        Task<NotificationDto> GetByIdAsync(Guid id);
-
         Task CreateDiscountNotificationsAsync(Discount discount);
 
         Task CreateVendorNotificationsAsync(Guid vendorId);
+
+        Task UpdateIsReadAsync(Guid id);
+
+        Task UpdateAreReadAsync();
 
         Task RemoveDiscountNotificationsAsync(Guid discountId);
 

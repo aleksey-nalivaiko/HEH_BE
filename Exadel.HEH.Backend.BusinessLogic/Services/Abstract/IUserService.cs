@@ -22,11 +22,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
             Guid categoryId,
             IEnumerable<Guid> tagIds,
             Guid vendorId,
+            IList<Address> discountAddresses,
             Expression<Func<User, bool>> expression);
 
         Task<IEnumerable<User>> GetUsersWithNotificationsAsync(
             IEnumerable<Guid> categoryIds,
             IEnumerable<Guid> tagIds,
+            IList<Address> vendorAddresses,
             Expression<Func<User, bool>> expression);
 
         Task UpdateStatusAsync(Guid id, bool isActive);

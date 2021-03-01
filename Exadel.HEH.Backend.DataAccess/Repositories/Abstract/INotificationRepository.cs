@@ -15,6 +15,8 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories.Abstract
 
         Task CreateManyAsync(IEnumerable<Notification> notifications);
 
+        Task UpdateManyAsync(IEnumerable<Notification> notifications);
+
         Task RemoveAsync(Expression<Func<Notification, bool>> expression);
     }
 }

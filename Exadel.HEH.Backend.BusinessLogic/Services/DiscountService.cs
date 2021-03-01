@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
@@ -73,7 +72,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task<IQueryable<DiscountDto>> GetAsync(string searchText)
         {
-            var discounts = await _searchService.SearchAsync(searchText);
+            var nowDate = DateTime.UtcNow.Date;
+
+            var discounts = (await _searchService.SearchAsync(searchText))
+                .Where(d => d.StartDate <= nowDate && d.EndDate >= nowDate);
 
             var discountsDto = _mapper.Map<IEnumerable<DiscountDto>>(discounts);
             var discountsDtoList = discountsDto.ToList();
@@ -114,7 +116,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return discountDto;
         }
 
-        public IQueryable<DiscountDto> GetHot()
+        public IQueryable<Discount> GetHot()
         {
             var nowDate = DateTime.UtcNow.Date;
 
@@ -124,7 +126,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var hotDiscounts = _discountRepository.Get()
                 .Where(d => d.EndDate >= nowDate && d.EndDate < supposedEndDate);
 
-            return hotDiscounts.ProjectTo<DiscountDto>(_mapper.ConfigurationProvider);
+            return hotDiscounts;
         }
 
         public async Task CreateManyAsync(IEnumerable<Discount> discounts)

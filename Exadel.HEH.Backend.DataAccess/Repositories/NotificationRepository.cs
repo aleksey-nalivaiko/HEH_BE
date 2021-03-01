@@ -30,6 +30,11 @@ namespace Exadel.HEH.Backend.DataAccess.Repositories
             return Context.CreateManyAsync(notifications);
         }
 
+        public Task UpdateManyAsync(IEnumerable<Notification> notifications)
+        {
+            return Context.UpdateManyAsync(notifications);
+        }
+
         public Task RemoveAsync(Expression<Func<Notification, bool>> expression)
         {
             return Context.RemoveAsync(expression);

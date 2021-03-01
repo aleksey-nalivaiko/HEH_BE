@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 
@@ -25,6 +26,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
         {
             var result = await _discountRepository.GetByIdAsync(discountId);
             return result is null;
+        }
+
+        public bool EndDateLaterThanStartDate(DiscountShortDto discount)
+        {
+            if (discount.EndDate != null)
+            {
+                return discount.EndDate.Value.Date >= discount.StartDate.Date;
+            }
+
+            return true;
         }
     }
 }
