@@ -124,7 +124,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .NotNull()
                 .NotEmpty()
                 .WithName("AddressId")
-                .When(v => v.Discounts != null);
+                .When(v => v.Discounts != null && v.Discounts.Any());
 
             RuleForEach(v => v.Discounts.Select(d => d.AddressesIds))
                 .NotNull()
@@ -132,25 +132,25 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .Must((vendor, addresses) => vendorValidationService.AddressesIdsAreUnique(addresses))
                 .WithMessage("There are addresses with same id.")
                 .WithName("AddressId")
-                .When(v => v.Discounts != null);
+                .When(v => v.Discounts != null && v.Discounts.Any());
 
             RuleForEach(v => v.Discounts.Select(d => d.PhonesIds))
                 .Must((vendor, phones) => vendorValidationService.PhonesAreUnique(phones))
                 .WithMessage("There are phones with same id.")
                 .WithName("PhoneId")
-                .When(v => v.Discounts != null);
+                .When(v => v.Discounts != null && v.Discounts.Any());
 
             RuleFor(v => v.Discounts)
                 .Must(vendorValidationService.AddressesAreFromVendor)
                 .WithMessage("Vendor does not contain addresses defined in discounts.")
                 .MustAsync(vendorValidationService.PhonesAreFromVendorAsync)
                 .WithMessage("Vendor does not contain phones defined in discounts.")
-                .When(v => v.Discounts != null);
+                .When(v => v.Discounts != null && v.Discounts.Any());
 
             RuleForEach(v => v.Discounts)
                 .Must(discountValidationService.EndDateLaterThanStartDate)
                 .WithMessage("End date must be equal or greater than start date.")
-                .When(v => v.Discounts != null);
+                .When(v => v.Discounts != null && v.Discounts.Any());
 
             RuleForEach(v => v.Discounts.Select(d => d.Conditions))
                 .Cascade(CascadeMode.Stop)
@@ -158,14 +158,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .NotEmpty()
                 .MaximumLength(255)
                 .WithName("Conditions")
-                .When(v => v.Discounts != null);
+                .When(v => v.Discounts != null && v.Discounts.Any());
 
             RuleForEach(v => v.Discounts.Select(d => d.PromoCode))
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(50)
                 .WithName("Promocode")
-                .When(v => v.Discounts != null);
+                .When(v => v.Discounts != null && v.Discounts.Any());
 
             RuleForEach(v => v.Discounts.Select(d => d.CategoryId))
                 .NotNull()
@@ -173,13 +173,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .MustAsync(categoryValidationService.CategoryExistsAsync)
                 .WithMessage("Category doesn't exist.")
                 .WithName("Category")
-                .When(v => v.Discounts != null);
+                .When(v => v.Discounts != null && v.Discounts.Any());
 
             RuleForEach(v => v.Discounts.Select(d => d.TagsIds))
                 .MustAsync(tagValidationService.TagsExistsAsync)
                 .WithMessage("Some of provided tags don't exist.")
                 .WithName("Tags")
-                .When(v => v.Discounts != null);
+                .When(v => v.Discounts != null && v.Discounts.Any());
         }
     }
 }

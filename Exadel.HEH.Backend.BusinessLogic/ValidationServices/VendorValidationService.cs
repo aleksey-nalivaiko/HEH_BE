@@ -105,8 +105,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
 
         public bool PhonesAreUnique(IEnumerable<int> phonesIds)
         {
-            var phonesIdsList = phonesIds.ToList();
-            return phonesIdsList.Count == phonesIdsList.Distinct().Count();
+            if (phonesIds != null)
+            {
+                var phonesIdsList = phonesIds.ToList();
+                return phonesIdsList.Count == phonesIdsList.Distinct().Count();
+            }
+
+            return true;
         }
 
         public async Task<bool> PhonesAreFromVendorAsync(VendorDto vendor,
