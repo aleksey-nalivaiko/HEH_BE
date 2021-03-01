@@ -14,6 +14,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
     [Authorize(Roles = nameof(UserRole.Employee))]
     public class UserController : ControllerBase
     {
+        private const string ImageName = "Photo.jpeg";
+        private const int CacheAge = 24 * 60 * 60;
+
         private readonly IUserService _userService;
         private readonly IUserValidationService _validationService;
 
@@ -33,6 +36,28 @@ namespace Exadel.HEH.Backend.Host.Controllers
             }
 
             return NotFound();
+        }
+
+        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = CacheAge)]
+        [HttpGet("photo/{id:guid}")]
+        [Authorize(Roles = nameof(UserRole.Administrator))]
+        public async Task<IActionResult> GetPhotoByIdAsync(Guid id)
+        {
+            if (await _validationService.UserExists(id))
+            {
+                var image = await _userService.GetPhotoAsync(id);
+                return File(image.Content, image.ContentType, ImageName);
+            }
+
+            return NotFound();
+        }
+
+        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = CacheAge)]
+        [HttpGet("photo")]
+        public async Task<IActionResult> GetPhotoAsync()
+        {
+            var image = await _userService.GetPhotoAsync();
+            return File(image.Content, image.ContentType, ImageName);
         }
 
         [HttpGet("profile")]

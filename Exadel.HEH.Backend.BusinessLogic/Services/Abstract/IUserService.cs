@@ -18,6 +18,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
 
         Task<UserDto> GetProfileAsync();
 
+        Task<Image> GetPhotoAsync(Guid id);
+
+        Task<Image> GetPhotoAsync();
+
         Task<IEnumerable<User>> GetUsersWithNotificationsAsync(
             Guid categoryId,
             IEnumerable<Guid> tagIds,

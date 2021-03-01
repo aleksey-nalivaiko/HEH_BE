@@ -16,7 +16,5 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs
         public AddressDto Address { get; set; }
 
         public bool IsActive { get; set; }
-
-        public string Img { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
     public class UserService : IUserService
     {
+        private const string ImageContentType = "image/jpeg";
+
         private readonly IUserRepository _userRepository;
         private readonly IUserProvider _userProvider;
         private readonly IHistoryService _historyService;
@@ -55,8 +57,30 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task<UserDto> GetProfileAsync()
         {
-            var result = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
-            return _mapper.Map<UserDto>(result);
+            var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
+            return _mapper.Map<UserDto>(user);
+        }
+
+        public async Task<Image> GetPhotoAsync(Guid id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+
+            return new Image
+            {
+                Content = Convert.FromBase64String(user.Photo),
+                ContentType = ImageContentType
+            };
+        }
+
+        public async Task<Image> GetPhotoAsync()
+        {
+            var user = await _userRepository.GetByIdAsync(_userProvider.GetUserId());
+
+            return new Image
+            {
+                Content = Convert.FromBase64String(user.Photo),
+                ContentType = ImageContentType
+            };
         }
 
         public async Task<IEnumerable<User>> GetUsersWithNotificationsAsync(
