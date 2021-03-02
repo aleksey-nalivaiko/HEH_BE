@@ -54,7 +54,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [EnableCors("CorsForUI")]
-        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = CacheAge)]
+        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = CacheAge, VaryByHeader = "Authorization")]
         [HttpGet("photo")]
         [Authorize(Roles = nameof(UserRole.Employee))]
         public async Task<IActionResult> GetPhotoAsync()
