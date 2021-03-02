@@ -17,9 +17,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     {
         private readonly CategoryService _service;
         private readonly List<TagDto> _tagData;
-        private List<Category> _testCategories;
-        private List<TagDto> _testTags;
-        private Category _testCategory;
+        private List<Category> _categories;
+        private List<TagDto> _tags;
+        private Category _category;
 
         public CategoryServiceTests()
         {
@@ -36,6 +36,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
             categoryRepository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
+
+            categoryRepository.Setup(r => r.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>()))
+                .Returns((IEnumerable<Guid> ids) => Task.FromResult(Data.Where(x => ids.Contains(x.Id))));
 
             categoryRepository.Setup(r => r.CreateAsync(It.IsAny<Category>()))
                 .Callback((Category item) => { Data.Add(item); })
@@ -57,7 +60,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 .Callback((Guid id) => { Data.RemoveAll(d => d.Id == id); })
                 .Returns(Task.CompletedTask);
 
-            _service = new CategoryService(categoryRepository.Object, historyService.Object, tagService.Object, MapperExtensions.Mapper,
+            _service = new CategoryService(categoryRepository.Object, historyService.Object,
+                tagService.Object, MapperExtensions.Mapper,
                 userService.Object);
 
             _tagData = new List<TagDto>();
@@ -68,13 +72,40 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         [Fact]
         public async Task CanGetCategoriesWithTagsAsync()
         {
-            Data.AddRange(_testCategories);
-            _tagData.AddRange(_testTags);
+            Data.AddRange(_categories);
+            _tagData.AddRange(_tags);
 
             var result = await _service.GetCategoriesWithTagsAsync();
 
             Assert.Collection(result, category => Assert.Collection(category.Tags, Assert.NotNull, Assert.NotNull),
                 category => Assert.Single(category.Tags));
+        }
+
+        [Fact]
+        public async Task CanGetByIdAsync()
+        {
+            Data.Add(_category);
+
+            var result = await _service.GetByIdAsync(_category.Id);
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task CanGetByIdsAsync()
+        {
+            Data.Add(_category);
+
+            var category = new Category
+            {
+                Id = Guid.NewGuid(),
+                Name = "Food"
+            };
+            Data.Add(category);
+
+            var result = await _service.GetByIdsAsync(new List<Guid> { _category.Id, category.Id });
+
+            Assert.NotNull(result);
         }
 
         [Fact]
@@ -94,33 +125,33 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         [Fact]
         public async Task CanUpdateAsync()
         {
-            Data.Add(_testCategory);
+            Data.Add(_category);
             var newCategory = new CategoryDto
             {
-                Id = _testCategory.Id,
+                Id = _category.Id,
                 Name = "NewCategoryName"
             };
 
             await _service.UpdateAsync(newCategory);
-            Assert.Equal("NewCategoryName", Data.Single(x => x.Id == _testCategory.Id).Name);
+            Assert.Equal("NewCategoryName", Data.Single(x => x.Id == _category.Id).Name);
         }
 
         [Fact]
         public async Task CanRemoveAsync()
         {
-            Data.Add(_testCategory);
-            await _service.RemoveAsync(_testCategory.Id);
+            Data.Add(_category);
+            await _service.RemoveAsync(_category.Id);
             Assert.Empty(Data);
         }
 
         private void InitTestData()
         {
-            _testCategory = new Category
+            _category = new Category
             {
                 Id = Guid.NewGuid(),
                 Name = "ACategoryName"
             };
-            _testCategories = new List<Category>
+            _categories = new List<Category>
             {
                 new Category
                 {
@@ -133,25 +164,25 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                     Name = "Category2"
                 }
             };
-            _testTags = new List<TagDto>
+            _tags = new List<TagDto>
             {
                 new TagDto
                 {
                     Id = Guid.NewGuid(),
                     Name = "Tag1",
-                    CategoryId = _testCategories[0].Id
+                    CategoryId = _categories[0].Id
                 },
                 new TagDto
                 {
                     Id = Guid.NewGuid(),
                     Name = "Tag2",
-                    CategoryId = _testCategories[0].Id
+                    CategoryId = _categories[0].Id
                 },
                 new TagDto
                 {
                     Id = Guid.NewGuid(),
                     Name = "Tag3",
-                    CategoryId = _testCategories[1].Id
+                    CategoryId = _categories[1].Id
                 }
             };
         }
