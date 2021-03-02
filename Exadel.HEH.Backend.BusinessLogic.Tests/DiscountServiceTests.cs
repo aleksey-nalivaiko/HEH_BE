@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
+using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Microsoft.Extensions.Options;
@@ -35,12 +37,36 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 historyService.Object, statisticsService.Object, notificationOptions.Object,
                 notificationManager.Object);
 
+            repository.Setup(r => r.Get())
+                .Returns(() => Data.AsQueryable());
+
             repository.Setup(r => r.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<Discount>)Data));
 
             repository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(Data.FirstOrDefault(x => x.Id == id)));
             InitTestData();
+
+            repository.Setup(c => c.RemoveAsync(It.IsAny<Expression<Func<Discount, bool>>>()))
+                .Callback((Expression<Func<Discount, bool>> expression) =>
+                {
+                    Data.RemoveAll(d => expression.Compile()(d));
+                })
+                .Returns(Task.CompletedTask);
+
+            repository.Setup(c => c.CreateManyAsync(It.IsAny<IEnumerable<Discount>>()))
+                .Callback((IEnumerable<Discount> discounts) =>
+                {
+                    Data.AddRange(discounts);
+                })
+                .Returns(Task.CompletedTask);
+
+            repository.Setup(c => c.CreateManyAsync(It.IsAny<IEnumerable<Discount>>()))
+                .Callback((IEnumerable<Discount> discounts) =>
+                {
+                    Data.AddRange(discounts);
+                })
+                .Returns(Task.CompletedTask);
 
             favoritesService.Setup(s => s.DiscountsAreInFavorites(It.IsAny<IEnumerable<Guid>>()))
                 .Returns((IEnumerable<Guid> discountsIds) =>
@@ -51,6 +77,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
             vendorRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid vendorId) => Task.FromResult(_vendor));
+
+            searchService.Setup(s => s.SearchAsync(default))
+                .Returns(Task.FromResult((IEnumerable<Discount>)Data));
+
+            notificationOptions.Setup(o => o.Value).Returns(new NotificationOptions
+            {
+                HotDiscountDaysLeft = 1,
+                HotDiscountWeekendDaysLeft = 3
+            });
         }
 
         [Fact]
@@ -62,11 +97,57 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         }
 
         [Fact]
+        public async Task CanGetAsync()
+        {
+            Data.Add(_discount);
+            var result = await _service.GetAsync(default);
+            Assert.Single(result);
+        }
+
+        [Fact]
         public async Task CanGetById()
         {
             Data.Add(_discount);
             var result = await _service.GetByIdAsync(_discount.Id);
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void CanGetHot()
+        {
+            Data.Add(_discount);
+            var result = _service.GetHot();
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public async Task CanCreateManyAsync()
+        {
+            await _service.CreateManyAsync(new List<Discount> { _discount });
+            var discount = Data.FirstOrDefault(x => x.Id == _discount.Id);
+
+            Assert.NotNull(discount);
+        }
+
+        [Fact]
+        public async Task CanUpdateManyAsync()
+        {
+            Data.Add(_discount.DeepClone());
+
+            _discount.PromoCode = "new promo code";
+            await _service.UpdateManyAsync(new List<Discount> { _discount });
+
+            Assert.True(Data.Single(x => x.Id == _discount.Id).PromoCode.Equals("new promo code"));
+        }
+
+        [Fact]
+        public async Task CanRemoveAsync()
+        {
+            Data.Add(_discount);
+
+            await _service.RemoveAsync(d => d.VendorId == _discount.VendorId);
+
+            Assert.Empty(Data);
         }
 
         private void InitTestData()
@@ -120,8 +201,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 VendorId = _vendor.Id,
                 VendorName = _vendor.Name,
                 PromoCode = "new promo code",
-                StartDate = new DateTime(2021, 1, 20),
-                EndDate = new DateTime(2021, 1, 25)
+                StartDate = DateTime.UtcNow.Date,
+                EndDate = DateTime.UtcNow.Date
             };
         }
     }
