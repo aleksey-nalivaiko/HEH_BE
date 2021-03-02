@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.DataAccess.Tests
 {
-    public class UserRepositoryTests : MongoRepositoryTests<User>
+    public class UserRepositoryTests : BaseRepositoryTests<User>
     {
         private readonly UserRepository _repository;
 

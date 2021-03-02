@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.DataAccess.Tests
 {
-    public class CategoryRepositoryTests : MongoRepositoryTests<Category>
+    public class CategoryRepositoryTests : BaseRepositoryTests<Category>
     {
         private readonly CategoryRepository _repository;
 

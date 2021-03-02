@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.DataAccess.Tests
 {
-    public class TagRepositoryTests : MongoRepositoryTests<Tag>
+    public class TagRepositoryTests : BaseRepositoryTests<Tag>
     {
         private readonly TagRepository _repository;
         private readonly Tag _tag;

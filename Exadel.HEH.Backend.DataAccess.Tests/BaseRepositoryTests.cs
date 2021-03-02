@@ -8,13 +8,13 @@ using Moq;
 
 namespace Exadel.HEH.Backend.DataAccess.Tests
 {
-    public class MongoRepositoryTests<TDocument>
+    public class BaseRepositoryTests<TDocument>
         where TDocument : class, IDataModel, new()
     {
         protected readonly Mock<IDbContext> Context;
         protected readonly List<TDocument> Collection;
 
-        public MongoRepositoryTests()
+        public BaseRepositoryTests()
         {
             Context = new Mock<IDbContext>();
 

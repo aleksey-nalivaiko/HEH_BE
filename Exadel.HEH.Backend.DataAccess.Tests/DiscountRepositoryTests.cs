@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.DataAccess.Tests
 {
-    public class DiscountRepositoryTests : MongoRepositoryTests<Discount>
+    public class DiscountRepositoryTests : BaseRepositoryTests<Discount>
     {
         private readonly DiscountRepository _repository;
         private Discount _discount;

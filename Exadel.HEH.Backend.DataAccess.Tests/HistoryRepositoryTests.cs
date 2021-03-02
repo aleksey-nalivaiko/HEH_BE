@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.DataAccess.Tests
 {
-    public class HistoryRepositoryTests : MongoRepositoryTests<History>
+    public class HistoryRepositoryTests : BaseRepositoryTests<History>
     {
         private readonly HistoryRepository _repository;
         private readonly History _history;
