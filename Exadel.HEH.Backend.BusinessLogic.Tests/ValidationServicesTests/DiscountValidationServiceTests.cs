@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using Exadel.HEH.Backend.BusinessLogic.DTOs;
+using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -15,6 +18,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
     {
         private readonly DiscountValidationService _validationService;
         private readonly Discount _discount;
+        private readonly IMapper _mapper;
 
         public DiscountValidationServiceTests()
         {
@@ -26,6 +30,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
             discountRepository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns((Guid id) => Task.FromResult(dicountData.FirstOrDefault(d => d.Id == id)));
 
+            _mapper = _mapper = MapperExtensions.Mapper;
             _validationService = new DiscountValidationService(discountRepository.Object);
         }
 
@@ -39,6 +44,17 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
         public async Task CanValidateDiscountNotExists()
         {
             Assert.True(await _validationService.DiscountNotExists(Guid.NewGuid(), CancellationToken.None));
+        }
+
+        [Fact]
+        public async Task CanValidateEndDate()
+        {
+            Assert.True(await Task.FromResult(
+                _validationService.EndDateLaterThanStartDate(_mapper.Map<DiscountShortDto>(_discount))));
+            _discount.StartDate = DateTime.Now;
+            _discount.EndDate = DateTime.Now;
+            Assert.True(await Task.FromResult(
+                _validationService.EndDateLaterThanStartDate(_mapper.Map<DiscountShortDto>(_discount))));
         }
     }
 }

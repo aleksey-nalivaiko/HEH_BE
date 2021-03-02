@@ -148,7 +148,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
 
             discount.AddressesIds = new List<int> { 2 };
 
-            Assert.False(await Task.FromResult(_validationService.AddressesAreFromVendor(_mapper.Map<VendorDto>(_vendor), new List<DiscountShortDto> { discount })));
+            Assert.False(await Task.FromResult(
+                _validationService.AddressesAreFromVendor(_mapper.Map<VendorDto>(_vendor),
+                    new List<DiscountShortDto> { discount })));
         }
 
         [Fact]
@@ -176,6 +178,38 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
             _user.VendorNotifications.Add(vendor.Id);
 
             Assert.False(await _validationService.VendorFromLocationAsync(vendor.Id, CancellationToken.None));
+        }
+
+        [Fact]
+        public async Task CanValidateAddressesAreUnique()
+        {
+            var uniqueAddresses = new List<Address>
+            {
+                _address,
+                _address2
+            };
+
+            var notUniqueAddresses = new List<Address>
+            {
+                _address,
+                _address
+            };
+
+            Assert.True(
+                await Task.FromResult(
+                    _validationService.AddressesAreUnique(_mapper.Map<List<AddressDto>>(uniqueAddresses))));
+            Assert.False(await Task.FromResult(
+                _validationService.AddressesAreUnique(_mapper.Map<List<AddressDto>>(notUniqueAddresses))));
+        }
+
+        [Fact]
+        public async Task CanValidateStreetWithCity()
+        {
+            Assert.True(await Task.FromResult(_validationService.StreetWithCity(_mapper.Map<AddressDto>(_address))));
+            _address.CityId = null;
+            Assert.False(await Task.FromResult(_validationService.StreetWithCity(_mapper.Map<AddressDto>(_address))));
+            _address.Street = string.Empty;
+            Assert.True(await Task.FromResult(_validationService.StreetWithCity(_mapper.Map<AddressDto>(_address))));
         }
 
         private void InitializeData()
