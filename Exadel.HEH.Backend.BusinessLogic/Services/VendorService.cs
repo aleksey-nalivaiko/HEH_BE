@@ -7,7 +7,6 @@ using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
-using Microsoft.AspNet.OData.Query;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
@@ -39,21 +38,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _userService = userService;
         }
 
-        public async Task<IQueryable<VendorSearchDto>> GetAsync(ODataQueryOptions<VendorSearchDto> options,
-            string searchText)
+        public async Task<IQueryable<VendorSearchDto>> GetAsync(string searchText)
         {
             var vendorsSearch = await (searchText != null ?
                 _searchService.SearchAsync(searchText) : _searchService.SearchAsync());
 
-            var vendorsSearchDto = _mapper.Map<IEnumerable<VendorSearchDto>>(vendorsSearch)
+            return _mapper.Map<IEnumerable<VendorSearchDto>>(vendorsSearch)
                 .AsQueryable();
-
-            if (options.Filter != null)
-            {
-                options.ApplyTo(vendorsSearchDto);
-            }
-
-            return vendorsSearchDto;
         }
 
         public async Task<IEnumerable<VendorShortDto>> GetAllFromLocationAsync()
