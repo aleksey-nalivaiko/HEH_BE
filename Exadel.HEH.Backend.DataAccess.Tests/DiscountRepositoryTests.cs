@@ -21,7 +21,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanGetAll()
+        public async Task CanGetAllAsync()
         {
             Collection.Add(_discount);
             var result = await _repository.GetAllAsync();
@@ -30,7 +30,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanGetById()
+        public async Task CanGetByIdAsync()
         {
             Collection.Add(_discount);
             var result = await _repository.GetByIdAsync(_discount.Id);
@@ -39,7 +39,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanGetByIds()
+        public async Task CanGetByIdsAsync()
         {
             Collection.Add(_discount);
             var result = await _repository.GetByIdsAsync(new List<Guid> { _discount.Id });
@@ -48,9 +48,9 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanCreate()
+        public async Task CanCreateManyAsync()
         {
-            await _repository.CreateAsync(_discount);
+            await _repository.CreateManyAsync(new List<Discount> { _discount });
             var discount = Collection.FirstOrDefault(x => x.Id == _discount.Id);
 
             Assert.NotNull(discount);
