@@ -61,6 +61,21 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                     }
                 })
                 .Returns(Task.CompletedTask);
+
+            Context.Setup(c => c.UpdateManyAsync(It.IsAny<IEnumerable<TDocument>>()))
+                .Callback((IEnumerable<TDocument> docs) =>
+                {
+                    foreach (var doc in docs)
+                    {
+                        var oldDoc = Collection.FirstOrDefault(x => x.Id == doc.Id);
+                        if (oldDoc != null)
+                        {
+                            Collection.Remove(oldDoc);
+                            Collection.Add(doc);
+                        }
+                    }
+                })
+                .Returns(Task.CompletedTask);
         }
     }
 }

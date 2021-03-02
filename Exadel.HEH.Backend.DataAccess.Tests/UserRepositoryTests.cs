@@ -44,7 +44,16 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanGetAll()
+        public void CanGet()
+        {
+            Collection.Add(_user);
+
+            var result = _repository.Get();
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public async Task CanGetAllAsync()
         {
             Collection.Add(_user);
 
@@ -53,7 +62,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanGetById()
+        public async Task CanGetByIdAsync()
         {
             Collection.Add(_user);
 
@@ -62,7 +71,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanGetByEmail()
+        public async Task CanGetByEmailAsync()
         {
             Collection.Add(_user);
 
@@ -71,13 +80,19 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanUpdate()
+        public async Task CanUpdateManyAsync()
         {
             Collection.Add(_user.DeepClone());
-            _user.IsActive = false;
+            var user = _user.DeepClone();
+            user.Id = Guid.NewGuid();
+            Collection.Add(user.DeepClone());
 
-            await _repository.UpdateAsync(_user);
-            Assert.False(Collection.Single(x => x.Id == _user.Id).IsActive);
+            _user.CategoryNotifications.RemoveAt(0);
+            user.VendorNotifications.RemoveAt(1);
+
+            await _repository.UpdateManyAsync(new List<User> { user, _user });
+            Assert.Single(Collection.Single(x => x.Id == _user.Id).CategoryNotifications);
+            Assert.Single(Collection.Single(x => x.Id == user.Id).VendorNotifications);
         }
     }
 }
