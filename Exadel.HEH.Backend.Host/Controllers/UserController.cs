@@ -5,13 +5,13 @@ using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = nameof(UserRole.Employee))]
     public class UserController : ControllerBase
     {
         private const string ImageName = "Photo.jpeg";
@@ -38,6 +38,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return NotFound();
         }
 
+        [EnableCors("CorsForUI")]
         [ResponseCache(Location = ResponseCacheLocation.Any, Duration = CacheAge)]
         [HttpGet("photo/{id:guid}")]
         [Authorize(Roles = nameof(UserRole.Administrator))]
@@ -52,8 +53,10 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return NotFound();
         }
 
+        [EnableCors("CorsForUI")]
         [ResponseCache(Location = ResponseCacheLocation.Any, Duration = CacheAge)]
         [HttpGet("photo")]
+        [Authorize(Roles = nameof(UserRole.Employee))]
         public async Task<IActionResult> GetPhotoAsync()
         {
             var image = await _userService.GetPhotoAsync();
@@ -61,12 +64,14 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpGet("profile")]
+        [Authorize(Roles = nameof(UserRole.Employee))]
         public Task<UserDto> GetProfileAsync()
         {
             return _userService.GetProfileAsync();
         }
 
         [HttpPut("profile")]
+        [Authorize(Roles = nameof(UserRole.Employee))]
         public async Task<ActionResult> UpdateNotificationsAsync(UserNotificationDto userNotifications)
         {
             if (ModelState.IsValid)

@@ -128,7 +128,8 @@ namespace Exadel.HEH.Backend.Host
                         builder.WithOrigins(Configuration["CorsOrigins"].Split(','))
                             .AllowCredentials()
                             .AllowAnyMethod()
-                            .AllowAnyHeader();
+                            .AllowAnyHeader()
+                            .WithExposedHeaders("Content-Disposition");
                     });
             });
 
@@ -161,6 +162,8 @@ namespace Exadel.HEH.Backend.Host
                 }
             });
 
+            app.UseCors("CorsForUI");
+
             app.UseHttpsRedirection();
 
             app.UseSerilogRequestLogging();
@@ -169,8 +172,6 @@ namespace Exadel.HEH.Backend.Host
 
             app.UseODataRouting();
             app.UseRouting();
-
-            app.UseCors("CorsForUI");
 
             app.UseIdentityServer();
             app.UseAuthentication();
