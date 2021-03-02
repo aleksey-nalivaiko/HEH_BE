@@ -75,7 +75,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             var nowDate = DateTime.UtcNow.Date;
 
             var discounts = (await _searchService.SearchAsync(searchText))
-                .Where(d => d.StartDate <= nowDate && d.EndDate >= nowDate);
+                .Where(d => d.StartDate <= nowDate && (d.EndDate == null || d.EndDate >= nowDate));
 
             var discountsDto = _mapper.Map<IEnumerable<DiscountDto>>(discounts);
             var discountsDtoList = discountsDto.ToList();
