@@ -50,7 +50,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             if (options.Filter != null)
             {
-                options.ApplyTo(discountsQueryable);
+                return options.ApplyTo(discountsQueryable) as IQueryable<DiscountStatisticsDto>;
             }
 
             return discountsQueryable;

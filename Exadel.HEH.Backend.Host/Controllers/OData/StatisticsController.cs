@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
@@ -17,16 +16,11 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
     [ODataAuthorize(Roles = nameof(UserRole.Administrator))]
     public class StatisticsController : ODataController
     {
-        private const string FileName = "Statistics.xlsx";
-        private const string FileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-
         private readonly IStatisticsService _statisticsService;
-        private readonly IExportService _exportService;
 
-        public StatisticsController(IStatisticsService statisticsService, IExportService exportService)
+        public StatisticsController(IStatisticsService statisticsService)
         {
             _statisticsService = statisticsService;
-            _exportService = exportService;
         }
 
         [EnableQuery(
@@ -40,14 +34,16 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             return _statisticsService.GetStatisticsAsync(options, searchText, startDate, endDate);
         }
 
+        [EnableQuery(
+            HandleNullPropagation = HandleNullPropagationOption.False,
+            EnsureStableOrdering = false)]
         [HttpGet]
-        public async Task<FileResult> Excel([FromQuery] string searchText,
+        [ODataActionFilter]
+        public Task<IQueryable<DiscountStatisticsDto>> Excel([FromQuery] string searchText,
             [FromQuery] DateTime startDate, [FromQuery] DateTime endDate,
             ODataQueryOptions<DiscountStatisticsDto> options)
         {
-            var stream = await _exportService.GetFileAsync(options, searchText, startDate, endDate);
-
-            return File(stream, FileType, FileName);
+            return _statisticsService.GetStatisticsAsync(options, searchText, startDate, endDate);
         }
     }
 }

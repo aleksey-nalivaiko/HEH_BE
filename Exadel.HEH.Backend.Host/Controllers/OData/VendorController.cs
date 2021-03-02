@@ -25,10 +25,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
         [EnableQuery(HandleNullPropagation = HandleNullPropagationOption.False,
             EnsureStableOrdering = false)]
         [ODataRoute]
-        public Task<IQueryable<VendorSearchDto>> GetAsync([FromQuery] string searchText,
-            ODataQueryOptions<VendorSearchDto> options)
+        public Task<IQueryable<VendorSearchDto>> GetAsync([FromQuery] string searchText)
         {
-            return _vendorService.GetAsync(options, searchText);
+            return _vendorService.GetAsync(searchText);
         }
     }
 }
