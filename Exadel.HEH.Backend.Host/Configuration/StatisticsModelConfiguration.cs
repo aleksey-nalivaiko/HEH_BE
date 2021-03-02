@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNetCore.Mvc;

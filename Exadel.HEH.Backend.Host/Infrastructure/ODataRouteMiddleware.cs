@@ -12,7 +12,6 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
             ["/odata/Vendor"] = new[] { "searchText" },
             ["/odata/Statistics"] = new[] { "searchText", "startDate", "endDate" },
             ["/odata/Statistics/Excel"] = new[] { "searchText", "startDate", "endDate" },
-            ["/odata/Statistics/Excel2"] = new[] { "searchText", "startDate", "endDate" },
             ["/odata/Favorites"] = new[] { "searchText" }
         };
 
