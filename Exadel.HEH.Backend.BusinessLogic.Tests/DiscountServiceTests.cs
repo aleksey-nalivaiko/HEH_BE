@@ -29,13 +29,19 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var searchService = new Mock<ISearchService<Discount, Discount>>();
             var historyService = new Mock<IHistoryService>();
             var statisticsService = new Mock<IStatisticsService>();
-            var notificationOptions = new Mock<IOptions<NotificationOptions>>();
-            var notificationManager = new Mock<INotificationService>();
+            var notificationService = new Mock<INotificationService>();
+
+            var notificationOptions = new NotificationOptions
+            {
+                HotDiscountDaysLeft = 1,
+                HotDiscountWeekendDaysLeft = 3
+            };
+            var options = new OptionsWrapper<NotificationOptions>(notificationOptions);
 
             _service = new DiscountService(repository.Object, favoritesService.Object,
                 vendorRepository.Object, Mapper, searchService.Object,
-                historyService.Object, statisticsService.Object, notificationOptions.Object,
-                notificationManager.Object);
+                historyService.Object, statisticsService.Object, options,
+                notificationService.Object);
 
             repository.Setup(r => r.Get())
                 .Returns(() => Data.AsQueryable());
@@ -80,12 +86,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
             searchService.Setup(s => s.SearchAsync(default))
                 .Returns(Task.FromResult((IEnumerable<Discount>)Data));
-
-            notificationOptions.Setup(o => o.Value).Returns(new NotificationOptions
-            {
-                HotDiscountDaysLeft = 1,
-                HotDiscountWeekendDaysLeft = 3
-            });
         }
 
         [Fact]
