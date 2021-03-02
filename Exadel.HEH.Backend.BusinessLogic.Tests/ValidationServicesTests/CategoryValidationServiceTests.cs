@@ -33,7 +33,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
             var discount = new Discount { CategoryId = _category.Id };
             discountData.Add(discount);
 
-            categoryRepository.Setup(r => r.GetAsync(x => x.Name == _category.Name))
+            categoryRepository.Setup(r =>
+                    r.GetAsync(It.IsAny<System.Linq.Expressions.Expression<Func<Category, bool>>>()))
                 .Returns(() => Task.FromResult((IEnumerable<Category>)categoryData));
 
             categoryRepository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
@@ -61,7 +62,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
         [Fact]
         public async Task CanValidateCategoryNameNotExists()
         {
-            Assert.True(await _validationService.CategoryNameNotExistsAsync("Different name", CancellationToken.None));
+            Assert.False(await _validationService.CategoryNameNotExistsAsync("Different name", CancellationToken.None));
         }
 
         [Fact]
@@ -69,7 +70,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
         {
             Assert.True(await _validationService.CategoryNameChangedAndNotExistsAsync(_category.Id, _category.Name,
                     new CancellationToken(default)));
-            Assert.True(await _validationService.CategoryNameChangedAndNotExistsAsync(_category.Id, "Different name",
+            Assert.False(await _validationService.CategoryNameChangedAndNotExistsAsync(_category.Id, "Different name",
                     new CancellationToken(default)));
         }
 

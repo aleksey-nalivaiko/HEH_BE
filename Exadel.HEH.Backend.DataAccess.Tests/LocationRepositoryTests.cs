@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.DataAccess.Tests
 {
-    public class LocationRepositoryTests : MongoRepositoryTests<Location>
+    public class LocationRepositoryTests : BaseRepositoryTests<Location>
     {
         private readonly LocationRepository _repository;
 
