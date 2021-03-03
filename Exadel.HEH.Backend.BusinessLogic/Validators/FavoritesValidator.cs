@@ -6,13 +6,14 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
 {
     public class FavoritesValidator : AbstractValidator<FavoritesShortDto>
     {
-        public FavoritesValidator(IFavoritesValidationService favoritesValidationService)
+        public FavoritesValidator(IFavoritesValidationService favoritesValidationService,
+            IDiscountValidationService discountValidationService)
         {
             RuleFor(f => f.DiscountId)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .NotNull()
-                .MustAsync(favoritesValidationService.DiscountExists)
+                .MustAsync(discountValidationService.DiscountExists)
                 .WithMessage("Discount with this id doesn't exists.")
                 .MustAsync(favoritesValidationService.UserFavoritesNotExists)
                 .WithMessage("Such favorites already exists.");

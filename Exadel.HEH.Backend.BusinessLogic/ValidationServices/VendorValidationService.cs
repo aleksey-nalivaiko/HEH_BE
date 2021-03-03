@@ -166,7 +166,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
             return true;
         }
 
-        public Task<bool> VendorNameExists(string vendorName, CancellationToken token)
+        public Task<bool> VendorNameNotExists(string vendorName, CancellationToken token)
         {
             var vendor = _vendorRepository.Get().FirstOrDefault(x => x.Name == vendorName);
 

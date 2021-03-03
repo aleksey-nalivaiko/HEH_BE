@@ -11,6 +11,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
             ITagValidationService tagValidationService,
             IVendorValidationService vendorValidationService)
         {
+            CascadeMode = CascadeMode.Stop;
+
             RuleForEach(n => n.TagNotifications)
                 .MustAsync(tagValidationService.TagExistsAsync)
                 .WithMessage("Some of tags don't exist")

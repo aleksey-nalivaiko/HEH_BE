@@ -39,7 +39,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                     .WithMessage("Vendor with this id already exists.");
 
                 RuleFor(v => v.Name)
-                    .MustAsync(vendorValidationService.VendorNameExists)
+                    .MustAsync(vendorValidationService.VendorNameNotExists)
                     .WithMessage("Such vendor name already exists");
 
                 RuleForEach(v => v.Discounts.Select(d => d.Id))
@@ -73,6 +73,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .WithMessage("There are phones with same id.")
                 .When(v => v.Phones != null)
                 .WithName("PhoneId");
+
+            RuleForEach(v => v.Phones.Select(p => p.Number))
+                .NotEmpty()
+                .NotNull()
+                .When(v => v.Phones != null)
+                .WithName("PhoneNumber");
 
             RuleFor(v => v.Addresses)
                 .NotNull()
@@ -120,12 +126,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .WithMessage("Address(es) cannot be removed: they are used in discount(s).")
                 .When(dto => methodType == "PUT");
 
-            RuleFor(v => v.Discounts.Select(d => d.AddressesIds))
-                .NotNull()
-                .NotEmpty()
-                .WithName("AddressId")
-                .When(v => v.Discounts != null && v.Discounts.Any());
-
             RuleForEach(v => v.Discounts.Select(d => d.AddressesIds))
                 .NotNull()
                 .NotEmpty()
@@ -153,7 +153,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .When(v => v.Discounts != null && v.Discounts.Any());
 
             RuleForEach(v => v.Discounts.Select(d => d.Conditions))
-                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(255)

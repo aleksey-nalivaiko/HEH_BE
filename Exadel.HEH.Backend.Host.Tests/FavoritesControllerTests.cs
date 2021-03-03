@@ -24,8 +24,9 @@ namespace Exadel.HEH.Backend.Host.Tests
         {
             var service = new Mock<IFavoritesService>();
             var validationService = new Mock<IFavoritesValidationService>();
+            var discountValidationService = new Mock<IDiscountValidationService>();
 
-            _controller = new FavoritesController(service.Object, validationService.Object);
+            _controller = new FavoritesController(service.Object, validationService.Object, discountValidationService.Object);
             _data = new List<FavoritesDto>();
             _dataCreateUpdate = new List<FavoritesShortDto>();
             InitTestData();
@@ -53,7 +54,7 @@ namespace Exadel.HEH.Backend.Host.Tests
                 .Callback((Guid id) => { _data.RemoveAll(d => d.Id == id); })
                 .Returns(Task.CompletedTask);
 
-            validationService.Setup(v => v.DiscountExists(It.IsAny<Guid>(), default))
+            discountValidationService.Setup(v => v.DiscountExists(It.IsAny<Guid>(), default))
                 .Returns((Guid id, CancellationToken token) =>
                     Task.FromResult(_data.FirstOrDefault(d => d.Id == id) != null));
 
