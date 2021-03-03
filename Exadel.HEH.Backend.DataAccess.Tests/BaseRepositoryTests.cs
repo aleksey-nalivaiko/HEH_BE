@@ -50,6 +50,13 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                 })
                 .Returns(Task.CompletedTask);
 
+            Context.Setup(c => c.CreateManyAsync(It.IsAny<IEnumerable<TDocument>>()))
+                .Callback((IEnumerable<TDocument> docs) =>
+                {
+                    Collection.AddRange(docs);
+                })
+                .Returns(Task.CompletedTask);
+
             Context.Setup(c => c.UpdateAsync(It.IsAny<TDocument>()))
                 .Callback((TDocument doc) =>
                 {

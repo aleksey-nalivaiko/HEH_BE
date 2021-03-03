@@ -5,9 +5,5 @@
         public int HotDiscountDaysLeft { get; set; }
 
         public int HotDiscountWeekendDaysLeft { get; set; }
-
-        public int HotNotificationFrequency { get; set; }
-
-        public int NewNotificationFrequency { get; set; }
     }
 }
