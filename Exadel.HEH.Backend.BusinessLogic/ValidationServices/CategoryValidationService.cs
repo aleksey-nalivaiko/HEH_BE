@@ -40,7 +40,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
         public Task<bool> CategoryNameNotExistsAsync(string category,
             CancellationToken token = default)
         {
-            return CategoryNameExistsAsync(category);
+            return InnerCategoryNameNotExistsAsync(category);
         }
 
         public async Task<bool> CategoryNameChangedAndNotExistsAsync(Guid categoryId, string category,
@@ -53,10 +53,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
                 return true;
             }
 
-            return await CategoryNameExistsAsync(category);
+            return await InnerCategoryNameNotExistsAsync(category);
         }
 
-        private async Task<bool> CategoryNameExistsAsync(string category)
+        private async Task<bool> InnerCategoryNameNotExistsAsync(string category)
         {
             var categories = await _categoryRepository.GetAsync(c => c.Name == category);
 

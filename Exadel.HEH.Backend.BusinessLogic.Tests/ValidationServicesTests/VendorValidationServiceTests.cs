@@ -88,13 +88,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
         [Fact]
         public async Task CanValidateVendorNameExists()
         {
-            Assert.False(await _validationService.VendorNameExists(_vendor.Name, CancellationToken.None));
+            Assert.False(await _validationService.VendorNameNotExists(_vendor.Name, CancellationToken.None));
         }
 
         [Fact]
         public async Task CanValidateVendorNameNotExists()
         {
-            Assert.True(await _validationService.VendorNameExists("Different name", CancellationToken.None));
+            Assert.True(await _validationService.VendorNameNotExists("Different name", CancellationToken.None));
         }
 
         [Fact]

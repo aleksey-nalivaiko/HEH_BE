@@ -29,7 +29,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract
             IEnumerable<DiscountShortDto> discounts,
             CancellationToken cancellationToken = default);
 
-        Task<bool> VendorNameExists(string vendorName, CancellationToken token);
+        Task<bool> VendorNameNotExists(string vendorName, CancellationToken token);
 
         Task<bool> VendorNameChangedAndNotExists(Guid vendorId, string vendorName, CancellationToken token);
 

@@ -15,13 +15,16 @@ namespace Exadel.HEH.Backend.Host.Controllers
     public class FavoritesController : ControllerBase
     {
         private readonly IFavoritesService _favoritesService;
-        private readonly IFavoritesValidationService _validationService;
+        private readonly IFavoritesValidationService _favoritesValidationService;
+        private readonly IDiscountValidationService _discountValidationService;
 
         public FavoritesController(IFavoritesService favoritesService,
-            IFavoritesValidationService validationService)
+            IFavoritesValidationService favoritesValidationService,
+            IDiscountValidationService discountValidationService)
         {
             _favoritesService = favoritesService;
-            _validationService = validationService;
+            _favoritesValidationService = favoritesValidationService;
+            _discountValidationService = discountValidationService;
         }
 
         [HttpPost]
@@ -51,8 +54,8 @@ namespace Exadel.HEH.Backend.Host.Controllers
         [HttpDelete("{discountId:guid}")]
         public async Task<ActionResult> RemoveAsync(Guid discountId)
         {
-            if (await _validationService.DiscountExists(discountId)
-                && await _validationService.UserFavoritesNotExists(discountId))
+            if (await _discountValidationService.DiscountExists(discountId)
+                && await _favoritesValidationService.UserFavoritesNotExists(discountId))
             {
                 await _favoritesService.RemoveAsync(discountId);
                 return Ok();
