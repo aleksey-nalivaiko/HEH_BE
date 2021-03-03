@@ -51,7 +51,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         public async Task<int> GetNotReadCountAsync()
         {
             var userId = _userProvider.GetUserId();
-
             return (await _notificationRepository.GetAsync(
                     n => n.UserId == userId && !n.IsRead))
                 .Count();
