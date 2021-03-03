@@ -57,6 +57,19 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             discountRepository.Setup(s => s.GetByIdsAsync(It.IsAny<IEnumerable<Guid>>()))
                 .Returns((IEnumerable<Guid> ids) =>
                     Task.FromResult((IEnumerable<Discount>)new List<Discount> { _discount }));
+
+            searchService.Setup(s => s.SearchAsync(default))
+                .Returns(Task.FromResult((IEnumerable<Discount>)new List<Discount> { _discount }));
+        }
+
+        [Fact]
+        public async Task CanGetAsync()
+        {
+            Data.Add(_user);
+
+            var result = await _service.GetAsync();
+
+            Assert.Single(result);
         }
 
         [Fact]
@@ -95,6 +108,21 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
         {
             Data.Add(_user);
             await _service.RemoveAsync(_favorites.DiscountId);
+            Assert.Empty(Data.Single(u => u.Id == _user.Id).Favorites);
+        }
+
+        [Fact]
+        public async Task CanRemoveManyAsync()
+        {
+            Data.Add(_user);
+
+            _user.Favorites.Insert(0, new Favorites
+            {
+                DiscountId = Guid.NewGuid(),
+                Note = "Note2"
+            });
+
+            await _service.RemoveManyAsync(new List<Guid> { _favorites.DiscountId, _user.Favorites[0].DiscountId });
             Assert.Empty(Data.Single(u => u.Id == _user.Id).Favorites);
         }
 
