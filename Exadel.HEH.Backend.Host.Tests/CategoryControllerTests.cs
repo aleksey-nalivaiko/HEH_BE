@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
@@ -15,7 +16,7 @@ namespace Exadel.HEH.Backend.Host.Tests
     {
         private readonly CategoryController _controller;
         private readonly List<CategoryDto> _categoryWithTagsData;
-        private CategoryDto _testCategory;
+        private CategoryDto _category;
 
         public CategoryControllerTests()
         {
@@ -51,13 +52,20 @@ namespace Exadel.HEH.Backend.Host.Tests
             service.Setup(s => s.GetCategoriesWithTagsAsync())
                 .Returns(() => Task.FromResult((IEnumerable<CategoryDto>)_categoryWithTagsData));
 
+            validationService.Setup(s => s.CategoryExistsAsync(It.IsAny<Guid>(), CancellationToken.None))
+                .Returns((Guid id, CancellationToken token) =>
+                    Task.FromResult(_categoryWithTagsData.Any(c => c.Id == id)));
+
+            validationService.Setup(s => s.CategoryNotInDiscountsAsync(It.IsAny<Guid>()))
+                .Returns(Task.FromResult(true));
+
             InitTestData();
         }
 
         [Fact]
         public async Task CanGetCategoriesWithTagsAsync()
         {
-            _categoryWithTagsData.Add(_testCategory);
+            _categoryWithTagsData.Add(_category);
             var result = await _controller.GetCategoriesWithTagsAsync();
             Assert.Single(result);
         }
@@ -65,14 +73,14 @@ namespace Exadel.HEH.Backend.Host.Tests
         [Fact]
         public async Task CanCreateAsync()
         {
-            await _controller.CreateAsync(_testCategory);
+            await _controller.CreateAsync(_category);
             Assert.Single(_categoryWithTagsData);
         }
 
         [Fact]
         public async Task CanUpdateAsync()
         {
-            _categoryWithTagsData.Add(_testCategory);
+            _categoryWithTagsData.Add(_category);
             var newCategory = new CategoryDto
             {
                 Id = Guid.NewGuid(),
@@ -81,20 +89,20 @@ namespace Exadel.HEH.Backend.Host.Tests
             };
 
             await _controller.UpdateAsync(newCategory);
-            Assert.NotEqual(_categoryWithTagsData.Single().Name, _testCategory.Name);
+            Assert.NotEqual(_categoryWithTagsData.Single().Name, _category.Name);
         }
 
-        //[Fact]
-        //public async Task CanRemoveAsync()
-        //{
-        //    _categoryWithTagsData.Add(_testCategory);
-        //    await _controller.RemoveByDiscountAsync(_testCategory.Id);
-        //    Assert.Empty(_categoryWithTagsData);
-        //}
+        [Fact]
+        public async Task CanRemoveAsync()
+        {
+            _categoryWithTagsData.Add(_category);
+            await _controller.RemoveAsync(_category.Id);
+            Assert.Empty(_categoryWithTagsData);
+        }
 
         private void InitTestData()
         {
-            _testCategory = new CategoryDto
+            _category = new CategoryDto
             {
                 Id = Guid.NewGuid(),
                 Name = "Category",

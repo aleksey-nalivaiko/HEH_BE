@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Extensions;
@@ -25,7 +26,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanGetAll()
+        public async Task CanGetAllAsync()
         {
             Collection.Add(_category);
 
@@ -34,7 +35,16 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanGetById()
+        public async Task CanGetAsync()
+        {
+            Collection.Add(_category);
+
+            var result = await _repository.GetAsync(c => c.Name == "CategoryName");
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public async Task CanGetByIdAsync()
         {
             Collection.Add(_category);
 
@@ -43,7 +53,30 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanUpdate()
+        public async Task CanGetByIdsAsync()
+        {
+            Collection.Add(_category);
+            var category = new Category
+            {
+                Id = Guid.NewGuid(),
+                Name = "Food"
+            };
+            Collection.Add(category);
+
+            var result = await _repository.GetByIdsAsync(new List<Guid> { _category.Id, category.Id });
+
+            Assert.Equal(2, result.Count());
+        }
+
+        [Fact]
+        public async Task CanCreateAsync()
+        {
+            await _repository.CreateAsync(_category);
+            Assert.Single(Collection);
+        }
+
+        [Fact]
+        public async Task CanUpdateAsync()
         {
             Collection.Add(_category.DeepClone());
             _category.Name = "NewCategoryName";
@@ -53,7 +86,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanRemoveById()
+        public async Task CanRemoveAsync()
         {
             Collection.Add(_category);
 

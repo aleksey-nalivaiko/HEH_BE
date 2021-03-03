@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
@@ -49,6 +49,10 @@ namespace Exadel.HEH.Backend.Host.Tests
                 .Callback((Guid id) => { _tagData.RemoveAt(0); })
                 .Returns(Task.CompletedTask);
 
+            validationService.Setup(s => s.TagExistsAsync(It.IsAny<Guid>(), CancellationToken.None))
+                .Returns((Guid id, CancellationToken token) =>
+                    Task.FromResult(_tagData.Any(t => t.Id == id)));
+
             InitTestData();
         }
 
@@ -73,13 +77,13 @@ namespace Exadel.HEH.Backend.Host.Tests
             Assert.NotEqual(_tagData.Single().Name, _testTag.Name);
         }
 
-        //[Fact]
-        //public async Task CanRemoveAsync()
-        //{
-        //    _tagData.Add(_testTag);
-        //    await _controller.RemoveByDiscountAsync(_testTag.Id);
-        //    Assert.Empty(_tagData);
-        //}
+        [Fact]
+        public async Task CanRemoveAsync()
+        {
+            _tagData.Add(_testTag);
+            await _controller.RemoveAsync(_testTag.Id);
+            Assert.Empty(_tagData);
+        }
 
         private void InitTestData()
         {
