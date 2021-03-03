@@ -24,7 +24,6 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                 Email = "Test email",
                 Addresses = new List<Address>(),
                 Links = new List<Link>(),
-                Mailing = true,
                 Phones = new List<Phone>(),
                 WorkingHours = "10:00-24:00"
             };

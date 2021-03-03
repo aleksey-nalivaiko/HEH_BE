@@ -72,10 +72,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
         public async Task<IQueryable<DiscountDto>> GetAsync(string searchText)
         {
-            var nowDate = DateTime.UtcNow.Date;
-
-            var discounts = (await _searchService.SearchAsync(searchText))
-                .Where(d => d.StartDate <= nowDate && (d.EndDate == null || d.EndDate >= nowDate));
+            var discounts = await _searchService.SearchAsync(searchText);
 
             var discountsDto = _mapper.Map<IEnumerable<DiscountDto>>(discounts);
             var discountsDtoList = discountsDto.ToList();
