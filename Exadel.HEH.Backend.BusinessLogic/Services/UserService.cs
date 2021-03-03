@@ -100,6 +100,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             return FilterUsers(discountAddresses, users);
         }
 
+        public IEnumerable<User> GetUsersWithNotifications(
+            IList<Address> discountAddresses,
+            Expression<Func<User, bool>> expression)
+        {
+            var users = Get(expression);
+
+            return FilterUsers(discountAddresses, users);
+        }
+
         public async Task<IEnumerable<User>> GetUsersWithNotificationsAsync(
             IEnumerable<Guid> categoryIds,
             IEnumerable<Guid> tagIds,

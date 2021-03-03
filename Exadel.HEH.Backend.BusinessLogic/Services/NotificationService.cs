@@ -65,7 +65,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 u.IsActive && u.AllNotificationsAreOn && u.NewVendorNotificationIsOn;
 
             var users = (!vendor.CategoriesIds.Any() && !vendor.TagsIds.Any()
-                ? _userService.Get(expression)
+                ? _userService.GetUsersWithNotifications(vendor.Addresses, expression)
                 : await _userService.GetUsersWithNotificationsAsync(
                     vendor.CategoriesIds,
                     vendor.TagsIds,
