@@ -24,6 +24,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
 
         private Vendor _testVendor;
         private DiscountShortDto _testDiscountShort;
+        private User _currentUser;
 
         public VendorServiceTests()
         {
@@ -92,6 +93,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             vendorRepository.Setup(r => r.RemoveAsync(It.IsAny<Guid>()))
                 .Callback((Guid id) => { Data.RemoveAll(d => d.Id == id); })
                 .Returns(Task.CompletedTask);
+
+            userService.Setup(s => s.GetProfileAsync())
+                .Returns(() => Task.FromResult(_mapper.Map<UserDto>(_currentUser)));
 
             InitTestData();
         }
@@ -172,6 +176,22 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             Assert.Empty(Data);
         }
 
+        [Fact]
+        public async Task CanGetAsync()
+        {
+            Data.Add(_testVendor);
+            var result = await _service.GetAsync(string.Empty);
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public async Task CanGetAllFromLocationAsync()
+        {
+            Data.Add(_testVendor);
+            var result = await _service.GetAllFromLocationAsync();
+            Assert.Single(result);
+        }
+
         private void InitTestData()
         {
             var addresses = new List<Address>
@@ -229,6 +249,11 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 PromoCode = "new promo code",
                 StartDate = new DateTime(2021, 1, 20),
                 EndDate = new DateTime(2021, 1, 25)
+            };
+
+            _currentUser = new User
+            {
+                Address = addresses.FirstOrDefault()
             };
         }
     }

@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
+using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
+using Hangfire.MemoryStorage.Database;
+using Hangfire.States;
 using Moq;
 using Xunit;
 
@@ -16,14 +21,20 @@ namespace Exadel.HEH.Backend.Host.Tests
     public class VendorControllerTests : BaseControllerTests<VendorDto>
     {
         private readonly VendorController _controller;
+        private readonly Controllers.OData.VendorController _odataController;
+        private readonly IMapper _mapper;
         private VendorDto _testVendor;
+        private IList<VendorSearchDto> _vendorSearchData;
 
         public VendorControllerTests()
         {
             var service = new Mock<IVendorService>();
             var validationService = new Mock<IVendorValidationService>();
+            _vendorSearchData = new List<VendorSearchDto>();
 
+            _mapper = MapperExtensions.Mapper;
             _controller = new VendorController(service.Object, validationService.Object);
+            _odataController = new Controllers.OData.VendorController(service.Object);
 
             service.Setup(s => s.GetAllAsync())
                 .Returns(() => Task.FromResult((IEnumerable<VendorShortDto>)Data));
@@ -53,6 +64,12 @@ namespace Exadel.HEH.Backend.Host.Tests
             service.Setup(s => s.RemoveAsync(It.IsAny<Guid>()))
                 .Callback((Guid id) => { Data.RemoveAll(d => d.Id == id); })
                 .Returns(Task.CompletedTask);
+
+            service.Setup(s => s.GetAllFromLocationAsync())
+                .Returns(() => Task.FromResult((IEnumerable<VendorShortDto>)Data));
+
+            service.Setup(s => s.GetAsync(It.IsAny<string>()))
+                .Returns((string searchText) => Task.FromResult(_vendorSearchData.AsQueryable()));
 
             validationService.Setup(s => s.VendorExistsAsync(It.IsAny<Guid>(), default))
                 .Returns(Task.FromResult(true));
@@ -99,6 +116,30 @@ namespace Exadel.HEH.Backend.Host.Tests
             Data.Add(_testVendor);
             await _controller.RemoveAsync(_testVendor.Id);
             Assert.Empty(Data);
+        }
+
+        [Fact]
+        public async Task CanGetFromLocationAsync()
+        {
+            Data.Add(_testVendor);
+            var result = await _controller.GetAllFromLocationAsync();
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public async Task CanGetOdata()
+        {
+            var vendorSearchDto = new VendorSearchDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "Test name",
+                Addresses = new List<AddressDto>(),
+                CategoriesIds = new List<Guid>(),
+                TagsIds = new List<Guid>()
+            };
+            _vendorSearchData.Add(vendorSearchDto);
+            var result = await _odataController.GetAsync(string.Empty);
+            Assert.Single(result);
         }
 
         private void InitTestData()
