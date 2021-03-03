@@ -558,18 +558,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidatorsTests
         }
 
         [Fact]
-        public void CanValidateWorkingHoursFormat()
-        {
-            var result = _vendorValidator.TestValidate(new VendorDto
-            {
-                Id = _vendors[0].Id,
-                Name = "Beauty",
-                WorkingHours = "12"
-            });
-            result.ShouldHaveValidationErrorFor(c => c.WorkingHours);
-        }
-
-        [Fact]
         public void CanValidatePhoneIdNotEmpty()
         {
             var result = _vendorValidator.TestValidate(new VendorDto
