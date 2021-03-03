@@ -35,6 +35,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
             IList<Address> vendorAddresses,
             Expression<Func<User, bool>> expression);
 
+        IEnumerable<User> GetUsersWithNotifications(
+            IList<Address> discountAddresses,
+            Expression<Func<User, bool>> expression);
+
         Task UpdateStatusAsync(Guid id, bool isActive);
 
         Task UpdateRoleAsync(Guid id, UserRole role);
