@@ -21,13 +21,13 @@
                 "_id": 2,
                 "countryId": UUID("56346d81-b0ef-4e57-a18e-0b2ca3f04dd9"),
                 "cityId": UUID("ea88f894-a912-4a65-a823-392f1bbd514b"),
-                "street": "ul. Nemiga, 12B"
+                "street": "ul. Myasnitskaya, 30/1"
             },
             {
                 "_id": 3,
                 "countryId": UUID("571ffd86-ae90-4457-b1ec-0ed504076706"),
                 "cityId": UUID("4198a349-0f53-4f48-a5ed-766517a26ef3"),
-                "street": "pr. Nezavisimosti, 23"
+                "street": "ul. Vadim Hetman, 1B"
             }
         ],
         "phonesIds": [
@@ -79,7 +79,7 @@
                 "_id": 1,
                 "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
                 "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
-                "street": "ul.Zybitskaya 6-32"
+                "street": "ul. Zybitskaya 6-32"
             }
         ],
         "phonesIds": [
@@ -134,7 +134,7 @@
             {
                 "_id": 2,
                 "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
-                "cityId": UUID("c77e4c89-57f5-4204-8899-af47545cca22"),
+                "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
                 "street": "ul. Kol'tsova 48"
             }
         ],
@@ -156,6 +156,12 @@
         "vendorName": "Booking",
         "promoCode": "Travel",
         "addresses": [
+            {
+                "_id": 1,
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": null,
+                "street": ""
+            }
         ],
         "phonesIds": [
             1

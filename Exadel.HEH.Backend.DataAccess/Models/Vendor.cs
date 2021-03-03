@@ -11,8 +11,6 @@ namespace Exadel.HEH.Backend.DataAccess.Models
 
         public IList<Link> Links { get; set; }
 
-        public bool Mailing { get; set; }
-
         public IList<Phone> Phones { get; set; }
 
         public IList<Address> Addresses { get; set; }

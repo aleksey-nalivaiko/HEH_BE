@@ -203,7 +203,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 Id = Guid.NewGuid(),
                 Name = "Vendor",
                 Email = "v@gmail.com",
-                Mailing = true,
                 Addresses = addresses,
                 Phones = phonesIds,
                 Links = new List<Link>

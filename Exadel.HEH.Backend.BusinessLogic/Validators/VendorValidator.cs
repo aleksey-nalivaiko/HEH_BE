@@ -58,10 +58,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.Validators
                 .EmailAddress()
                 .When(v => !string.IsNullOrEmpty(v.Email));
 
-            RuleFor(v => v.WorkingHours)
-                .Matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
-                .When(v => !string.IsNullOrEmpty(v.WorkingHours));
-
             RuleForEach(v => v.Phones.Select(p => p.Id))
                 .NotEmpty()
                 .NotNull()

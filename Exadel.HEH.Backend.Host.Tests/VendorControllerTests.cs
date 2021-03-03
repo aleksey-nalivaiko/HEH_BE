@@ -132,7 +132,6 @@ namespace Exadel.HEH.Backend.Host.Tests
                 Id = Guid.NewGuid(),
                 Name = "Vendor",
                 Email = "v@gmail.com",
-                Mailing = true,
                 Addresses = addresses,
                 Phones = phonesIds,
                 Links = new List<LinkDto>
