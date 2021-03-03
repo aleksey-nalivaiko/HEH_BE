@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories;
 using Xunit;
@@ -34,7 +33,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanGetAll()
+        public async Task CanGetAllAsync()
         {
             Collection.Add(_location);
 
@@ -43,7 +42,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanGetById()
+        public async Task CanGetByIdAsync()
         {
             Collection.Add(_location);
 
@@ -52,13 +51,28 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         }
 
         [Fact]
-        public async Task CanUpdate()
+        public async Task CanGetByIdsAsync()
         {
-            Collection.Add(_location.DeepClone());
-            _location.Country = "NewCountryName";
+            Collection.Add(_location);
 
-            await _repository.UpdateAsync(_location);
-            Assert.Equal("NewCountryName", Collection.Single(x => x.Id == _location.Id).Country);
+            var location = new Location
+            {
+                Id = Guid.NewGuid(),
+                Country = "Country",
+                Cities = new List<City>
+                {
+                    new City
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "City"
+                    }
+                }
+            };
+
+            Collection.Add(location);
+
+            var result = await _repository.GetByIdsAsync(new List<Guid> { _location.Id, location.Id });
+            Assert.Equal(2, result.Count());
         }
     }
 }
