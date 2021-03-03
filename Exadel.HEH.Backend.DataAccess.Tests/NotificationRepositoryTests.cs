@@ -6,23 +6,48 @@ using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
+using Moq;
 using Xunit;
 
 namespace Exadel.HEH.Backend.DataAccess.Tests
 {
     public class NotificationRepositoryTests : BaseRepositoryTests<Notification>
     {
-        private readonly INotificationRepository _repository;
+        private readonly NotificationRepository _repository;
         private Notification _notification;
         private IList<Notification> _notificationData;
 
         public NotificationRepositoryTests()
         {
             _repository = new NotificationRepository(Context.Object);
+
+            Context.Setup(c => c.CreateManyAsync(It.IsAny<IEnumerable<Notification>>()))
+                .Callback((IEnumerable<Notification> docs) =>
+                {
+                    Collection.AddRange(docs);
+                })
+                .Returns(Task.CompletedTask);
+
+            Context.Setup(c => c.UpdateManyAsync(It.IsAny<IEnumerable<Notification>>()))
+                .Callback((IEnumerable<Notification> docs) =>
+                {
+                    foreach (var doc in docs)
+                    {
+                        var oldDoc = Collection.FirstOrDefault(x => x.Id == doc.Id);
+                        if (oldDoc != null)
+                        {
+                            Collection.Remove(oldDoc);
+                            Collection.Add(doc);
+                        }
+                    }
+                })
+                .Returns(Task.CompletedTask);
+
+            InitializeData();
         }
 
         [Fact]
-        public async Task CanGet()
+        public async Task CanGetAll()
         {
             Collection.Add(_notification);
             var result = await _repository.Get().ToListAsync();
@@ -40,7 +65,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         [Fact]
         public async Task CanCreateManyAsync()
         {
-            await _repository.CreateManyAsync((IEnumerable<Notification>)_notificationData);
+            await _repository.CreateManyAsync(_notificationData);
             var result = await _repository.Get().ToListAsync();
             Assert.Single(result);
         }
@@ -59,9 +84,8 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
         public async Task CanRemoveAsync()
         {
             Collection.Add(_notification);
-            await _repository.RemoveAsync(n => n.Id == _notification.Id);
-            var result = await _repository.Get().ToListAsync();
-            Assert.Empty(result);
+            await _repository.RemoveAsync(x => x.Id == _notification.Id);
+            Assert.Empty(Collection);
         }
 
         private void InitializeData()
