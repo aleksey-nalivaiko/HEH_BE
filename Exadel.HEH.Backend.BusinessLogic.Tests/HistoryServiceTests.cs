@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Providers;
 using Exadel.HEH.Backend.BusinessLogic.Services;
@@ -14,6 +16,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     {
         private readonly HistoryService _service;
         private readonly History _history;
+        private List<History> _data;
+        private User _currentUser;
 
         public HistoryServiceTests()
         {
@@ -21,6 +25,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var userProvider = new Mock<IUserProvider>();
             var historyRepository = new Mock<IHistoryRepository>();
 
+            _data = new List<History>();
             _service = new HistoryService(userRepository.Object, historyRepository.Object,
                 MapperExtensions.Mapper, userProvider.Object);
             _history = new History
@@ -34,8 +39,27 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 UserName = "Mary",
                 UserRole = UserRole.Moderator
             };
+            _currentUser = new User
+            {
+                Id = Guid.NewGuid(),
+                Email = "testEmail@gmail.com",
+                Name = "Test name",
+                Role = UserRole.Moderator,
+                Address = new Address
+                {
+                    CountryId = Guid.NewGuid(),
+                    CityId = Guid.NewGuid(),
+                    Street = "Test street"
+                }
+            };
 
             historyRepository.Setup(r => r.Get()).Returns(Data.AsQueryable());
+            historyRepository.Setup(r => r.CreateAsync(It.IsAny<History>()))
+                .Callback((History item) => { _data.Add(item); })
+                .Returns(Task.CompletedTask);
+            userProvider.Setup(p => p.GetUserId()).Returns(_currentUser.Id);
+            userRepository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
+                .Returns(() => Task.FromResult(_currentUser));
         }
 
         [Fact]
@@ -44,6 +68,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             Data.Add(_history);
             var result = _service.GetAllAsync().IsCompletedSuccessfully;
             Assert.True(result);
+        }
+
+        [Fact]
+        public async Task CanCreate()
+        {
+            await _service.CreateAsync(UserAction.Add, "Some description");
+            Assert.Single(_data);
         }
     }
 }
