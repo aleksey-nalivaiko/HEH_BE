@@ -6,6 +6,7 @@ using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
@@ -28,6 +29,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [HttpGet("{id:guid}")]
         [Authorize(Roles = nameof(UserRole.Administrator))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserDto>> GetByIdAsync(Guid id)
         {
             if (await _validationService.UserExists(id))
@@ -42,6 +44,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         [ResponseCache(Location = ResponseCacheLocation.Any, Duration = CacheAge)]
         [HttpGet("photo/{id:guid}")]
         [Authorize(Roles = nameof(UserRole.Administrator))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPhotoByIdAsync(Guid id)
         {
             if (await _validationService.UserExists(id))
@@ -72,6 +75,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [HttpPut("profile")]
         [Authorize(Roles = nameof(UserRole.Employee))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdateNotificationsAsync(UserNotificationDto userNotifications)
         {
             if (ModelState.IsValid)
@@ -85,6 +89,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [HttpPut("{id:guid}/{isActive:bool}")]
         [Authorize(Roles = nameof(UserRole.Administrator))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> UpdateStatusAsync(Guid id, bool isActive)
         {
             if (await _validationService.UserExists(id))
@@ -98,6 +103,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [HttpPut("{id:guid}/{role}")]
         [Authorize(Roles = nameof(UserRole.Administrator))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> UpdateRoleAsync(Guid id, UserRole role)
         {
             if (await _validationService.UserExists(id))

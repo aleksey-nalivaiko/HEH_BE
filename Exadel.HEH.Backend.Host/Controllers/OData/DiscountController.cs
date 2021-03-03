@@ -9,6 +9,7 @@ using Exadel.HEH.Backend.Host.Infrastructure;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNet.OData.Routing;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers.OData
@@ -39,6 +40,7 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
 
         [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.None)]
         [ODataRoute("({id})")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DiscountExtendedDto>> GetAsync(Guid id)
         {
             if (!await _discountValidationService.DiscountExists(id))

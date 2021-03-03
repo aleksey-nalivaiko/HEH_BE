@@ -7,6 +7,7 @@ using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers.Abstract;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
@@ -31,6 +32,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [HttpGet("{id:guid}")]
         [Authorize(Roles = nameof(UserRole.Moderator))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<VendorDto>> GetByIdAsync(Guid id)
         {
             if (!await _vendorValidationService.VendorExistsAsync(id))
@@ -43,6 +45,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [HttpPost]
         [Authorize(Roles = nameof(UserRole.Moderator))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> CreateAsync(VendorDto vendor)
         {
             if (!ModelState.IsValid)
@@ -56,6 +59,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [HttpPut]
         [Authorize(Roles = nameof(UserRole.Moderator))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdateAsync(VendorDto vendor)
         {
             if (!ModelState.IsValid)
@@ -69,6 +73,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
 
         [HttpDelete]
         [Authorize(Roles = nameof(UserRole.Moderator))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> RemoveAsync(Guid id)
         {
             if (!await _vendorValidationService.VendorExistsAsync(id))

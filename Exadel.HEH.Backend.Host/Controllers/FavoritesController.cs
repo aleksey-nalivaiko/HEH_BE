@@ -5,6 +5,7 @@ using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
@@ -28,6 +29,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> CreateAsync(FavoritesShortDto favorites)
         {
             if (ModelState.IsValid)
@@ -40,6 +42,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdateAsync(FavoritesShortDto favorites)
         {
             if (ModelState.IsValid)
@@ -52,6 +55,7 @@ namespace Exadel.HEH.Backend.Host.Controllers
         }
 
         [HttpDelete("{discountId:guid}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> RemoveAsync(Guid discountId)
         {
             if (await _discountValidationService.DiscountExists(discountId)
