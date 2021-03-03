@@ -6,8 +6,6 @@ namespace Exadel.HEH.Backend.BusinessLogic.DTOs
     {
         public IEnumerable<LinkDto> Links { get; set; }
 
-        public bool Mailing { get; set; }
-
         public IEnumerable<PhoneDto> Phones { get; set; }
 
         public IEnumerable<AddressDto> Addresses { get; set; }

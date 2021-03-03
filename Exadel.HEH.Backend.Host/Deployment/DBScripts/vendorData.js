@@ -20,7 +20,6 @@
                 "type": "Website"
             }
         ],
-        "mailing": true,
         "phones": [
             {
                 "_id": 1,
@@ -42,17 +41,17 @@
                 "_id": 2,
                 "countryId": UUID("56346d81-b0ef-4e57-a18e-0b2ca3f04dd9"),
                 "cityId": UUID("ea88f894-a912-4a65-a823-392f1bbd514b"),
-                "street": "ul. Nemiga, 12B"
+                "street": "ul. Myasnitskaya, 30/1"
             },
             {
                 "_id": 3,
                 "countryId": UUID("571ffd86-ae90-4457-b1ec-0ed504076706"),
                 "cityId": UUID("4198a349-0f53-4f48-a5ed-766517a26ef3"),
-                "street": "pr. Nezavisimosti, 23"
+                "street": "ul. Vadim Hetman, 1B"
             }
         ],
         "email": "info@by.mcd.com",
-        "workingHours": "07:00–00:00"
+        "workingHours": "07:00-00:00"
     },
     {
         "_id": UUID("b883835e-4ce3-4134-9811-45a85b6ff113"),
@@ -67,7 +66,6 @@
                 "type": "Instagram"
             }
         ],
-        "mailing": true,
         "phones": [
             {
                 "_id": 1,
@@ -83,7 +81,7 @@
             }
         ],
         "email": "maxs.mmta@gmail.com",
-        "workingHours": "08:00–23:00"
+        "workingHours": "08:00-23:00"
     },
     {
         "_id": UUID("a81d4813-0ff3-4a2b-b53c-ebec989ae7fc"),
@@ -98,7 +96,6 @@
                 "type": "Facebook"
             }
         ],
-        "mailing": false,
         "phones": [
             {
                 "_id": 1,
@@ -110,11 +107,11 @@
                 "_id": 1,
                 "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
                 "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
-                "street": "ul.Zybitskaya 6-32"
+                "street": "ul. Zybitskaya 6-32"
             }
         ],
         "email": "nikolya811@gmail.com",
-        "workingHours": "09:00–21:00"
+        "workingHours": "09:00-21:00"
     },
     {
         "_id": UUID("91d19b85-6232-4373-b08b-a988d828d27e"),
@@ -129,7 +126,6 @@
                 "type": "Instagram"
             }
         ],
-        "mailing": true,
         "phones": [
             {
                 "_id": 1,
@@ -145,7 +141,7 @@
             }
         ],
         "email": "dinozavria@vek.by",
-        "workingHours": "12:00–21:00"
+        "workingHours": "12:00-21:00"
     },
     {
         "_id": UUID("34654c1a-a2c9-4562-abdd-98e62cbcc6f7"),
@@ -164,7 +160,6 @@
                 "type": "Instagram"
             }
         ],
-        "mailing": false,
         "phones": [
             {
                 "_id": 1,
@@ -181,18 +176,18 @@
             {
                 "_id": 2,
                 "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
-                "cityId": UUID("c77e4c89-57f5-4204-8899-af47545cca22"),
+                "cityId": UUID("021e3664-df32-43f1-8851-f1449cfbc3dd"),
                 "street": "ul. Kol'tsova 48"
             },
             {
                 "_id": 3,
-                "countryId": UUID("56346d81-b0ef-4e57-a18e-0b2ca3f04dd9"),
-                "cityId": UUID("ea88f894-a912-4a65-a823-392f1bbd514b"),
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": UUID("8d766cdc-1cc8-4af8-9af7-007a49fdb026"),
                 "street": "ul. Lazurnaya 13a"
             }
         ],
         "email": "auto_vendor@gmail.com",
-        "workingHours": "08:00–20:00"
+        "workingHours": "08:00-20:00"
     },
     {
         "_id": UUID("72ff6421-f6c6-4d55-bf54-f9833723f30f"),
@@ -203,7 +198,6 @@
                 "type": "Website"
             }
         ],
-        "mailing": false,
         "phones": [
             {
                 "_id": 1,
@@ -211,6 +205,12 @@
             }
         ],
         "addresses": [
+            {
+                "_id": 1,
+                "countryId": UUID("0b343598-5efc-11eb-ae93-0242ac130002"),
+                "cityId": null,
+                "street": ""
+            }
         ],
         "email": "",
         "workingHours": "day-and-night"
@@ -232,7 +232,6 @@
                 "type": "Facebook"
             }
         ],
-        "mailing": false,
         "phones": [
             {
                 "_id": 1,
@@ -248,6 +247,6 @@
             }
         ],
         "email": "",
-        "workingHours": "08:30–19:00"
+        "workingHours": "08:30-19:00"
     }
 ]
