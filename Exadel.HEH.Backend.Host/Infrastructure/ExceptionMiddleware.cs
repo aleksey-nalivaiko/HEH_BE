@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Exadel.HEH.Backend.Host.Infrastructure
@@ -26,7 +24,7 @@ namespace Exadel.HEH.Backend.Host.Infrastructure
             }
             catch (Exception e)
             {
-                _logger.LogError("Error! Сaught exception with message {mesage}", e.Message);
+                _logger.LogError("Error! Caught exception with message {message}", e.Message);
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             }
         }
