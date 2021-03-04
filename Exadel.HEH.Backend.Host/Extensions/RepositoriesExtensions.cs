@@ -1,4 +1,5 @@
-﻿using Exadel.HEH.Backend.DataAccess;
+﻿using System.Diagnostics.CodeAnalysis;
+using Exadel.HEH.Backend.DataAccess;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Exadel.HEH.Backend.Host.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class RepositoriesExtensions
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)

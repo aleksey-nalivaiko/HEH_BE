@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -10,6 +11,7 @@ using Moq;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
+    [ExcludeFromCodeCoverage]
     public abstract class BaseServiceTests<T>
         where T : class, IDataModel, new()
     {

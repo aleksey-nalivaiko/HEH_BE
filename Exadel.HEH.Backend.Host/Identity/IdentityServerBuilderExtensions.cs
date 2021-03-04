@@ -1,10 +1,12 @@
-﻿using Exadel.HEH.Backend.Host.Identity.Store;
+﻿using System.Diagnostics.CodeAnalysis;
+using Exadel.HEH.Backend.Host.Identity.Store;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Exadel.HEH.Backend.Host.Identity
 {
+    [ExcludeFromCodeCoverage]
     public static class IdentityServerBuilderExtensions
     {
         public static IIdentityServerBuilder AddClients(this IIdentityServerBuilder builder)

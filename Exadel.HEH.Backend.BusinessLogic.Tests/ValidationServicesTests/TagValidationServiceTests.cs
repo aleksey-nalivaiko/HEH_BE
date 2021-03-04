@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
 {
+    [ExcludeFromCodeCoverage]
     public class TagValidationServiceTests
     {
         private readonly TagValidationService _validationService;

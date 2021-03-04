@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Exadel.HEH.Backend.DataAccess.Models;
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
+    [ExcludeFromCodeCoverage]
     public class NotificationDto
     {
         public Guid Id { get; set; }

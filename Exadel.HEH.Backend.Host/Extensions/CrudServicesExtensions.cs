@@ -1,9 +1,11 @@
-﻿using Exadel.HEH.Backend.BusinessLogic.Services;
+﻿using System.Diagnostics.CodeAnalysis;
+using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Exadel.HEH.Backend.Host.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class CrudServicesExtensions
     {
         public static IServiceCollection AddCrudServices(this IServiceCollection services)

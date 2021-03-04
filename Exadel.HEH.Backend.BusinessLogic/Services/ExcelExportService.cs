@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,7 @@ using OfficeOpenXml.Style;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
+    [ExcludeFromCodeCoverage]
     public class ExcelExportService : IExportService
     {
         private const string ExcelTemplatesPath = "ExcelTemplates";

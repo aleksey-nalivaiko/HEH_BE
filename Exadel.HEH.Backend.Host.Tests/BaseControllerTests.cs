@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Moq;
 
 namespace Exadel.HEH.Backend.Host.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class BaseControllerTests<TDto>
         where TDto : class, new()
     {

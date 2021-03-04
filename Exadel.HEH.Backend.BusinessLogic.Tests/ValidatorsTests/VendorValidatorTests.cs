@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidatorsTests
 {
+    [ExcludeFromCodeCoverage]
     public class VendorValidatorTests
     {
         private readonly Mock<IMethodProvider> _methodProvider;
@@ -24,6 +26,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidatorsTests
 
         private readonly List<VendorDto> _vendors;
         private readonly DiscountShortDto _discount;
+        private readonly List<CategoryDto> _categories;
 
         private VendorValidator _vendorValidator;
 
@@ -49,6 +52,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidatorsTests
                     {
                         new AddressDto
                         {
+                            Id = 1,
                             CountryId = Guid.NewGuid(),
                             CityId = Guid.NewGuid(),
                             Street = "Street"
@@ -175,7 +179,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidatorsTests
 
                     if (vendor.Phones != null)
                     {
-                        var newPhonesIds = vendor.Phones.Select(a => a.Id).ToList();
+                        var newPhonesIds = vendor.Phones.Select(p => p.Id).ToList();
 
                         if (vendor.Id != Guid.Empty)
                         {
@@ -192,6 +196,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidatorsTests
                                     return Task.FromResult(discountPhonesIds.All(p => newPhonesIds.Contains(p)
                                                                       || phonesToBeRemoved.Contains(p)));
                                 }
+
+                                return Task.FromResult(discountPhonesIds.All(p => newPhonesIds.Contains(p)));
                             }
                         }
                         else
@@ -209,6 +215,34 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidatorsTests
 
                     return Task.FromResult(true);
                 });
+
+            _vendorValidationService
+            .Setup(s => s.AddressesCanBeRemovedAsync(It.IsAny<VendorDto>(), CancellationToken.None))
+            .Returns((VendorDto vendor, CancellationToken token) =>
+            {
+                var oldVendor = _vendors.First(v => v.Id == vendor.Id);
+
+                var vendorAddressesIds = oldVendor.Addresses.Select(a => a.Id);
+                var newAddressesIds = vendor.Addresses.Select(a => a.Id).ToList();
+
+                var addressesToBeRemoved = vendorAddressesIds
+                    .Where(a => !newAddressesIds.Contains(a)).ToList();
+
+                if (addressesToBeRemoved.Any())
+                {
+                    var discountAddresses = vendor.Discounts
+                        .SelectMany(d => d.AddressesIds)
+                        .Distinct()
+                        .ToList();
+
+                    if (discountAddresses.Any(a => addressesToBeRemoved.Contains(a)))
+                    {
+                        return Task.FromResult(false);
+                    }
+                }
+
+                return Task.FromResult(true);
+            });
 
             _discount = new DiscountShortDto
             {
@@ -244,6 +278,214 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidatorsTests
 
                     return true;
                 });
+
+            _categories = new List<CategoryDto>
+            {
+                new CategoryDto
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Food"
+                },
+                new CategoryDto
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Sport"
+                }
+            };
+
+            _categoryValidationService.Setup(s => s.CategoryExistsAsync(It.IsAny<Guid>(), CancellationToken.None))
+                .Returns((Guid id, CancellationToken token) =>
+                    Task.FromResult(_categories.Any(c => c.Id == id)));
+
+            var tags = new List<TagDto>
+            {
+                new TagDto
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Pizza"
+                },
+                new TagDto
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Sushi"
+                }
+            };
+
+            _tagValidationService.Setup(s => s.TagExistsAsync(It.IsAny<Guid>(), CancellationToken.None))
+                .Returns((Guid id, CancellationToken token) =>
+                    Task.FromResult(tags.Any(c => c.Id == id)));
+        }
+
+        [Fact]
+        public void CanValidateDiscountCategoryNotEmpty()
+        {
+            var discount = _discount.DeepClone();
+            discount.Conditions = "abc";
+            discount.PromoCode = "abc";
+
+            _vendors[0].Discounts = new List<DiscountShortDto>
+            {
+                discount
+            };
+
+            var result = _vendorValidator.TestValidate(_vendors[0]);
+            result.ShouldHaveValidationErrorFor("Category[0]");
+        }
+
+        [Fact]
+        public void CanValidateDiscountCategoryExists()
+        {
+            var discount = _discount.DeepClone();
+            discount.Conditions = "abc";
+            discount.PromoCode = "abc";
+            discount.CategoryId = Guid.NewGuid();
+
+            _vendors[0].Discounts = new List<DiscountShortDto>
+            {
+                discount
+            };
+
+            var result = _vendorValidator.TestValidate(_vendors[0]);
+            result.ShouldHaveValidationErrorFor("Category[0]");
+        }
+
+        [Fact]
+        public void CanValidateDiscountTagsExist()
+        {
+            var discount = _discount.DeepClone();
+            discount.Conditions = "abc";
+            discount.PromoCode = "abc";
+            discount.CategoryId = _categories[0].Id;
+
+            _vendors[0].Discounts = new List<DiscountShortDto>
+            {
+                discount
+            };
+
+            var result = _vendorValidator.TestValidate(_vendors[0]);
+            result.ShouldHaveValidationErrorFor("Tags[0]");
+        }
+
+        [Fact]
+        public void CanValidateAddressCanBeRemoved()
+        {
+            _methodProvider.Setup(p => p.GetMethodUpperName()).Returns("PUT");
+            _vendorValidator = new VendorValidator(_vendorValidationService.Object,
+                _discountValidationService.Object, _categoryValidationService.Object,
+                _tagValidationService.Object, _methodProvider.Object);
+
+            var vendor = _vendors[0].DeepClone();
+
+            vendor.Addresses = new List<AddressDto>
+            {
+                new AddressDto
+                {
+                    Id = 2,
+                    CountryId = Guid.NewGuid(),
+                    CityId = Guid.NewGuid(),
+                    Street = "Street"
+                }
+            };
+
+            var discount = _discount.DeepClone();
+            discount.Conditions = "abc";
+            discount.PromoCode = "abc";
+            discount.CategoryId = _categories[0].Id;
+
+            vendor.Discounts = new List<DiscountShortDto>
+            {
+                discount
+            };
+
+            var result = _vendorValidator.TestValidate(vendor);
+            result.ShouldHaveValidationErrorFor(v => v.Addresses);
+        }
+
+        [Fact]
+        public void CanValidateDiscountConditionsNotNull()
+        {
+            _discount.Conditions = null;
+
+            _vendors[0].Discounts = new List<DiscountShortDto>
+            {
+                _discount
+            };
+
+            var result = _vendorValidator.TestValidate(_vendors[0]);
+            result.ShouldHaveValidationErrorFor("Conditions[0]");
+        }
+
+        [Fact]
+        public void CanValidateDiscountConditionsNotEmpty()
+        {
+            _discount.Conditions = string.Empty;
+
+            _vendors[0].Discounts = new List<DiscountShortDto>
+            {
+                _discount
+            };
+
+            var result = _vendorValidator.TestValidate(_vendors[0]);
+            result.ShouldHaveValidationErrorFor("Conditions[0]");
+        }
+
+        [Fact]
+        public void CanValidateDiscountConditionsMaxLength()
+        {
+            _discount.Conditions = new string('a', 256);
+
+            _vendors[0].Discounts = new List<DiscountShortDto>
+            {
+                _discount
+            };
+
+            var result = _vendorValidator.TestValidate(_vendors[0]);
+            result.ShouldHaveValidationErrorFor("Conditions[0]");
+        }
+
+        [Fact]
+        public void CanValidateDiscountPromocodeNotNull()
+        {
+            _discount.Conditions = "abc";
+            _discount.PromoCode = null;
+
+            _vendors[0].Discounts = new List<DiscountShortDto>
+            {
+                _discount
+            };
+
+            var result = _vendorValidator.TestValidate(_vendors[0]);
+            result.ShouldHaveValidationErrorFor("Promocode[0]");
+        }
+
+        [Fact]
+        public void CanValidateDiscountPromocodeNotEmpty()
+        {
+            _discount.Conditions = "abc";
+            _discount.PromoCode = string.Empty;
+
+            _vendors[0].Discounts = new List<DiscountShortDto>
+            {
+                _discount
+            };
+
+            var result = _vendorValidator.TestValidate(_vendors[0]);
+            result.ShouldHaveValidationErrorFor("Promocode[0]");
+        }
+
+        [Fact]
+        public void CanValidateDiscountPromocodeMaxLength()
+        {
+            _discount.Conditions = "abc";
+            _discount.PromoCode = new string('a', 51);
+
+            _vendors[0].Discounts = new List<DiscountShortDto>
+            {
+                _discount
+            };
+
+            var result = _vendorValidator.TestValidate(_vendors[0]);
+            result.ShouldHaveValidationErrorFor("Promocode[0]");
         }
 
         [Fact]
@@ -302,33 +544,16 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidatorsTests
         public void CanValidateDiscountPhonesFromVendor()
         {
             var discount = _discount.DeepClone();
-            discount.PhonesIds = new List<int> { 2 };
+            discount.PhonesIds = new List<int> { 3 };
+            discount.Conditions = "abc";
+            discount.PromoCode = "abc";
 
-            var result = _vendorValidator.TestValidate(new VendorDto
+            _vendors[0].Discounts = new List<DiscountShortDto>
             {
-                Id = Guid.NewGuid(),
-                Name = "Beauty",
-                Phones = new List<PhoneDto>
-                {
-                    new PhoneDto
-                    {
-                        Id = 1,
-                        Number = "2"
-                    }
-                },
-                Addresses = new List<AddressDto>
-                {
-                    new AddressDto
-                    {
-                        Id = 1,
-                        CountryId = Guid.NewGuid()
-                    }
-                },
-                Discounts = new List<DiscountShortDto>
-                {
-                    discount
-                }
-            });
+                discount
+            };
+
+            var result = _vendorValidator.TestValidate(_vendors[0]);
             result.ShouldHaveValidationErrorFor(v => v.Discounts);
         }
 

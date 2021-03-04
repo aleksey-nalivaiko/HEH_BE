@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Exadel.HEH.Backend.Host.Infrastructure
 {
+    [ExcludeFromCodeCoverage]
     public class ODataActionFilterAttribute : ActionFilterAttribute
     {
         private const string FileName = "Statistics.xlsx";

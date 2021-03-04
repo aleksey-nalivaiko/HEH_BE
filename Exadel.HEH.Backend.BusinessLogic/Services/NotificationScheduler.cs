@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
+    [ExcludeFromCodeCoverage]
     public class NotificationScheduler : INotificationScheduler
     {
         private readonly IEmailService _emailService;

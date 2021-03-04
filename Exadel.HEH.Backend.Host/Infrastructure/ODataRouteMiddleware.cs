@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace Exadel.HEH.Backend.Host.Infrastructure
 {
+    [ExcludeFromCodeCoverage]
     public class ODataRouteMiddleware
     {
         private readonly IDictionary<string, string[]> _config = new Dictionary<string, string[]>

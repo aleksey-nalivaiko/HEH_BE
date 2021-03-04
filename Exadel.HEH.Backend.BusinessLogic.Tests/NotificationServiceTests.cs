@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Providers;
 using Exadel.HEH.Backend.BusinessLogic.Services;
@@ -18,10 +18,10 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class NotificationServiceTests : BaseServiceTests<Notification>
     {
         private readonly NotificationService _service;
-        private readonly IMapper _mapper;
         private User _currentUser;
 
         public NotificationServiceTests()
@@ -31,10 +31,10 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var userService = new Mock<IUserService>();
             var vendorSearchService = new Mock<IVendorSearchService>();
             var userProvider = new Mock<IUserProvider>();
-            _mapper = MapperExtensions.Mapper;
+            var mapper = MapperExtensions.Mapper;
             _service = new NotificationService(notificationRepository.Object, logger.Object, userService.Object,
                 vendorSearchService.Object,
-                userProvider.Object, _mapper);
+                userProvider.Object, mapper);
 
             notificationRepository.Setup(r => r.Get())
                 .Returns(() => Data.AsQueryable());

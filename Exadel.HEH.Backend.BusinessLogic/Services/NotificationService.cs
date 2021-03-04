@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
+    [ExcludeFromCodeCoverage]
     public class NotificationService : INotificationService
     {
         private readonly ILogger<NotificationService> _logger;

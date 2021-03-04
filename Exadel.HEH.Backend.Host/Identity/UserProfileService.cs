@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using IdentityServer4.Services;
 
 namespace Exadel.HEH.Backend.Host.Identity
 {
+    [ExcludeFromCodeCoverage]
     public class UserProfileService : IProfileService
     {
         private readonly IUserRepository _userRepository;
