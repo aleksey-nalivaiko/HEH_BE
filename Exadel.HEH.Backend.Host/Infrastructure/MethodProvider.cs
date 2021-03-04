@@ -1,8 +1,10 @@
-﻿using Exadel.HEH.Backend.BusinessLogic.Providers;
+﻿using System.Diagnostics.CodeAnalysis;
+using Exadel.HEH.Backend.BusinessLogic.Providers;
 using Microsoft.AspNetCore.Http;
 
 namespace Exadel.HEH.Backend.Host.Infrastructure
 {
+    [ExcludeFromCodeCoverage]
     public class MethodProvider : IMethodProvider
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

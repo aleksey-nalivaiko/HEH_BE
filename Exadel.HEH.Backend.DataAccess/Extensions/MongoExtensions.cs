@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using MongoDB.Driver.Linq;
 
 namespace Exadel.HEH.Backend.DataAccess.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class MongoExtensions
     {
         public static Task<List<T>> ToListAsync<T>(this IQueryable<T> queryable)

@@ -1,5 +1,8 @@
-﻿namespace Exadel.HEH.Backend.BusinessLogic.DTOs
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
+    [ExcludeFromCodeCoverage]
     public class FavoritesDto : DiscountDto
     {
         public string Note { get; set; }

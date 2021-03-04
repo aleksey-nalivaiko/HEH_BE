@@ -1,9 +1,11 @@
-﻿using Exadel.HEH.Backend.BusinessLogic.ValidationServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using Exadel.HEH.Backend.BusinessLogic.ValidationServices;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Exadel.HEH.Backend.Host.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class ValidationServicesExtensions
     {
         public static IServiceCollection AddValidationServices(this IServiceCollection services)

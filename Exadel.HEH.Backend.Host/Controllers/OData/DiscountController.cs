@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers.OData
 {
+    [ExcludeFromCodeCoverage]
     [ODataRoutePrefix("Discount")]
     [ODataAuthorize(Roles = nameof(UserRole.Employee))]
     public class DiscountController : ODataController

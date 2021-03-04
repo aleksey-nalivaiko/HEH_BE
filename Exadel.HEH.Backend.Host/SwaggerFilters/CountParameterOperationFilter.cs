@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
@@ -7,6 +8,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Exadel.HEH.Backend.Host.SwaggerFilters
 {
+    [ExcludeFromCodeCoverage]
     public class CountParameterOperationFilter : IOperationFilter
     {
         private const string CountParam = "$count";

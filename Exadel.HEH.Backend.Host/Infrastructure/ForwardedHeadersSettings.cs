@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Exadel.HEH.Backend.Host.Infrastructure
 {
+    [ExcludeFromCodeCoverage]
     public static class ForwardedHeadersSettings
     {
         static ForwardedHeadersSettings()

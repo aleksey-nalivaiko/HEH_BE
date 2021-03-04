@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Exadel.HEH.Backend.Host.Identity.Security;
 using IdentityModel;
@@ -6,6 +7,7 @@ using IdentityServer4.Validation;
 
 namespace Exadel.HEH.Backend.Host.Identity
 {
+    [ExcludeFromCodeCoverage]
     public class UserResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
         private readonly IUserRepository _userRepository;

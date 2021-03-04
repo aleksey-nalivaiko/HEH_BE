@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
@@ -6,6 +7,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Exadel.HEH.Backend.Host.SwaggerFilters
 {
+    [ExcludeFromCodeCoverage]
     public class AuthorizeCheckOperationFilter : IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)

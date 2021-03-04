@@ -148,6 +148,8 @@ namespace Exadel.HEH.Backend.BusinessLogic.ValidationServices
                             return discountPhonesIds.All(p => newPhonesIds.Contains(p)
                                                               || phonesToBeRemoved.Contains(p));
                         }
+
+                        return discountPhonesIds.All(p => newPhonesIds.Contains(p));
                     }
                 }
                 else

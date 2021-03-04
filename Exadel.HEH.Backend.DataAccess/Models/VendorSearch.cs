@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Exadel.HEH.Backend.DataAccess.Models
 {
+    [ExcludeFromCodeCoverage]
     public class VendorSearch : IDataModel
     {
         public Guid Id { get; set; }

@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using IdentityServer4.Models;
 
 namespace Exadel.HEH.Backend.Host.Identity
 {
+    [ExcludeFromCodeCoverage]
     public class IdentityService : IIdentityService
     {
         private readonly IIdentityRepository _identityRepository;

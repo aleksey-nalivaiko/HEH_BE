@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Exadel.HEH.Backend.Host.SwaggerFilters
 {
+    [ExcludeFromCodeCoverage]
     public class HideApiVersionOperationFilter : IOperationFilter
     {
         private const string ApiVersionParam = "api-version";

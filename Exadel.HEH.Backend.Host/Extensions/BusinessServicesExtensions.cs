@@ -1,4 +1,4 @@
-﻿using Exadel.HEH.Backend.BusinessLogic.DTOs;
+﻿using System.Diagnostics.CodeAnalysis;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Exadel.HEH.Backend.Host.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class BusinessServicesExtensions
     {
         public static IServiceCollection AddBusinessServices(this IServiceCollection services,
