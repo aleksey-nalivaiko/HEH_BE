@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,14 +11,12 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
 {
-    [ExcludeFromCodeCoverage]
     public class TagValidationServiceTests
     {
         private readonly TagValidationService _validationService;
         private readonly List<Guid> _tagToValidate;
         private readonly Tag _tag1;
         private readonly Tag _tag2;
-        private readonly Tag _tag3;
 
         public TagValidationServiceTests()
         {
@@ -37,13 +34,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidationServicesTests
                 Name = "Tag 2"
             };
 
-            _tag3 = new Tag
+            var tag3 = new Tag
             {
                 Id = Guid.NewGuid(),
                 Name = "Tag 3"
             };
 
-            var tagData = new List<Tag> { _tag1, _tag2, _tag3 };
+            var tagData = new List<Tag> { _tag1, _tag2, tag3 };
             _tagToValidate = new List<Guid> { _tag1.Id, _tag2.Id };
 
             tagRepository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))

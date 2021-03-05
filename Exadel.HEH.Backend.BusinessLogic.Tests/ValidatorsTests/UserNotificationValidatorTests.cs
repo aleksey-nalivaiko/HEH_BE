@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +12,6 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidatorsTests
 {
-    [ExcludeFromCodeCoverage]
     public class UserNotificationValidatorTests
     {
         private readonly UserNotificationValidator _notificationValidator;

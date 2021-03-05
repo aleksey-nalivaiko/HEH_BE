@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
@@ -15,7 +14,7 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
     {
         private readonly HistoryRepository _repository;
         private readonly History _history;
-        private List<History> _data;
+        private readonly List<History> _data;
 
         public HistoryRepositoryTests()
         {

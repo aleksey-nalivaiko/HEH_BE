@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
-    [ExcludeFromCodeCoverage]
     public class DiscountExtendedDto : DiscountBaseDto
     {
         public IEnumerable<AddressDto> Addresses { get; set; }

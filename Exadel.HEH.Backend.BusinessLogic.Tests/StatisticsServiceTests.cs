@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
@@ -17,14 +16,13 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     {
         private readonly IStatisticsService _service;
         private Statistics _statistics;
-        private IMapper _mapper;
 
         public StatisticsServiceTests()
         {
             var searchService = new Mock<ISearchService<Discount, Discount>>();
             var repository = new Mock<IStatisticsRepository>();
-            _mapper = MapperExtensions.Mapper;
-            _service = new StatisticsService(repository.Object, _mapper, searchService.Object);
+            var mapper = MapperExtensions.Mapper;
+            _service = new StatisticsService(repository.Object, mapper, searchService.Object);
 
             repository.Setup(r => r.StatisticsExists(It.IsAny<Expression<Func<Statistics, bool>>>()))
                 .Returns(() => Task.FromResult(Data.Any(s => s.Id == _statistics.Id)));

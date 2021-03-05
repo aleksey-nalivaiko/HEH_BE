@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
@@ -13,7 +12,6 @@ using Mustache;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
-    [ExcludeFromCodeCoverage]
     public class EmailService : IEmailService
     {
         private const string EmailTemplatesPath = "EmailTemplates";

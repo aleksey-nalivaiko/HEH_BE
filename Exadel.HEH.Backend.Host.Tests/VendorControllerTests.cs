@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
-using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.Host.Controllers;
-using Hangfire.MemoryStorage.Database;
-using Hangfire.States;
 using Moq;
 using Xunit;
 
@@ -22,9 +17,8 @@ namespace Exadel.HEH.Backend.Host.Tests
     {
         private readonly VendorController _controller;
         private readonly Controllers.OData.VendorController _odataController;
-        private readonly IMapper _mapper;
+        private readonly IList<VendorSearchDto> _vendorSearchData;
         private VendorDto _testVendor;
-        private IList<VendorSearchDto> _vendorSearchData;
 
         public VendorControllerTests()
         {
@@ -32,7 +26,6 @@ namespace Exadel.HEH.Backend.Host.Tests
             var validationService = new Mock<IVendorValidationService>();
             _vendorSearchData = new List<VendorSearchDto>();
 
-            _mapper = MapperExtensions.Mapper;
             _controller = new VendorController(service.Object, validationService.Object);
             _odataController = new Controllers.OData.VendorController(service.Object);
 

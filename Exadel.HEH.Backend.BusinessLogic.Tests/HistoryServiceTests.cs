@@ -16,8 +16,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
     {
         private readonly HistoryService _service;
         private readonly History _history;
-        private List<History> _data;
-        private User _currentUser;
+        private readonly List<History> _data;
 
         public HistoryServiceTests()
         {
@@ -39,7 +38,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
                 UserName = "Mary",
                 UserRole = UserRole.Moderator
             };
-            _currentUser = new User
+            var currentUser = new User
             {
                 Id = Guid.NewGuid(),
                 Email = "testEmail@gmail.com",
@@ -57,9 +56,9 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             historyRepository.Setup(r => r.CreateAsync(It.IsAny<History>()))
                 .Callback((History item) => { _data.Add(item); })
                 .Returns(Task.CompletedTask);
-            userProvider.Setup(p => p.GetUserId()).Returns(_currentUser.Id);
+            userProvider.Setup(p => p.GetUserId()).Returns(currentUser.Id);
             userRepository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
-                .Returns(() => Task.FromResult(_currentUser));
+                .Returns(() => Task.FromResult(currentUser));
         }
 
         [Fact]

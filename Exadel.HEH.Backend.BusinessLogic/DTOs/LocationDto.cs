@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Exadel.HEH.Backend.BusinessLogic.DTOs
 {
-    [ExcludeFromCodeCoverage]
     public class LocationDto
     {
         public Guid Id { get; set; }

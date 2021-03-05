@@ -15,7 +15,6 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests.ValidatorsTests
 {
-    [ExcludeFromCodeCoverage]
     public class VendorValidatorTests
     {
         private readonly Mock<IMethodProvider> _methodProvider;

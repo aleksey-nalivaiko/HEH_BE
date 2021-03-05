@@ -1,12 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
 
 namespace Exadel.HEH.Backend.Host.Identity.Store
 {
-    [ExcludeFromCodeCoverage]
     public class CustomClientStore : IClientStore
     {
         private readonly IIdentityRepository _repository;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -16,7 +15,6 @@ using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
 {
-    [ExcludeFromCodeCoverage]
     public class DiscountServiceTests : BaseServiceTests<Discount>
     {
         private readonly DiscountService _service;

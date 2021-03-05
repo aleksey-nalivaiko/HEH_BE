@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Exadel.HEH.Backend.DataAccess.Extensions;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories;
-using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Moq;
 using Xunit;
 
