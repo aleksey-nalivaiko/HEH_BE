@@ -22,6 +22,11 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             _vendorService = vendorService;
         }
 
+        /// <summary>
+        /// Gets vendors. Filtering, sorting, pagination enabled via OData. For users with moderator role.
+        /// </summary>
+        /// <param name="searchText">
+        /// For searching by name, discount conditions, categories, tags, countries, cities, streets.</param>
         [EnableQuery(HandleNullPropagation = HandleNullPropagationOption.False,
             EnsureStableOrdering = false)]
         [ODataRoute]

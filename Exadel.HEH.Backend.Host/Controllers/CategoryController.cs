@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
@@ -26,12 +25,19 @@ namespace Exadel.HEH.Backend.Host.Controllers
             _categoryService = categoryService;
         }
 
+        /// <summary>
+        /// Gets tree of categories with their tags. For users with employee role.
+        /// </summary>
+        /// <returns>List of categories with tags.</returns>
         [HttpGet]
         public Task<IEnumerable<CategoryDto>> GetCategoriesWithTagsAsync()
         {
             return _categoryService.GetCategoriesWithTagsAsync();
         }
 
+        /// <summary>
+        /// Removes category. For users with moderator role.
+        /// </summary>
         [HttpDelete]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -52,6 +58,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return NotFound();
         }
 
+        /// <summary>
+        /// Creates category. For users with moderator role.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -66,6 +75,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return BadRequest(ModelState);
         }
 
+        /// <summary>
+        /// Updates category. For users with moderator role.
+        /// </summary>
         [HttpPut]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

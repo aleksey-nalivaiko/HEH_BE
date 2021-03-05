@@ -28,6 +28,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             _discountValidationService = discountValidationService;
         }
 
+        /// <summary>
+        /// Adds discount to favorites. For users with employee role.
+        /// </summary>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> CreateAsync(FavoritesShortDto favorites)
@@ -41,6 +44,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return BadRequest(ModelState);
         }
 
+        /// <summary>
+        /// Updates favorites note. For users with employee role.
+        /// </summary>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdateAsync(FavoritesShortDto favorites)
@@ -54,6 +60,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return BadRequest(ModelState);
         }
 
+        /// <summary>
+        /// Removes discount from favorites. For users with employee role.
+        /// </summary>
         [HttpDelete("{discountId:guid}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> RemoveAsync(Guid discountId)

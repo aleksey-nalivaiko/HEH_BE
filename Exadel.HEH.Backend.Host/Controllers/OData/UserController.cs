@@ -20,6 +20,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             _userService = userService;
         }
 
+        /// <summary>
+        /// Gets users. Filtering, sorting, pagination enabled via OData. For users with admin role.
+        /// </summary>
         [EnableQuery(HandleNullPropagation = HandleNullPropagationOption.False,
             EnsureStableOrdering = false)]
         [ODataRoute]

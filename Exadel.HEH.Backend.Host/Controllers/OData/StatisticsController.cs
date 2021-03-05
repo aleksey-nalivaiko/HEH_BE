@@ -25,6 +25,13 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             _statisticsService = statisticsService;
         }
 
+        /// <summary>
+        /// Gets statistics. Filtering, sorting, pagination enabled via OData. For users with admin role.
+        /// </summary>
+        /// <param name="searchText">
+        /// For searching by conditions, vendor, category, tags, countries, cities, streets.</param>
+        /// <param name="startDate">For retrieving statistics from specific date.</param>
+        /// <param name="endDate">For retrieving statistics to specific date.</param>
         [EnableQuery(
             HandleNullPropagation = HandleNullPropagationOption.False,
             EnsureStableOrdering = false)]
@@ -36,6 +43,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             return _statisticsService.GetStatisticsAsync(options, searchText, startDate, endDate);
         }
 
+        /// <summary>
+        /// Exports statistics to Excel format file. Filtering, sorting, pagination enabled via OData. For users with admin role.
+        /// </summary>
         [EnableQuery(
             HandleNullPropagation = HandleNullPropagationOption.False,
             EnsureStableOrdering = false)]

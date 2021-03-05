@@ -33,6 +33,11 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             _statisticsService = statisticsService;
         }
 
+        /// <summary>
+        /// Gets discounts. Filtering, sorting, pagination enabled via OData. For users with employee role.
+        /// </summary>
+        /// <param name="searchText">
+        /// For searching by conditions, vendor, category, tags, countries, cities, streets.</param>
         [EnableQuery(EnsureStableOrdering = false)]
         [ODataRoute]
         public Task<IQueryable<DiscountDto>> GetAsync([FromQuery] string searchText)
@@ -40,6 +45,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             return _discountService.GetAsync(searchText);
         }
 
+        /// <summary>
+        /// Gets discount by id. For users with employee role.
+        /// </summary>
         [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.None)]
         [ODataRoute("({id})")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

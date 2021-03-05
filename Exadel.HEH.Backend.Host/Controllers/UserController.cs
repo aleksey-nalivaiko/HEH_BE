@@ -27,6 +27,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             _validationService = validationService;
         }
 
+        /// <summary>
+        /// Gets user by id. For users with admin role.
+        /// </summary>
         [HttpGet("{id:guid}")]
         [Authorize(Roles = nameof(UserRole.Administrator))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -40,6 +43,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return NotFound();
         }
 
+        /// <summary>
+        /// Gets user photo by id. For users with admin role.
+        /// </summary>
         [EnableCors("CorsForUI")]
         [ResponseCache(Location = ResponseCacheLocation.Any, Duration = CacheAge)]
         [HttpGet("photo/{id:guid}")]
@@ -56,6 +62,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return NotFound();
         }
 
+        /// <summary>
+        /// Gets profile photo. For users with employee role.
+        /// </summary>
         [EnableCors("CorsForUI")]
         [ResponseCache(Location = ResponseCacheLocation.Any, Duration = CacheAge, VaryByHeader = "Authorization")]
         [HttpGet("photo")]
@@ -66,6 +75,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return File(image.Content, image.ContentType, ImageName);
         }
 
+        /// <summary>
+        /// Gets profile. For users with employee role.
+        /// </summary>
         [HttpGet("profile")]
         [Authorize(Roles = nameof(UserRole.Employee))]
         public Task<UserDto> GetProfileAsync()
@@ -73,6 +85,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return _userService.GetProfileAsync();
         }
 
+        /// <summary>
+        /// Gets profile photo. For users with employee role.
+        /// </summary>
         [HttpPut("profile")]
         [Authorize(Roles = nameof(UserRole.Employee))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -87,6 +102,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return BadRequest(ModelState);
         }
 
+        /// <summary>
+        /// Updates user status. For users with admin role.
+        /// </summary>
         [HttpPut("{id:guid}/{isActive:bool}")]
         [Authorize(Roles = nameof(UserRole.Administrator))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -101,6 +119,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return NotFound();
         }
 
+        /// <summary>
+        /// Updates user role. For users with admin role.
+        /// </summary>
         [HttpPut("{id:guid}/{role}")]
         [Authorize(Roles = nameof(UserRole.Administrator))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

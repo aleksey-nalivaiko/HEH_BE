@@ -20,6 +20,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             _notificationService = notificationService;
         }
 
+        /// <summary>
+        /// Gets notifications. Filtering, sorting, pagination enabled via OData. For users with employee role.
+        /// </summary>
         [EnableQuery(
             HandleNullPropagation = HandleNullPropagationOption.False,
             EnsureStableOrdering = false)]

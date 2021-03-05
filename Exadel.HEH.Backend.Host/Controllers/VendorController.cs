@@ -5,31 +5,47 @@ using Exadel.HEH.Backend.BusinessLogic.DTOs;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.BusinessLogic.ValidationServices.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
-using Exadel.HEH.Backend.Host.Controllers.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exadel.HEH.Backend.Host.Controllers
 {
-    public class VendorController : BaseController<VendorShortDto>
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize(Roles = nameof(UserRole.Employee))]
+    public class VendorController : ControllerBase
     {
         private readonly IVendorService _vendorService;
         private readonly IVendorValidationService _vendorValidationService;
 
         public VendorController(IVendorService vendorService, IVendorValidationService vendorValidationService)
-            : base(vendorService)
         {
             _vendorService = vendorService;
             _vendorValidationService = vendorValidationService;
         }
 
+        /// <summary>
+        /// Gets vendors. For users with employee role.
+        /// </summary>
+        [HttpGet]
+        public Task<IEnumerable<VendorShortDto>> GetAllAsync()
+        {
+            return _vendorService.GetAllAsync();
+        }
+
+        /// <summary>
+        /// Gets vendors from user location. For users with employee role.
+        /// </summary>
         [HttpGet("location")]
         public Task<IEnumerable<VendorShortDto>> GetAllFromLocationAsync()
         {
             return _vendorService.GetAllFromLocationAsync();
         }
 
+        /// <summary>
+        /// Gets vendor by id. For users with moderator role.
+        /// </summary>
         [HttpGet("{id:guid}")]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -43,6 +59,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return Ok(await _vendorService.GetByIdAsync(id));
         }
 
+        /// <summary>
+        /// Creates vendor. For users with moderator role.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -57,6 +76,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return Created(string.Empty, vendor);
         }
 
+        /// <summary>
+        /// Updates vendor. For users with moderator role.
+        /// </summary>
         [HttpPut]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -71,6 +93,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return Ok(vendor);
         }
 
+        /// <summary>
+        /// Removes vendor. For users with moderator role.
+        /// </summary>
         [HttpDelete]
         [Authorize(Roles = nameof(UserRole.Moderator))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
