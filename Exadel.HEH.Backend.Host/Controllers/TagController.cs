@@ -24,6 +24,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             _validationService = validationService;
         }
 
+        /// <summary>
+        /// Removes tag. For users with moderator role.
+        /// </summary>
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> RemoveAsync(Guid id)
@@ -37,6 +40,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return NotFound();
         }
 
+        /// <summary>
+        /// Creates tag. For users with moderator role.
+        /// </summary>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> CreateAsync(TagDto item)
@@ -50,6 +56,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return BadRequest(ModelState);
         }
 
+        /// <summary>
+        /// Updates tag. For users with moderator role.
+        /// </summary>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdateAsync(TagDto item)

@@ -25,6 +25,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             _identityService = identityService;
         }
 
+        /// <summary>
+        /// For reindexing search collections. BE only.
+        /// </summary>
         [HttpPost("reindex")]
         public async Task ReindexAsync()
         {
@@ -32,6 +35,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             await _vendorSearchService.ReindexAsync();
         }
 
+        /// <summary>
+        /// For initializing identity collections. BE only.
+        /// </summary>
         [HttpPost("initialize")]
         public async Task InitializeAsync()
         {

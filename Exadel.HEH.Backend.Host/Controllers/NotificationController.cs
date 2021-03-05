@@ -24,12 +24,18 @@ namespace Exadel.HEH.Backend.Host.Controllers
             _notificationValidationService = notificationValidationService;
         }
 
+        /// <summary>
+        /// Gets count of unread notifications. For users with employee role.
+        /// </summary>
         [HttpGet("count")]
         public Task<int> GetNotReadCountAsync()
         {
             return _notificationService.GetNotReadCountAsync();
         }
 
+        /// <summary>
+        /// Reads notification. For users with employee role.
+        /// </summary>
         [HttpPut("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> UpdateIsReadAsync(Guid id)
@@ -43,6 +49,9 @@ namespace Exadel.HEH.Backend.Host.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Reads all notifications. For users with employee role.
+        /// </summary>
         [HttpPut]
         public Task UpdateAreReadAsync()
         {

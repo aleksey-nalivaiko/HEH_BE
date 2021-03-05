@@ -21,6 +21,9 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             _historyService = historyService;
         }
 
+        /// <summary>
+        /// Gets history ordered by date (descending). Filtering, sorting, pagination enabled via OData. For users with admin role.
+        /// </summary>
         [EnableQuery(
             HandleNullPropagation = HandleNullPropagationOption.False,
             EnsureStableOrdering = false)]

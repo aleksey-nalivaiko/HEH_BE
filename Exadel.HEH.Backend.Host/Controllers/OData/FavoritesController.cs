@@ -21,6 +21,11 @@ namespace Exadel.HEH.Backend.Host.Controllers.OData
             _favoritesService = favoritesService;
         }
 
+        /// <summary>
+        /// Gets favorites. Filtering, sorting, pagination enabled via OData. For users with employee role.
+        /// </summary>
+        /// <param name="searchText">
+        /// For searching by conditions, vendor, category, tags, countries, cities, streets.</param>
         [EnableQuery(EnsureStableOrdering = false)]
         [ODataRoute]
         public Task<IQueryable<FavoritesDto>> GetAsync([FromQuery] string searchText)
