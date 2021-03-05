@@ -91,12 +91,17 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             foreach (var ((userEmail, userName), userNotifications) in notifications)
             {
-                emailTasks.Add(
-                    _emailService.SendEmailAsync(
-                        userEmail,
-                        "Hot discounts from HEH",
-                        _emailService.CompleteHotNotificationsMessage(
-                            userNotifications, userName)));
+                var userNotificationsList = userNotifications.ToList();
+
+                if (userNotificationsList.Any())
+                {
+                    emailTasks.Add(
+                        _emailService.SendEmailAsync(
+                            userEmail,
+                            "Hot discounts from HEH",
+                            _emailService.CompleteHotNotificationsMessage(
+                                userNotificationsList, userName)));
+                }
             }
 
             return Task.WhenAll(emailTasks);
@@ -108,12 +113,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
 
             foreach (var ((userEmail, userName), count) in notificationsCount)
             {
-                emailTasks.Add(
-                    _emailService.SendEmailAsync(
-                        userEmail,
-                        "Notifications from HEH",
-                        _emailService.CompleteNotificationsCountMessage(
-                            count, userName)));
+                if (count != 0)
+                {
+                    emailTasks.Add(
+                        _emailService.SendEmailAsync(
+                            userEmail,
+                            "Notifications from HEH",
+                            _emailService.CompleteNotificationsCountMessage(
+                                count, userName)));
+                }
             }
 
             return Task.WhenAll(emailTasks);
