@@ -20,6 +20,8 @@ namespace Exadel.HEH.Backend.Host.Extensions
 
             services.AddSingleton<IEmailService, EmailService>();
 
+            services.AddSingleton<ISmtpClientWrapper, SmtpClientWrapper>();
+
             services.AddSingleton<INotificationScheduler, NotificationScheduler>();
 
             if (env.IsDevelopment())

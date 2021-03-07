@@ -29,7 +29,14 @@ namespace Exadel.HEH.Backend.DataAccess.Tests
                 DateTime = DateTime.Now,
                 UserEmail = "email@mail.com",
                 UserName = "Mary",
-                UserRole = UserRole.Moderator
+                UserRole = UserRole.Moderator,
+                UserAddress = new Address
+                {
+                    Id = 1,
+                    CountryId = Guid.NewGuid(),
+                    CityId = Guid.NewGuid(),
+                    Street = "A"
+                }
             };
 
             Context.Setup(c => c.CreateAsync(It.IsAny<History>()))

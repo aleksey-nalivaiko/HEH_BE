@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
@@ -31,6 +32,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
             _logger = logger;
         }
 
+        [ExcludeFromCodeCoverage]
         public void StartJobs()
         {
             RecurringJob.AddOrUpdate("HotNotifications", () => SendHotNotificationsAsync(),

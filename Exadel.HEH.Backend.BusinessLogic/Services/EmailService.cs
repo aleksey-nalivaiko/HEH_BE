@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,10 +15,12 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
     {
         private const string EmailTemplatesPath = "EmailTemplates";
         private readonly EmailOptions _options;
+        private readonly ISmtpClientWrapper _smtpClient;
 
-        public EmailService(IOptions<EmailOptions> options)
+        public EmailService(IOptions<EmailOptions> options, ISmtpClientWrapper smtpClient)
         {
             _options = options.Value;
+            _smtpClient = smtpClient;
         }
 
         public async Task SendEmailAsync(string address, string subject, string messageBody)
@@ -34,16 +35,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
                 IsBodyHtml = true
             };
 
-            using var smtpClient = new SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(_options.Email, _options.Password),
-                EnableSsl = true
-            };
-
-            await smtpClient.SendMailAsync(email);
+            await _smtpClient.SendMailAsync(email, _options.Email, _options.Password);
         }
 
         public string CompleteHotNotificationsMessage(
