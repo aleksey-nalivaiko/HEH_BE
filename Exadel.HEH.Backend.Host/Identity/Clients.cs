@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using IdentityServer4.Models;
 
 namespace Exadel.HEH.Backend.Host.Identity
 {
-    [ExcludeFromCodeCoverage]
     public class Clients
     {
         public static IEnumerable<Client> Get()
