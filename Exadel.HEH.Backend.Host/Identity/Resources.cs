@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using IdentityModel;
 using IdentityServer4.Models;
 
 namespace Exadel.HEH.Backend.Host.Identity
 {
-    [ExcludeFromCodeCoverage]
     public class Resources
     {
         public static IEnumerable<IdentityResource> GetIdentityResources()
