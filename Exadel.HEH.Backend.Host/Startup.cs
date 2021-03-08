@@ -148,6 +148,7 @@ namespace Exadel.HEH.Backend.Host
 
             services.Configure<EmailOptions>(Configuration.GetSection("Email"));
             services.Configure<NotificationOptions>(Configuration.GetSection("Notification"));
+            services.Configure<PingOptions>(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, VersionedODataModelBuilder modelBuilder, IWebHostEnvironment env)

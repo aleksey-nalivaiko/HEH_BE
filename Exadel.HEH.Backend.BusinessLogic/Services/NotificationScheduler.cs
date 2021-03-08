@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Hangfire;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
@@ -18,29 +21,44 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services
         private readonly INotificationRepository _notificationRepository;
 
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly HttpClient _httpClient;
+        private readonly string _baseUrl;
+
         private readonly ILogger<NotificationScheduler> _logger;
 
         public NotificationScheduler(
             IEmailService emailService,
             IServiceScopeFactory serviceScopeFactory,
             INotificationRepository notificationRepository,
+            IHttpClientFactory clientFactory,
+            IOptions<PingOptions> options,
             ILogger<NotificationScheduler> logger)
         {
             _emailService = emailService;
             _notificationRepository = notificationRepository;
             _serviceScopeFactory = serviceScopeFactory;
+            _httpClient = clientFactory.CreateClient();
+            _baseUrl = options.Value.PingEndpoint;
             _logger = logger;
         }
 
         [ExcludeFromCodeCoverage]
         public void StartJobs()
         {
+            RecurringJob.AddOrUpdate("Ping", () => PingAppAsync(),
+                Cron.Minutely);
+
             RecurringJob.AddOrUpdate("HotNotifications", () => SendHotNotificationsAsync(),
                 "0 1 * * 1-5");
 
             RecurringJob.AddOrUpdate("NotificationsCount", () =>
                     SendNotificationsCountAsync(),
                 Cron.Weekly(DayOfWeek.Friday, 18));
+        }
+
+        public Task PingAppAsync()
+        {
+            return _httpClient.GetAsync(_baseUrl);
         }
 
         public async Task SendHotNotificationsAsync()

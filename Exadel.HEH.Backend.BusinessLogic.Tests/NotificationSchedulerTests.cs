@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.DTOs;
+using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 using Exadel.HEH.Backend.DataAccess.Models;
 using Exadel.HEH.Backend.DataAccess.Repositories.Abstract;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
+using Moq.Protected;
 using Xunit;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Tests
@@ -41,8 +47,26 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             var notificationRepository = new Mock<INotificationRepository>();
             var logger = new Mock<ILogger<NotificationScheduler>>();
 
+            var pingOptions = new PingOptions
+            {
+                PingEndpoint = "https://localhost:5001/api/service/ping"
+            };
+            var options = new OptionsWrapper<PingOptions>(pingOptions);
+            var clientFactory = new Mock<IHttpClientFactory>();
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync((HttpRequestMessage request, CancellationToken token) => new HttpResponseMessage(HttpStatusCode.OK));
+
+            clientFactory.Setup(c => c.CreateClient(It.IsAny<string>()))
+                .Returns(new HttpClient(mockHttpMessageHandler.Object));
+
             _scheduler = new NotificationScheduler(_emailService.Object, scopeFactory.Object,
-                notificationRepository.Object, logger.Object);
+                notificationRepository.Object, clientFactory.Object, options, logger.Object);
 
             scopeFactory.Setup(f => f.CreateScope())
                 .Returns(serviceScope.Object);
@@ -112,6 +136,15 @@ namespace Exadel.HEH.Backend.BusinessLogic.Tests
             notificationRepository.Setup(r => r.GetAsync(It.IsAny<Expression<Func<Notification, bool>>>()))
                 .Returns((Expression<Func<Notification, bool>> expression) =>
                     Task.FromResult(Data.Where(expression.Compile())));
+        }
+
+        [Fact]
+        public async Task CanPingAsync()
+        {
+            var task = _scheduler.PingAppAsync();
+            var response = await (Task<HttpResponseMessage>)task;
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]

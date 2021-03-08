@@ -43,5 +43,14 @@ namespace Exadel.HEH.Backend.Host.Controllers
         {
             await _identityService.InitializeAsync();
         }
+
+        /// <summary>
+        /// For pinging app. BE only.
+        /// </summary>
+        [HttpGet("ping")]
+        public IActionResult Ping()
+        {
+            return Ok();
+        }
     }
 }
