@@ -9,5 +9,7 @@ namespace Exadel.HEH.Backend.BusinessLogic.Services.Abstract
         Task SendHotNotificationsAsync();
 
         Task SendNotificationsCountAsync();
+
+        Task PingAppAsync();
     }
 }
