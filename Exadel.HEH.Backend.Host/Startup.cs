@@ -7,7 +7,6 @@ using System.Text.Json.Serialization;
 using Exadel.HEH.Backend.BusinessLogic.Extensions;
 using Exadel.HEH.Backend.BusinessLogic.Options;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
-using Exadel.HEH.Backend.BusinessLogic.Validators;
 using Exadel.HEH.Backend.Host.Extensions;
 using Exadel.HEH.Backend.Host.Identity;
 using Exadel.HEH.Backend.Host.Infrastructure;
@@ -54,10 +53,7 @@ namespace Exadel.HEH.Backend.Host
                 {
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 })
-                .AddFluentValidation(validation =>
-                {
-                    validation.RegisterValidatorsFromAssemblyContaining<FavoritesValidator>();
-                });
+                .AddFluentValidation();
 
             services.AddApiVersioning(options =>
             {
