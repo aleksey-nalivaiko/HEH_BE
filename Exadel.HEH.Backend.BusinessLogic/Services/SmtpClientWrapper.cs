@@ -1,10 +1,12 @@
-﻿using System.Net;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Exadel.HEH.Backend.BusinessLogic.Services.Abstract;
 
 namespace Exadel.HEH.Backend.BusinessLogic.Services
 {
+    [ExcludeFromCodeCoverage]
     public class SmtpClientWrapper : ISmtpClientWrapper
     {
         public async Task SendMailAsync(MailMessage message, string email, string password)
