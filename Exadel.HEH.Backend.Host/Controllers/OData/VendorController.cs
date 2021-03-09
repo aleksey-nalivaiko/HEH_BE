@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Exadel.HEH.Backend.Host.Controllers.OData
 {
     [ODataRoutePrefix("Vendor")]
-    [ODataAuthorize(Roles = nameof(UserRole.Moderator))]
+    [ODataAuthorize(Roles = nameof(UserRole.Employee))]
     public class VendorController : ODataController
     {
         private readonly IVendorService _vendorService;
