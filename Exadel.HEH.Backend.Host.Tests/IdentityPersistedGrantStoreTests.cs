@@ -30,17 +30,20 @@ namespace Exadel.HEH.Backend.Host.Tests
             };
             _grantData = new List<PersistedGrant> { _grant };
 
-            repository.Setup(r => r.GetOneAsync<PersistedGrant>(It.IsAny<Expression<Func<PersistedGrant, bool>>>()))
+            repository.Setup(r => r.GetOneAsync(It.IsAny<Expression<Func<PersistedGrant, bool>>>()))
                 .Returns(() => Task.FromResult(_grantData.FirstOrDefault(x => x.Key == _grant.Key)));
-            repository.Setup(r => r.GetAsync<PersistedGrant>(It.IsAny<Expression<Func<PersistedGrant, bool>>>()))
+
+            repository.Setup(r => r.GetAsync(It.IsAny<Expression<Func<PersistedGrant, bool>>>()))
                 .Returns(() => Task.FromResult(_grantData.Where(x => x.SubjectId == _grant.SubjectId)));
-            repository.Setup(r => r.RemoveAsync<PersistedGrant>(It.IsAny<Expression<Func<PersistedGrant, bool>>>()))
+
+            repository.Setup(r => r.RemoveAsync(It.IsAny<Expression<Func<PersistedGrant, bool>>>()))
                 .Callback(() =>
                 {
                     _grantData.Remove(_grant);
                 })
                 .Returns(Task.CompletedTask);
-            repository.Setup(r => r.CreateAsync<PersistedGrant>(It.IsAny<PersistedGrant>()))
+
+            repository.Setup(r => r.CreateAsync(It.IsAny<PersistedGrant>()))
                 .Callback(() =>
                 {
                     _grantData.Add(_grant);

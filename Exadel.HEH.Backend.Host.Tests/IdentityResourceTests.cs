@@ -14,9 +14,6 @@ namespace Exadel.HEH.Backend.Host.Tests
     public class IdentityResourceTests
     {
         private readonly CustomResourceStore _store;
-        private readonly IList<IdentityResource> _identityData;
-        private readonly IList<ApiResource> _resourceData;
-        private readonly IList<ApiScope> _scopeData;
         private readonly IdentityResource _identityResource;
         private readonly ApiResource _apiResource;
         private readonly ApiScope _apiScope;
@@ -24,19 +21,24 @@ namespace Exadel.HEH.Backend.Host.Tests
         public IdentityResourceTests()
         {
             var repository = new Mock<IIdentityRepository>();
-            _identityResource = new IdentityResource { Name = "Test identity name" };
-            _identityData = new List<IdentityResource> { _identityResource };
-            _apiResource = new ApiResource { Name = "Test resource name" };
-            _resourceData = new List<ApiResource> { _apiResource };
-            _apiScope = new ApiScope { Name = "Test scope name" };
-            _scopeData = new List<ApiScope> { _apiScope };
 
-            repository.Setup(r => r.GetAsync<IdentityResource>(It.IsAny<Expression<Func<IdentityResource, bool>>>()))
-                .Returns(() => Task.FromResult(_identityData.Where(x => x.Name == _identityResource.Name)));
-            repository.Setup(r => r.GetAsync<ApiResource>(It.IsAny<Expression<Func<ApiResource, bool>>>()))
-                .Returns(() => Task.FromResult(_resourceData.Where(x => x.Name == _apiResource.Name)));
-            repository.Setup(r => r.GetAsync<ApiScope>(It.IsAny<Expression<Func<ApiScope, bool>>>()))
-                .Returns(() => Task.FromResult(_scopeData.Where(x => x.Name == _apiScope.Name)));
+            _identityResource = new IdentityResource { Name = "Test identity name" };
+            IList<IdentityResource> identityData = new List<IdentityResource> { _identityResource };
+
+            _apiResource = new ApiResource { Name = "Test resource name" };
+            IList<ApiResource> resourceData = new List<ApiResource> { _apiResource };
+
+            _apiScope = new ApiScope { Name = "Test scope name" };
+            IList<ApiScope> scopeData = new List<ApiScope> { _apiScope };
+
+            repository.Setup(r => r.GetAsync(It.IsAny<Expression<Func<IdentityResource, bool>>>()))
+                .Returns(() => Task.FromResult(identityData.Where(x => x.Name == _identityResource.Name)));
+
+            repository.Setup(r => r.GetAsync(It.IsAny<Expression<Func<ApiResource, bool>>>()))
+                .Returns(() => Task.FromResult(resourceData.Where(x => x.Name == _apiResource.Name)));
+
+            repository.Setup(r => r.GetAsync(It.IsAny<Expression<Func<ApiScope, bool>>>()))
+                .Returns(() => Task.FromResult(scopeData.Where(x => x.Name == _apiScope.Name)));
 
             _store = new CustomResourceStore(repository.Object);
         }
